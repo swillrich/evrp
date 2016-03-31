@@ -37,7 +37,7 @@ public class NetworkProvider {
 	}
 
 	private void buildArrays() {
-		Edge[][] edges = new Edge[locatables.size()][locatables.size()];
+		edges = new Edge[locatables.size()][locatables.size()];
 		for (Edge edge : network.getEdges()) {
 			int startId = edge.getStart().getId();
 			int endId = edge.getEnd().getId();
