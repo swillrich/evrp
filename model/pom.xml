@@ -1,0 +1,48 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<artifactId>routing-model</artifactId>
+	<packaging>jar</packaging>
+	<name>routing-model</name>
+
+        <properties>
+                <main.basedir>${project.basedir}/../</main.basedir>
+        </properties>
+
+
+	<build>
+		<plugins>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-install-plugin</artifactId>
+				<version>2.5.1</version>
+				<configuration>
+					<groupId>de.fuberlin.winfo.project</groupId>
+					<artifactId>routing-model</artifactId>
+					<version>1.0</version>
+					<packaging>jar</packaging>
+					<file>target/routing-model-1.0.jar</file>
+					<generatePom>true</generatePom>
+					<localRepositoryPath>${project.basedir}/../repo</localRepositoryPath>
+				</configuration>
+				<executions>
+					<execution>
+						<id>install-jar-lib</id>
+						<goals>
+							<goal>install-file</goal>
+						</goals>
+						<phase>package</phase>
+					</execution>
+				</executions>
+			</plugin>
+		</plugins>
+	</build>
+
+	<parent>
+		<groupId>de.fuberlin.winfo.project</groupId>
+		<artifactId>routing</artifactId>
+		<version>1.0</version>
+		<relativePath>../pom.xml</relativePath>
+	</parent>
+
+</project>

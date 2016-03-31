@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.0"?>
+
+<!--
+-->
+
+<plugin>
+
+   <extension point="org.eclipse.emf.ecore.generated_package">
+      <!-- @generated Input -->
+      <package
+            uri="de.fuberlin.winfo.project.model.input"
+            class="inputmodel.InputmodelPackage"
+            genModel="model/Input.genmodel"/>
+   </extension>
+
+   <extension point="org.eclipse.emf.ecore.generated_package">
+      <!-- @generated inputmodel -->
+      <package
+            uri="de.fuberlin.winfo.project.model.input"
+            class="csv.InputPackage"
+            genModel="model/inputmodel.genmodel"/>
+   </extension>
+
+   <extension point="org.eclipse.emf.ecore.generated_package">
+      <!-- @generated network -->
+      <package
+            uri="de.fuberlin.winfo.project.model.network"
+            class="de.fuberlin.winfo.project.model.network.NetworkPackage"
+            genModel="model/network.genmodel"/>
+   </extension>
+
+   <extension point="org.eclipse.emf.ecore.generated_package">
+      <!-- @generated network -->
+      <package
+            uri="de.fuberlin.winfo.project.model.network.solution"
+            class="de.fuberlin.winfo.project.model.network.solution.SolutionPackage"
+            genModel="model/network.genmodel"/>
+   </extension>
+</plugin>

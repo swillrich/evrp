@@ -1,0 +1,57 @@
+<html>
+<link rel="stylesheet"
+	href="http://cdn.leafletjs.com/leaflet/v0.7.7/leaflet.css" />
+<script src="http://cdn.leafletjs.com/leaflet/v0.7.7/leaflet.js"></script>
+<script src="%(jsonurl)" type="text/javascript"></script>
+<div style="height: 0%;" id="txt"></div>
+<div style="height: 100%;" id="map"></div>
+<script>
+	var map = L.map("map").setView([52.46692,13.36801], 12);
+	var layer = L.tileLayer('http://z-m-i.info:8880/osm/{z}/{x}/{y}.png', {attribution: '&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'}).addTo(map);
+	
+	L.geoJson(nodesAsGeoJson, {
+		filter: function(feature, layer) {
+			feature.properties.show_on_map = true;
+			return feature.properties.show_on_map;
+		},
+		onEachFeature(feature, layer) {
+			layer.bindPopup(feature.properties.popupContent);
+		},
+		pointToLayer: function (feature, latlng) {
+			if (feature.properties.customizedIcon == "none") {
+				return L.circleMarker(latlng, { 
+					radius: 4,
+					fillColor: "#ff7800",
+					color: "#000",
+					weight: 1,
+					opacity: 1,
+					fillOpacity: 0.8
+				});	
+			} else {
+				var greenIcon = L.icon({
+					iconUrl: feature.properties.customizedIcon,
+					iconSize:     [35, 40],
+				});
+				return L.marker(latlng, {icon:greenIcon});
+			}
+		},
+		style(feature) {
+			if (feature.geometry.type == "LineString") {
+				//document.getElementById('txt').innerHTML = feature.properties.color;
+				return {
+					color: feature.properties.color
+				};
+			} else {
+				if (feature.properties.customizedIcon != "none") {
+					return {
+					}
+				} else {
+					return {
+						iconUrl: feature.properties.customizedIcon
+					};
+				}
+			}
+		}
+	}).addTo(map);
+</script>
+</html>
