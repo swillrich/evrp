@@ -40,8 +40,6 @@ public class Informationsystem {
 			procedure.prepareAndRun(networkProvider, solution);
 		}
 
-		UnusedEdgeDeleter.removeAllEdgesBeingUnused(networkProvider.getNetwork());
-
 		if (input.getVisualizationServer() != null) {
 			new VisualizationServerRequest(networkProvider.getNetwork(), URI.create(input.getVisualizationServer()));
 		}

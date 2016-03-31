@@ -15,6 +15,7 @@ public class VisualizationServerRequest {
 
 	public VisualizationServerRequest(Network network, URI serverURI) {
 		try {
+			UnusedEdgeDeleter.removeAllEdgesBeingUnused(network);
 			URL url = new URL(serverURI.toString() + "/network");
 			out("Open URL connection to " + url.toString());
 			URLConnection connection = url.openConnection();

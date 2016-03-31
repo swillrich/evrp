@@ -6,6 +6,7 @@ import java.util.Iterator;
 import java.util.List;
 
 import de.fuberlin.winfo.project.Locatables;
+import de.fuberlin.winfo.project.Log;
 import de.fuberlin.winfo.project.Utils;
 import de.fuberlin.winfo.project.Utils.ProgressBar;
 import de.fuberlin.winfo.project.input.VRPInput;
@@ -23,6 +24,7 @@ public class ZMIVRPInput implements VRPInput {
 	private CSV2ObjMapper mapper = null;
 	private File zippedAndSerializedDM;
 	private NetworkFactoryImpl networkFactory = new NetworkFactoryImpl();
+	private Locatables locatables;
 
 	public ZMIVRPInput() throws Exception {
 		mapper = new CSV2ObjMapper(InputFilesBundles.vehicleFile, InputFilesBundles.customerFile,
@@ -37,15 +39,17 @@ public class ZMIVRPInput implements VRPInput {
 
 	@Override
 	public Locatables getLocatables() {
-		Locatables locatables = new Locatables();
-		mapper.getLocatables().forEach(l -> locatables.addNewStaticLocatable(l));
-		locatables.limitBy(getCustomerMaximum());
+		if (locatables == null) {
+			locatables = new Locatables();
+			mapper.getLocatables().forEach(l -> locatables.addNewStaticLocatable(l));
+			locatables.limitBy(getCustomerMaximum());
+		}
 		return locatables;
 	}
 
 	@Override
 	public int getCustomerMaximum() {
-		return 500;
+		return 50;
 	}
 
 	@Override
@@ -61,11 +65,15 @@ public class ZMIVRPInput implements VRPInput {
 	@Override
 	public Network getNetwork() {
 		Network network = networkFactory.createNetwork();
+		Log.info(Log.DATA_IMPORT, "Build network");
 
 		try {
+			Log.info(Log.DATA_IMPORT, "Read in the entire distance matrix ...");
 			List<ZMIEdge> pojos = ZMIJsonConverter
 					.deseriaizeZippedZMIEdges(new FileInputStream(this.zippedAndSerializedDM));
-			Edge[][] multidimensionalEdgeArray = getDistanceMatrixAsArray(pojos, getCustomerMaximum());
+			Log.info(Log.DATA_IMPORT, "Build edge array based on the distance matrix");
+			Edge[][] multidimensionalEdgeArray = getDistanceMatrixAsArray(pojos, getLocatables().size());
+			Log.info(Log.DATA_IMPORT, "Build all nodes (" + getLocatables().size() + ")");
 			Node[] nodes = inflateNodes();
 			assignEdgesToNodes(multidimensionalEdgeArray, nodes);
 
