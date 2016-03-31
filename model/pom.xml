@@ -1,9 +1,9 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
 	<modelVersion>4.0.0</modelVersion>
-	<artifactId>routing-model</artifactId>
+	<artifactId>vrp-model</artifactId>
 	<packaging>jar</packaging>
-	<name>routing-model</name>
+	<name>vrp-model</name>
 
         <properties>
                 <main.basedir>${project.basedir}/../</main.basedir>
@@ -18,10 +18,10 @@
 				<version>2.5.1</version>
 				<configuration>
 					<groupId>de.fuberlin.winfo.project</groupId>
-					<artifactId>routing-model</artifactId>
+					<artifactId>vrp-model</artifactId>
 					<version>1.0</version>
 					<packaging>jar</packaging>
-					<file>target/routing-model-1.0.jar</file>
+					<file>target/vrp-model-1.0.jar</file>
 					<generatePom>true</generatePom>
 					<localRepositoryPath>${project.basedir}/../repo</localRepositoryPath>
 				</configuration>
@@ -40,7 +40,7 @@
 
 	<parent>
 		<groupId>de.fuberlin.winfo.project</groupId>
-		<artifactId>routing</artifactId>
+		<artifactId>vrp</artifactId>
 		<version>1.0</version>
 		<relativePath>../pom.xml</relativePath>
 	</parent>

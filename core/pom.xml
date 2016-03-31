@@ -2,12 +2,12 @@
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 	<packaging>jar</packaging>
-	<name>routing-core</name>
-	<artifactId>routing-core</artifactId>
+	<name>vrp-core</name>
+	<artifactId>vrp-core</artifactId>
 
 	<parent>
 		<groupId>de.fuberlin.winfo.project</groupId>
-		<artifactId>routing</artifactId>
+		<artifactId>vrp</artifactId>
 		<version>1.0</version>
 		<relativePath>../pom.xml</relativePath>
 	</parent>
@@ -67,7 +67,7 @@
 	<dependencies>
 		<dependency>
 			<groupId>${project.groupId}</groupId>
-			<artifactId>routing-model</artifactId>
+			<artifactId>vrp-model</artifactId>
 			<version>${project.version}</version>
 		</dependency>
 		<dependency>
@@ -92,7 +92,7 @@
 		</dependency>
 		<dependency>
 			<groupId>${project.groupId}</groupId>
-			<artifactId>routing-common</artifactId>
+			<artifactId>vrp-common</artifactId>
 			<version>${project.version}</version>
 		</dependency>
 		<dependency>

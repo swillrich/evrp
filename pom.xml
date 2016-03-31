@@ -2,10 +2,10 @@
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>de.fuberlin.winfo.project</groupId>
-	<artifactId>routing</artifactId>
+	<artifactId>vrp</artifactId>
 	<packaging>pom</packaging>
 	<version>1.0</version>
-	<name>routing project</name>
+	<name>The Vehicle Routing Problem</name>
 
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
