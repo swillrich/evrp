@@ -20,7 +20,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.gson.GsonBuilder;
 import com.google.gson.JsonParser;
 
-import de.fuberlin.winfo.project.StaticLocatables;
+import de.fuberlin.winfo.project.Locatables;
 import de.fuberlin.winfo.project.model.network.Customer;
 import de.fuberlin.winfo.project.model.network.Depot;
 import de.fuberlin.winfo.project.model.network.Edge;
@@ -37,7 +37,7 @@ import de.fuberlin.winfo.project.visualization.web.logic.NWParamInterpreter;
 public class JSONRequest extends AbstractRequest {
 
 	private String baseURL = "";
-	private StaticLocatables locatables;
+	private Locatables locatables;
 
 	@Override
 	public void run(Request baseRequest, HttpServletResponse response) throws IOException {
@@ -66,7 +66,7 @@ public class JSONRequest extends AbstractRequest {
 	}
 
 	private FeatureCollection returnSolutionAsGeoJson(Network network, Solution solution) {
-		locatables = StaticLocatables.inflateBy(network);
+		locatables = Locatables.inflateBy(network);
 		locatables.assignNew(solution.getUsecase().getTranshipmentPoints());
 		Map<Locatable, Feature> featureMap = new HashMap<Locatable, Feature>();
 

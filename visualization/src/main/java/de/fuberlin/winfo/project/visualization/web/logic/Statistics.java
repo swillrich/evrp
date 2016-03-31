@@ -2,7 +2,7 @@ package de.fuberlin.winfo.project.visualization.web.logic;
 
 import java.util.Iterator;
 
-import de.fuberlin.winfo.project.StaticLocatables;
+import de.fuberlin.winfo.project.Locatables;
 import de.fuberlin.winfo.project.model.network.Depot;
 import de.fuberlin.winfo.project.model.network.Locatable;
 import de.fuberlin.winfo.project.model.network.Network;
@@ -15,11 +15,11 @@ import de.fuberlin.winfo.project.model.network.solution.UsedEdge;
 public class Statistics {
 	private Network network;
 
-	private StaticLocatables sL = null;
+	private Locatables sL = null;
 
 	public Statistics(Network network) {
 		this.network = network;
-		sL = StaticLocatables.inflateBy(network);
+		sL = Locatables.inflateBy(network);
 	}
 
 	public double getAverageDistance(Solution sol) {

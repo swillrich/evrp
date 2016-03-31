@@ -13,7 +13,7 @@ public class LocatableComparator implements Comparator<Locatable> {
 	}
 
 	public int compareType(Locatable o1, Locatable o2) {
-		if (StaticLocatables.getTypeOf(o1).equals(StaticLocatables.getTypeOf(o2))) {
+		if (Locatables.getTypeOf(o1).equals(Locatables.getTypeOf(o2))) {
 			return 0;
 		} else {
 			if (o1 instanceof Depot) {
