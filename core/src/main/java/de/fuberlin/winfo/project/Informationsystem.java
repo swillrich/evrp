@@ -8,7 +8,6 @@ import de.fuberlin.winfo.project.algorithm.NetworkProvider;
 import de.fuberlin.winfo.project.input.VRPInput;
 import de.fuberlin.winfo.project.model.network.solution.Solution;
 import de.fuberlin.winfo.project.model.network.solution.UseCase;
-import de.fuberlin.winfo.project.output.UnusedEdgeDeleter;
 import de.fuberlin.winfo.project.output.VisualizationServerRequest;
 
 /**

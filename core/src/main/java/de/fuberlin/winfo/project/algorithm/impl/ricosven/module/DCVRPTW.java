@@ -4,17 +4,15 @@ import java.util.ArrayList;
 import java.util.List;
 
 import de.fuberlin.winfo.project.algorithm.AlgHelper;
-import de.fuberlin.winfo.project.algorithm.AlgHelper.ModRoute;
 import de.fuberlin.winfo.project.algorithm.Algorithm;
+import de.fuberlin.winfo.project.algorithm.ExtendedRoute;
 import de.fuberlin.winfo.project.algorithm.NetworkProvider;
 import de.fuberlin.winfo.project.model.network.Customer;
 import de.fuberlin.winfo.project.model.network.Depot;
-import de.fuberlin.winfo.project.model.network.Duration;
 import de.fuberlin.winfo.project.model.network.Locatable;
 import de.fuberlin.winfo.project.model.network.Node;
 import de.fuberlin.winfo.project.model.network.Order;
 import de.fuberlin.winfo.project.model.network.Vehicle;
-import de.fuberlin.winfo.project.model.network.solution.Delivery;
 import de.fuberlin.winfo.project.model.network.solution.Route;
 
 public class DCVRPTW {
@@ -39,7 +37,7 @@ public class DCVRPTW {
 
 		List<Route> finalRoutes = new ArrayList<>();
 		for (int i = 0; i < routes.size(); i++) {
-			finalRoutes.add(((ModRoute) routes.get(i)).getRoute());
+			finalRoutes.add(((ExtendedRoute) routes.get(i)).getRoute());
 		}
 
 		return finalRoutes;
@@ -121,7 +119,7 @@ public class DCVRPTW {
 	 */
 	private Route initializeTour(Order firstOrder, Vehicle vehicle, Node depot) throws Exception {
 
-		ModRoute modRoute = algorithm.buildRoute(vehicle, depot);
+		ExtendedRoute modRoute = algorithm.buildRoute(vehicle, depot);
 
 		modRoute.addDelivery(firstOrder);
 
@@ -170,7 +168,7 @@ public class DCVRPTW {
 			}
 		}
 		if (bestOrder != null)
-			((ModRoute) route).addDeliveryAtIndex(bestOrder, indexToAddBestOrder);
+			((ExtendedRoute) route).addDeliveryAtIndex(bestOrder, indexToAddBestOrder);
 		return bestOrder;
 
 	}
@@ -179,21 +177,21 @@ public class DCVRPTW {
 
 		// Restriction 1: is enough PayLoad available in case of
 		// adding
-		boolean capacity = ((ModRoute) route).isSufficientCargoCapacityAvailable(order);
+		boolean capacity = ((ExtendedRoute) route).isSufficientCargoCapacityAvailable(order);
 
 		if (capacity) {
 
 			// Restriction 2: are the timewindows respected
-			boolean timeWindows = ((ModRoute) route).isSufficientTimeWindowAvailable(order, atIndex);
+			boolean timeWindows = ((ExtendedRoute) route).isSufficientTimeWindowAvailable(order, atIndex);
 
 			if (timeWindows) {
 
 				// Restriction 3: is enough Energie available in case of adding
-				boolean energy = ((ModRoute) route).isSufficientEnergyAvailable(order, atIndex);
+				boolean energy = ((ExtendedRoute) route).isSufficientEnergyAvailable(order, atIndex);
 
 				if (energy) {
 					// Restriction 2: is the max tour lenght respected
-					boolean tourLenght = ((ModRoute) route).isSufficientTourLenghtAvailable(order, atIndex);
+					boolean tourLenght = ((ExtendedRoute) route).isSufficientTourLenghtAvailable(order, atIndex);
 
 					if (tourLenght) {
 						return true;

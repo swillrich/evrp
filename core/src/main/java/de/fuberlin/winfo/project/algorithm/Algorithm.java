@@ -3,7 +3,6 @@ package de.fuberlin.winfo.project.algorithm;
 import de.fuberlin.winfo.project.Log;
 import de.fuberlin.winfo.project.Utils;
 import de.fuberlin.winfo.project.Utils.StopWatch;
-import de.fuberlin.winfo.project.algorithm.AlgHelper.ModRoute;
 import de.fuberlin.winfo.project.model.network.Node;
 import de.fuberlin.winfo.project.model.network.Vehicle;
 import de.fuberlin.winfo.project.model.network.solution.Route;
@@ -98,7 +97,7 @@ public abstract class Algorithm {
 		return solution;
 	}
 
-	public ModRoute buildRoute(Vehicle vehicle, Node depot) {
+	public ExtendedRoute buildRoute(Vehicle vehicle, Node depot) {
 		return AlgHelper.getRouteHelper(this, vehicle, depot);
 	}
 }

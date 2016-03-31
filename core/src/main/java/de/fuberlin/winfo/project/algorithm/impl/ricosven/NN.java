@@ -9,8 +9,8 @@ import java.util.List;
 import java.util.Map;
 
 import de.fuberlin.winfo.project.algorithm.AlgHelper;
-import de.fuberlin.winfo.project.algorithm.AlgHelper.ModRoute;
 import de.fuberlin.winfo.project.algorithm.Algorithm;
+import de.fuberlin.winfo.project.algorithm.ExtendedRoute;
 import de.fuberlin.winfo.project.model.network.CollectiveOrder;
 import de.fuberlin.winfo.project.model.network.Depot;
 import de.fuberlin.winfo.project.model.network.Duration;
@@ -56,7 +56,7 @@ public class NN extends Algorithm {
 			List<CollectiveOrder> remaining = new ArrayList<CollectiveOrder>(d.getDeliveries());
 			while (!remaining.isEmpty()) {
 				Vehicle vehicle = getVehicle(solution, d);
-				ModRoute route = buildRoute(vehicle, getNode(d));
+				ExtendedRoute route = buildRoute(vehicle, getNode(d));
 				while (!remaining.isEmpty()) {
 					Order nextOrder = Collections.min(remaining, new OrderComparator(route));
 					if (canRouteDealWith(route, nextOrder)) {
@@ -72,9 +72,9 @@ public class NN extends Algorithm {
 	}
 
 	private class OrderComparator implements Comparator<Order> {
-		private ModRoute route;
+		private ExtendedRoute route;
 
-		public OrderComparator(ModRoute route) {
+		public OrderComparator(ExtendedRoute route) {
 			this.route = route;
 		}
 
@@ -100,7 +100,7 @@ public class NN extends Algorithm {
 	/*
 	 * CONSTRAINTS
 	 */
-	private boolean canRouteDealWith(ModRoute route, Order nextOrder) throws Exception {
+	private boolean canRouteDealWith(ExtendedRoute route, Order nextOrder) throws Exception {
 		if (route.getWay().size() == 0) {
 			return true;
 		}

@@ -2,17 +2,15 @@ package de.fuberlin.winfo.project.algorithm.impl.ricosven;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
 
 import org.eclipse.emf.common.util.EList;
 
 import de.fuberlin.winfo.project.Locatables;
-import de.fuberlin.winfo.project.algorithm.AlgHelper;
 import de.fuberlin.winfo.project.algorithm.Algorithm;
 import de.fuberlin.winfo.project.algorithm.impl.ricosven.module.ClusterGenerator;
+import de.fuberlin.winfo.project.algorithm.impl.ricosven.module.ClusterGenerator.Cluster;
 import de.fuberlin.winfo.project.algorithm.impl.ricosven.module.DCVRPTW;
 import de.fuberlin.winfo.project.algorithm.impl.ricosven.module.NearesNeighbor;
-import de.fuberlin.winfo.project.algorithm.impl.ricosven.module.ClusterGenerator.Cluster;
 import de.fuberlin.winfo.project.model.network.CollectiveOrder;
 import de.fuberlin.winfo.project.model.network.Customer;
 import de.fuberlin.winfo.project.model.network.Depot;
@@ -24,7 +22,6 @@ import de.fuberlin.winfo.project.model.network.Vehicle;
 import de.fuberlin.winfo.project.model.network.solution.Delivery;
 import de.fuberlin.winfo.project.model.network.solution.Route;
 import de.fuberlin.winfo.project.model.network.solution.Solution;
-import de.fuberlin.winfo.project.model.network.solution.UsedEdge;
 
 public class DCVRPTW_with_SimpleClusters_Alg extends Algorithm {
 

@@ -2,8 +2,8 @@ package de.fuberlin.winfo.project.algorithm.impl.ricosven.module;
 
 import java.util.List;
 
-import de.fuberlin.winfo.project.algorithm.AlgHelper.ModRoute;
 import de.fuberlin.winfo.project.algorithm.Algorithm;
+import de.fuberlin.winfo.project.algorithm.ExtendedRoute;
 import de.fuberlin.winfo.project.algorithm.NetworkProvider;
 import de.fuberlin.winfo.project.model.network.Customer;
 import de.fuberlin.winfo.project.model.network.Node;
@@ -34,7 +34,7 @@ public class NearesNeighbor {
 
 	private Route runNearesNeighbor(List<Node> customers, Node depot, boolean withTime) throws Exception {
 
-		ModRoute route = new ModRoute(algorithm, algorithm.getSolution().getUsecase().getVehicles().get(0), depot);
+		ExtendedRoute route = new ExtendedRoute(algorithm, algorithm.getSolution().getUsecase().getVehicles().get(0), depot);
 
 		double minDistance = Integer.MAX_VALUE;
 		int customerIndex = Integer.MAX_VALUE;
@@ -57,7 +57,7 @@ public class NearesNeighbor {
 
 		Node customerToAdd = customers.remove(customerIndex);
 		Order orderToAdd = ((Customer) customerToAdd.getRepresentative()).getOwnedOrders().get(0);
-		((ModRoute) route).addDelivery(orderToAdd);
+		((ExtendedRoute) route).addDelivery(orderToAdd);
 
 		while (!customers.isEmpty()) {
 			minDistance = Integer.MAX_VALUE;
@@ -81,7 +81,7 @@ public class NearesNeighbor {
 
 			customerToAdd = customers.remove(customerIndex);
 			orderToAdd = ((Customer) customerToAdd.getRepresentative()).getOwnedOrders().get(0);
-			((ModRoute) route).addDelivery(orderToAdd);
+			((ExtendedRoute) route).addDelivery(orderToAdd);
 		}
 		return route.getRoute();
 	}
