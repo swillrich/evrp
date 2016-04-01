@@ -11,12 +11,12 @@ public class CargoCapacityRestriction implements Restriction {
 	@Override
 	public boolean check(NetworkProvider np, ExtendedRouteWrapper route, Order newOrder, int index)
 			throws RestrictionException {
-		if (route.getOriginalRoute().getWay().size() == 0) {
+		if (route.getModelRoute().getWay().size() == 0) {
 			return true;
 		}
 
-		double leftCap = route.getOriginalRoute().getVehicle().getMaxCapacatyPayLoadInKg()
-				- route.getOriginalRoute().getWay().get(0).getCurrentVehicleCargoWeight() - newOrder.getWeight();
+		double leftCap = route.getModelRoute().getVehicle().getMaxCapacatyPayLoadInKg()
+				- route.getModelRoute().getWay().get(0).getCurrentVehicleCargoWeight() - newOrder.getWeight();
 
 		return leftCap >= 0;
 	}

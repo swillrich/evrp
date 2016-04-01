@@ -16,7 +16,7 @@ import de.fuberlin.winfo.project.model.network.solution.UsedEdge;
 
 public class AlgHelper {
 
-	public static int getTimeNeededAtEnd(UsedEdge usedEdge) {
+	public static int getServiceTimeAtEdgeEnd(UsedEdge usedEdge) {
 		if (usedEdge instanceof Delivery) {
 			return ((Delivery) usedEdge).getOrder().getStandingTimeInSec();
 		} else {

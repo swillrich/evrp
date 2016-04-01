@@ -18,13 +18,13 @@ public class VehicleRangeRestriction implements Restriction {
 		Node node = AlgHelper.getNodeByOrder(np, newOrder);
 
 		// First new edge
-		Edge edgeToNewNode = np.getEdges()[route.getOriginalRoute().getWay().get(index).getEdge().getStart()
+		Edge edgeToNewNode = np.getEdges()[route.getModelRoute().getWay().get(index).getEdge().getStart()
 				.getId()][node.getId()];
 		// Second new edge
-		Edge edgeFromNewNode = np.getEdges()[node.getId()][route.getOriginalRoute().getWay().get(index).getEdge()
+		Edge edgeFromNewNode = np.getEdges()[node.getId()][route.getModelRoute().getWay().get(index).getEdge()
 				.getEnd().getId()];
 
-		double need = route.getOriginalRoute().getWay().get(index).getCurrentVehicleCargoWeight();
+		double need = route.getModelRoute().getWay().get(index).getCurrentVehicleCargoWeight();
 
 		double capacityLeft = 0;
 		try {
@@ -33,15 +33,15 @@ public class VehicleRangeRestriction implements Restriction {
 		} catch (Exception e) {
 			return false;
 		}
-		capacityLeft -= AlgHelper.computeEnergyConsumptionOfEdge(route.getOriginalRoute().getVehicle(),
+		capacityLeft -= AlgHelper.computeEnergyConsumptionOfEdge(route.getModelRoute().getVehicle(),
 				need + newOrder.getWeight(), edgeToNewNode.getDistance());
-		capacityLeft -= AlgHelper.computeEnergyConsumptionOfEdge(route.getOriginalRoute().getVehicle(), need,
+		capacityLeft -= AlgHelper.computeEnergyConsumptionOfEdge(route.getModelRoute().getVehicle(), need,
 				edgeFromNewNode.getDistance());
 
-		double availableCapacity = route.getOriginalRoute().getWay().get(route.getOriginalRoute().getWay().size() - 1)
+		double availableCapacity = route.getModelRoute().getWay().get(route.getModelRoute().getWay().size() - 1)
 				.getRemainingVehicleBatteryCapacityAtEnd();
 
-		double oldCapacityLeft = route.getOriginalRoute().getWay().get(index).getRemainingVehicleBatteryCapacityAtEnd();
+		double oldCapacityLeft = route.getModelRoute().getWay().get(index).getRemainingVehicleBatteryCapacityAtEnd();
 
 		return oldCapacityLeft - capacityLeft <= availableCapacity;
 	}

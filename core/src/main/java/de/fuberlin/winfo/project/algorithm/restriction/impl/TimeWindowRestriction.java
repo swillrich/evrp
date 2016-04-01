@@ -28,16 +28,16 @@ public class TimeWindowRestriction implements Restriction {
 			newOrder_TW_StartInSec = newOrder.getTimeWindow().getStartInSec();
 			newOrder_TW_EndInSec = newOrder.getTimeWindow().getEndInSec();
 		}
-		double edgeStartInSec = route.getOriginalRoute().getWay().get(index).getDuration().getStartInSec();
-		double edgeEndInSec = route.getOriginalRoute().getWay().get(index).getDuration().getEndInSec();
+		double edgeStartInSec = route.getModelRoute().getWay().get(index).getDuration().getStartInSec();
+		double edgeEndInSec = route.getModelRoute().getWay().get(index).getDuration().getEndInSec();
 
 		Node newNode = AlgHelper.getNodeByOrder(np, newOrder);
 		double serviceTimeAtNewNode = newOrder.getStandingTimeInSec();
-		double timeStartNodeToNewNode = np.getEdges()[route.getOriginalRoute().getWay().get(index).getEdge().getStart()
+		double timeStartNodeToNewNode = np.getEdges()[route.getModelRoute().getWay().get(index).getEdge().getStart()
 				.getId()][newNode.getId()].getTime();
-		double timeNewNodeToEndNode = np.getEdges()[newNode.getId()][route.getOriginalRoute().getWay().get(index)
+		double timeNewNodeToEndNode = np.getEdges()[newNode.getId()][route.getModelRoute().getWay().get(index)
 				.getEdge().getEnd().getId()].getTime();
-		double actualUsedTime = route.getOriginalRoute().getWay().get(index).getEdge().getTime();
+		double actualUsedTime = route.getModelRoute().getWay().get(index).getEdge().getTime();
 		double possibleShiftEdgeStart = getPossibleShiftEdgeStart(index);
 		double possibleShiftEdgeEnd = getPossibleShiftEdgeEnd(index);
 
@@ -56,16 +56,16 @@ public class TimeWindowRestriction implements Restriction {
 
 	private double getPossibleShiftEdgeEnd(int usedEdgeIndex) {
 		double possibleShiftEdgeEnd = Double.MAX_VALUE;
-		for (int i = usedEdgeIndex; i < route.getOriginalRoute().getWay().size(); i++) {
-			double tmpEdgeEndInSec = route.getOriginalRoute().getWay().get(i).getDuration().getEndInSec();
+		for (int i = usedEdgeIndex; i < route.getModelRoute().getWay().size(); i++) {
+			double tmpEdgeEndInSec = route.getModelRoute().getWay().get(i).getDuration().getEndInSec();
 
 			double timewindowEndAtEdgeEnd;
 
-			if (i == route.getOriginalRoute().getWay().size() - 1) {
+			if (i == route.getModelRoute().getWay().size() - 1) {
 				timewindowEndAtEdgeEnd = getTimewindowFromDepot(route.getDepot()).getEndInSec();
 			} else {
 				timewindowEndAtEdgeEnd = Double.MAX_VALUE;
-				Duration timewindowAtEdgeEnd = ((Delivery) route.getOriginalRoute().getWay().get(i)).getOrder()
+				Duration timewindowAtEdgeEnd = ((Delivery) route.getModelRoute().getWay().get(i)).getOrder()
 						.getTimeWindow();
 				if (timewindowAtEdgeEnd != null)
 					timewindowEndAtEdgeEnd = timewindowAtEdgeEnd.getEndInSec();
@@ -82,7 +82,7 @@ public class TimeWindowRestriction implements Restriction {
 	private double getPossibleShiftEdgeStart(int usedEdgeIndex) {
 		double possibleShiftEdgeStart = Double.MAX_VALUE;
 		for (int i = 0; i < usedEdgeIndex + 1; i++) {
-			double tmpEdgeStartInSec = route.getOriginalRoute().getWay().get(i).getDuration().getStartInSec();
+			double tmpEdgeStartInSec = route.getModelRoute().getWay().get(i).getDuration().getStartInSec();
 
 			double timewindowStartAtEdgeStart;
 			double serviceTimeAtEdgeStart;
@@ -95,11 +95,11 @@ public class TimeWindowRestriction implements Restriction {
 											// route, else
 											// getServiceTimeFromDepot(node);
 			} else {
-				serviceTimeAtEdgeStart = ((Delivery) route.getOriginalRoute().getWay().get(i - 1)).getOrder()
+				serviceTimeAtEdgeStart = ((Delivery) route.getModelRoute().getWay().get(i - 1)).getOrder()
 						.getStandingTimeInSec();
 
 				timewindowStartAtEdgeStart = Double.MIN_VALUE;
-				Duration timewindowAtEdgeStart = ((Delivery) route.getOriginalRoute().getWay().get(i - 1)).getOrder()
+				Duration timewindowAtEdgeStart = ((Delivery) route.getModelRoute().getWay().get(i - 1)).getOrder()
 						.getTimeWindow();
 				if (timewindowAtEdgeStart != null)
 					timewindowStartAtEdgeStart = timewindowAtEdgeStart.getStartInSec();

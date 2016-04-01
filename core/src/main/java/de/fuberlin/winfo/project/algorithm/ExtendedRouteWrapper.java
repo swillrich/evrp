@@ -44,7 +44,7 @@ public class ExtendedRouteWrapper {
 		restrictions.add(restriction);
 	}
 
-	public Route getOriginalRoute() {
+	public Route getModelRoute() {
 		return route;
 	}
 
@@ -152,7 +152,7 @@ public class ExtendedRouteWrapper {
 			UsedEdge prevUE = route.getWay().get(i - 1);
 
 			// compute start time
-			int time = prevUE.getDuration().getEndInSec() + AlgHelper.getTimeNeededAtEnd(prevUE);
+			int time = prevUE.getDuration().getEndInSec() + AlgHelper.getServiceTimeAtEdgeEnd(prevUE);
 			usedEdge.getDuration().setStartInSec(time);
 		} else {
 			// compute start time if the first edge is given

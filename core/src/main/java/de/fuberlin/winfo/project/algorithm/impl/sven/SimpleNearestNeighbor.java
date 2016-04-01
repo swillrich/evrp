@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
+import java.util.PriorityQueue;
 
 import de.fuberlin.winfo.project.algorithm.AlgHelper;
 import de.fuberlin.winfo.project.algorithm.Algorithm;
@@ -15,11 +16,11 @@ import de.fuberlin.winfo.project.algorithm.restriction.impl.TimeWindowRestrictio
 import de.fuberlin.winfo.project.algorithm.restriction.impl.VehicleRangeRestriction;
 import de.fuberlin.winfo.project.model.network.Depot;
 import de.fuberlin.winfo.project.model.network.Edge;
-import de.fuberlin.winfo.project.model.network.Locatable;
 import de.fuberlin.winfo.project.model.network.Node;
 import de.fuberlin.winfo.project.model.network.Order;
 import de.fuberlin.winfo.project.model.network.Vehicle;
 import de.fuberlin.winfo.project.model.network.solution.Solution;
+import de.fuberlin.winfo.project.model.network.solution.UsedEdge;
 
 public class SimpleNearestNeighbor extends Algorithm {
 
@@ -41,31 +42,50 @@ public class SimpleNearestNeighbor extends Algorithm {
 		Commissioning.pickCustomerOrder(networkProvider.getLocatables().getMainDepot(),
 				networkProvider.getLocatables().getCustomer());
 
-		runAlgForStage(solution, networkProvider.getLocatables().getMainDepot(),
-				networkProvider.getLocatables().getCustomer());
+		runAlgForStage(solution, networkProvider.getLocatables().getMainDepot());
 	}
 
-	private void runAlgForStage(Solution solution, Depot depot, List<Locatable> customer) throws Exception {
-		List<Order> remaining = new ArrayList<Order>(depot.getDeliveries());
-		while (!remaining.isEmpty()) {
+	private void runAlgForStage(Solution solution, Depot depot) throws Exception {
+		List<Order> remainingOrders = new ArrayList<Order>(depot.getDeliveries());
+
+		while (!remainingOrders.isEmpty()) {
 			Vehicle vehicle = solution.getUsecase().getVehicles().get(0);
 			ExtendedRouteWrapper route = buildRoute(vehicle, AlgHelper.getNodeByLocatable(networkProvider, depot));
-			while (!remaining.isEmpty()) {
-				Order nextOrder = Collections.min(remaining, new OrderComparator(route));
+			OrderPriorityQueue priorityQueue = new OrderPriorityQueue(route, remainingOrders);
+			while (!priorityQueue.isEmpty()) {
+				PendingOrder nextPendingOrder = priorityQueue.poll();
 				try {
-					restrictions.check(route, nextOrder, route.getOriginalRoute().getWay().size() - 1);
-					route.addDelivery(nextOrder);
-					remaining.remove(nextOrder);
+					restrictions.check(route, nextPendingOrder.getOrder(), nextPendingOrder.getPos());
+					if (route.getModelRoute().getWay().isEmpty()) {
+						route.addDelivery(nextPendingOrder.getOrder());
+					} else {
+						route.addDeliveryAtIndex(nextPendingOrder.getOrder(), nextPendingOrder.getPos());
+					}
+					remainingOrders.remove(nextPendingOrder.getOrder());
 				} catch (RestrictionException e) {
-					System.out.println((solution.getRoutes().size() + 1) + ". Route built (" + e.getMessage() + ")");
-					break;
+					if (priorityQueue.isEmpty()) {
+						System.out.println((solution.getRoutes().size() + 1) + ". Route with "
+								+ route.getModelRoute().getWay().size() + " nodes built (" + e.getMessage() + ")");
+					}
 				}
 			}
-			solution.getRoutes().add(route.getOriginalRoute());
+			solution.getRoutes().add(route.getModelRoute());
 		}
 	}
 
-	private class OrderComparator implements Comparator<Order> {
+	@SuppressWarnings("serial")
+	private class OrderPriorityQueue extends PriorityQueue<PendingOrder> {
+		public OrderPriorityQueue(ExtendedRouteWrapper route, List<Order> leftOrders) {
+			super(new OrderComparator(route));
+			for (Order order : leftOrders) {
+				PendingOrder pendingOrder = new PendingOrder();
+				pendingOrder.setOrder(order);
+				add(pendingOrder);
+			}
+		}
+	}
+
+	private class OrderComparator implements Comparator<PendingOrder> {
 		private ExtendedRouteWrapper route;
 
 		public OrderComparator(ExtendedRouteWrapper route) {
@@ -73,27 +93,67 @@ public class SimpleNearestNeighbor extends Algorithm {
 		}
 
 		@Override
-		public int compare(Order o1, Order o2) {
-			Node n1 = AlgHelper.getNodeByOrder(networkProvider, o1);
-			Node n2 = AlgHelper.getNodeByOrder(networkProvider, o2);
+		public int compare(PendingOrder o1, PendingOrder o2) {
+			Node n1 = AlgHelper.getNodeByOrder(networkProvider, o1.getOrder());
+			Node n2 = AlgHelper.getNodeByOrder(networkProvider, o2.getOrder());
 
-			Node lastNode = null;
-			if (route.getOriginalRoute().getWay().size() == 0) {
-				lastNode = route.getDepot();
-			} else {
-				lastNode = route.getOriginalRoute().getWay().get(route.getOriginalRoute().getWay().size() - 1).getEdge()
-						.getStart();
-			}
-			Edge edge1 = E[lastNode.getId()][n1.getId()];
-			Edge edge2 = E[lastNode.getId()][n2.getId()];
-
-			if (o1.getTimeWindow() == null && o2.getTimeWindow() != null) {
-				return 1;
-			} else if (o1.getTimeWindow() != null && o2.getTimeWindow() == null) {
+			if (o1.getOrder().getTimeWindow() != null && o2.getOrder().getTimeWindow() == null) {
 				return -1;
-			} else {
-				return Integer.compare(edge1.getDistance(), edge2.getDistance());
+			} else if (o1.getOrder().getTimeWindow() == null && o2.getOrder().getTimeWindow() != null) {
+				return 1;
 			}
+
+			// initial pendulum tour
+			if (route.getModelRoute().getWay().isEmpty()) {
+				return Integer.compare(computeCosts(route.getDepot(), n1), computeCosts(route.getDepot(), n2));
+			}
+
+			UsedEdge n1UsedEdge = computeMin(n1);
+			o1.setPos(route.getModelRoute().getWay().indexOf(n1UsedEdge));
+
+			UsedEdge n2UsedEdge = computeMin(n2);
+			o2.setPos(route.getModelRoute().getWay().indexOf(n2UsedEdge));
+
+			int costs1 = computeCosts(n1, n1UsedEdge.getEdge().getEnd());
+			int costs2 = computeCosts(n2, n2UsedEdge.getEdge().getEnd());
+
+			return Integer.compare(costs1, costs2);
+		}
+
+		private UsedEdge computeMin(Node n1) {
+			return Collections.min(route.getModelRoute().getWay(), new Comparator<UsedEdge>() {
+				@Override
+				public int compare(UsedEdge o1, UsedEdge o2) {
+					int a = computeCosts(o1.getEdge().getEnd(), n1);
+					int b = computeCosts(o2.getEdge().getEnd(), n1);
+					return Integer.compare(a, b);
+				}
+			});
+		}
+
+		private int computeCosts(Node n1, Node n2) {
+			return E[n1.getId()][n2.getId()].getDistance();
 		}
 	};
+
+	private class PendingOrder {
+		private Order order;
+		private int pos = 0;
+
+		public Order getOrder() {
+			return order;
+		}
+
+		public int getPos() {
+			return pos;
+		}
+
+		public void setOrder(Order order) {
+			this.order = order;
+		}
+
+		public void setPos(int pos) {
+			this.pos = pos;
+		}
+	}
 }

@@ -113,10 +113,10 @@ public class TourLengthRestriction implements Restriction {
 
 	private List<UsedEdge> addTempOrderToRoute(Order order, int usedEdgeIndex) {
 		List<UsedEdge> way = new ArrayList<>();
-		way.addAll(route.getOriginalRoute().getWay());
-		Node nodeBeforeInsertion = route.getOriginalRoute().getWay().get(usedEdgeIndex).getEdge().getStart();
+		way.addAll(route.getModelRoute().getWay());
+		Node nodeBeforeInsertion = route.getModelRoute().getWay().get(usedEdgeIndex).getEdge().getStart();
 		Node newNode = AlgHelper.getNodeByOrder(np, order);
-		Node nodeAfterInsertion = route.getOriginalRoute().getWay().get(usedEdgeIndex).getEdge().getEnd();
+		Node nodeAfterInsertion = route.getModelRoute().getWay().get(usedEdgeIndex).getEdge().getEnd();
 
 		Edge edgeToNewOrder = np.getEdges()[nodeBeforeInsertion.getId()][newNode.getId()];
 		Edge edgeFromNewOrder = np.getEdges()[newNode.getId()][nodeAfterInsertion.getId()];
@@ -127,8 +127,8 @@ public class TourLengthRestriction implements Restriction {
 
 		UsedEdge usedEdgeFromNewOrder;
 
-		if (route.getOriginalRoute().getWay().get(usedEdgeIndex) instanceof Delivery) {
-			Order orderAfterInsertion = ((Delivery) route.getOriginalRoute().getWay().get(usedEdgeIndex)).getOrder();
+		if (route.getModelRoute().getWay().get(usedEdgeIndex) instanceof Delivery) {
+			Order orderAfterInsertion = ((Delivery) route.getModelRoute().getWay().get(usedEdgeIndex)).getOrder();
 			usedEdgeFromNewOrder = np.getSolutionFactory().createDelivery();
 			((Delivery) usedEdgeFromNewOrder).setOrder(orderAfterInsertion);
 			((Delivery) usedEdgeFromNewOrder).setEdge(edgeFromNewOrder);
