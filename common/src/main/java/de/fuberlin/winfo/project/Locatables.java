@@ -143,8 +143,7 @@ public class Locatables extends ArrayList<Locatable> {
 
 	public void printDetail() {
 		stream().forEachOrdered(l -> System.out.printf("%-20s%-20s%-20s%-20s%n", l.getClass().getSimpleName(),
-				l.getLatitude(), l.getLongitude(),
-				l instanceof Customer ? ((Customer) l).getOwnedOrders().size() : "non-customer"));
+				l.getLatitude(), l.getLongitude(), "not defined"));
 	}
 
 	@Override

@@ -36,8 +36,8 @@ public class CSV2ObjMapper {
 
 	public CSV2ObjMapper(File vehicleFile, File customerFile, File depotFile, File useCaseFile) throws Exception {
 		addVehicles(vehicleFile);
-		addCustomers(customerFile);
 		addDepots(depotFile);
+		addCustomers(customerFile);
 		addUseCases(useCaseFile, vehicleList);
 	}
 
@@ -101,11 +101,12 @@ public class CSV2ObjMapper {
 				Order newOrder = networkFactory.createOrder();
 				newOrder.setId(line[0]);
 				String[] split = line[3].split(",");
-				newOrder.setNeedAsWeight(asDouble(split[0]));
-				newOrder.setNeedAsVolume(asDouble(split[1]));
+				newOrder.setWeight(asDouble(split[0]));
+				newOrder.setVolume(asDouble(split[1]));
 				newOrder.setTimeWindow(getDuration(line[5]));
 				newOrder.setStandingTimeInSec(asInt(line[7]));
-				customer.getOwnedOrders().add(newOrder);
+				newOrder.setReceiver(customer);
+				customer.getOrders().add(newOrder);
 			}
 		};
 	}

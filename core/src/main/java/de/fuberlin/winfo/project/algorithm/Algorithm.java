@@ -3,6 +3,7 @@ package de.fuberlin.winfo.project.algorithm;
 import de.fuberlin.winfo.project.Log;
 import de.fuberlin.winfo.project.Utils;
 import de.fuberlin.winfo.project.Utils.StopWatch;
+import de.fuberlin.winfo.project.algorithm.restriction.Restrictions;
 import de.fuberlin.winfo.project.model.network.Node;
 import de.fuberlin.winfo.project.model.network.Vehicle;
 import de.fuberlin.winfo.project.model.network.solution.Route;
@@ -30,6 +31,7 @@ public abstract class Algorithm {
 	 * The solution on which this algorithm operates.
 	 */
 	private Solution solution;
+	protected Restrictions restrictions;
 
 	/**
 	 * The run method performs the algorithm being implemented.
@@ -43,17 +45,12 @@ public abstract class Algorithm {
 		Log.info(Log.ALGORITHM,
 				"*" + this.getName() + "* is selected and will run for UseCase " + solution.getUsecase().getName());
 		this.networkProvider = networkProvider;
+		restrictions = new Restrictions(this.networkProvider);
 		this.networkProvider.getLocatables().reinitializeByUseCase(solution.getUsecase());
 		this.solution = solution;
 		runAlgorithm();
 	}
 
-	/**
-	 * Runs the algorithm. Check what time the algorithm run is taken. The
-	 * implemented run method will be invoked.
-	 * 
-	 * @throws Exception
-	 */
 	private void runAlgorithm() throws Exception {
 		solution.setProcedure(getName());
 		StopWatch sw = Utils.stopWatchGo();
@@ -97,7 +94,11 @@ public abstract class Algorithm {
 		return solution;
 	}
 
-	public ExtendedRoute buildRoute(Vehicle vehicle, Node depot) {
-		return AlgHelper.getRouteHelper(this, vehicle, depot);
+	public ExtendedRouteWrapper buildRoute(Vehicle vehicle, Node depot) {
+		return new ExtendedRouteWrapper(this, vehicle, depot);
+	}
+
+	public Restrictions getRestrictions() {
+		return restrictions;
 	}
 }

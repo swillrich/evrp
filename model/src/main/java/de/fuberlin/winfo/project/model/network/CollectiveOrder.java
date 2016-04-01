@@ -13,8 +13,7 @@ import org.eclipse.emf.common.util.EList;
  * The following features are supported:
  * </p>
  * <ul>
- *   <li>{@link de.fuberlin.winfo.project.model.network.CollectiveOrder#getConsistOf <em>Consist Of</em>}</li>
- *   <li>{@link de.fuberlin.winfo.project.model.network.CollectiveOrder#getReceiver <em>Receiver</em>}</li>
+ *   <li>{@link de.fuberlin.winfo.project.model.network.CollectiveOrder#getSubOrder <em>Sub Order</em>}</li>
  * </ul>
  *
  * @see de.fuberlin.winfo.project.model.network.NetworkPackage#getCollectiveOrder()
@@ -23,45 +22,19 @@ import org.eclipse.emf.common.util.EList;
  */
 public interface CollectiveOrder extends Order {
 	/**
-	 * Returns the value of the '<em><b>Consist Of</b></em>' reference list.
+	 * Returns the value of the '<em><b>Sub Order</b></em>' containment reference list.
 	 * The list contents are of type {@link de.fuberlin.winfo.project.model.network.Order}.
 	 * <!-- begin-user-doc -->
 	 * <p>
-	 * If the meaning of the '<em>Consist Of</em>' reference list isn't clear,
+	 * If the meaning of the '<em>Sub Order</em>' containment reference list isn't clear,
 	 * there really should be more of a description here...
 	 * </p>
 	 * <!-- end-user-doc -->
-	 * @return the value of the '<em>Consist Of</em>' reference list.
-	 * @see de.fuberlin.winfo.project.model.network.NetworkPackage#getCollectiveOrder_ConsistOf()
-	 * @model
+	 * @return the value of the '<em>Sub Order</em>' containment reference list.
+	 * @see de.fuberlin.winfo.project.model.network.NetworkPackage#getCollectiveOrder_SubOrder()
+	 * @model containment="true" required="true"
 	 * @generated
 	 */
-	EList<Order> getConsistOf();
-
-	/**
-	 * Returns the value of the '<em><b>Receiver</b></em>' reference.
-	 * <!-- begin-user-doc -->
-	 * <p>
-	 * If the meaning of the '<em>Receiver</em>' reference isn't clear,
-	 * there really should be more of a description here...
-	 * </p>
-	 * <!-- end-user-doc -->
-	 * @return the value of the '<em>Receiver</em>' reference.
-	 * @see #setReceiver(Locatable)
-	 * @see de.fuberlin.winfo.project.model.network.NetworkPackage#getCollectiveOrder_Receiver()
-	 * @model
-	 * @generated
-	 */
-	Locatable getReceiver();
-
-	/**
-	 * Sets the value of the '{@link de.fuberlin.winfo.project.model.network.CollectiveOrder#getReceiver <em>Receiver</em>}' reference.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @param value the new value of the '<em>Receiver</em>' reference.
-	 * @see #getReceiver()
-	 * @generated
-	 */
-	void setReceiver(Locatable value);
+	EList<Order> getSubOrder();
 
 } // CollectiveOrder

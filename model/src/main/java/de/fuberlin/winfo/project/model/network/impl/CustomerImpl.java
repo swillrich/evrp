@@ -6,21 +6,14 @@ import de.fuberlin.winfo.project.model.network.Customer;
 import de.fuberlin.winfo.project.model.network.Depot;
 import de.fuberlin.winfo.project.model.network.NetworkPackage;
 import de.fuberlin.winfo.project.model.network.Order;
-
 import java.util.Collection;
-
 import org.eclipse.emf.common.notify.Notification;
-import org.eclipse.emf.common.notify.NotificationChain;
-
 import org.eclipse.emf.common.util.EList;
-
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.InternalEObject;
 
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
-
-import org.eclipse.emf.ecore.util.EObjectContainmentEList;
-import org.eclipse.emf.ecore.util.InternalEList;
+import org.eclipse.emf.ecore.util.EObjectResolvingEList;
 
 /**
  * <!-- begin-user-doc -->
@@ -30,23 +23,13 @@ import org.eclipse.emf.ecore.util.InternalEList;
  * The following features are implemented:
  * </p>
  * <ul>
- *   <li>{@link de.fuberlin.winfo.project.model.network.impl.CustomerImpl#getOwnedOrders <em>Owned Orders</em>}</li>
  *   <li>{@link de.fuberlin.winfo.project.model.network.impl.CustomerImpl#getHasTranshipmentPoint <em>Has Transhipment Point</em>}</li>
+ *   <li>{@link de.fuberlin.winfo.project.model.network.impl.CustomerImpl#getOrders <em>Orders</em>}</li>
  * </ul>
  *
  * @generated
  */
 public class CustomerImpl extends LocatableImpl implements Customer {
-	/**
-	 * The cached value of the '{@link #getOwnedOrders() <em>Owned Orders</em>}' containment reference list.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @see #getOwnedOrders()
-	 * @generated
-	 * @ordered
-	 */
-	protected EList<Order> ownedOrders;
-
 	/**
 	 * The cached value of the '{@link #getHasTranshipmentPoint() <em>Has Transhipment Point</em>}' reference.
 	 * <!-- begin-user-doc -->
@@ -56,6 +39,16 @@ public class CustomerImpl extends LocatableImpl implements Customer {
 	 * @ordered
 	 */
 	protected Depot hasTranshipmentPoint;
+
+	/**
+	 * The cached value of the '{@link #getOrders() <em>Orders</em>}' reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #getOrders()
+	 * @generated
+	 * @ordered
+	 */
+	protected EList<Order> orders;
 
 	/**
 	 * <!-- begin-user-doc -->
@@ -74,18 +67,6 @@ public class CustomerImpl extends LocatableImpl implements Customer {
 	@Override
 	protected EClass eStaticClass() {
 		return NetworkPackage.Literals.CUSTOMER;
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public EList<Order> getOwnedOrders() {
-		if (ownedOrders == null) {
-			ownedOrders = new EObjectContainmentEList<Order>(Order.class, this, NetworkPackage.CUSTOMER__OWNED_ORDERS);
-		}
-		return ownedOrders;
 	}
 
 	/**
@@ -131,13 +112,11 @@ public class CustomerImpl extends LocatableImpl implements Customer {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	@Override
-	public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, NotificationChain msgs) {
-		switch (featureID) {
-			case NetworkPackage.CUSTOMER__OWNED_ORDERS:
-				return ((InternalEList<?>)getOwnedOrders()).basicRemove(otherEnd, msgs);
+	public EList<Order> getOrders() {
+		if (orders == null) {
+			orders = new EObjectResolvingEList<Order>(Order.class, this, NetworkPackage.CUSTOMER__ORDERS);
 		}
-		return super.eInverseRemove(otherEnd, featureID, msgs);
+		return orders;
 	}
 
 	/**
@@ -148,11 +127,11 @@ public class CustomerImpl extends LocatableImpl implements Customer {
 	@Override
 	public Object eGet(int featureID, boolean resolve, boolean coreType) {
 		switch (featureID) {
-			case NetworkPackage.CUSTOMER__OWNED_ORDERS:
-				return getOwnedOrders();
 			case NetworkPackage.CUSTOMER__HAS_TRANSHIPMENT_POINT:
 				if (resolve) return getHasTranshipmentPoint();
 				return basicGetHasTranshipmentPoint();
+			case NetworkPackage.CUSTOMER__ORDERS:
+				return getOrders();
 		}
 		return super.eGet(featureID, resolve, coreType);
 	}
@@ -166,12 +145,12 @@ public class CustomerImpl extends LocatableImpl implements Customer {
 	@Override
 	public void eSet(int featureID, Object newValue) {
 		switch (featureID) {
-			case NetworkPackage.CUSTOMER__OWNED_ORDERS:
-				getOwnedOrders().clear();
-				getOwnedOrders().addAll((Collection<? extends Order>)newValue);
-				return;
 			case NetworkPackage.CUSTOMER__HAS_TRANSHIPMENT_POINT:
 				setHasTranshipmentPoint((Depot)newValue);
+				return;
+			case NetworkPackage.CUSTOMER__ORDERS:
+				getOrders().clear();
+				getOrders().addAll((Collection<? extends Order>)newValue);
 				return;
 		}
 		super.eSet(featureID, newValue);
@@ -185,11 +164,11 @@ public class CustomerImpl extends LocatableImpl implements Customer {
 	@Override
 	public void eUnset(int featureID) {
 		switch (featureID) {
-			case NetworkPackage.CUSTOMER__OWNED_ORDERS:
-				getOwnedOrders().clear();
-				return;
 			case NetworkPackage.CUSTOMER__HAS_TRANSHIPMENT_POINT:
 				setHasTranshipmentPoint((Depot)null);
+				return;
+			case NetworkPackage.CUSTOMER__ORDERS:
+				getOrders().clear();
 				return;
 		}
 		super.eUnset(featureID);
@@ -203,10 +182,10 @@ public class CustomerImpl extends LocatableImpl implements Customer {
 	@Override
 	public boolean eIsSet(int featureID) {
 		switch (featureID) {
-			case NetworkPackage.CUSTOMER__OWNED_ORDERS:
-				return ownedOrders != null && !ownedOrders.isEmpty();
 			case NetworkPackage.CUSTOMER__HAS_TRANSHIPMENT_POINT:
 				return hasTranshipmentPoint != null;
+			case NetworkPackage.CUSTOMER__ORDERS:
+				return orders != null && !orders.isEmpty();
 		}
 		return super.eIsSet(featureID);
 	}

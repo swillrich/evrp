@@ -158,7 +158,7 @@ public interface Depot extends Locatable {
 
 	/**
 	 * Returns the value of the '<em><b>Deliveries</b></em>' containment reference list.
-	 * The list contents are of type {@link de.fuberlin.winfo.project.model.network.CollectiveOrder}.
+	 * The list contents are of type {@link de.fuberlin.winfo.project.model.network.Order}.
 	 * <!-- begin-user-doc -->
 	 * <p>
 	 * If the meaning of the '<em>Deliveries</em>' containment reference list isn't clear,
@@ -170,6 +170,6 @@ public interface Depot extends Locatable {
 	 * @model containment="true"
 	 * @generated
 	 */
-	EList<CollectiveOrder> getDeliveries();
+	EList<Order> getDeliveries();
 
 } // Depot

@@ -102,7 +102,7 @@ public class Statistics {
 									.getStartInSec();
 
 							int storageTimeInSec = depature - arrival;
-							double storageWeightInKg = ((Delivery) route.getWay().get(i)).getOrder().getNeedAsWeight();
+							double storageWeightInKg = ((Delivery) route.getWay().get(i)).getOrder().getWeight();
 
 							storageCosts += storageTimeInSec * storageWeightInKg
 									* solution.getUsecase().getStorageCostsPerKgPerSec();

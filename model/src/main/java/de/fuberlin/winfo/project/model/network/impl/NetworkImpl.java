@@ -6,6 +6,7 @@ import de.fuberlin.winfo.project.model.network.Edge;
 import de.fuberlin.winfo.project.model.network.Network;
 import de.fuberlin.winfo.project.model.network.NetworkPackage;
 import de.fuberlin.winfo.project.model.network.Node;
+
 import de.fuberlin.winfo.project.model.network.solution.Solution;
 
 import java.util.Collection;

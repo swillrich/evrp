@@ -2,11 +2,14 @@
  */
 package de.fuberlin.winfo.project.model.network.impl;
 
+import de.fuberlin.winfo.project.model.network.Customer;
 import de.fuberlin.winfo.project.model.network.Duration;
 import de.fuberlin.winfo.project.model.network.NetworkPackage;
 import de.fuberlin.winfo.project.model.network.Order;
+
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.notify.NotificationChain;
+
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.InternalEObject;
 
@@ -22,8 +25,9 @@ import org.eclipse.emf.ecore.impl.MinimalEObjectImpl;
  * </p>
  * <ul>
  *   <li>{@link de.fuberlin.winfo.project.model.network.impl.OrderImpl#getId <em>Id</em>}</li>
- *   <li>{@link de.fuberlin.winfo.project.model.network.impl.OrderImpl#getNeedAsVolume <em>Need As Volume</em>}</li>
- *   <li>{@link de.fuberlin.winfo.project.model.network.impl.OrderImpl#getNeedAsWeight <em>Need As Weight</em>}</li>
+ *   <li>{@link de.fuberlin.winfo.project.model.network.impl.OrderImpl#getReceiver <em>Receiver</em>}</li>
+ *   <li>{@link de.fuberlin.winfo.project.model.network.impl.OrderImpl#getVolume <em>Volume</em>}</li>
+ *   <li>{@link de.fuberlin.winfo.project.model.network.impl.OrderImpl#getWeight <em>Weight</em>}</li>
  *   <li>{@link de.fuberlin.winfo.project.model.network.impl.OrderImpl#getTimeWindow <em>Time Window</em>}</li>
  *   <li>{@link de.fuberlin.winfo.project.model.network.impl.OrderImpl#getStandingTimeInSec <em>Standing Time In Sec</em>}</li>
  * </ul>
@@ -52,44 +56,54 @@ public class OrderImpl extends MinimalEObjectImpl.Container implements Order {
 	protected String id = ID_EDEFAULT;
 
 	/**
-	 * The default value of the '{@link #getNeedAsVolume() <em>Need As Volume</em>}' attribute.
+	 * The cached value of the '{@link #getReceiver() <em>Receiver</em>}' reference.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @see #getNeedAsVolume()
+	 * @see #getReceiver()
 	 * @generated
 	 * @ordered
 	 */
-	protected static final double NEED_AS_VOLUME_EDEFAULT = 0.0;
+	protected Customer receiver;
 
 	/**
-	 * The cached value of the '{@link #getNeedAsVolume() <em>Need As Volume</em>}' attribute.
+	 * The default value of the '{@link #getVolume() <em>Volume</em>}' attribute.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @see #getNeedAsVolume()
+	 * @see #getVolume()
 	 * @generated
 	 * @ordered
 	 */
-	protected double needAsVolume = NEED_AS_VOLUME_EDEFAULT;
+	protected static final double VOLUME_EDEFAULT = 0.0;
 
 	/**
-	 * The default value of the '{@link #getNeedAsWeight() <em>Need As Weight</em>}' attribute.
+	 * The cached value of the '{@link #getVolume() <em>Volume</em>}' attribute.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @see #getNeedAsWeight()
+	 * @see #getVolume()
 	 * @generated
 	 * @ordered
 	 */
-	protected static final double NEED_AS_WEIGHT_EDEFAULT = 0.0;
+	protected double volume = VOLUME_EDEFAULT;
 
 	/**
-	 * The cached value of the '{@link #getNeedAsWeight() <em>Need As Weight</em>}' attribute.
+	 * The default value of the '{@link #getWeight() <em>Weight</em>}' attribute.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @see #getNeedAsWeight()
+	 * @see #getWeight()
 	 * @generated
 	 * @ordered
 	 */
-	protected double needAsWeight = NEED_AS_WEIGHT_EDEFAULT;
+	protected static final double WEIGHT_EDEFAULT = 0.0;
+
+	/**
+	 * The cached value of the '{@link #getWeight() <em>Weight</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #getWeight()
+	 * @generated
+	 * @ordered
+	 */
+	protected double weight = WEIGHT_EDEFAULT;
 
 	/**
 	 * The cached value of the '{@link #getTimeWindow() <em>Time Window</em>}' containment reference.
@@ -145,8 +159,8 @@ public class OrderImpl extends MinimalEObjectImpl.Container implements Order {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public double getNeedAsVolume() {
-		return needAsVolume;
+	public String getId() {
+		return id;
 	}
 
 	/**
@@ -154,11 +168,11 @@ public class OrderImpl extends MinimalEObjectImpl.Container implements Order {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public void setNeedAsVolume(double newNeedAsVolume) {
-		double oldNeedAsVolume = needAsVolume;
-		needAsVolume = newNeedAsVolume;
+	public void setId(String newId) {
+		String oldId = id;
+		id = newId;
 		if (eNotificationRequired())
-			eNotify(new ENotificationImpl(this, Notification.SET, NetworkPackage.ORDER__NEED_AS_VOLUME, oldNeedAsVolume, needAsVolume));
+			eNotify(new ENotificationImpl(this, Notification.SET, NetworkPackage.ORDER__ID, oldId, id));
 	}
 
 	/**
@@ -166,8 +180,16 @@ public class OrderImpl extends MinimalEObjectImpl.Container implements Order {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public double getNeedAsWeight() {
-		return needAsWeight;
+	public Customer getReceiver() {
+		if (receiver != null && receiver.eIsProxy()) {
+			InternalEObject oldReceiver = (InternalEObject)receiver;
+			receiver = (Customer)eResolveProxy(oldReceiver);
+			if (receiver != oldReceiver) {
+				if (eNotificationRequired())
+					eNotify(new ENotificationImpl(this, Notification.RESOLVE, NetworkPackage.ORDER__RECEIVER, oldReceiver, receiver));
+			}
+		}
+		return receiver;
 	}
 
 	/**
@@ -175,11 +197,62 @@ public class OrderImpl extends MinimalEObjectImpl.Container implements Order {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public void setNeedAsWeight(double newNeedAsWeight) {
-		double oldNeedAsWeight = needAsWeight;
-		needAsWeight = newNeedAsWeight;
+	public Customer basicGetReceiver() {
+		return receiver;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public void setReceiver(Customer newReceiver) {
+		Customer oldReceiver = receiver;
+		receiver = newReceiver;
 		if (eNotificationRequired())
-			eNotify(new ENotificationImpl(this, Notification.SET, NetworkPackage.ORDER__NEED_AS_WEIGHT, oldNeedAsWeight, needAsWeight));
+			eNotify(new ENotificationImpl(this, Notification.SET, NetworkPackage.ORDER__RECEIVER, oldReceiver, receiver));
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public double getVolume() {
+		return volume;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public void setVolume(double newVolume) {
+		double oldVolume = volume;
+		volume = newVolume;
+		if (eNotificationRequired())
+			eNotify(new ENotificationImpl(this, Notification.SET, NetworkPackage.ORDER__VOLUME, oldVolume, volume));
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public double getWeight() {
+		return weight;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public void setWeight(double newWeight) {
+		double oldWeight = weight;
+		weight = newWeight;
+		if (eNotificationRequired())
+			eNotify(new ENotificationImpl(this, Notification.SET, NetworkPackage.ORDER__WEIGHT, oldWeight, weight));
 	}
 
 	/**
@@ -251,27 +324,6 @@ public class OrderImpl extends MinimalEObjectImpl.Container implements Order {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public String getId() {
-		return id;
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public void setId(String newId) {
-		String oldId = id;
-		id = newId;
-		if (eNotificationRequired())
-			eNotify(new ENotificationImpl(this, Notification.SET, NetworkPackage.ORDER__ID, oldId, id));
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
 	@Override
 	public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, NotificationChain msgs) {
 		switch (featureID) {
@@ -291,10 +343,13 @@ public class OrderImpl extends MinimalEObjectImpl.Container implements Order {
 		switch (featureID) {
 			case NetworkPackage.ORDER__ID:
 				return getId();
-			case NetworkPackage.ORDER__NEED_AS_VOLUME:
-				return getNeedAsVolume();
-			case NetworkPackage.ORDER__NEED_AS_WEIGHT:
-				return getNeedAsWeight();
+			case NetworkPackage.ORDER__RECEIVER:
+				if (resolve) return getReceiver();
+				return basicGetReceiver();
+			case NetworkPackage.ORDER__VOLUME:
+				return getVolume();
+			case NetworkPackage.ORDER__WEIGHT:
+				return getWeight();
 			case NetworkPackage.ORDER__TIME_WINDOW:
 				return getTimeWindow();
 			case NetworkPackage.ORDER__STANDING_TIME_IN_SEC:
@@ -308,18 +363,20 @@ public class OrderImpl extends MinimalEObjectImpl.Container implements Order {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	@SuppressWarnings("unchecked")
 	@Override
 	public void eSet(int featureID, Object newValue) {
 		switch (featureID) {
 			case NetworkPackage.ORDER__ID:
 				setId((String)newValue);
 				return;
-			case NetworkPackage.ORDER__NEED_AS_VOLUME:
-				setNeedAsVolume((Double)newValue);
+			case NetworkPackage.ORDER__RECEIVER:
+				setReceiver((Customer)newValue);
 				return;
-			case NetworkPackage.ORDER__NEED_AS_WEIGHT:
-				setNeedAsWeight((Double)newValue);
+			case NetworkPackage.ORDER__VOLUME:
+				setVolume((Double)newValue);
+				return;
+			case NetworkPackage.ORDER__WEIGHT:
+				setWeight((Double)newValue);
 				return;
 			case NetworkPackage.ORDER__TIME_WINDOW:
 				setTimeWindow((Duration)newValue);
@@ -342,11 +399,14 @@ public class OrderImpl extends MinimalEObjectImpl.Container implements Order {
 			case NetworkPackage.ORDER__ID:
 				setId(ID_EDEFAULT);
 				return;
-			case NetworkPackage.ORDER__NEED_AS_VOLUME:
-				setNeedAsVolume(NEED_AS_VOLUME_EDEFAULT);
+			case NetworkPackage.ORDER__RECEIVER:
+				setReceiver((Customer)null);
 				return;
-			case NetworkPackage.ORDER__NEED_AS_WEIGHT:
-				setNeedAsWeight(NEED_AS_WEIGHT_EDEFAULT);
+			case NetworkPackage.ORDER__VOLUME:
+				setVolume(VOLUME_EDEFAULT);
+				return;
+			case NetworkPackage.ORDER__WEIGHT:
+				setWeight(WEIGHT_EDEFAULT);
 				return;
 			case NetworkPackage.ORDER__TIME_WINDOW:
 				setTimeWindow((Duration)null);
@@ -368,10 +428,12 @@ public class OrderImpl extends MinimalEObjectImpl.Container implements Order {
 		switch (featureID) {
 			case NetworkPackage.ORDER__ID:
 				return ID_EDEFAULT == null ? id != null : !ID_EDEFAULT.equals(id);
-			case NetworkPackage.ORDER__NEED_AS_VOLUME:
-				return needAsVolume != NEED_AS_VOLUME_EDEFAULT;
-			case NetworkPackage.ORDER__NEED_AS_WEIGHT:
-				return needAsWeight != NEED_AS_WEIGHT_EDEFAULT;
+			case NetworkPackage.ORDER__RECEIVER:
+				return receiver != null;
+			case NetworkPackage.ORDER__VOLUME:
+				return volume != VOLUME_EDEFAULT;
+			case NetworkPackage.ORDER__WEIGHT:
+				return weight != WEIGHT_EDEFAULT;
 			case NetworkPackage.ORDER__TIME_WINDOW:
 				return timeWindow != null;
 			case NetworkPackage.ORDER__STANDING_TIME_IN_SEC:
@@ -392,10 +454,10 @@ public class OrderImpl extends MinimalEObjectImpl.Container implements Order {
 		StringBuffer result = new StringBuffer(super.toString());
 		result.append(" (id: ");
 		result.append(id);
-		result.append(", needAsVolume: ");
-		result.append(needAsVolume);
-		result.append(", needAsWeight: ");
-		result.append(needAsWeight);
+		result.append(", volume: ");
+		result.append(volume);
+		result.append(", weight: ");
+		result.append(weight);
 		result.append(", standingTimeInSec: ");
 		result.append(standingTimeInSec);
 		result.append(')');

@@ -14,8 +14,9 @@ import org.eclipse.emf.ecore.EObject;
  * </p>
  * <ul>
  *   <li>{@link de.fuberlin.winfo.project.model.network.Order#getId <em>Id</em>}</li>
- *   <li>{@link de.fuberlin.winfo.project.model.network.Order#getNeedAsVolume <em>Need As Volume</em>}</li>
- *   <li>{@link de.fuberlin.winfo.project.model.network.Order#getNeedAsWeight <em>Need As Weight</em>}</li>
+ *   <li>{@link de.fuberlin.winfo.project.model.network.Order#getReceiver <em>Receiver</em>}</li>
+ *   <li>{@link de.fuberlin.winfo.project.model.network.Order#getVolume <em>Volume</em>}</li>
+ *   <li>{@link de.fuberlin.winfo.project.model.network.Order#getWeight <em>Weight</em>}</li>
  *   <li>{@link de.fuberlin.winfo.project.model.network.Order#getTimeWindow <em>Time Window</em>}</li>
  *   <li>{@link de.fuberlin.winfo.project.model.network.Order#getStandingTimeInSec <em>Standing Time In Sec</em>}</li>
  * </ul>
@@ -26,56 +27,108 @@ import org.eclipse.emf.ecore.EObject;
  */
 public interface Order extends EObject {
 	/**
-	 * Returns the value of the '<em><b>Need As Volume</b></em>' attribute.
+	 * Returns the value of the '<em><b>Id</b></em>' attribute.
 	 * <!-- begin-user-doc -->
 	 * <p>
-	 * If the meaning of the '<em>Need As Volume</em>' attribute isn't clear,
+	 * If the meaning of the '<em>Id</em>' attribute isn't clear,
 	 * there really should be more of a description here...
 	 * </p>
 	 * <!-- end-user-doc -->
-	 * @return the value of the '<em>Need As Volume</em>' attribute.
-	 * @see #setNeedAsVolume(double)
-	 * @see de.fuberlin.winfo.project.model.network.NetworkPackage#getOrder_NeedAsVolume()
+	 * @return the value of the '<em>Id</em>' attribute.
+	 * @see #setId(String)
+	 * @see de.fuberlin.winfo.project.model.network.NetworkPackage#getOrder_Id()
 	 * @model
 	 * @generated
 	 */
-	double getNeedAsVolume();
+	String getId();
 
 	/**
-	 * Sets the value of the '{@link de.fuberlin.winfo.project.model.network.Order#getNeedAsVolume <em>Need As Volume</em>}' attribute.
+	 * Sets the value of the '{@link de.fuberlin.winfo.project.model.network.Order#getId <em>Id</em>}' attribute.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @param value the new value of the '<em>Need As Volume</em>' attribute.
-	 * @see #getNeedAsVolume()
+	 * @param value the new value of the '<em>Id</em>' attribute.
+	 * @see #getId()
 	 * @generated
 	 */
-	void setNeedAsVolume(double value);
+	void setId(String value);
 
 	/**
-	 * Returns the value of the '<em><b>Need As Weight</b></em>' attribute.
+	 * Returns the value of the '<em><b>Receiver</b></em>' reference.
 	 * <!-- begin-user-doc -->
 	 * <p>
-	 * If the meaning of the '<em>Need As Weight</em>' attribute isn't clear,
+	 * If the meaning of the '<em>Receiver</em>' reference isn't clear,
 	 * there really should be more of a description here...
 	 * </p>
 	 * <!-- end-user-doc -->
-	 * @return the value of the '<em>Need As Weight</em>' attribute.
-	 * @see #setNeedAsWeight(double)
-	 * @see de.fuberlin.winfo.project.model.network.NetworkPackage#getOrder_NeedAsWeight()
+	 * @return the value of the '<em>Receiver</em>' reference.
+	 * @see #setReceiver(Customer)
+	 * @see de.fuberlin.winfo.project.model.network.NetworkPackage#getOrder_Receiver()
+	 * @model required="true"
+	 * @generated
+	 */
+	Customer getReceiver();
+
+	/**
+	 * Sets the value of the '{@link de.fuberlin.winfo.project.model.network.Order#getReceiver <em>Receiver</em>}' reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @param value the new value of the '<em>Receiver</em>' reference.
+	 * @see #getReceiver()
+	 * @generated
+	 */
+	void setReceiver(Customer value);
+
+	/**
+	 * Returns the value of the '<em><b>Volume</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <p>
+	 * If the meaning of the '<em>Volume</em>' attribute isn't clear,
+	 * there really should be more of a description here...
+	 * </p>
+	 * <!-- end-user-doc -->
+	 * @return the value of the '<em>Volume</em>' attribute.
+	 * @see #setVolume(double)
+	 * @see de.fuberlin.winfo.project.model.network.NetworkPackage#getOrder_Volume()
 	 * @model
 	 * @generated
 	 */
-	double getNeedAsWeight();
+	double getVolume();
 
 	/**
-	 * Sets the value of the '{@link de.fuberlin.winfo.project.model.network.Order#getNeedAsWeight <em>Need As Weight</em>}' attribute.
+	 * Sets the value of the '{@link de.fuberlin.winfo.project.model.network.Order#getVolume <em>Volume</em>}' attribute.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @param value the new value of the '<em>Need As Weight</em>' attribute.
-	 * @see #getNeedAsWeight()
+	 * @param value the new value of the '<em>Volume</em>' attribute.
+	 * @see #getVolume()
 	 * @generated
 	 */
-	void setNeedAsWeight(double value);
+	void setVolume(double value);
+
+	/**
+	 * Returns the value of the '<em><b>Weight</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <p>
+	 * If the meaning of the '<em>Weight</em>' attribute isn't clear,
+	 * there really should be more of a description here...
+	 * </p>
+	 * <!-- end-user-doc -->
+	 * @return the value of the '<em>Weight</em>' attribute.
+	 * @see #setWeight(double)
+	 * @see de.fuberlin.winfo.project.model.network.NetworkPackage#getOrder_Weight()
+	 * @model
+	 * @generated
+	 */
+	double getWeight();
+
+	/**
+	 * Sets the value of the '{@link de.fuberlin.winfo.project.model.network.Order#getWeight <em>Weight</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @param value the new value of the '<em>Weight</em>' attribute.
+	 * @see #getWeight()
+	 * @generated
+	 */
+	void setWeight(double value);
 
 	/**
 	 * Returns the value of the '<em><b>Time Window</b></em>' containment reference.
@@ -128,31 +181,5 @@ public interface Order extends EObject {
 	 * @generated
 	 */
 	void setStandingTimeInSec(int value);
-
-	/**
-	 * Returns the value of the '<em><b>Id</b></em>' attribute.
-	 * <!-- begin-user-doc -->
-	 * <p>
-	 * If the meaning of the '<em>Id</em>' attribute isn't clear,
-	 * there really should be more of a description here...
-	 * </p>
-	 * <!-- end-user-doc -->
-	 * @return the value of the '<em>Id</em>' attribute.
-	 * @see #setId(String)
-	 * @see de.fuberlin.winfo.project.model.network.NetworkPackage#getOrder_Id()
-	 * @model
-	 * @generated
-	 */
-	String getId();
-
-	/**
-	 * Sets the value of the '{@link de.fuberlin.winfo.project.model.network.Order#getId <em>Id</em>}' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @param value the new value of the '<em>Id</em>' attribute.
-	 * @see #getId()
-	 * @generated
-	 */
-	void setId(String value);
 
 } // Order

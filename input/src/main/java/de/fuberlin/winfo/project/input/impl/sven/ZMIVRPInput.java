@@ -59,7 +59,7 @@ public class ZMIVRPInput implements VRPInput {
 
 	@Override
 	public int getDesiredProcedure() {
-		return 1;
+		return 0;
 	}
 
 	@Override

@@ -4,7 +4,6 @@ import java.util.Iterator;
 
 import org.eclipse.emf.ecore.EObject;
 
-import de.fuberlin.winfo.project.model.network.CollectiveOrder;
 import de.fuberlin.winfo.project.model.network.Customer;
 import de.fuberlin.winfo.project.model.network.Depot;
 import de.fuberlin.winfo.project.model.network.Duration;
@@ -16,10 +15,6 @@ import de.fuberlin.winfo.project.model.network.solution.Delivery;
 import de.fuberlin.winfo.project.model.network.solution.UsedEdge;
 
 public class AlgHelper {
-
-	public static ExtendedRoute getRouteHelper(Algorithm alg, Vehicle vehicle, Node depot) {
-		return new ExtendedRoute(alg, vehicle, depot);
-	}
 
 	public static int getTimeNeededAtEnd(UsedEdge usedEdge) {
 		if (usedEdge instanceof Delivery) {
@@ -86,9 +81,6 @@ public class AlgHelper {
 	}
 
 	public static Locatable getLocatableByOrder(Order order) {
-		if (order instanceof CollectiveOrder) {
-			return (Depot) ((CollectiveOrder) order).eContainer();
-		}
 		EObject container = order.eContainer();
 		while (!(container instanceof Locatable) && container instanceof Order) {
 			container = container.eContainer();
@@ -111,13 +103,6 @@ public class AlgHelper {
 	}
 
 	public static Node getNodeByOrder(NetworkProvider np, Order order) {
-		Locatable locatable;
-		if (order instanceof CollectiveOrder) {
-			locatable = ((CollectiveOrder) order).getReceiver();
-		} else {
-			locatable = getLocatableByOrder(order);
-		}
-
-		return getNodeByLocatable(np, locatable);
+		return (Node) order.getReceiver().eContainer();
 	}
 }

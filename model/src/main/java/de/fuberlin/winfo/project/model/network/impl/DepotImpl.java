@@ -2,10 +2,11 @@
  */
 package de.fuberlin.winfo.project.model.network.impl;
 
-import de.fuberlin.winfo.project.model.network.CollectiveOrder;
 import de.fuberlin.winfo.project.model.network.Depot;
 import de.fuberlin.winfo.project.model.network.Duration;
 import de.fuberlin.winfo.project.model.network.NetworkPackage;
+import de.fuberlin.winfo.project.model.network.Order;
+
 import java.util.Collection;
 
 import org.eclipse.emf.common.notify.Notification;
@@ -128,7 +129,7 @@ public class DepotImpl extends LocatableImpl implements Depot {
 	 * @generated
 	 * @ordered
 	 */
-	protected EList<CollectiveOrder> deliveries;
+	protected EList<Order> deliveries;
 
 	/**
 	 * <!-- begin-user-doc -->
@@ -303,9 +304,9 @@ public class DepotImpl extends LocatableImpl implements Depot {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EList<CollectiveOrder> getDeliveries() {
+	public EList<Order> getDeliveries() {
 		if (deliveries == null) {
-			deliveries = new EObjectContainmentEList<CollectiveOrder>(CollectiveOrder.class, this, NetworkPackage.DEPOT__DELIVERIES);
+			deliveries = new EObjectContainmentEList<Order>(Order.class, this, NetworkPackage.DEPOT__DELIVERIES);
 		}
 		return deliveries;
 	}
@@ -378,7 +379,7 @@ public class DepotImpl extends LocatableImpl implements Depot {
 				return;
 			case NetworkPackage.DEPOT__DELIVERIES:
 				getDeliveries().clear();
-				getDeliveries().addAll((Collection<? extends CollectiveOrder>)newValue);
+				getDeliveries().addAll((Collection<? extends Order>)newValue);
 				return;
 		}
 		super.eSet(featureID, newValue);

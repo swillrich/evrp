@@ -28,9 +28,9 @@
         eType="#//solution/Solution" containment="true"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="Customer" eSuperTypes="#//Locatable">
-    <eStructuralFeatures xsi:type="ecore:EReference" name="ownedOrders" upperBound="-1"
-        eType="#//Order" containment="true"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="hasTranshipmentPoint" eType="#//Depot"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="orders" upperBound="-1"
+        eType="#//Order"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="Depot" eSuperTypes="#//Locatable">
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="fixPlaceTimeIfMultipleOperations"
@@ -42,7 +42,7 @@
     <eStructuralFeatures xsi:type="ecore:EReference" name="timeWindow" eType="#//Duration"
         containment="true"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="deliveries" upperBound="-1"
-        eType="#//CollectiveOrder" containment="true"/>
+        eType="#//Order" containment="true"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="Duration">
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="startInSec" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
@@ -73,16 +73,17 @@
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="Order">
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="id" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
-    <eStructuralFeatures xsi:type="ecore:EAttribute" name="needAsVolume" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EDouble"/>
-    <eStructuralFeatures xsi:type="ecore:EAttribute" name="needAsWeight" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EDouble"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="receiver" lowerBound="1"
+        eType="#//Customer"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="volume" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EDouble"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="weight" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EDouble"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="timeWindow" eType="#//Duration"
         containment="true"/>
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="standingTimeInSec" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="CollectiveOrder" eSuperTypes="#//Order">
-    <eStructuralFeatures xsi:type="ecore:EReference" name="consistOf" upperBound="-1"
-        eType="#//Order"/>
-    <eStructuralFeatures xsi:type="ecore:EReference" name="receiver" eType="#//Locatable"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="subOrder" lowerBound="1"
+        upperBound="-1" eType="#//Order" containment="true"/>
   </eClassifiers>
   <eSubpackages name="solution" nsURI="de.fuberlin.winfo.project.model.network.solution"
       nsPrefix="de.fuberlin.winfo.project.model.network.solution">

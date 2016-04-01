@@ -350,22 +350,22 @@ public interface NetworkPackage extends EPackage {
 	int CUSTOMER__SERVICE_TIME_IN_SEC = LOCATABLE__SERVICE_TIME_IN_SEC;
 
 	/**
-	 * The feature id for the '<em><b>Owned Orders</b></em>' containment reference list.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int CUSTOMER__OWNED_ORDERS = LOCATABLE_FEATURE_COUNT + 0;
-
-	/**
 	 * The feature id for the '<em><b>Has Transhipment Point</b></em>' reference.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int CUSTOMER__HAS_TRANSHIPMENT_POINT = LOCATABLE_FEATURE_COUNT + 1;
+	int CUSTOMER__HAS_TRANSHIPMENT_POINT = LOCATABLE_FEATURE_COUNT + 0;
+
+	/**
+	 * The feature id for the '<em><b>Orders</b></em>' reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int CUSTOMER__ORDERS = LOCATABLE_FEATURE_COUNT + 1;
 
 	/**
 	 * The number of structural features of the '<em>Customer</em>' class.
@@ -687,22 +687,31 @@ public interface NetworkPackage extends EPackage {
 	int ORDER__ID = 0;
 
 	/**
-	 * The feature id for the '<em><b>Need As Volume</b></em>' attribute.
+	 * The feature id for the '<em><b>Receiver</b></em>' reference.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int ORDER__NEED_AS_VOLUME = 1;
+	int ORDER__RECEIVER = 1;
 
 	/**
-	 * The feature id for the '<em><b>Need As Weight</b></em>' attribute.
+	 * The feature id for the '<em><b>Volume</b></em>' attribute.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int ORDER__NEED_AS_WEIGHT = 2;
+	int ORDER__VOLUME = 2;
+
+	/**
+	 * The feature id for the '<em><b>Weight</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int ORDER__WEIGHT = 3;
 
 	/**
 	 * The feature id for the '<em><b>Time Window</b></em>' containment reference.
@@ -711,7 +720,7 @@ public interface NetworkPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int ORDER__TIME_WINDOW = 3;
+	int ORDER__TIME_WINDOW = 4;
 
 	/**
 	 * The feature id for the '<em><b>Standing Time In Sec</b></em>' attribute.
@@ -720,7 +729,7 @@ public interface NetworkPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int ORDER__STANDING_TIME_IN_SEC = 4;
+	int ORDER__STANDING_TIME_IN_SEC = 5;
 
 	/**
 	 * The number of structural features of the '<em>Order</em>' class.
@@ -729,7 +738,7 @@ public interface NetworkPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int ORDER_FEATURE_COUNT = 5;
+	int ORDER_FEATURE_COUNT = 6;
 
 	/**
 	 * The number of operations of the '<em>Order</em>' class.
@@ -739,7 +748,6 @@ public interface NetworkPackage extends EPackage {
 	 * @ordered
 	 */
 	int ORDER_OPERATION_COUNT = 0;
-
 
 	/**
 	 * The meta object id for the '{@link de.fuberlin.winfo.project.model.network.impl.CollectiveOrderImpl <em>Collective Order</em>}' class.
@@ -761,22 +769,31 @@ public interface NetworkPackage extends EPackage {
 	int COLLECTIVE_ORDER__ID = ORDER__ID;
 
 	/**
-	 * The feature id for the '<em><b>Need As Volume</b></em>' attribute.
+	 * The feature id for the '<em><b>Receiver</b></em>' reference.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int COLLECTIVE_ORDER__NEED_AS_VOLUME = ORDER__NEED_AS_VOLUME;
+	int COLLECTIVE_ORDER__RECEIVER = ORDER__RECEIVER;
 
 	/**
-	 * The feature id for the '<em><b>Need As Weight</b></em>' attribute.
+	 * The feature id for the '<em><b>Volume</b></em>' attribute.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int COLLECTIVE_ORDER__NEED_AS_WEIGHT = ORDER__NEED_AS_WEIGHT;
+	int COLLECTIVE_ORDER__VOLUME = ORDER__VOLUME;
+
+	/**
+	 * The feature id for the '<em><b>Weight</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int COLLECTIVE_ORDER__WEIGHT = ORDER__WEIGHT;
 
 	/**
 	 * The feature id for the '<em><b>Time Window</b></em>' containment reference.
@@ -797,22 +814,13 @@ public interface NetworkPackage extends EPackage {
 	int COLLECTIVE_ORDER__STANDING_TIME_IN_SEC = ORDER__STANDING_TIME_IN_SEC;
 
 	/**
-	 * The feature id for the '<em><b>Consist Of</b></em>' reference list.
+	 * The feature id for the '<em><b>Sub Order</b></em>' containment reference list.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int COLLECTIVE_ORDER__CONSIST_OF = ORDER_FEATURE_COUNT + 0;
-
-	/**
-	 * The feature id for the '<em><b>Receiver</b></em>' reference.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int COLLECTIVE_ORDER__RECEIVER = ORDER_FEATURE_COUNT + 1;
+	int COLLECTIVE_ORDER__SUB_ORDER = ORDER_FEATURE_COUNT + 0;
 
 	/**
 	 * The number of structural features of the '<em>Collective Order</em>' class.
@@ -821,7 +829,7 @@ public interface NetworkPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int COLLECTIVE_ORDER_FEATURE_COUNT = ORDER_FEATURE_COUNT + 2;
+	int COLLECTIVE_ORDER_FEATURE_COUNT = ORDER_FEATURE_COUNT + 1;
 
 	/**
 	 * The number of operations of the '<em>Collective Order</em>' class.
@@ -1017,17 +1025,6 @@ public interface NetworkPackage extends EPackage {
 	EClass getCustomer();
 
 	/**
-	 * Returns the meta object for the containment reference list '{@link de.fuberlin.winfo.project.model.network.Customer#getOwnedOrders <em>Owned Orders</em>}'.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @return the meta object for the containment reference list '<em>Owned Orders</em>'.
-	 * @see de.fuberlin.winfo.project.model.network.Customer#getOwnedOrders()
-	 * @see #getCustomer()
-	 * @generated
-	 */
-	EReference getCustomer_OwnedOrders();
-
-	/**
 	 * Returns the meta object for the reference '{@link de.fuberlin.winfo.project.model.network.Customer#getHasTranshipmentPoint <em>Has Transhipment Point</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -1037,6 +1034,17 @@ public interface NetworkPackage extends EPackage {
 	 * @generated
 	 */
 	EReference getCustomer_HasTranshipmentPoint();
+
+	/**
+	 * Returns the meta object for the reference list '{@link de.fuberlin.winfo.project.model.network.Customer#getOrders <em>Orders</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the reference list '<em>Orders</em>'.
+	 * @see de.fuberlin.winfo.project.model.network.Customer#getOrders()
+	 * @see #getCustomer()
+	 * @generated
+	 */
+	EReference getCustomer_Orders();
 
 	/**
 	 * Returns the meta object for class '{@link de.fuberlin.winfo.project.model.network.Depot <em>Depot</em>}'.
@@ -1331,26 +1339,48 @@ public interface NetworkPackage extends EPackage {
 	EClass getOrder();
 
 	/**
-	 * Returns the meta object for the attribute '{@link de.fuberlin.winfo.project.model.network.Order#getNeedAsVolume <em>Need As Volume</em>}'.
+	 * Returns the meta object for the attribute '{@link de.fuberlin.winfo.project.model.network.Order#getId <em>Id</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @return the meta object for the attribute '<em>Need As Volume</em>'.
-	 * @see de.fuberlin.winfo.project.model.network.Order#getNeedAsVolume()
+	 * @return the meta object for the attribute '<em>Id</em>'.
+	 * @see de.fuberlin.winfo.project.model.network.Order#getId()
 	 * @see #getOrder()
 	 * @generated
 	 */
-	EAttribute getOrder_NeedAsVolume();
+	EAttribute getOrder_Id();
 
 	/**
-	 * Returns the meta object for the attribute '{@link de.fuberlin.winfo.project.model.network.Order#getNeedAsWeight <em>Need As Weight</em>}'.
+	 * Returns the meta object for the reference '{@link de.fuberlin.winfo.project.model.network.Order#getReceiver <em>Receiver</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @return the meta object for the attribute '<em>Need As Weight</em>'.
-	 * @see de.fuberlin.winfo.project.model.network.Order#getNeedAsWeight()
+	 * @return the meta object for the reference '<em>Receiver</em>'.
+	 * @see de.fuberlin.winfo.project.model.network.Order#getReceiver()
 	 * @see #getOrder()
 	 * @generated
 	 */
-	EAttribute getOrder_NeedAsWeight();
+	EReference getOrder_Receiver();
+
+	/**
+	 * Returns the meta object for the attribute '{@link de.fuberlin.winfo.project.model.network.Order#getVolume <em>Volume</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the attribute '<em>Volume</em>'.
+	 * @see de.fuberlin.winfo.project.model.network.Order#getVolume()
+	 * @see #getOrder()
+	 * @generated
+	 */
+	EAttribute getOrder_Volume();
+
+	/**
+	 * Returns the meta object for the attribute '{@link de.fuberlin.winfo.project.model.network.Order#getWeight <em>Weight</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the attribute '<em>Weight</em>'.
+	 * @see de.fuberlin.winfo.project.model.network.Order#getWeight()
+	 * @see #getOrder()
+	 * @generated
+	 */
+	EAttribute getOrder_Weight();
 
 	/**
 	 * Returns the meta object for the containment reference '{@link de.fuberlin.winfo.project.model.network.Order#getTimeWindow <em>Time Window</em>}'.
@@ -1385,37 +1415,15 @@ public interface NetworkPackage extends EPackage {
 	EClass getCollectiveOrder();
 
 	/**
-	 * Returns the meta object for the reference list '{@link de.fuberlin.winfo.project.model.network.CollectiveOrder#getConsistOf <em>Consist Of</em>}'.
+	 * Returns the meta object for the containment reference list '{@link de.fuberlin.winfo.project.model.network.CollectiveOrder#getSubOrder <em>Sub Order</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @return the meta object for the reference list '<em>Consist Of</em>'.
-	 * @see de.fuberlin.winfo.project.model.network.CollectiveOrder#getConsistOf()
+	 * @return the meta object for the containment reference list '<em>Sub Order</em>'.
+	 * @see de.fuberlin.winfo.project.model.network.CollectiveOrder#getSubOrder()
 	 * @see #getCollectiveOrder()
 	 * @generated
 	 */
-	EReference getCollectiveOrder_ConsistOf();
-
-	/**
-	 * Returns the meta object for the reference '{@link de.fuberlin.winfo.project.model.network.CollectiveOrder#getReceiver <em>Receiver</em>}'.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @return the meta object for the reference '<em>Receiver</em>'.
-	 * @see de.fuberlin.winfo.project.model.network.CollectiveOrder#getReceiver()
-	 * @see #getCollectiveOrder()
-	 * @generated
-	 */
-	EReference getCollectiveOrder_Receiver();
-
-	/**
-	 * Returns the meta object for the attribute '{@link de.fuberlin.winfo.project.model.network.Order#getId <em>Id</em>}'.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @return the meta object for the attribute '<em>Id</em>'.
-	 * @see de.fuberlin.winfo.project.model.network.Order#getId()
-	 * @see #getOrder()
-	 * @generated
-	 */
-	EAttribute getOrder_Id();
+	EReference getCollectiveOrder_SubOrder();
 
 	/**
 	 * Returns the factory that creates the instances of the model.
@@ -1585,20 +1593,20 @@ public interface NetworkPackage extends EPackage {
 		EClass CUSTOMER = eINSTANCE.getCustomer();
 
 		/**
-		 * The meta object literal for the '<em><b>Owned Orders</b></em>' containment reference list feature.
-		 * <!-- begin-user-doc -->
-		 * <!-- end-user-doc -->
-		 * @generated
-		 */
-		EReference CUSTOMER__OWNED_ORDERS = eINSTANCE.getCustomer_OwnedOrders();
-
-		/**
 		 * The meta object literal for the '<em><b>Has Transhipment Point</b></em>' reference feature.
 		 * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
 		 * @generated
 		 */
 		EReference CUSTOMER__HAS_TRANSHIPMENT_POINT = eINSTANCE.getCustomer_HasTranshipmentPoint();
+
+		/**
+		 * The meta object literal for the '<em><b>Orders</b></em>' reference list feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EReference CUSTOMER__ORDERS = eINSTANCE.getCustomer_Orders();
 
 		/**
 		 * The meta object literal for the '{@link de.fuberlin.winfo.project.model.network.impl.DepotImpl <em>Depot</em>}' class.
@@ -1827,20 +1835,36 @@ public interface NetworkPackage extends EPackage {
 		EClass ORDER = eINSTANCE.getOrder();
 
 		/**
-		 * The meta object literal for the '<em><b>Need As Volume</b></em>' attribute feature.
+		 * The meta object literal for the '<em><b>Id</b></em>' attribute feature.
 		 * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
 		 * @generated
 		 */
-		EAttribute ORDER__NEED_AS_VOLUME = eINSTANCE.getOrder_NeedAsVolume();
+		EAttribute ORDER__ID = eINSTANCE.getOrder_Id();
 
 		/**
-		 * The meta object literal for the '<em><b>Need As Weight</b></em>' attribute feature.
+		 * The meta object literal for the '<em><b>Receiver</b></em>' reference feature.
 		 * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
 		 * @generated
 		 */
-		EAttribute ORDER__NEED_AS_WEIGHT = eINSTANCE.getOrder_NeedAsWeight();
+		EReference ORDER__RECEIVER = eINSTANCE.getOrder_Receiver();
+
+		/**
+		 * The meta object literal for the '<em><b>Volume</b></em>' attribute feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute ORDER__VOLUME = eINSTANCE.getOrder_Volume();
+
+		/**
+		 * The meta object literal for the '<em><b>Weight</b></em>' attribute feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute ORDER__WEIGHT = eINSTANCE.getOrder_Weight();
 
 		/**
 		 * The meta object literal for the '<em><b>Time Window</b></em>' containment reference feature.
@@ -1869,28 +1893,12 @@ public interface NetworkPackage extends EPackage {
 		EClass COLLECTIVE_ORDER = eINSTANCE.getCollectiveOrder();
 
 		/**
-		 * The meta object literal for the '<em><b>Consist Of</b></em>' reference list feature.
+		 * The meta object literal for the '<em><b>Sub Order</b></em>' containment reference list feature.
 		 * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
 		 * @generated
 		 */
-		EReference COLLECTIVE_ORDER__CONSIST_OF = eINSTANCE.getCollectiveOrder_ConsistOf();
-
-		/**
-		 * The meta object literal for the '<em><b>Receiver</b></em>' reference feature.
-		 * <!-- begin-user-doc -->
-		 * <!-- end-user-doc -->
-		 * @generated
-		 */
-		EReference COLLECTIVE_ORDER__RECEIVER = eINSTANCE.getCollectiveOrder_Receiver();
-
-		/**
-		 * The meta object literal for the '<em><b>Id</b></em>' attribute feature.
-		 * <!-- begin-user-doc -->
-		 * <!-- end-user-doc -->
-		 * @generated
-		 */
-		EAttribute ORDER__ID = eINSTANCE.getOrder_Id();
+		EReference COLLECTIVE_ORDER__SUB_ORDER = eINSTANCE.getCollectiveOrder_SubOrder();
 
 	}
 

@@ -3,18 +3,20 @@
 package de.fuberlin.winfo.project.model.network.impl;
 
 import de.fuberlin.winfo.project.model.network.CollectiveOrder;
-import de.fuberlin.winfo.project.model.network.Locatable;
 import de.fuberlin.winfo.project.model.network.NetworkPackage;
 import de.fuberlin.winfo.project.model.network.Order;
 
 import java.util.Collection;
-import org.eclipse.emf.common.notify.Notification;
+
+import org.eclipse.emf.common.notify.NotificationChain;
+
 import org.eclipse.emf.common.util.EList;
 
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.InternalEObject;
-import org.eclipse.emf.ecore.impl.ENotificationImpl;
-import org.eclipse.emf.ecore.util.EObjectResolvingEList;
+
+import org.eclipse.emf.ecore.util.EObjectContainmentEList;
+import org.eclipse.emf.ecore.util.InternalEList;
 
 /**
  * <!-- begin-user-doc -->
@@ -24,32 +26,21 @@ import org.eclipse.emf.ecore.util.EObjectResolvingEList;
  * The following features are implemented:
  * </p>
  * <ul>
- *   <li>{@link de.fuberlin.winfo.project.model.network.impl.CollectiveOrderImpl#getConsistOf <em>Consist Of</em>}</li>
- *   <li>{@link de.fuberlin.winfo.project.model.network.impl.CollectiveOrderImpl#getReceiver <em>Receiver</em>}</li>
+ *   <li>{@link de.fuberlin.winfo.project.model.network.impl.CollectiveOrderImpl#getSubOrder <em>Sub Order</em>}</li>
  * </ul>
  *
  * @generated
  */
 public class CollectiveOrderImpl extends OrderImpl implements CollectiveOrder {
 	/**
-	 * The cached value of the '{@link #getConsistOf() <em>Consist Of</em>}' reference list.
+	 * The cached value of the '{@link #getSubOrder() <em>Sub Order</em>}' containment reference list.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @see #getConsistOf()
+	 * @see #getSubOrder()
 	 * @generated
 	 * @ordered
 	 */
-	protected EList<Order> consistOf;
-
-	/**
-	 * The cached value of the '{@link #getReceiver() <em>Receiver</em>}' reference.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @see #getReceiver()
-	 * @generated
-	 * @ordered
-	 */
-	protected Locatable receiver;
+	protected EList<Order> subOrder;
 
 	/**
 	 * <!-- begin-user-doc -->
@@ -75,11 +66,11 @@ public class CollectiveOrderImpl extends OrderImpl implements CollectiveOrder {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EList<Order> getConsistOf() {
-		if (consistOf == null) {
-			consistOf = new EObjectResolvingEList<Order>(Order.class, this, NetworkPackage.COLLECTIVE_ORDER__CONSIST_OF);
+	public EList<Order> getSubOrder() {
+		if (subOrder == null) {
+			subOrder = new EObjectContainmentEList<Order>(Order.class, this, NetworkPackage.COLLECTIVE_ORDER__SUB_ORDER);
 		}
-		return consistOf;
+		return subOrder;
 	}
 
 	/**
@@ -87,37 +78,13 @@ public class CollectiveOrderImpl extends OrderImpl implements CollectiveOrder {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public Locatable getReceiver() {
-		if (receiver != null && receiver.eIsProxy()) {
-			InternalEObject oldReceiver = (InternalEObject)receiver;
-			receiver = (Locatable)eResolveProxy(oldReceiver);
-			if (receiver != oldReceiver) {
-				if (eNotificationRequired())
-					eNotify(new ENotificationImpl(this, Notification.RESOLVE, NetworkPackage.COLLECTIVE_ORDER__RECEIVER, oldReceiver, receiver));
-			}
+	@Override
+	public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, NotificationChain msgs) {
+		switch (featureID) {
+			case NetworkPackage.COLLECTIVE_ORDER__SUB_ORDER:
+				return ((InternalEList<?>)getSubOrder()).basicRemove(otherEnd, msgs);
 		}
-		return receiver;
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public Locatable basicGetReceiver() {
-		return receiver;
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public void setReceiver(Locatable newReceiver) {
-		Locatable oldReceiver = receiver;
-		receiver = newReceiver;
-		if (eNotificationRequired())
-			eNotify(new ENotificationImpl(this, Notification.SET, NetworkPackage.COLLECTIVE_ORDER__RECEIVER, oldReceiver, receiver));
+		return super.eInverseRemove(otherEnd, featureID, msgs);
 	}
 
 	/**
@@ -128,11 +95,8 @@ public class CollectiveOrderImpl extends OrderImpl implements CollectiveOrder {
 	@Override
 	public Object eGet(int featureID, boolean resolve, boolean coreType) {
 		switch (featureID) {
-			case NetworkPackage.COLLECTIVE_ORDER__CONSIST_OF:
-				return getConsistOf();
-			case NetworkPackage.COLLECTIVE_ORDER__RECEIVER:
-				if (resolve) return getReceiver();
-				return basicGetReceiver();
+			case NetworkPackage.COLLECTIVE_ORDER__SUB_ORDER:
+				return getSubOrder();
 		}
 		return super.eGet(featureID, resolve, coreType);
 	}
@@ -146,12 +110,9 @@ public class CollectiveOrderImpl extends OrderImpl implements CollectiveOrder {
 	@Override
 	public void eSet(int featureID, Object newValue) {
 		switch (featureID) {
-			case NetworkPackage.COLLECTIVE_ORDER__CONSIST_OF:
-				getConsistOf().clear();
-				getConsistOf().addAll((Collection<? extends Order>)newValue);
-				return;
-			case NetworkPackage.COLLECTIVE_ORDER__RECEIVER:
-				setReceiver((Locatable)newValue);
+			case NetworkPackage.COLLECTIVE_ORDER__SUB_ORDER:
+				getSubOrder().clear();
+				getSubOrder().addAll((Collection<? extends Order>)newValue);
 				return;
 		}
 		super.eSet(featureID, newValue);
@@ -165,11 +126,8 @@ public class CollectiveOrderImpl extends OrderImpl implements CollectiveOrder {
 	@Override
 	public void eUnset(int featureID) {
 		switch (featureID) {
-			case NetworkPackage.COLLECTIVE_ORDER__CONSIST_OF:
-				getConsistOf().clear();
-				return;
-			case NetworkPackage.COLLECTIVE_ORDER__RECEIVER:
-				setReceiver((Locatable)null);
+			case NetworkPackage.COLLECTIVE_ORDER__SUB_ORDER:
+				getSubOrder().clear();
 				return;
 		}
 		super.eUnset(featureID);
@@ -183,10 +141,8 @@ public class CollectiveOrderImpl extends OrderImpl implements CollectiveOrder {
 	@Override
 	public boolean eIsSet(int featureID) {
 		switch (featureID) {
-			case NetworkPackage.COLLECTIVE_ORDER__CONSIST_OF:
-				return consistOf != null && !consistOf.isEmpty();
-			case NetworkPackage.COLLECTIVE_ORDER__RECEIVER:
-				return receiver != null;
+			case NetworkPackage.COLLECTIVE_ORDER__SUB_ORDER:
+				return subOrder != null && !subOrder.isEmpty();
 		}
 		return super.eIsSet(featureID);
 	}

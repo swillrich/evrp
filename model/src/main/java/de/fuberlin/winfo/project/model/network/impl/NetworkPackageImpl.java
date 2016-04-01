@@ -327,7 +327,7 @@ public class NetworkPackageImpl extends EPackageImpl implements NetworkPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EReference getCustomer_OwnedOrders() {
+	public EReference getCustomer_HasTranshipmentPoint() {
 		return (EReference)customerEClass.getEStructuralFeatures().get(0);
 	}
 
@@ -336,7 +336,7 @@ public class NetworkPackageImpl extends EPackageImpl implements NetworkPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EReference getCustomer_HasTranshipmentPoint() {
+	public EReference getCustomer_Orders() {
 		return (EReference)customerEClass.getEStructuralFeatures().get(1);
 	}
 
@@ -588,8 +588,8 @@ public class NetworkPackageImpl extends EPackageImpl implements NetworkPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EAttribute getOrder_NeedAsVolume() {
-		return (EAttribute)orderEClass.getEStructuralFeatures().get(1);
+	public EAttribute getOrder_Id() {
+		return (EAttribute)orderEClass.getEStructuralFeatures().get(0);
 	}
 
 	/**
@@ -597,7 +597,16 @@ public class NetworkPackageImpl extends EPackageImpl implements NetworkPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EAttribute getOrder_NeedAsWeight() {
+	public EReference getOrder_Receiver() {
+		return (EReference)orderEClass.getEStructuralFeatures().get(1);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EAttribute getOrder_Volume() {
 		return (EAttribute)orderEClass.getEStructuralFeatures().get(2);
 	}
 
@@ -606,8 +615,17 @@ public class NetworkPackageImpl extends EPackageImpl implements NetworkPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	public EAttribute getOrder_Weight() {
+		return (EAttribute)orderEClass.getEStructuralFeatures().get(3);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	public EReference getOrder_TimeWindow() {
-		return (EReference)orderEClass.getEStructuralFeatures().get(3);
+		return (EReference)orderEClass.getEStructuralFeatures().get(4);
 	}
 
 	/**
@@ -616,7 +634,7 @@ public class NetworkPackageImpl extends EPackageImpl implements NetworkPackage {
 	 * @generated
 	 */
 	public EAttribute getOrder_StandingTimeInSec() {
-		return (EAttribute)orderEClass.getEStructuralFeatures().get(4);
+		return (EAttribute)orderEClass.getEStructuralFeatures().get(5);
 	}
 
 	/**
@@ -633,26 +651,8 @@ public class NetworkPackageImpl extends EPackageImpl implements NetworkPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EReference getCollectiveOrder_ConsistOf() {
+	public EReference getCollectiveOrder_SubOrder() {
 		return (EReference)collectiveOrderEClass.getEStructuralFeatures().get(0);
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public EReference getCollectiveOrder_Receiver() {
-		return (EReference)collectiveOrderEClass.getEStructuralFeatures().get(1);
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public EAttribute getOrder_Id() {
-		return (EAttribute)orderEClass.getEStructuralFeatures().get(0);
 	}
 
 	/**
@@ -703,8 +703,8 @@ public class NetworkPackageImpl extends EPackageImpl implements NetworkPackage {
 		createEReference(networkEClass, NETWORK__SOLUTION);
 
 		customerEClass = createEClass(CUSTOMER);
-		createEReference(customerEClass, CUSTOMER__OWNED_ORDERS);
 		createEReference(customerEClass, CUSTOMER__HAS_TRANSHIPMENT_POINT);
+		createEReference(customerEClass, CUSTOMER__ORDERS);
 
 		depotEClass = createEClass(DEPOT);
 		createEAttribute(depotEClass, DEPOT__FIX_PLACE_TIME_IF_MULTIPLE_OPERATIONS);
@@ -738,14 +738,14 @@ public class NetworkPackageImpl extends EPackageImpl implements NetworkPackage {
 
 		orderEClass = createEClass(ORDER);
 		createEAttribute(orderEClass, ORDER__ID);
-		createEAttribute(orderEClass, ORDER__NEED_AS_VOLUME);
-		createEAttribute(orderEClass, ORDER__NEED_AS_WEIGHT);
+		createEReference(orderEClass, ORDER__RECEIVER);
+		createEAttribute(orderEClass, ORDER__VOLUME);
+		createEAttribute(orderEClass, ORDER__WEIGHT);
 		createEReference(orderEClass, ORDER__TIME_WINDOW);
 		createEAttribute(orderEClass, ORDER__STANDING_TIME_IN_SEC);
 
 		collectiveOrderEClass = createEClass(COLLECTIVE_ORDER);
-		createEReference(collectiveOrderEClass, COLLECTIVE_ORDER__CONSIST_OF);
-		createEReference(collectiveOrderEClass, COLLECTIVE_ORDER__RECEIVER);
+		createEReference(collectiveOrderEClass, COLLECTIVE_ORDER__SUB_ORDER);
 	}
 
 	/**
@@ -807,8 +807,8 @@ public class NetworkPackageImpl extends EPackageImpl implements NetworkPackage {
 		initEReference(getNetwork_Solution(), theSolutionPackage.getSolution(), null, "solution", null, 0, -1, Network.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		initEClass(customerEClass, Customer.class, "Customer", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
-		initEReference(getCustomer_OwnedOrders(), this.getOrder(), null, "ownedOrders", null, 0, -1, Customer.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEReference(getCustomer_HasTranshipmentPoint(), this.getDepot(), null, "hasTranshipmentPoint", null, 0, 1, Customer.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEReference(getCustomer_Orders(), this.getOrder(), null, "orders", null, 0, -1, Customer.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		initEClass(depotEClass, Depot.class, "Depot", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 		initEAttribute(getDepot_FixPlaceTimeIfMultipleOperations(), ecorePackage.getEInt(), "fixPlaceTimeIfMultipleOperations", null, 0, 1, Depot.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
@@ -816,7 +816,7 @@ public class NetworkPackageImpl extends EPackageImpl implements NetworkPackage {
 		initEAttribute(getDepot_MaxTourLength(), ecorePackage.getEInt(), "maxTourLength", null, 0, 1, Depot.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEAttribute(getDepot_MaxEmployment(), ecorePackage.getEInt(), "maxEmployment", null, 0, 1, Depot.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEReference(getDepot_TimeWindow(), this.getDuration(), null, "timeWindow", null, 0, 1, Depot.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-		initEReference(getDepot_Deliveries(), this.getCollectiveOrder(), null, "deliveries", null, 0, -1, Depot.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEReference(getDepot_Deliveries(), this.getOrder(), null, "deliveries", null, 0, -1, Depot.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		initEClass(durationEClass, Duration.class, "Duration", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 		initEAttribute(getDuration_StartInSec(), ecorePackage.getEInt(), "startInSec", null, 0, 1, Duration.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
@@ -842,14 +842,14 @@ public class NetworkPackageImpl extends EPackageImpl implements NetworkPackage {
 
 		initEClass(orderEClass, Order.class, "Order", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 		initEAttribute(getOrder_Id(), ecorePackage.getEString(), "id", null, 0, 1, Order.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-		initEAttribute(getOrder_NeedAsVolume(), ecorePackage.getEDouble(), "needAsVolume", null, 0, 1, Order.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-		initEAttribute(getOrder_NeedAsWeight(), ecorePackage.getEDouble(), "needAsWeight", null, 0, 1, Order.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEReference(getOrder_Receiver(), this.getCustomer(), null, "receiver", null, 1, 1, Order.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEAttribute(getOrder_Volume(), ecorePackage.getEDouble(), "volume", null, 0, 1, Order.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEAttribute(getOrder_Weight(), ecorePackage.getEDouble(), "weight", null, 0, 1, Order.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEReference(getOrder_TimeWindow(), this.getDuration(), null, "timeWindow", null, 0, 1, Order.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEAttribute(getOrder_StandingTimeInSec(), ecorePackage.getEInt(), "standingTimeInSec", null, 0, 1, Order.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		initEClass(collectiveOrderEClass, CollectiveOrder.class, "CollectiveOrder", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
-		initEReference(getCollectiveOrder_ConsistOf(), this.getOrder(), null, "consistOf", null, 0, -1, CollectiveOrder.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-		initEReference(getCollectiveOrder_Receiver(), this.getLocatable(), null, "receiver", null, 0, 1, CollectiveOrder.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEReference(getCollectiveOrder_SubOrder(), this.getOrder(), null, "subOrder", null, 1, -1, CollectiveOrder.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		// Create resource
 		createResource(eNS_URI);
