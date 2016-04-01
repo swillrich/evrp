@@ -12,7 +12,6 @@ import de.fuberlin.winfo.project.algorithm.ExtendedRouteWrapper;
 import de.fuberlin.winfo.project.algorithm.impl.Commissioning;
 import de.fuberlin.winfo.project.algorithm.restriction.RestrictionException;
 import de.fuberlin.winfo.project.algorithm.restriction.impl.CargoCapacityRestriction;
-import de.fuberlin.winfo.project.algorithm.restriction.impl.TimeWindowRestriction;
 import de.fuberlin.winfo.project.algorithm.restriction.impl.VehicleRangeRestriction;
 import de.fuberlin.winfo.project.model.network.Depot;
 import de.fuberlin.winfo.project.model.network.Edge;
@@ -22,7 +21,7 @@ import de.fuberlin.winfo.project.model.network.Vehicle;
 import de.fuberlin.winfo.project.model.network.solution.Solution;
 import de.fuberlin.winfo.project.model.network.solution.UsedEdge;
 
-public class SimpleNearestNeighbor extends Algorithm {
+public class SvensAlg extends Algorithm {
 
 	@Override
 	public String getName() {
@@ -37,7 +36,7 @@ public class SimpleNearestNeighbor extends Algorithm {
 
 		restrictions.add(new CargoCapacityRestriction());
 		restrictions.add(new VehicleRangeRestriction());
-		restrictions.add(new TimeWindowRestriction());
+		// restrictions.add(new TimeWindowRestriction());
 
 		Commissioning.pickCustomerOrder(networkProvider.getLocatables().getMainDepot(),
 				networkProvider.getLocatables().getCustomer());
@@ -103,36 +102,44 @@ public class SimpleNearestNeighbor extends Algorithm {
 				return 1;
 			}
 
-			// initial pendulum tour
+			// initial pendulum tour (Nearest Neighbor)
 			if (route.getModelRoute().getWay().isEmpty()) {
-				return Integer.compare(computeCosts(route.getDepot(), n1), computeCosts(route.getDepot(), n2));
+				return Integer.compare(distance(route.getDepot(), n1), distance(route.getDepot(), n2));
 			}
 
-			UsedEdge n1UsedEdge = computeMin(n1);
+			UsedEdge n1UsedEdge = returnMin(n1);
 			o1.setPos(route.getModelRoute().getWay().indexOf(n1UsedEdge));
 
-			UsedEdge n2UsedEdge = computeMin(n2);
+			UsedEdge n2UsedEdge = returnMin(n2);
 			o2.setPos(route.getModelRoute().getWay().indexOf(n2UsedEdge));
 
-			int costs1 = computeCosts(n1, n1UsedEdge.getEdge().getEnd());
-			int costs2 = computeCosts(n2, n2UsedEdge.getEdge().getEnd());
+			int costs1 = computeCheapestInsertion(n1UsedEdge, n1);
+			int costs2 = computeCheapestInsertion(n2UsedEdge, n2);
 
 			return Integer.compare(costs1, costs2);
 		}
 
-		private UsedEdge computeMin(Node n1) {
+		private UsedEdge returnMin(Node node) {
 			return Collections.min(route.getModelRoute().getWay(), new Comparator<UsedEdge>() {
 				@Override
 				public int compare(UsedEdge o1, UsedEdge o2) {
-					int a = computeCosts(o1.getEdge().getEnd(), n1);
-					int b = computeCosts(o2.getEdge().getEnd(), n1);
+					int a = computeCheapestInsertion(o1, node);
+					int b = computeCheapestInsertion(o2, node);
 					return Integer.compare(a, b);
 				}
 			});
 		}
 
-		private int computeCosts(Node n1, Node n2) {
-			return E[n1.getId()][n2.getId()].getDistance();
+		private int computeCheapestInsertion(UsedEdge usedEdge, Node newNode) {
+			// Insertion Heuristics
+			int Dik = E[usedEdge.getEdge().getStart().getId()][newNode.getId()].getDistance();
+			int Dkj = E[newNode.getId()][usedEdge.getEdge().getEnd().getId()].getDistance();
+			int Dij = usedEdge.getEdge().getDistance();
+			return Dik + Dkj - Dij;
+		}
+
+		private int distance(Node a, Node b) {
+			return E[a.getId()][b.getId()].getDistance();
 		}
 	};
 

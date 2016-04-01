@@ -2,7 +2,7 @@ package de.fuberlin.winfo.project.algorithm;
 
 import java.util.ArrayList;
 
-import de.fuberlin.winfo.project.algorithm.impl.sven.SimpleNearestNeighbor;
+import de.fuberlin.winfo.project.algorithm.impl.sven.SvensAlg;
 
 /**
  * @author willrich
@@ -17,7 +17,7 @@ public class Algorithms extends ArrayList<Algorithm> {
 	 */
 	{
 		int i = 0;
-		add(i++, new SimpleNearestNeighbor());
+		add(i++, new SvensAlg());
 	}
 
 	@Override
