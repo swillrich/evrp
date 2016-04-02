@@ -9,7 +9,7 @@ import de.fuberlin.winfo.project.model.network.Order;
 
 public class OrderPriorityQueue extends PriorityQueue<PendingOrder> {
 	public OrderPriorityQueue(NetworkProvider np, ExtRoute route, List<Order> leftOrders) {
-		super(new OrderComparator(route, np));
+		super(new PendingOrderComparator(route, np));
 		for (Order order : leftOrders) {
 			PendingOrder pendingOrder = new PendingOrder();
 			pendingOrder.setOrder(order);

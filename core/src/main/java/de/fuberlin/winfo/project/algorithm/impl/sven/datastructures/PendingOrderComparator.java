@@ -10,12 +10,12 @@ import de.fuberlin.winfo.project.model.network.Edge;
 import de.fuberlin.winfo.project.model.network.Node;
 import de.fuberlin.winfo.project.model.network.solution.UsedEdge;
 
-public class OrderComparator implements Comparator<PendingOrder> {
+public class PendingOrderComparator implements Comparator<PendingOrder> {
 	private ExtRoute route;
 	private NetworkProvider np;
 	private Edge[][] E;
 
-	public OrderComparator(ExtRoute route, NetworkProvider np) {
+	public PendingOrderComparator(ExtRoute route, NetworkProvider np) {
 		this.route = route;
 		this.np = np;
 		this.E = np.getEdges();
@@ -43,8 +43,8 @@ public class OrderComparator implements Comparator<PendingOrder> {
 		UsedEdge n2UsedEdge = returnMin(n2);
 		o2.setPos(route.getModelRoute().getWay().indexOf(n2UsedEdge));
 
-		int costs1 = computeCheapestInsertion(n1UsedEdge, n1);
-		int costs2 = computeCheapestInsertion(n2UsedEdge, n2);
+		int costs1 = calculateByInsertionHeuristics(n1UsedEdge, n1);
+		int costs2 = calculateByInsertionHeuristics(n2UsedEdge, n2);
 
 		return Integer.compare(costs1, costs2);
 	}
@@ -53,14 +53,14 @@ public class OrderComparator implements Comparator<PendingOrder> {
 		return Collections.min(route.getModelRoute().getWay(), new Comparator<UsedEdge>() {
 			@Override
 			public int compare(UsedEdge o1, UsedEdge o2) {
-				int a = computeCheapestInsertion(o1, node);
-				int b = computeCheapestInsertion(o2, node);
+				int a = calculateByInsertionHeuristics(o1, node);
+				int b = calculateByInsertionHeuristics(o2, node);
 				return Integer.compare(a, b);
 			}
 		});
 	}
 
-	private int computeCheapestInsertion(UsedEdge usedEdge, Node newNode) {
+	private int calculateByInsertionHeuristics(UsedEdge usedEdge, Node newNode) {
 		// Insertion Heuristics
 		int Dik = E[usedEdge.getEdge().getStart().getId()][newNode.getId()].getDistance();
 		int Dkj = E[newNode.getId()][usedEdge.getEdge().getEnd().getId()].getDistance();
