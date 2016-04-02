@@ -7,9 +7,9 @@ The project is a Maven project (tested and executable with Maven version 3.3.3 (
 
 1. provide an input data implementation (as part of the implementation, select an algorithm desired to be used) to get the input data ready-to-use 
 2. start the RPS with that input data implementation (and the previously selected algorithm)
-3. depending on own needs, visualize the solution by invoking the visualization server and take advantages of a map, the routes in more detail and other features.
+3. depending on own needs, visualize the solution by invoking the visualization server and take advantages of a map, the routes in detail and other features.
 
-#### The sub folder in more detail as follows
+#### The sub folder in detail as follows
 
 ##### repo
 The repo folder is a maven in-project repository which contains primarily all 3rd-party dependencies being inaccessible by the public maven repositories.
