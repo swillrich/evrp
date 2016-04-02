@@ -17,11 +17,11 @@ import de.fuberlin.winfo.project.output.VisualizationServerRequest;
  *         Main component which coordinates the interchange / intercommunication
  *         between all participating components.
  */
-public class Informationsystem {
+public class RoutePlanningSystem {
 
 	private VRPInput input;
 
-	public Informationsystem(VRPInput input) {
+	public RoutePlanningSystem(VRPInput input) {
 		this.input = input;
 	}
 

@@ -9,7 +9,7 @@ public class TestRunner {
 	@Test
 	public void TestAlg() {
 		try {
-			Informationsystem is = new Informationsystem(new ZMIVRPInput());
+			RoutePlanningSystem is = new RoutePlanningSystem(new ZMIVRPInput());
 			is.work();
 		} catch (Exception e) {
 			e.printStackTrace();
