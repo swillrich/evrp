@@ -1,7 +1,7 @@
 # vrp
 This repository contains an implementation (a Route Planning System (RPS)) to solve the Vehicle Routing Problem.
 
-The project is built by Maven (tested and executable with Maven version 3.3.3 (mvn --version)) and consists of several Maven sub modules shown as sub folders in the root directory (except the repo folder).
+The project is a Maven project (tested and executable with Maven version 3.3.3 (mvn --version)) and consists of several Maven sub modules shown as sub folders in the root directory (except the repo folder).
 
 **General and brief introduction**, the workflow:
 
