@@ -26,6 +26,9 @@ The sub module model contains the domain model. The domain model is specified by
 
 In addition, the (statically) graphical model (UML class diagram) is provided by the .aird file which is also located in the model folder. To enjoy this feature, the installation of another Eclipse plugin is required (http://www.eclipse.org/ecoretools/doc/).
 
+The class diagram is also depictured in the following figure:
+![alt text](https://github.com/swillrich/vrp/tree/master/model/model/network class diagram.jpg "Structural view by class diagram")
+
 ##### visualization
 
 The visualization sub module contains a visualization server. The server can be started by invoking the main method in `de.fuberlin.winfo.project.visualization.web.start.GuiStart` whereupon the server including an interactive user interface starts. If not changed by other, the port is 8080. The port can also be reconfigured in this `GuiStart` class while instantiating the `VisualizationServer` class. The server can be serviced by multiple networks and solutions. The RPS can called repeatedly while the visualization server needs to be invoked once. For each RPS call, the solution can be forwarded to the visualization server which takes care to provide all data received by the RPS. This is realized by a transient cache. In other words: If the server goes down, the data are lost. As long as the server is running, the data are getting collected.
