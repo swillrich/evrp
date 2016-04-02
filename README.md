@@ -3,6 +3,12 @@ This repository contains an implementation (a Route Planning System (RPS)) to so
 
 The project is built by Maven (tested and executable with Maven version 3.3.3 (mvn --version)) and consists of several Maven sub modules shown as sub folders in the root directory (except the repo folder).
 
+**General and brief introduction**, the workflow:
+
+1. provide an input data implementation (as part of the implementation, select an algorithm desired to be used) to get the input data ready-to-use 
+2. start the RPS with that input data implementation (and the previously selected algorithm)
+3. depending on own needs, visualize the solution by invoking the visualization server and take advantages of a map, the routes in more detail and other features.
+
 #### The sub folder in more detail as follows
 
 ##### repo
