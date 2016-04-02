@@ -24,7 +24,7 @@ Furthermore, the package `de.fuberlin.winfo.project.algorithm` contains all algo
 ##### model
 The sub module model contains the domain model. The domain model is specified by Eclipse Modeling Framework (EMF) and is serialized by .ecore. With the EMF Eclipse Extension, the domain model can be customized in any way desired. Only two steps are required: redesign the ecore model and open the .genmodel file and rebuild the classes (the java classes will be derived automatically by the ecore model and placed within the model project). Afterwards, the previous java domain model implementation is getting overwritten. Normally (tested with Eclipse), the changes take effect immediately and can be used in other sub modules, i.e., the core sub module.
 
-In addition, the graphical model is provided by the .aird file which is also located in the model folder. To enjoy this feature, the installation of another Eclipse plugin is required (http://www.eclipse.org/ecoretools/doc/).
+In addition, the (statically) graphical model (UML class diagram) is provided by the .aird file which is also located in the model folder. To enjoy this feature, the installation of another Eclipse plugin is required (http://www.eclipse.org/ecoretools/doc/).
 
 ##### visualization
 
