@@ -15,13 +15,13 @@ import de.fuberlin.winfo.project.model.network.solution.Delivery;
 import de.fuberlin.winfo.project.model.network.solution.Route;
 import de.fuberlin.winfo.project.model.network.solution.UsedEdge;
 
-public class ExtendedRouteWrapper {
+public class ExtRoute {
 	private Route route;
 	private NetworkProvider networkProvider;
 	private Node depot;
 	private Restrictions restrictions;
 
-	public ExtendedRouteWrapper(Algorithm algorithm, Vehicle vehicle, Node depot) {
+	public ExtRoute(Algorithm algorithm, Vehicle vehicle, Node depot) {
 		networkProvider = algorithm.networkProvider;
 		route = networkProvider.getSolutionFactory().createRoute();
 		this.route.setVehicle(vehicle);
@@ -29,7 +29,7 @@ public class ExtendedRouteWrapper {
 		restrictions = new Restrictions(networkProvider);
 	}
 
-	public ExtendedRouteWrapper(Algorithm algorithm, Route route, Node depot) {
+	public ExtRoute(Algorithm algorithm, Route route, Node depot) {
 		networkProvider = algorithm.networkProvider;
 		this.route = route;
 		if (depot == null) {
@@ -230,5 +230,17 @@ public class ExtendedRouteWrapper {
 		route.getWay().add(i, usedEdgeToNewNode);
 
 		reinitializeRoute();
+	}
+
+	@Override
+	public String toString() {
+		String way = "";
+		for (int i = 0; i < route.getWay().size(); i++) {
+			way += route.getWay().get(i).getEdge().getStart().getId();
+			if (i < route.getWay().size() - 1) {
+				way += " -> ";
+			}
+		}
+		return "vehicle id: " + route.getVehicle().getId() + ", way: " + way;
 	}
 }

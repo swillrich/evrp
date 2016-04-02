@@ -8,10 +8,11 @@ import java.util.PriorityQueue;
 
 import de.fuberlin.winfo.project.algorithm.AlgHelper;
 import de.fuberlin.winfo.project.algorithm.Algorithm;
-import de.fuberlin.winfo.project.algorithm.ExtendedRouteWrapper;
+import de.fuberlin.winfo.project.algorithm.ExtRoute;
 import de.fuberlin.winfo.project.algorithm.impl.Commissioning;
 import de.fuberlin.winfo.project.algorithm.restriction.RestrictionException;
 import de.fuberlin.winfo.project.algorithm.restriction.impl.CargoCapacityRestriction;
+import de.fuberlin.winfo.project.algorithm.restriction.impl.TimeWindowRestriction;
 import de.fuberlin.winfo.project.algorithm.restriction.impl.VehicleRangeRestriction;
 import de.fuberlin.winfo.project.model.network.Depot;
 import de.fuberlin.winfo.project.model.network.Edge;
@@ -36,7 +37,7 @@ public class SvensAlg extends Algorithm {
 
 		restrictions.add(new CargoCapacityRestriction());
 		restrictions.add(new VehicleRangeRestriction());
-		// restrictions.add(new TimeWindowRestriction());
+		restrictions.add(new TimeWindowRestriction());
 
 		Commissioning.pickCustomerOrder(networkProvider.getLocatables().getMainDepot(),
 				networkProvider.getLocatables().getCustomer());
@@ -49,7 +50,7 @@ public class SvensAlg extends Algorithm {
 
 		while (!remainingOrders.isEmpty()) {
 			Vehicle vehicle = solution.getUsecase().getVehicles().get(0);
-			ExtendedRouteWrapper route = buildRoute(vehicle, AlgHelper.getNodeByLocatable(networkProvider, depot));
+			ExtRoute route = buildRoute(vehicle, AlgHelper.getNodeByLocatable(networkProvider, depot));
 			OrderPriorityQueue priorityQueue = new OrderPriorityQueue(route, remainingOrders);
 			while (!priorityQueue.isEmpty()) {
 				PendingOrder nextPendingOrder = priorityQueue.poll();
@@ -64,7 +65,8 @@ public class SvensAlg extends Algorithm {
 				} catch (RestrictionException e) {
 					if (priorityQueue.isEmpty()) {
 						System.out.println((solution.getRoutes().size() + 1) + ". Route with "
-								+ route.getModelRoute().getWay().size() + " nodes built (" + e.getMessage() + ")");
+								+ (route.getModelRoute().getWay().size() + 1) + " nodes built (" + e.getMessage()
+								+ ")");
 					}
 				}
 			}
@@ -74,7 +76,7 @@ public class SvensAlg extends Algorithm {
 
 	@SuppressWarnings("serial")
 	private class OrderPriorityQueue extends PriorityQueue<PendingOrder> {
-		public OrderPriorityQueue(ExtendedRouteWrapper route, List<Order> leftOrders) {
+		public OrderPriorityQueue(ExtRoute route, List<Order> leftOrders) {
 			super(new OrderComparator(route));
 			for (Order order : leftOrders) {
 				PendingOrder pendingOrder = new PendingOrder();
@@ -85,9 +87,9 @@ public class SvensAlg extends Algorithm {
 	}
 
 	private class OrderComparator implements Comparator<PendingOrder> {
-		private ExtendedRouteWrapper route;
+		private ExtRoute route;
 
-		public OrderComparator(ExtendedRouteWrapper route) {
+		public OrderComparator(ExtRoute route) {
 			this.route = route;
 		}
 

@@ -1,6 +1,7 @@
 package de.fuberlin.winfo.project.algorithm.impl;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -16,10 +17,12 @@ import de.fuberlin.winfo.project.model.network.impl.NetworkFactoryImpl;
 
 public class Commissioning {
 
+	public static int MAX_ORDER_WEIGHT_IN_KG = 2000;
+
 	public static void pickCustomerOrder(Depot depot, List<Locatable> list) {
 		List<Customer> customerList = list.stream().filter(l -> l instanceof Customer).map(l -> (Customer) l)
 				.collect(Collectors.toList());
-		
+
 		for (Customer customer : customerList) {
 			for (Boolean b : new Boolean[] { true, false }) {
 				pickOrders(depot, customer, b);
@@ -40,13 +43,25 @@ public class Commissioning {
 			}
 		}
 
-		if (orders.size() > 1) {
-			CollectiveOrder commissioningOrder = newCommissioningOrder();
-			commissioningOrder.setTimeWindow(comTW);
-			commissioningOrder.setReceiver(orders.get(0).getReceiver());
-			depot.getDeliveries().add(commissioningOrder);
-			for (Order order : orders) {
-				packInto(commissioningOrder, order);
+		while (!orders.isEmpty()) {
+			if (orders.size() > 1) {
+				CollectiveOrder commissioningOrder = newCommissioningOrder();
+				if (withTW) {
+					commissioningOrder.setTimeWindow(comTW);
+				}
+				commissioningOrder.setReceiver(orders.get(0).getReceiver());
+				depot.getDeliveries().add(commissioningOrder);
+				Iterator<Order> iterator = orders.iterator();
+				while (iterator.hasNext()) {
+					if (commissioningOrder.getWeight() <= MAX_ORDER_WEIGHT_IN_KG) {
+						packInto(commissioningOrder, iterator.next());
+						iterator.remove();
+					} else {
+						break;
+					}
+				}
+			} else {
+				break;
 			}
 		}
 	}

@@ -1,7 +1,7 @@
 package de.fuberlin.winfo.project.algorithm.restriction.impl;
 
 import de.fuberlin.winfo.project.algorithm.AlgHelper;
-import de.fuberlin.winfo.project.algorithm.ExtendedRouteWrapper;
+import de.fuberlin.winfo.project.algorithm.ExtRoute;
 import de.fuberlin.winfo.project.algorithm.NetworkProvider;
 import de.fuberlin.winfo.project.algorithm.restriction.Restriction;
 import de.fuberlin.winfo.project.algorithm.restriction.RestrictionException;
@@ -12,7 +12,7 @@ import de.fuberlin.winfo.project.model.network.Order;
 public class VehicleRangeRestriction implements Restriction {
 
 	@Override
-	public boolean check(NetworkProvider np, ExtendedRouteWrapper route, Order newOrder, int index)
+	public boolean check(NetworkProvider np, ExtRoute route, Order newOrder, int index)
 			throws RestrictionException {
 
 		Node node = AlgHelper.getNodeByOrder(np, newOrder);

@@ -94,8 +94,8 @@ public abstract class Algorithm {
 		return solution;
 	}
 
-	public ExtendedRouteWrapper buildRoute(Vehicle vehicle, Node depot) {
-		return new ExtendedRouteWrapper(this, vehicle, depot);
+	public ExtRoute buildRoute(Vehicle vehicle, Node depot) {
+		return new ExtRoute(this, vehicle, depot);
 	}
 
 	public Restrictions getRestrictions() {
