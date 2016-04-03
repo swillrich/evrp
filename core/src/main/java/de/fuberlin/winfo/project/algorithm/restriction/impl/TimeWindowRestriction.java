@@ -1,7 +1,7 @@
 package de.fuberlin.winfo.project.algorithm.restriction.impl;
 
 import de.fuberlin.winfo.project.algorithm.AlgHelper;
-import de.fuberlin.winfo.project.algorithm.ExtRoute;
+import de.fuberlin.winfo.project.algorithm.RouteConstructor;
 import de.fuberlin.winfo.project.algorithm.NetworkProvider;
 import de.fuberlin.winfo.project.algorithm.restriction.Restriction;
 import de.fuberlin.winfo.project.algorithm.restriction.RestrictionException;
@@ -15,10 +15,10 @@ import de.fuberlin.winfo.project.model.network.solution.Delivery;
 
 public class TimeWindowRestriction implements Restriction {
 
-	private ExtRoute route;
+	private RouteConstructor route;
 
 	@Override
-	public boolean check(NetworkProvider np, ExtRoute route, Order newOrder, int index)
+	public boolean check(NetworkProvider np, RouteConstructor route, Order newOrder, int index)
 			throws RestrictionException {
 		this.route = route;
 

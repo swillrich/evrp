@@ -15,13 +15,13 @@ import de.fuberlin.winfo.project.model.network.solution.Delivery;
 import de.fuberlin.winfo.project.model.network.solution.Route;
 import de.fuberlin.winfo.project.model.network.solution.UsedEdge;
 
-public class ExtRoute {
+public class RouteConstructor {
 	private Route route;
 	private NetworkProvider networkProvider;
 	private Node depot;
 	private Restrictions restrictions;
 
-	public ExtRoute(Algorithm algorithm, Vehicle vehicle, Node depot) {
+	public RouteConstructor(Algorithm algorithm, Vehicle vehicle, Node depot) {
 		networkProvider = algorithm.networkProvider;
 		route = networkProvider.getSolutionFactory().createRoute();
 		this.route.setVehicle(vehicle);
@@ -29,7 +29,7 @@ public class ExtRoute {
 		restrictions = new Restrictions(networkProvider);
 	}
 
-	public ExtRoute(Algorithm algorithm, Route route, Node depot) {
+	public RouteConstructor(Algorithm algorithm, Route route, Node depot) {
 		networkProvider = algorithm.networkProvider;
 		this.route = route;
 		if (depot == null) {

@@ -3,7 +3,7 @@ package de.fuberlin.winfo.project.algorithm.restriction;
 import java.util.ArrayList;
 import java.util.Arrays;
 
-import de.fuberlin.winfo.project.algorithm.ExtRoute;
+import de.fuberlin.winfo.project.algorithm.RouteConstructor;
 import de.fuberlin.winfo.project.algorithm.NetworkProvider;
 import de.fuberlin.winfo.project.algorithm.restriction.impl.CargoCapacityRestriction;
 import de.fuberlin.winfo.project.algorithm.restriction.impl.TimeWindowRestriction;
@@ -19,7 +19,7 @@ public class Restrictions extends ArrayList<Restriction> {
 		this.np = np;
 	}
 
-	public void check(ExtRoute route, Order newOrder, int index) throws RestrictionException {
+	public void check(RouteConstructor route, Order newOrder, int index) throws RestrictionException {
 		if (route.getModelRoute().getWay().size() == 0) {
 			return;
 		}
