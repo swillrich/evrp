@@ -3,7 +3,11 @@ package de.fuberlin.winfo.project.algorithm.impl.sven.vns;
 import de.fuberlin.winfo.project.algorithm.NetworkProvider;
 import de.fuberlin.winfo.project.model.network.solution.Solution;
 
-public class TwoOptNeighborhoodStructure implements NeighborhoodStructure {
+public class TwoOptNeighborhoodStructure extends NeighborhoodStructure {
+
+	public TwoOptNeighborhoodStructure(NetworkProvider np, Solution s) {
+		super(np);
+	}
 
 	@Override
 	public String getName() {
@@ -11,10 +15,8 @@ public class TwoOptNeighborhoodStructure implements NeighborhoodStructure {
 	}
 
 	@Override
-	public Solution searchNeighborhood(NetworkProvider np, Solution bestSolution) {
-
-		return bestSolution;
-
+	public Solution move(Solution x) {
+		return x;
 	}
 
 }
