@@ -39,10 +39,15 @@ public class SvensAlg extends Algorithm {
 		Commissioning.pickCustomerOrder(networkProvider.getLocatables().getMainDepot(),
 				networkProvider.getLocatables().getCustomer());
 
-		createInitilizationSolution(solution, networkProvider.getLocatables().getMainDepot());
+		constructProcedure(solution, networkProvider.getLocatables().getMainDepot());
+		improvementProcedure(solution);
 	}
 
-	private void createInitilizationSolution(Solution solution, Depot depot) throws Exception {
+	private void improvementProcedure(Solution solution) {
+		
+	}
+
+	private void constructProcedure(Solution solution, Depot depot) throws Exception {
 		List<Order> remainingOrders = new ArrayList<Order>(depot.getDeliveries());
 
 		while (!remainingOrders.isEmpty()) {
