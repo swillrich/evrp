@@ -94,8 +94,8 @@ public abstract class Algorithm {
 		return solution;
 	}
 
-	public RouteConstructor buildRoute(Vehicle vehicle, Node depot) {
-		return new RouteConstructor(this, vehicle, depot);
+	public RouteWrapper buildRoute(Vehicle vehicle, Node depot) {
+		return new RouteWrapper(this, vehicle, depot);
 	}
 
 	public Restrictions getRestrictions() {

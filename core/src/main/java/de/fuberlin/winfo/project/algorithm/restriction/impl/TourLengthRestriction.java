@@ -6,7 +6,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import de.fuberlin.winfo.project.algorithm.AlgHelper;
-import de.fuberlin.winfo.project.algorithm.RouteConstructor;
+import de.fuberlin.winfo.project.algorithm.RouteWrapper;
 import de.fuberlin.winfo.project.algorithm.NetworkProvider;
 import de.fuberlin.winfo.project.algorithm.restriction.Restriction;
 import de.fuberlin.winfo.project.algorithm.restriction.RestrictionException;
@@ -21,11 +21,11 @@ import de.fuberlin.winfo.project.model.network.solution.UsedEdge;
 
 public class TourLengthRestriction implements Restriction {
 
-	private RouteConstructor route;
+	private RouteWrapper route;
 	private NetworkProvider np;
 
 	@Override
-	public boolean check(NetworkProvider np, RouteConstructor route, Order newOrder, int index)
+	public boolean check(NetworkProvider np, RouteWrapper route, Order newOrder, int index)
 			throws RestrictionException {
 
 		this.route = route;

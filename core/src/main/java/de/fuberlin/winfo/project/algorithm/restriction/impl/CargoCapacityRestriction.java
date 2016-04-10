@@ -1,6 +1,6 @@
 package de.fuberlin.winfo.project.algorithm.restriction.impl;
 
-import de.fuberlin.winfo.project.algorithm.RouteConstructor;
+import de.fuberlin.winfo.project.algorithm.RouteWrapper;
 import de.fuberlin.winfo.project.algorithm.NetworkProvider;
 import de.fuberlin.winfo.project.algorithm.restriction.Restriction;
 import de.fuberlin.winfo.project.algorithm.restriction.RestrictionException;
@@ -9,7 +9,7 @@ import de.fuberlin.winfo.project.model.network.Order;
 public class CargoCapacityRestriction implements Restriction {
 
 	@Override
-	public boolean check(NetworkProvider np, RouteConstructor route, Order newOrder, int index)
+	public boolean check(NetworkProvider np, RouteWrapper route, Order newOrder, int index)
 			throws RestrictionException {
 		if (route.getModelRoute().getWay().size() == 0) {
 			return true;

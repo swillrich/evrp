@@ -5,10 +5,13 @@ import java.util.List;
 
 import de.fuberlin.winfo.project.algorithm.AlgHelper;
 import de.fuberlin.winfo.project.algorithm.Algorithm;
-import de.fuberlin.winfo.project.algorithm.RouteConstructor;
+import de.fuberlin.winfo.project.algorithm.RouteWrapper;
 import de.fuberlin.winfo.project.algorithm.impl.Commissioning;
 import de.fuberlin.winfo.project.algorithm.impl.sven.datastructures.OrderPriorityQueue;
 import de.fuberlin.winfo.project.algorithm.impl.sven.datastructures.PendingOrder;
+import de.fuberlin.winfo.project.algorithm.impl.sven.vns.CostFunction;
+import de.fuberlin.winfo.project.algorithm.impl.sven.vns.NeighborhoodStructure;
+import de.fuberlin.winfo.project.algorithm.impl.sven.vns.VNS;
 import de.fuberlin.winfo.project.algorithm.restriction.RestrictionException;
 import de.fuberlin.winfo.project.algorithm.restriction.impl.CargoCapacityRestriction;
 import de.fuberlin.winfo.project.algorithm.restriction.impl.TimeWindowRestriction;
@@ -44,7 +47,17 @@ public class SvensAlg extends Algorithm {
 	}
 
 	private void improvementProcedure(Solution solution) {
-		
+		VNS vns = new VNS();
+		CostFunction f = new CostFunction() {
+
+			@Override
+			public int compute(Solution s) {
+				int size = s.getRoutes().size();
+				long sum = s.getRoutes().stream().mapToLong(r -> r.getTotalDistanceInM()).sum();
+				return (int) (sum / size);
+			}
+		};
+		Solution optSolution = vns.vns(solution, new NeighborhoodStructure[] {}, f);
 	}
 
 	private void constructProcedure(Solution solution, Depot depot) throws Exception {
@@ -52,7 +65,7 @@ public class SvensAlg extends Algorithm {
 
 		while (!remainingOrders.isEmpty()) {
 			Vehicle vehicle = solution.getUsecase().getVehicles().get(0);
-			RouteConstructor route = buildRoute(vehicle, AlgHelper.getNodeByLocatable(networkProvider, depot));
+			RouteWrapper route = buildRoute(vehicle, AlgHelper.getNodeByLocatable(networkProvider, depot));
 			OrderPriorityQueue priorityQueue = new OrderPriorityQueue(networkProvider, route, remainingOrders);
 			while (!priorityQueue.isEmpty()) {
 				PendingOrder nextPendingOrder = priorityQueue.poll();

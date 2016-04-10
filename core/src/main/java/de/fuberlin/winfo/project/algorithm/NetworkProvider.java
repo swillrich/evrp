@@ -14,9 +14,8 @@ import de.fuberlin.winfo.project.model.network.solution.impl.SolutionFactoryImpl
  *
  *         The Network Provider provides all the data being relevant for solving
  *         problems. <br>
- *         Furthermore, all the data being relevant, are provided in multiple
- *         ways, so that at most each demand for a specific provision of data is
- *         given.
+ *         Furthermore, all the data being relevant are provided in multiple
+ *         ways, so that at most each need for a specific ask of data is given.
  */
 public class NetworkProvider {
 

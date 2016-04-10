@@ -4,18 +4,18 @@ import java.util.Collections;
 import java.util.Comparator;
 
 import de.fuberlin.winfo.project.algorithm.AlgHelper;
-import de.fuberlin.winfo.project.algorithm.RouteConstructor;
+import de.fuberlin.winfo.project.algorithm.RouteWrapper;
 import de.fuberlin.winfo.project.algorithm.NetworkProvider;
 import de.fuberlin.winfo.project.model.network.Edge;
 import de.fuberlin.winfo.project.model.network.Node;
 import de.fuberlin.winfo.project.model.network.solution.UsedEdge;
 
 public class PendingOrderComparator implements Comparator<PendingOrder> {
-	private RouteConstructor route;
+	private RouteWrapper route;
 	private NetworkProvider np;
 	private Edge[][] E;
 
-	public PendingOrderComparator(RouteConstructor route, NetworkProvider np) {
+	public PendingOrderComparator(RouteWrapper route, NetworkProvider np) {
 		this.route = route;
 		this.np = np;
 		this.E = np.getEdges();
