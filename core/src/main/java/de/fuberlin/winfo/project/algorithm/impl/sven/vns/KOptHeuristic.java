@@ -1,18 +1,29 @@
 package de.fuberlin.winfo.project.algorithm.impl.sven.vns;
 
+import java.util.AbstractMap.SimpleEntry;
+import java.util.ArrayList;
 import java.util.Iterator;
 
-import de.fuberlin.winfo.project.algorithm.impl.sven.vns.KOptHeuristic.Options;
+import de.fuberlin.winfo.project.algorithm.impl.sven.vns.KOptHeuristic.Option;
+import de.fuberlin.winfo.project.model.network.Edge;
+import de.fuberlin.winfo.project.model.network.Node;
+import de.fuberlin.winfo.project.model.network.impl.NetworkFactoryImpl;
+import de.fuberlin.winfo.project.model.network.solution.Route;
+import de.fuberlin.winfo.project.model.network.solution.UsedEdge;
+import de.fuberlin.winfo.project.model.network.solution.impl.SolutionFactoryImpl;
 
-public class KOptHeuristic implements Iterator<Options> {
+public class KOptHeuristic implements Iterator<Option> {
 	private int[] posArr;
 	private int n;
 	private int k;
+	private Route route;
 
-	KOptHeuristic(int k, int edges) throws Exception {
+	KOptHeuristic(int k, Route route) throws Exception {
+		int edges = route.getWay().size();
 		if (edges < 3 || k < 2) {
 			throw new Exception("At least both 3 edges and 2-opt needed");
 		}
+		this.route = route;
 		posArr = new int[k];
 		this.k = k;
 		this.n = edges;
@@ -33,12 +44,22 @@ public class KOptHeuristic implements Iterator<Options> {
 	}
 
 	@Override
-	public Options next() {
-		Options options = new Options(posArr);
+	public Option next() {
+		Option options = createOptions();
 		increment(0);
 		return options;
 	}
 
+	private Option createOptions() {
+		Option options = new Option(posArr);
+		for (int i = 0; i + 1 < k; i++) {
+			Edge a = route.getWay().get(posArr[i]).getEdge();
+			Edge b = route.getWay().get(posArr[i + 1]).getEdge();
+			options.add(a.getStart().getId(), b.getStart().getId());
+		}
+		return options;
+	}
+	
 	private boolean increment(int i) {
 		if (i >= k) {
 			return false;
@@ -104,23 +125,71 @@ public class KOptHeuristic implements Iterator<Options> {
 		initAt(0);
 	}
 
-	public static class Options {
-		int[] edges;
-		
+	public static class Option extends ArrayList<SimpleEntry<Integer, Integer>> {
+		int[] toReplace;
 
-		public Options(int[] edges) {
-			this.edges = edges;
+		public Option(int[] toReplace) {
+			this.toReplace = toReplace;
 		}
-		
+
+		void add(int a, int b) {
+			SimpleEntry<Integer, Integer> entry = new SimpleEntry<>(a, b);
+			add(entry);
+		}
+
 	}
 
 	public static void main(String[] args) {
+		Route example = getExample();
+
 		try {
-			KOptHeuristic opt = new KOptHeuristic(2, 4);
+			KOptHeuristic opt = new KOptHeuristic(2, example);
 			opt.printAll();
 		} catch (Exception e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+	}
+
+	private static Route getExample() {
+		NetworkFactoryImpl f = new NetworkFactoryImpl();
+		SolutionFactoryImpl ff = new SolutionFactoryImpl();
+
+		Node[] nodes = new Node[10];
+		Route route = ff.createRoute();
+		for (int i = 0; i < nodes.length; i++) {
+			nodes[i] = f.createNode();
+			nodes[i].setId(i);
+		}
+
+		Edge[][] edges = new Edge[(int) Math.pow(nodes.length, 2)][(int) Math.pow(nodes.length, 2)];
+
+		for (int i = 0, j = 0; i < nodes.length;) {
+			Edge edge = f.createEdge();
+			edge.setStart(nodes[i]);
+			edge.setEnd(nodes[j]);
+			nodes[i].getEdgeOut().add(edge);
+			nodes[j].getEdgeIn().add(edge);
+			edge.setDistance((i + j) / 2);
+			edges[i][j] = edge;
+			if (j + 1 == nodes.length) {
+				i++;
+				j = 0;
+			} else {
+				j++;
+			}
+		}
+		for (int i = 0; i + 1 < nodes.length; i++) {
+			Edge edge = null;
+			if (i + 2 < nodes.length) {
+				edge = edges[nodes.length - 1][0];
+			} else {
+				edge = edges[i][i + 1];
+			}
+			UsedEdge usedEdge = ff.createUsedEdge();
+			usedEdge.setEdge(edge);
+			route.getWay().add(usedEdge);
+		}
+
+		return route;
 	}
 }
