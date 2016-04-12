@@ -1,10 +1,8 @@
 package de.fuberlin.winfo.project.algorithm.impl.sven.vns;
 
 import java.util.AbstractMap.SimpleEntry;
-import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.LinkedList;
-import java.util.List;
 
 import de.fuberlin.winfo.project.algorithm.impl.sven.vns.KOptHeuristic.Option;
 import de.fuberlin.winfo.project.model.network.Edge;
@@ -54,43 +52,10 @@ public class KOptHeuristic implements Iterator<Option> {
 
 	private Option createOptions() {
 		Option options = new Option(posArr);
-		int[] nodeIds = new int[k * 2 - 2];
-		for (int i = 0; i < k; i++) {
-			Edge edge = route.getWay().get(posArr[i]).getEdge();
-			if (i == 0) {
-				nodeIds[i] = edge.getEnd().getId();
-			} else if (i == k - 1) {
-				nodeIds[nodeIds.length - 1] = edge.getStart().getId();
-			} else {
-				nodeIds[i] = edge.getStart().getId();
-				nodeIds[k + i] = edge.getStart().getId();
-			}
-		}
-		ArrayList<List<Integer>> permutations = new ArrayList<List<Integer>>();
-		permute(permutations, new ArrayList<Integer>(), nodeIds);
-		for (List<Integer> l : permutations) {
-			l.add(0, route.getWay().get(posArr[0]).getEdge().getStart().getId());
-			l.add(l.size() - 1, route.getWay().get(posArr[k - 1]).getEdge().getEnd().getId());
-		}
+
+		
+		
 		return options;
-	}
-
-	private static void permute(ArrayList<List<Integer>> container, List<Integer> prefix, int[] nodes) {
-		int n = nodes.length;
-		if (n == 0) {
-			container.add(new ArrayList<Integer>(prefix));
-		}
-		for (int i = 0; i < n; i++) {
-			prefix.add(nodes[i]);
-
-			int[] newNodes = new int[nodes.length - 1];
-			System.arraycopy(nodes, 0, newNodes, 0, i);
-			if (i + 1 < n) {
-				System.arraycopy(nodes, i + 1, newNodes, i, n - 1 - i);
-			}
-			permute(container, prefix, newNodes);
-			prefix.remove(prefix.size() - 1);
-		}
 	}
 
 	private boolean increment(int i) {
@@ -173,20 +138,20 @@ public class KOptHeuristic implements Iterator<Option> {
 	}
 
 	public static void main(String[] args) {
-		Route example = getExample();
+		Route example = getExample(7);
 		try {
-			KOptHeuristic opt = new KOptHeuristic(2, example);
+			KOptHeuristic opt = new KOptHeuristic(3, example);
 			opt.printAll();
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 	}
 
-	private static Route getExample() {
+	private static Route getExample(int n) {
 		NetworkFactoryImpl f = new NetworkFactoryImpl();
 		SolutionFactoryImpl ff = new SolutionFactoryImpl();
 
-		Node[] nodes = new Node[6];
+		Node[] nodes = new Node[n];
 		Route route = ff.createRoute();
 		for (int i = 0; i < nodes.length; i++) {
 			nodes[i] = f.createNode();
