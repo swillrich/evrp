@@ -4,6 +4,7 @@ import java.util.AbstractMap.SimpleEntry;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.LinkedList;
+import java.util.List;
 
 import de.fuberlin.winfo.project.algorithm.impl.sven.vns.KOptHeuristic.Option;
 import de.fuberlin.winfo.project.model.network.Edge;
@@ -65,27 +66,30 @@ public class KOptHeuristic implements Iterator<Option> {
 				nodeIds[k + i] = edge.getStart().getId();
 			}
 		}
-		ArrayList<int[]> permutations = new ArrayList<int[]>();
-		permute(permutations, new int[] {}, nodeIds);
+		ArrayList<List<Integer>> permutations = new ArrayList<List<Integer>>();
+		permute(permutations, new ArrayList<Integer>(), nodeIds);
+		for (List<Integer> l : permutations) {
+			l.add(0, route.getWay().get(posArr[0]).getEdge().getStart().getId());
+			l.add(l.size() - 1, route.getWay().get(posArr[k - 1]).getEdge().getEnd().getId());
+		}
 		return options;
 	}
 
-	private static void permute(ArrayList<int[]> container, int[] prefix, int[] nodes) {
+	private static void permute(ArrayList<List<Integer>> container, List<Integer> prefix, int[] nodes) {
 		int n = nodes.length;
 		if (n == 0) {
-			container.add(prefix);
+			container.add(new ArrayList<Integer>(prefix));
 		}
 		for (int i = 0; i < n; i++) {
-			int[] newPrefix = new int[prefix.length + 1];
-			System.arraycopy(prefix, 0, newPrefix, 0, prefix.length);
-			newPrefix[newPrefix.length - 1] = nodes[i];
+			prefix.add(nodes[i]);
 
 			int[] newNodes = new int[nodes.length - 1];
 			System.arraycopy(nodes, 0, newNodes, 0, i);
 			if (i + 1 < n) {
 				System.arraycopy(nodes, i + 1, newNodes, i, n - 1 - i);
 			}
-			permute(container, newPrefix, newNodes);
+			permute(container, prefix, newNodes);
+			prefix.remove(prefix.size() - 1);
 		}
 	}
 
@@ -148,7 +152,7 @@ public class KOptHeuristic implements Iterator<Option> {
 	public void printAll() {
 		for (int i = 1; hasNext(); i++) {
 			System.out.println(i + ". -> " + toString());
-			increment(0);
+			Option next = next();
 		}
 		posArr[0] = 0;
 		initAt(0);
@@ -182,7 +186,7 @@ public class KOptHeuristic implements Iterator<Option> {
 		NetworkFactoryImpl f = new NetworkFactoryImpl();
 		SolutionFactoryImpl ff = new SolutionFactoryImpl();
 
-		Node[] nodes = new Node[10];
+		Node[] nodes = new Node[6];
 		Route route = ff.createRoute();
 		for (int i = 0; i < nodes.length; i++) {
 			nodes[i] = f.createNode();
