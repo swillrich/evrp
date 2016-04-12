@@ -1,8 +1,12 @@
 package de.fuberlin.winfo.project.algorithm.impl.sven.vns;
 
 import java.util.AbstractMap.SimpleEntry;
+import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.LinkedList;
+import java.util.List;
+import java.util.Map;
+import java.util.TreeMap;
 
 import de.fuberlin.winfo.project.algorithm.impl.sven.vns.KOptHeuristic.Option;
 import de.fuberlin.winfo.project.model.network.Edge;
@@ -52,10 +56,53 @@ public class KOptHeuristic implements Iterator<Option> {
 
 	private Option createOptions() {
 		Option options = new Option(posArr);
-
-		
-		
+		Map<Integer, Integer> map = new TreeMap<Integer, Integer>();
+		for (int i = 0; i < k; i++) {
+			Edge edge = route.getWay().get(posArr[i]).getEdge();
+			if (i == 0) {
+				map.put(edge.getEnd().getId(), i);
+			} else if (i == k - 1) {
+				map.put(edge.getStart().getId(), i);
+			} else {
+				map.put(edge.getStart().getId(), i);
+				map.put(edge.getEnd().getId(), i);
+			}
+		}
+		ArrayList<List<Integer>> permutations = new ArrayList<List<Integer>>();
+		permute(permutations, map, new ArrayList<Integer>(), new ArrayList<Integer>(map.keySet()));
+		for (List<Integer> l : permutations) {
+			l.add(0, route.getWay().get(posArr[0]).getEdge().getStart().getId());
+			l.add(l.size() - 1, route.getWay().get(posArr[k - 1]).getEdge().getEnd().getId());
+		}
 		return options;
+	}
+
+	private void permute(ArrayList<List<Integer>> container, Map<Integer, Integer> map, ArrayList<Integer> prefix,
+			ArrayList<Integer> nodes) {
+		if (nodes.size() == 0) {
+			container.add(new ArrayList<Integer>(prefix));
+		} else {
+			for (int i = 0; i < nodes.size(); i++) {
+				prefix.add(nodes.get(i));
+				ArrayList<Integer> list = new ArrayList<Integer>(nodes);
+				Integer nodeId = list.remove(i);
+				int otherEnd = getOtherEnd(map, nodeId);
+				permute(container, map, prefix, list);
+				prefix.remove(prefix.size() - 1);
+			}
+		}
+	}
+
+	private int getOtherEnd(Map<Integer, Integer> map, Integer nodeId) {
+		Integer edgeIndex = map.get(nodeId);
+		Edge edge = route.getWay().get(posArr[edgeIndex]).getEdge();
+		if (edge.getStart().getId() == nodeId) {
+			int id = route.getWay().get(posArr[edgeIndex - 1]).getEdge().getEnd().getId();
+			
+		} else {
+			
+		}
+		return 0;
 	}
 
 	private boolean increment(int i) {
