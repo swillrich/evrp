@@ -3,6 +3,7 @@ package de.fuberlin.winfo.project.algorithm.impl.sven.vns;
 import java.util.AbstractMap.SimpleEntry;
 import java.util.ArrayList;
 import java.util.Iterator;
+import java.util.LinkedList;
 
 import de.fuberlin.winfo.project.algorithm.impl.sven.vns.KOptHeuristic.Option;
 import de.fuberlin.winfo.project.model.network.Edge;
@@ -52,14 +53,42 @@ public class KOptHeuristic implements Iterator<Option> {
 
 	private Option createOptions() {
 		Option options = new Option(posArr);
-		for (int i = 0; i + 1 < k; i++) {
-			Edge a = route.getWay().get(posArr[i]).getEdge();
-			Edge b = route.getWay().get(posArr[i + 1]).getEdge();
-			options.add(a.getStart().getId(), b.getStart().getId());
+		int[] nodeIds = new int[k * 2 - 2];
+		for (int i = 0; i < k; i++) {
+			Edge edge = route.getWay().get(posArr[i]).getEdge();
+			if (i == 0) {
+				nodeIds[i] = edge.getEnd().getId();
+			} else if (i == k - 1) {
+				nodeIds[nodeIds.length - 1] = edge.getStart().getId();
+			} else {
+				nodeIds[i] = edge.getStart().getId();
+				nodeIds[k + i] = edge.getStart().getId();
+			}
 		}
+		ArrayList<int[]> permutations = new ArrayList<int[]>();
+		permute(permutations, new int[] {}, nodeIds);
 		return options;
 	}
-	
+
+	private static void permute(ArrayList<int[]> container, int[] prefix, int[] nodes) {
+		int n = nodes.length;
+		if (n == 0) {
+			container.add(prefix);
+		}
+		for (int i = 0; i < n; i++) {
+			int[] newPrefix = new int[prefix.length + 1];
+			System.arraycopy(prefix, 0, newPrefix, 0, prefix.length);
+			newPrefix[newPrefix.length - 1] = nodes[i];
+
+			int[] newNodes = new int[nodes.length - 1];
+			System.arraycopy(nodes, 0, newNodes, 0, i);
+			if (i + 1 < n) {
+				System.arraycopy(nodes, i + 1, newNodes, i, n - 1 - i);
+			}
+			permute(container, newPrefix, newNodes);
+		}
+	}
+
 	private boolean increment(int i) {
 		if (i >= k) {
 			return false;
@@ -125,7 +154,7 @@ public class KOptHeuristic implements Iterator<Option> {
 		initAt(0);
 	}
 
-	public static class Option extends ArrayList<SimpleEntry<Integer, Integer>> {
+	public static class Option extends LinkedList<SimpleEntry<Integer, Integer>> {
 		int[] toReplace;
 
 		public Option(int[] toReplace) {
@@ -141,7 +170,6 @@ public class KOptHeuristic implements Iterator<Option> {
 
 	public static void main(String[] args) {
 		Route example = getExample();
-
 		try {
 			KOptHeuristic opt = new KOptHeuristic(2, example);
 			opt.printAll();
