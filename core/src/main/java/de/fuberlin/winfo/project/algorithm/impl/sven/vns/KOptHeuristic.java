@@ -106,19 +106,6 @@ public class KOptHeuristic implements Iterator<Option> {
 				prefix.add(nodeId);
 				prefix.add(otherEnd);
 
-				// if (prefix.size() > 3) {
-				// Edge tabuEdge = route.getWay().get(posArr[((int)
-				// (prefix.size() / 2)) - 1]).getEdge();
-				// if (tabuEdge.getStart().getId() == prefix.get(prefix.size() -
-				// 3)
-				// && tabuEdge.getEnd().getId() == prefix.get(prefix.size() -
-				// 2)) {
-				// prefix.remove((Integer) nodeId);
-				// prefix.remove((Integer) otherEnd);
-				// return;
-				// }
-				// }
-
 				permute(container, map, prefix, list);
 
 				prefix.remove((Integer) nodeId);
