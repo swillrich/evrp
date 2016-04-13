@@ -8,22 +8,30 @@ import de.fuberlin.winfo.project.algorithm.restriction.Restriction;
 import de.fuberlin.winfo.project.algorithm.restriction.Restrictions;
 import de.fuberlin.winfo.project.model.network.Duration;
 import de.fuberlin.winfo.project.model.network.Edge;
+import de.fuberlin.winfo.project.model.network.NetworkFactory;
 import de.fuberlin.winfo.project.model.network.Node;
 import de.fuberlin.winfo.project.model.network.Order;
 import de.fuberlin.winfo.project.model.network.Vehicle;
+import de.fuberlin.winfo.project.model.network.impl.NetworkFactoryImpl;
 import de.fuberlin.winfo.project.model.network.solution.Delivery;
 import de.fuberlin.winfo.project.model.network.solution.Route;
+import de.fuberlin.winfo.project.model.network.solution.SolutionFactory;
 import de.fuberlin.winfo.project.model.network.solution.UsedEdge;
+import de.fuberlin.winfo.project.model.network.solution.impl.SolutionFactoryImpl;
 
 public class RouteWrapper {
 	private Route route;
 	private NetworkProvider networkProvider;
+	private SolutionFactory solutionFactory;
+	private NetworkFactory networkFactory;
 	private Node depot;
 	private Restrictions restrictions;
 
 	public RouteWrapper(Algorithm algorithm, Vehicle vehicle, Node depot) {
 		networkProvider = algorithm.networkProvider;
-		route = networkProvider.getSolutionFactory().createRoute();
+		solutionFactory = new SolutionFactoryImpl();
+		networkFactory = new NetworkFactoryImpl();
+		route = solutionFactory.createRoute();
 		this.route.setVehicle(vehicle);
 		this.depot = depot;
 		restrictions = new Restrictions(networkProvider);
@@ -181,20 +189,20 @@ public class RouteWrapper {
 		}
 		UsedEdge usedEdge = null;
 		if (order != null) {
-			usedEdge = networkProvider.getSolutionFactory().createDelivery();
+			usedEdge = solutionFactory.createDelivery();
 			((Delivery) usedEdge).setOrder(order);
 		} else {
-			usedEdge = networkProvider.getSolutionFactory().createUsedEdge();
+			usedEdge = solutionFactory.createUsedEdge();
 		}
 		usedEdge.setEdge(edge);
-		usedEdge.setDuration(networkProvider.getNetworkFactory().createDuration());
+		usedEdge.setDuration(networkFactory.createDuration());
 		return usedEdge;
 	}
 
 	public void addDelivery(Order order) throws Exception {
 		if (route.getWay().isEmpty()) {
 
-			Node newNode = getNodeByOrder(this.networkProvider, order);
+			Node newNode = getNodeByOrder(order);
 
 			Edge edgeToNewNode = networkProvider.getEdges()[depot.getId()][newNode.getId()];
 			UsedEdge usedEdgeToNewNode = initializeUsedEdge(edgeToNewNode, order);
@@ -212,7 +220,7 @@ public class RouteWrapper {
 	}
 
 	public void addDeliveryAtIndex(Order order, int i) throws Exception {
-		Node newNode = getNodeByOrder(this.networkProvider, order);
+		Node newNode = getNodeByOrder(order);
 
 		UsedEdge edgeToDelete = route.getWay().get(i);
 		Edge edgeToNewNode = networkProvider.getEdges()[edgeToDelete.getEdge().getStart().getId()][newNode.getId()];

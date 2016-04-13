@@ -31,7 +31,7 @@ public class TimeWindowRestriction implements Restriction {
 		double edgeStartInSec = route.getModelRoute().getWay().get(index).getDuration().getStartInSec();
 		double edgeEndInSec = route.getModelRoute().getWay().get(index).getDuration().getEndInSec();
 
-		Node newNode = AlgHelper.getNodeByOrder(np, newOrder);
+		Node newNode = AlgHelper.getNodeByOrder(newOrder);
 		double serviceTimeAtNewNode = newOrder.getStandingTimeInSec();
 		double timeStartNodeToNewNode = np.getEdges()[route.getModelRoute().getWay().get(index).getEdge().getStart()
 				.getId()][newNode.getId()].getTime();

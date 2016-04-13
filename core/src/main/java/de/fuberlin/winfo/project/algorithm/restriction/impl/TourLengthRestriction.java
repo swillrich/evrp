@@ -115,7 +115,7 @@ public class TourLengthRestriction implements Restriction {
 		List<UsedEdge> way = new ArrayList<>();
 		way.addAll(route.getModelRoute().getWay());
 		Node nodeBeforeInsertion = route.getModelRoute().getWay().get(usedEdgeIndex).getEdge().getStart();
-		Node newNode = AlgHelper.getNodeByOrder(np, order);
+		Node newNode = AlgHelper.getNodeByOrder(order);
 		Node nodeAfterInsertion = route.getModelRoute().getWay().get(usedEdgeIndex).getEdge().getEnd();
 
 		Edge edgeToNewOrder = np.getEdges()[nodeBeforeInsertion.getId()][newNode.getId()];

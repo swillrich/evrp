@@ -15,7 +15,7 @@ public class VehicleRangeRestriction implements Restriction {
 	public boolean check(NetworkProvider np, RouteWrapper route, Order newOrder, int index)
 			throws RestrictionException {
 
-		Node node = AlgHelper.getNodeByOrder(np, newOrder);
+		Node node = AlgHelper.getNodeByOrder(newOrder);
 
 		// First new edge
 		Edge edgeToNewNode = np.getEdges()[route.getModelRoute().getWay().get(index).getEdge().getStart()

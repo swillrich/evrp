@@ -102,7 +102,7 @@ public class AlgHelper {
 		}
 	}
 
-	public static Node getNodeByOrder(NetworkProvider np, Order order) {
+	public static Node getNodeByOrder(Order order) {
 		return (Node) order.getReceiver().eContainer();
 	}
 }

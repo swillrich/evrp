@@ -4,27 +4,25 @@ import java.util.Collections;
 import java.util.Comparator;
 
 import de.fuberlin.winfo.project.algorithm.AlgHelper;
-import de.fuberlin.winfo.project.algorithm.RouteWrapper;
 import de.fuberlin.winfo.project.algorithm.NetworkProvider;
+import de.fuberlin.winfo.project.algorithm.RouteWrapper;
 import de.fuberlin.winfo.project.model.network.Edge;
 import de.fuberlin.winfo.project.model.network.Node;
 import de.fuberlin.winfo.project.model.network.solution.UsedEdge;
 
 public class PendingOrderComparator implements Comparator<PendingOrder> {
 	private RouteWrapper route;
-	private NetworkProvider np;
 	private Edge[][] E;
 
 	public PendingOrderComparator(RouteWrapper route, NetworkProvider np) {
 		this.route = route;
-		this.np = np;
 		this.E = np.getEdges();
 	}
 
 	@Override
 	public int compare(PendingOrder o1, PendingOrder o2) {
-		Node n1 = AlgHelper.getNodeByOrder(np, o1.getOrder());
-		Node n2 = AlgHelper.getNodeByOrder(np, o2.getOrder());
+		Node n1 = AlgHelper.getNodeByOrder(o1.getOrder());
+		Node n2 = AlgHelper.getNodeByOrder(o2.getOrder());
 
 		if (o1.getOrder().getTimeWindow() != null && o2.getOrder().getTimeWindow() == null) {
 			return -1;
