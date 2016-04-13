@@ -86,6 +86,11 @@ public class KOptHeuristic implements Iterator<Option> {
 				ArrayList<Integer> list = new ArrayList<Integer>(nodes);
 				Integer nodeId = list.remove(i);
 
+				Edge tabuEdge = route.getWay().get(posArr[k - 2 - list.size() / 2]).getEdge();
+				if (nodeId == tabuEdge.getEnd().getId()) {
+					continue;
+				}
+
 				Integer edgeIndex = map.get(nodeId);
 				int otherEnd;
 				Edge edge = route.getWay().get(posArr[edgeIndex]).getEdge();
@@ -100,6 +105,19 @@ public class KOptHeuristic implements Iterator<Option> {
 
 				prefix.add(nodeId);
 				prefix.add(otherEnd);
+
+				// if (prefix.size() > 3) {
+				// Edge tabuEdge = route.getWay().get(posArr[((int)
+				// (prefix.size() / 2)) - 1]).getEdge();
+				// if (tabuEdge.getStart().getId() == prefix.get(prefix.size() -
+				// 3)
+				// && tabuEdge.getEnd().getId() == prefix.get(prefix.size() -
+				// 2)) {
+				// prefix.remove((Integer) nodeId);
+				// prefix.remove((Integer) otherEnd);
+				// return;
+				// }
+				// }
 
 				permute(container, map, prefix, list);
 
@@ -200,7 +218,7 @@ public class KOptHeuristic implements Iterator<Option> {
 	}
 
 	public static void main(String[] args) {
-		Route example = getExample(7);
+		Route example = getExample(10);
 		try {
 			KOptHeuristic opt = new KOptHeuristic(3, example);
 			opt.printAll();
