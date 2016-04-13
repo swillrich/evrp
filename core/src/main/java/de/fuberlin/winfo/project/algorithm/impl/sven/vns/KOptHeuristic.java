@@ -1,6 +1,5 @@
 package de.fuberlin.winfo.project.algorithm.impl.sven.vns;
 
-import java.util.AbstractMap.SimpleEntry;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.LinkedList;
@@ -72,8 +71,9 @@ public class KOptHeuristic implements Iterator<Option> {
 		permute(permutations, map, new ArrayList<Integer>(), new ArrayList<Integer>(map.keySet()));
 		for (List<Integer> l : permutations) {
 			l.add(0, route.getWay().get(posArr[0]).getEdge().getStart().getId());
-			l.add(l.size() - 1, route.getWay().get(posArr[k - 1]).getEdge().getEnd().getId());
+			l.add(route.getWay().get(posArr[k - 1]).getEdge().getEnd().getId());
 		}
+		options.addAll(permutations);
 		return options;
 	}
 
@@ -83,26 +83,30 @@ public class KOptHeuristic implements Iterator<Option> {
 			container.add(new ArrayList<Integer>(prefix));
 		} else {
 			for (int i = 0; i < nodes.size(); i++) {
-				prefix.add(nodes.get(i));
 				ArrayList<Integer> list = new ArrayList<Integer>(nodes);
 				Integer nodeId = list.remove(i);
-				int otherEnd = getOtherEnd(map, nodeId);
+
+				Integer edgeIndex = map.get(nodeId);
+				int otherEnd;
+				Edge edge = route.getWay().get(posArr[edgeIndex]).getEdge();
+				int nextEdgeIndex = edgeIndex + (edge.getStart().getId() == nodeId ? -1 : 1);
+				if (nextEdgeIndex < edgeIndex) {
+					otherEnd = route.getWay().get(posArr[nextEdgeIndex]).getEdge().getEnd().getId();
+				} else {
+					otherEnd = route.getWay().get(posArr[nextEdgeIndex]).getEdge().getStart().getId();
+				}
+
+				list.remove((Integer) otherEnd);
+
+				prefix.add(nodeId);
+				prefix.add(otherEnd);
+
 				permute(container, map, prefix, list);
-				prefix.remove(prefix.size() - 1);
+
+				prefix.remove((Integer) nodeId);
+				prefix.remove((Integer) otherEnd);
 			}
 		}
-	}
-
-	private int getOtherEnd(Map<Integer, Integer> map, Integer nodeId) {
-		Integer edgeIndex = map.get(nodeId);
-		Edge edge = route.getWay().get(posArr[edgeIndex]).getEdge();
-		if (edge.getStart().getId() == nodeId) {
-			int id = route.getWay().get(posArr[edgeIndex - 1]).getEdge().getEnd().getId();
-			
-		} else {
-			
-		}
-		return 0;
 	}
 
 	private boolean increment(int i) {
@@ -165,23 +169,34 @@ public class KOptHeuristic implements Iterator<Option> {
 		for (int i = 1; hasNext(); i++) {
 			System.out.println(i + ". -> " + toString());
 			Option next = next();
+			System.out.println(next);
 		}
 		posArr[0] = 0;
 		initAt(0);
 	}
 
-	public static class Option extends LinkedList<SimpleEntry<Integer, Integer>> {
+	public static class Option extends LinkedList<List<Integer>> {
 		int[] toReplace;
 
 		public Option(int[] toReplace) {
 			this.toReplace = toReplace;
 		}
 
-		void add(int a, int b) {
-			SimpleEntry<Integer, Integer> entry = new SimpleEntry<>(a, b);
-			add(entry);
+		@Override
+		public String toString() {
+			StringBuilder b = new StringBuilder();
+			for (int i = 0; i < this.size(); i++) {
+				List<Integer> sequence = this.get(i);
+				for (int j = 0; j < sequence.size(); j = j + 2) {
+					b.append(sequence.get(j) + "->" + sequence.get(j + 1));
+					if (j + 2 < sequence.size()) {
+						b.append(", ");
+					}
+				}
+				b.append("\n");
+			}
+			return b.toString();
 		}
-
 	}
 
 	public static void main(String[] args) {
@@ -207,33 +222,36 @@ public class KOptHeuristic implements Iterator<Option> {
 
 		Edge[][] edges = new Edge[(int) Math.pow(nodes.length, 2)][(int) Math.pow(nodes.length, 2)];
 
-		for (int i = 0, j = 0; i < nodes.length;) {
-			Edge edge = f.createEdge();
-			edge.setStart(nodes[i]);
-			edge.setEnd(nodes[j]);
-			nodes[i].getEdgeOut().add(edge);
-			nodes[j].getEdgeIn().add(edge);
-			edge.setDistance((i + j) / 2);
-			edges[i][j] = edge;
-			if (j + 1 == nodes.length) {
-				i++;
-				j = 0;
-			} else {
-				j++;
+		for (int i = 0; i < nodes.length; i++) {
+			for (int j = 0; j < nodes.length; j++) {
+				Edge edge = f.createEdge();
+				edge.setStart(nodes[i]);
+				edge.setEnd(nodes[j]);
+				nodes[i].getEdgeOut().add(edge);
+				nodes[j].getEdgeIn().add(edge);
+				edge.setDistance((i + j) / 2);
+				edges[i][j] = edge;
+				// System.out.println("Create edge: " + edge.getStart().getId()
+				// + " -> " + edge.getEnd().getId());
 			}
 		}
+
 		for (int i = 0; i + 1 < nodes.length; i++) {
-			Edge edge = null;
-			if (i + 2 < nodes.length) {
-				edge = edges[nodes.length - 1][0];
-			} else {
-				edge = edges[i][i + 1];
-			}
+			Edge edge = edges[nodes[i].getId()][nodes[i + 1].getId()];
 			UsedEdge usedEdge = ff.createUsedEdge();
 			usedEdge.setEdge(edge);
 			route.getWay().add(usedEdge);
 		}
-
+		UsedEdge usedEdge = ff.createUsedEdge();
+		Edge edge = edges[route.getWay().get(route.getWay().size() - 1).getEdge().getEnd().getId()][0];
+		usedEdge.setEdge(edge);
+		route.getWay().add(usedEdge);
+		System.out.println("Created route:");
+		for (UsedEdge e : route.getWay()) {
+			System.out.print(e.getEdge().getStart().getId() + " -> ");
+		}
+		System.out.print(route.getWay().get(route.getWay().size() - 1).getEdge().getEnd().getId());
+		System.out.println();
 		return route;
 	}
 }
