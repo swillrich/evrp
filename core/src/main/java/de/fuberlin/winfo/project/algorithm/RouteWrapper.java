@@ -4,15 +4,12 @@ import static de.fuberlin.winfo.project.algorithm.AlgHelper.computeEnergyConsump
 import static de.fuberlin.winfo.project.algorithm.AlgHelper.getNodeByOrder;
 import static de.fuberlin.winfo.project.algorithm.AlgHelper.getTimeWindow;
 
-import de.fuberlin.winfo.project.algorithm.restriction.Restriction;
-import de.fuberlin.winfo.project.algorithm.restriction.Restrictions;
 import de.fuberlin.winfo.project.model.network.Duration;
 import de.fuberlin.winfo.project.model.network.Edge;
 import de.fuberlin.winfo.project.model.network.NetworkFactory;
 import de.fuberlin.winfo.project.model.network.Node;
 import de.fuberlin.winfo.project.model.network.Order;
 import de.fuberlin.winfo.project.model.network.Vehicle;
-import de.fuberlin.winfo.project.model.network.impl.NetworkFactoryImpl;
 import de.fuberlin.winfo.project.model.network.solution.Delivery;
 import de.fuberlin.winfo.project.model.network.solution.Route;
 import de.fuberlin.winfo.project.model.network.solution.SolutionFactory;
@@ -21,38 +18,22 @@ import de.fuberlin.winfo.project.model.network.solution.impl.SolutionFactoryImpl
 
 public class RouteWrapper {
 	private Route route;
-	private NetworkProvider networkProvider;
 	private SolutionFactory solutionFactory;
 	private NetworkFactory networkFactory;
 	private Node depot;
-	private Restrictions restrictions;
+	private Edge[][] E;
 
-	public RouteWrapper(Algorithm algorithm, Vehicle vehicle, Node depot) {
-		networkProvider = algorithm.networkProvider;
-		solutionFactory = new SolutionFactoryImpl();
-		networkFactory = new NetworkFactoryImpl();
-		route = solutionFactory.createRoute();
-		this.route.setVehicle(vehicle);
-		this.depot = depot;
-		restrictions = new Restrictions(networkProvider);
-	}
-
-	public RouteWrapper(Algorithm algorithm, Route route, Node depot) {
-		networkProvider = algorithm.networkProvider;
+	public RouteWrapper(Route route, Node depot, Edge[][] edges) {
 		this.route = route;
+		this.E = edges;
 		if (depot == null) {
 			this.depot = route.getWay().get(0).getEdge().getStart();
 		} else {
 			this.depot = depot;
 		}
-		restrictions = new Restrictions(networkProvider);
 	}
 
-	public void addRestriction(Restriction restriction) {
-		restrictions.add(restriction);
-	}
-
-	public Route getModelRoute() {
+	public Route getActualRoute() {
 		return route;
 	}
 
@@ -81,11 +62,6 @@ public class RouteWrapper {
 
 			capLeft = capLeft - (int) computeEnergyConsumptionOfEdge(vehicle,
 					usedEdge.getCurrentVehicleCargoWeight() + extraNeed, usedEdge.getEdge().getDistance());
-
-			// if (capLeft < 0) {
-			// throw new Exception("Consumption can not be negative at edge with
-			// index " + i + " with " + capLeft);
-			// }
 
 			if (withUpdate) {
 				usedEdge.setRemainingVehicleBatteryCapacityAtEnd((int) capLeft);
@@ -204,11 +180,11 @@ public class RouteWrapper {
 
 			Node newNode = getNodeByOrder(order);
 
-			Edge edgeToNewNode = networkProvider.getEdges()[depot.getId()][newNode.getId()];
+			Edge edgeToNewNode = E[depot.getId()][newNode.getId()];
 			UsedEdge usedEdgeToNewNode = initializeUsedEdge(edgeToNewNode, order);
 			route.getWay().add(usedEdgeToNewNode);
 
-			Edge edgeFromNewNode = networkProvider.getEdges()[newNode.getId()][depot.getId()];
+			Edge edgeFromNewNode = E[newNode.getId()][depot.getId()];
 			UsedEdge usedEdgeFromNewNode = initializeUsedEdge(edgeFromNewNode, null);
 			route.getWay().add(usedEdgeFromNewNode);
 
@@ -223,9 +199,9 @@ public class RouteWrapper {
 		Node newNode = getNodeByOrder(order);
 
 		UsedEdge edgeToDelete = route.getWay().get(i);
-		Edge edgeToNewNode = networkProvider.getEdges()[edgeToDelete.getEdge().getStart().getId()][newNode.getId()];
+		Edge edgeToNewNode = E[edgeToDelete.getEdge().getStart().getId()][newNode.getId()];
 		UsedEdge usedEdgeToNewNode = initializeUsedEdge(edgeToNewNode, order);
-		Edge edgeFromNewNode = networkProvider.getEdges()[newNode.getId()][edgeToDelete.getEdge().getEnd().getId()];
+		Edge edgeFromNewNode = E[newNode.getId()][edgeToDelete.getEdge().getEnd().getId()];
 
 		Order order2 = null;
 		if (edgeToDelete instanceof Delivery) {
@@ -250,5 +226,11 @@ public class RouteWrapper {
 			}
 		}
 		return "vehicle id: " + route.getVehicle().getId() + ", way: " + way;
+	}
+
+	public static RouteWrapper instantiateByVehicle(Vehicle vehicle, Node depot, Edge[][] edges) {
+		Route route = new SolutionFactoryImpl().createRoute();
+		route.setVehicle(vehicle);
+		return new RouteWrapper(route, depot, edges);
 	}
 }

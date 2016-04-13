@@ -95,7 +95,7 @@ public abstract class Algorithm {
 	}
 
 	public RouteWrapper buildRoute(Vehicle vehicle, Node depot) {
-		return new RouteWrapper(this, vehicle, depot);
+		return RouteWrapper.instantiateByVehicle(vehicle, depot, networkProvider.getEdges());
 	}
 
 	public Restrictions getRestrictions() {

@@ -71,7 +71,7 @@ public class SvensAlg extends Algorithm {
 				PendingOrder nextPendingOrder = priorityQueue.poll();
 				try {
 					restrictions.check(route, nextPendingOrder.getOrder(), nextPendingOrder.getPos());
-					if (route.getModelRoute().getWay().isEmpty()) {
+					if (route.getActualRoute().getWay().isEmpty()) {
 						route.addDelivery(nextPendingOrder.getOrder());
 					} else {
 						route.addDeliveryAtIndex(nextPendingOrder.getOrder(), nextPendingOrder.getPos());
@@ -80,12 +80,12 @@ public class SvensAlg extends Algorithm {
 				} catch (RestrictionException e) {
 					if (priorityQueue.isEmpty()) {
 						System.out.println((solution.getRoutes().size() + 1) + ". Route with "
-								+ (route.getModelRoute().getWay().size() + 1) + " nodes built (" + e.getMessage()
+								+ (route.getActualRoute().getWay().size() + 1) + " nodes built (" + e.getMessage()
 								+ ")");
 					}
 				}
 			}
-			solution.getRoutes().add(route.getModelRoute());
+			solution.getRoutes().add(route.getActualRoute());
 		}
 	}
 }

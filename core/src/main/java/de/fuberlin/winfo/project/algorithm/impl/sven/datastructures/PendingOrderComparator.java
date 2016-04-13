@@ -31,15 +31,15 @@ public class PendingOrderComparator implements Comparator<PendingOrder> {
 		}
 
 		// initial pendulum tour (Nearest Neighbor)
-		if (route.getModelRoute().getWay().isEmpty()) {
+		if (route.getActualRoute().getWay().isEmpty()) {
 			return Integer.compare(distance(route.getDepot(), n1), distance(route.getDepot(), n2));
 		}
 
 		UsedEdge n1UsedEdge = returnMin(n1);
-		o1.setPos(route.getModelRoute().getWay().indexOf(n1UsedEdge));
+		o1.setPos(route.getActualRoute().getWay().indexOf(n1UsedEdge));
 
 		UsedEdge n2UsedEdge = returnMin(n2);
-		o2.setPos(route.getModelRoute().getWay().indexOf(n2UsedEdge));
+		o2.setPos(route.getActualRoute().getWay().indexOf(n2UsedEdge));
 
 		int costs1 = calculateByInsertionHeuristics(n1UsedEdge, n1);
 		int costs2 = calculateByInsertionHeuristics(n2UsedEdge, n2);
@@ -48,7 +48,7 @@ public class PendingOrderComparator implements Comparator<PendingOrder> {
 	}
 
 	private UsedEdge returnMin(Node node) {
-		return Collections.min(route.getModelRoute().getWay(), new Comparator<UsedEdge>() {
+		return Collections.min(route.getActualRoute().getWay(), new Comparator<UsedEdge>() {
 			@Override
 			public int compare(UsedEdge o1, UsedEdge o2) {
 				int a = calculateByInsertionHeuristics(o1, node);

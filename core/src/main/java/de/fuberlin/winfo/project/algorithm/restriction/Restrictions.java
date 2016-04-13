@@ -20,7 +20,7 @@ public class Restrictions extends ArrayList<Restriction> {
 	}
 
 	public void check(RouteWrapper route, Order newOrder, int index) throws RestrictionException {
-		if (route.getModelRoute().getWay().size() == 0) {
+		if (route.getActualRoute().getWay().size() == 0) {
 			return;
 		}
 		for (Restriction r : this) {

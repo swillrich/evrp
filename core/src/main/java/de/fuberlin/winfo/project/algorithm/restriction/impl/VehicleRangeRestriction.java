@@ -18,13 +18,13 @@ public class VehicleRangeRestriction implements Restriction {
 		Node node = AlgHelper.getNodeByOrder(newOrder);
 
 		// First new edge
-		Edge edgeToNewNode = np.getEdges()[route.getModelRoute().getWay().get(index).getEdge().getStart()
+		Edge edgeToNewNode = np.getEdges()[route.getActualRoute().getWay().get(index).getEdge().getStart()
 				.getId()][node.getId()];
 		// Second new edge
-		Edge edgeFromNewNode = np.getEdges()[node.getId()][route.getModelRoute().getWay().get(index).getEdge()
+		Edge edgeFromNewNode = np.getEdges()[node.getId()][route.getActualRoute().getWay().get(index).getEdge()
 				.getEnd().getId()];
 
-		double need = route.getModelRoute().getWay().get(index).getCurrentVehicleCargoWeight();
+		double need = route.getActualRoute().getWay().get(index).getCurrentVehicleCargoWeight();
 
 		double capacityLeft = 0;
 		try {
@@ -33,15 +33,15 @@ public class VehicleRangeRestriction implements Restriction {
 		} catch (Exception e) {
 			return false;
 		}
-		capacityLeft -= AlgHelper.computeEnergyConsumptionOfEdge(route.getModelRoute().getVehicle(),
+		capacityLeft -= AlgHelper.computeEnergyConsumptionOfEdge(route.getActualRoute().getVehicle(),
 				need + newOrder.getWeight(), edgeToNewNode.getDistance());
-		capacityLeft -= AlgHelper.computeEnergyConsumptionOfEdge(route.getModelRoute().getVehicle(), need,
+		capacityLeft -= AlgHelper.computeEnergyConsumptionOfEdge(route.getActualRoute().getVehicle(), need,
 				edgeFromNewNode.getDistance());
 
-		double availableCapacity = route.getModelRoute().getWay().get(route.getModelRoute().getWay().size() - 1)
+		double availableCapacity = route.getActualRoute().getWay().get(route.getActualRoute().getWay().size() - 1)
 				.getRemainingVehicleBatteryCapacityAtEnd();
 
-		double oldCapacityLeft = route.getModelRoute().getWay().get(index).getRemainingVehicleBatteryCapacityAtEnd();
+		double oldCapacityLeft = route.getActualRoute().getWay().get(index).getRemainingVehicleBatteryCapacityAtEnd();
 
 		return oldCapacityLeft - capacityLeft <= availableCapacity;
 	}
