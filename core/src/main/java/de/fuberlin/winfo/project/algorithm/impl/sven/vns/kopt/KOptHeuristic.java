@@ -1,4 +1,4 @@
-package de.fuberlin.winfo.project.algorithm.impl.sven.vns;
+package de.fuberlin.winfo.project.algorithm.impl.sven.vns.kopt;
 
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -6,22 +6,18 @@ import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
 
-import de.fuberlin.winfo.project.algorithm.impl.sven.vns.KOptHeuristic.KOptOptions;
-import de.fuberlin.winfo.project.model.network.Edge;
-import de.fuberlin.winfo.project.model.network.solution.Route;
-
 public class KOptHeuristic implements Iterator<KOptOptions> {
 	private int[] posArr;
 	private int n;
 	private int k;
-	private Route route;
+	private List<Pair> seq;
 
-	public KOptHeuristic(int k, Route route) throws Exception {
-		int edges = route.getWay().size();
-		if (edges < 3 || k < 2) {
-			throw new Exception("At least both 3 edges and 2-opt needed");
+	public KOptHeuristic(int k, List<Pair> route) throws Exception {
+		int edges = route.size();
+		if (edges / k < 1.5) {
+			throw new Exception("Insufficient edges for using k = " + k);
 		}
-		this.route = route;
+		this.seq = route;
 		posArr = new int[k];
 		this.k = k;
 		this.n = edges;
@@ -52,23 +48,23 @@ public class KOptHeuristic implements Iterator<KOptOptions> {
 		KOptOptions options = new KOptOptions(posArr);
 		Map<Integer, Integer> map = new TreeMap<Integer, Integer>();
 		for (int i = 0; i < k; i++) {
-			Edge edge = route.getWay().get(posArr[i]).getEdge();
+			Pair pair = seq.get(posArr[i]);
 			if (i == 0) {
-				map.put(edge.getEnd().getId(), i);
+				map.put(pair.getEnd(), i);
 			} else if (i == k - 1) {
-				map.put(edge.getStart().getId(), i);
+				map.put(pair.getStart(), i);
 			} else {
-				map.put(edge.getStart().getId(), i);
-				map.put(edge.getEnd().getId(), i);
+				map.put(pair.getStart(), i);
+				map.put(pair.getEnd(), i);
 			}
 		}
 		ArrayList<List<Integer>> permutations = new ArrayList<List<Integer>>();
 		permute(permutations, map, new ArrayList<Integer>(), new ArrayList<Integer>(map.keySet()));
 		for (List<Integer> l : permutations) {
-			l.add(0, route.getWay().get(posArr[0]).getEdge().getStart().getId());
-			l.add(route.getWay().get(posArr[k - 1]).getEdge().getEnd().getId());
+			l.add(0, seq.get(posArr[0]).getStart());
+			l.add(seq.get(posArr[k - 1]).getEnd());
 		}
-		options.addAll(permutations);
+		options.fillBy(permutations);
 		return options;
 	}
 
@@ -81,19 +77,19 @@ public class KOptHeuristic implements Iterator<KOptOptions> {
 				ArrayList<Integer> list = new ArrayList<Integer>(nodes);
 				Integer nodeId = list.remove(i);
 
-				Edge tabuEdge = route.getWay().get(posArr[k - 2 - list.size() / 2]).getEdge();
-				if (nodeId == tabuEdge.getEnd().getId()) {
+				Pair tabuPair = seq.get(posArr[k - 2 - list.size() / 2]);
+				if (nodeId == tabuPair.getEnd()) {
 					continue;
 				}
 
 				Integer edgeIndex = map.get(nodeId);
 				int otherEnd;
-				Edge edge = route.getWay().get(posArr[edgeIndex]).getEdge();
-				int nextEdgeIndex = edgeIndex + (edge.getStart().getId() == nodeId ? -1 : 1);
+				Pair pair = seq.get(posArr[edgeIndex]);
+				int nextEdgeIndex = edgeIndex + (pair.getStart() == nodeId ? -1 : 1);
 				if (nextEdgeIndex < edgeIndex) {
-					otherEnd = route.getWay().get(posArr[nextEdgeIndex]).getEdge().getEnd().getId();
+					otherEnd = seq.get(posArr[nextEdgeIndex]).getEnd();
 				} else {
-					otherEnd = route.getWay().get(posArr[nextEdgeIndex]).getEdge().getStart().getId();
+					otherEnd = seq.get(posArr[nextEdgeIndex]).getStart();
 				}
 
 				list.remove((Integer) otherEnd);
@@ -173,36 +169,5 @@ public class KOptHeuristic implements Iterator<KOptOptions> {
 		}
 		posArr[0] = 0;
 		initAt(0);
-	}
-
-	public static class KOptOptions extends ArrayList<List<Integer>> {
-		int[] toReplace;
-
-		public KOptOptions(int[] toReplace) {
-			this.toReplace = toReplace;
-		}
-
-		@Override
-		public String toString() {
-			StringBuilder b = new StringBuilder();
-			for (int i = 0; i < this.size(); i++) {
-				List<Integer> sequence = this.get(i);
-				for (int j = 0; j < sequence.size(); j = j + 2) {
-					b.append(sequence.get(j) + "->" + sequence.get(j + 1));
-					if (j + 2 < sequence.size()) {
-						b.append(", ");
-					}
-				}
-				b.append("\n");
-			}
-			return b.toString();
-		}
-	}
-	
-	public static interface Pair {
-		int getId();
-		int getStart();
-		int getEnd();
-		Object getSrc();
 	}
 }

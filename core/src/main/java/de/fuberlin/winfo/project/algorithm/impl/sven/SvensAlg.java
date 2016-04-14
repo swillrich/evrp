@@ -53,6 +53,9 @@ public class SvensAlg extends Algorithm {
 
 			@Override
 			public int compute(Solution s) {
+				if (s == null) {
+					return Integer.MAX_VALUE;
+				}
 				int size = s.getRoutes().size();
 				long sum = s.getRoutes().stream().mapToLong(r -> r.getTotalDistanceInM()).sum();
 				return (int) (sum / size);

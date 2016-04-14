@@ -1,20 +1,16 @@
 package de.fuberlin.winfo.project.algorithm.impl.sven.vns;
 
-import java.util.ArrayList;
 import java.util.List;
 
-import de.fuberlin.winfo.project.algorithm.impl.sven.vns.KOptHeuristic.KOptOptions;
-import de.fuberlin.winfo.project.algorithm.impl.sven.vns.KOptHeuristic.Pair;
-import de.fuberlin.winfo.project.model.network.solution.Delivery;
-import de.fuberlin.winfo.project.model.network.solution.Route;
+import de.fuberlin.winfo.project.algorithm.impl.sven.vns.kopt.KOptIteratorWrapper;
+import de.fuberlin.winfo.project.algorithm.impl.sven.vns.kopt.Pair;
+import de.fuberlin.winfo.project.algorithm.impl.sven.vns.kopt.Route2KOptPairs;
 import de.fuberlin.winfo.project.model.network.solution.Solution;
-import de.fuberlin.winfo.project.model.network.solution.UsedEdge;
 
 public class TwoOptNeighborhoodStructure extends NeighborhoodStructure {
 
-	private KOptHeuristic kopt;
-	private int current = 0;
-	private KOptOptions options;
+	private int current = -1;
+	private KOptIteratorWrapper optionIterator;
 
 	@Override
 	public String getName() {
@@ -23,78 +19,35 @@ public class TwoOptNeighborhoodStructure extends NeighborhoodStructure {
 
 	@Override
 	public boolean hasNext() {
-		if (current < 0) {
-			return kopt.hasNext();
+		if (!optionIterator.hasNext()) {
+			optionIterator = null;
+			return current > 0;
 		}
 		return true;
 	}
 
 	@Override
 	public Solution move(Solution solution) {
-		if (options != null && !options.isEmpty()) {
-			return move();
-		} else if (kopt != null && kopt.hasNext()) {
-			options = kopt.next();
-			System.out.println(kopt.toString());
-			System.out.println(options.toString());
-			return move();
+		if (optionIterator != null) {
+			List<Pair> option = optionIterator.next();
+			return actualMove(solution, option);
 		} else {
+			if (current == -1) {
+				current = solution.getRoutes().size() - 1;
+			} else {
+				current--;
+			}
 			try {
-				kopt = new KOptHeuristic(2, solution.getRoutes().get(current));
+				List<Pair> pairs = Route2KOptPairs.convert(solution.getRoutes().get(current));
+				optionIterator = new KOptIteratorWrapper(2, pairs);
+				return move(solution);
 			} catch (Exception e) {
-				e.printStackTrace();
+				return null;
 			}
-			if (current + 1 == solution.getRoutes().size()) {
-				current = -1;
-			}
-			options = kopt.next();
-			return move();
 		}
 	}
 
-	private Solution move() {
-		List<Integer> list = options.remove(0);
+	private Solution actualMove(Solution solution, List<Pair> pairs) {
 		return centralSol;
-	}
-
-	private List<Pair> prepareForKOpt(Route route) {
-		List<Pair> list = new ArrayList<Pair>();
-		for (int i = 1; i < route.getWay().size(); i++) {
-			final int id = i;
-			final UsedEdge usedEdge = route.getWay().get(i);
-			Pair pair = new Pair() {
-
-				@Override
-				public int getId() {
-					return id;
-				}
-
-				@Override
-				public int getStart() {
-					UsedEdge previousUsedEdge = route.getWay().get(id - 1);
-					if (previousUsedEdge instanceof Delivery) {
-						return ((Delivery) usedEdge).getOrder().hashCode();
-					} else {
-						return usedEdge.getEdge().getStart().getId();
-					}
-				}
-
-				@Override
-				public int getEnd() {
-					if (usedEdge instanceof Delivery) {
-						return ((Delivery) usedEdge).getOrder().hashCode();
-					} else {
-						return usedEdge.getEdge().getEnd().getId();
-					}
-				}
-
-				@Override
-				public Object getSrc() {
-					return usedEdge;
-				}
-			};
-			list.add(pair);
-		}
-		return list;
 	}
 }
