@@ -48,7 +48,6 @@ public class SvensAlg extends Algorithm {
 	}
 
 	private void improvementProcedure(Solution solution) {
-		VNS vns = new VNS(networkProvider);
 		CostFunction f = new CostFunction() {
 
 			@Override
@@ -61,7 +60,7 @@ public class SvensAlg extends Algorithm {
 				return (int) (sum / size);
 			}
 		};
-		Solution optSolution = vns.vns(solution, new NeighborhoodStructure[] { new TwoOptNeighborhoodStructure() }, f);
+		Solution optSolution = VNS.vns(networkProvider, f, solution, new NeighborhoodStructure[] { new TwoOptNeighborhoodStructure() });
 	}
 
 	private void constructProcedure(Solution solution, Depot depot) throws Exception {

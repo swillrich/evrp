@@ -38,10 +38,6 @@ public class Route2KOptPairs {
 					}
 				}
 
-				@Override
-				public Object getSrc() {
-					return usedEdge;
-				}
 			};
 			list.add(pair);
 		}

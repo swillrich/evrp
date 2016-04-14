@@ -6,8 +6,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import de.fuberlin.winfo.project.algorithm.AlgHelper;
-import de.fuberlin.winfo.project.algorithm.RouteWrapper;
 import de.fuberlin.winfo.project.algorithm.NetworkProvider;
+import de.fuberlin.winfo.project.algorithm.RouteWrapper;
 import de.fuberlin.winfo.project.algorithm.restriction.Restriction;
 import de.fuberlin.winfo.project.algorithm.restriction.RestrictionException;
 import de.fuberlin.winfo.project.model.network.Customer;
@@ -17,12 +17,15 @@ import de.fuberlin.winfo.project.model.network.Locatable;
 import de.fuberlin.winfo.project.model.network.Node;
 import de.fuberlin.winfo.project.model.network.Order;
 import de.fuberlin.winfo.project.model.network.solution.Delivery;
+import de.fuberlin.winfo.project.model.network.solution.SolutionFactory;
 import de.fuberlin.winfo.project.model.network.solution.UsedEdge;
+import de.fuberlin.winfo.project.model.network.solution.impl.SolutionFactoryImpl;
 
 public class TourLengthRestriction implements Restriction {
 
 	private RouteWrapper route;
 	private NetworkProvider np;
+	private SolutionFactory solFac = new SolutionFactoryImpl();
 
 	@Override
 	public boolean check(NetworkProvider np, RouteWrapper route, Order newOrder, int index)
@@ -121,7 +124,7 @@ public class TourLengthRestriction implements Restriction {
 		Edge edgeToNewOrder = np.getEdges()[nodeBeforeInsertion.getId()][newNode.getId()];
 		Edge edgeFromNewOrder = np.getEdges()[newNode.getId()][nodeAfterInsertion.getId()];
 
-		Delivery deliveryToNewOrder = np.getSolutionFactory().createDelivery();
+		Delivery deliveryToNewOrder = solFac.createDelivery();
 		deliveryToNewOrder.setOrder(order);
 		deliveryToNewOrder.setEdge(edgeToNewOrder);
 
@@ -129,11 +132,11 @@ public class TourLengthRestriction implements Restriction {
 
 		if (route.getActualRoute().getWay().get(usedEdgeIndex) instanceof Delivery) {
 			Order orderAfterInsertion = ((Delivery) route.getActualRoute().getWay().get(usedEdgeIndex)).getOrder();
-			usedEdgeFromNewOrder = np.getSolutionFactory().createDelivery();
+			usedEdgeFromNewOrder = solFac.createDelivery();
 			((Delivery) usedEdgeFromNewOrder).setOrder(orderAfterInsertion);
 			((Delivery) usedEdgeFromNewOrder).setEdge(edgeFromNewOrder);
 		} else {
-			usedEdgeFromNewOrder = np.getSolutionFactory().createUsedEdge();
+			usedEdgeFromNewOrder = solFac.createUsedEdge();
 			usedEdgeFromNewOrder.setEdge(edgeFromNewOrder);
 		}
 

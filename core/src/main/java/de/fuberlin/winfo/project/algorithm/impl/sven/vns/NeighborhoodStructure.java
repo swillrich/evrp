@@ -4,18 +4,24 @@ import java.util.Iterator;
 
 import org.eclipse.emf.ecore.util.EcoreUtil;
 
+import de.fuberlin.winfo.project.algorithm.NetworkProvider;
 import de.fuberlin.winfo.project.model.network.solution.Solution;
 
 public abstract class NeighborhoodStructure implements Iterator<Solution> {
 
 	Solution centralSol;
+	NetworkProvider networkProvider;
 
 	public abstract String getName();
 
-	public abstract Solution move(Solution solution);
+	public abstract Solution move(Solution solution) throws Exception;
 
-	public Solution shake(Solution s) {
-		this.centralSol = s;
+	public void init(NetworkProvider np, Solution sol) {
+		this.centralSol = sol;
+		networkProvider = np;
+	}
+
+	public Solution shake() {
 		for (int i = 0; i < Math.random() * 10; i++) {
 			next();
 		}
@@ -27,6 +33,7 @@ public abstract class NeighborhoodStructure implements Iterator<Solution> {
 		while (hasNext()) {
 			Solution neighbor = next();
 			if (f.compare(solution, neighbor) > 0) {
+				System.out.println("IMPROVEMENT !!!");
 				solution = neighbor;
 			}
 		}
@@ -36,6 +43,11 @@ public abstract class NeighborhoodStructure implements Iterator<Solution> {
 	@Override
 	public Solution next() {
 		Solution copy = EcoreUtil.copy(centralSol);
-		return move(copy);
+		try {
+			return move(copy);
+		} catch (Exception e) {
+			e.printStackTrace();
+			return null;
+		}
 	}
 }

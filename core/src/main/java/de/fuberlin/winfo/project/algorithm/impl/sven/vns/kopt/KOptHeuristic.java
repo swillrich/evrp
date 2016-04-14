@@ -14,8 +14,8 @@ public class KOptHeuristic implements Iterator<KOptOptions> {
 
 	public KOptHeuristic(int k, List<Pair> route) throws Exception {
 		int edges = route.size();
-		if (edges / k < 1.5) {
-			throw new Exception("Insufficient edges for using k = " + k);
+		if ((double) edges / k < 1.5) {
+			throw new Exception("Insufficient edges (" + route.size() + ") for using k = " + k);
 		}
 		this.seq = route;
 		posArr = new int[k];
@@ -45,7 +45,7 @@ public class KOptHeuristic implements Iterator<KOptOptions> {
 	}
 
 	private KOptOptions createOptions() {
-		KOptOptions options = new KOptOptions(posArr);
+		KOptOptions options = new KOptOptions(posArr, seq);
 		Map<Integer, Integer> map = new TreeMap<Integer, Integer>();
 		for (int i = 0; i < k; i++) {
 			Pair pair = seq.get(posArr[i]);

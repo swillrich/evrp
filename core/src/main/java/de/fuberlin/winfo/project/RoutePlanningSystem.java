@@ -8,7 +8,9 @@ import de.fuberlin.winfo.project.algorithm.NetworkProvider;
 import de.fuberlin.winfo.project.input.VRPInput;
 import de.fuberlin.winfo.project.model.network.Customer;
 import de.fuberlin.winfo.project.model.network.solution.Solution;
+import de.fuberlin.winfo.project.model.network.solution.SolutionFactory;
 import de.fuberlin.winfo.project.model.network.solution.UseCase;
+import de.fuberlin.winfo.project.model.network.solution.impl.SolutionFactoryImpl;
 import de.fuberlin.winfo.project.output.VisualizationServerRequest;
 
 /**
@@ -32,8 +34,10 @@ public class RoutePlanningSystem {
 		input.getLocatables().getCustomer().stream().map(l -> ((Customer) l))
 				.forEach(c -> input.getLocatables().getMainDepot().getDeliveries().addAll(c.getOrders()));
 
+		SolutionFactory solutionFactory = new SolutionFactoryImpl();
+		
 		for (UseCase useCase : input.getUseCases()) {
-			Solution solution = networkProvider.getSolutionFactory().createSolution();
+			Solution solution = solutionFactory.createSolution();
 			solution.setUsecase(useCase);
 			networkProvider.getNetwork().getSolution().add(solution);
 		}

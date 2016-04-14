@@ -5,10 +5,12 @@ import java.util.Arrays;
 import java.util.List;
 
 public class KOptOptions extends ArrayList<List<Pair>> {
-	public int[] toReplace;
+	private int[] toReplace;
+	private List<Pair> sequence;
 
-	public KOptOptions(int[] toReplace) {
+	public KOptOptions(int[] toReplace, List<Pair> seq) {
 		this.toReplace = Arrays.copyOf(toReplace, toReplace.length);
+		this.sequence = seq;
 	}
 
 	public void fillBy(ArrayList<List<Integer>> permutations) {
@@ -27,11 +29,6 @@ public class KOptOptions extends ArrayList<List<Pair>> {
 					@Override
 					public int getEnd() {
 						return target;
-					}
-
-					@Override
-					public Object getSrc() {
-						return null;
 					}
 
 				};
@@ -55,5 +52,13 @@ public class KOptOptions extends ArrayList<List<Pair>> {
 			b.append("\n");
 		}
 		return b.toString();
+	}
+
+	public List<Pair> getSequence() {
+		return sequence;
+	}
+
+	public int[] getToReplace() {
+		return toReplace;
 	}
 }

@@ -4,6 +4,4 @@ public interface Pair {
 	int getStart();
 
 	int getEnd();
-
-	Object getSrc();
 }

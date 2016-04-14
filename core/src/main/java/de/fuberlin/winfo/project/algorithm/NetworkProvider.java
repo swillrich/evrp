@@ -4,10 +4,7 @@ import de.fuberlin.winfo.project.Locatables;
 import de.fuberlin.winfo.project.input.VRPInput;
 import de.fuberlin.winfo.project.model.network.Edge;
 import de.fuberlin.winfo.project.model.network.Network;
-import de.fuberlin.winfo.project.model.network.NetworkFactory;
 import de.fuberlin.winfo.project.model.network.Node;
-import de.fuberlin.winfo.project.model.network.impl.NetworkFactoryImpl;
-import de.fuberlin.winfo.project.model.network.solution.impl.SolutionFactoryImpl;
 
 /**
  * @author willrich
@@ -19,11 +16,6 @@ import de.fuberlin.winfo.project.model.network.solution.impl.SolutionFactoryImpl
  */
 public class NetworkProvider {
 
-	/**
-	 * Creates new Domain Objects
-	 */
-	private NetworkFactory networkFactory = new NetworkFactoryImpl();
-	private SolutionFactoryImpl solutionFactory = new SolutionFactoryImpl();
 	private Edge[][] edges;
 	private Node[] nodes;
 	private Network network;
@@ -55,14 +47,6 @@ public class NetworkProvider {
 
 	public Network getNetwork() {
 		return network;
-	}
-
-	public NetworkFactory getNetworkFactory() {
-		return networkFactory;
-	}
-
-	public SolutionFactoryImpl getSolutionFactory() {
-		return solutionFactory;
 	}
 
 	public Edge[][] getEdges() {
