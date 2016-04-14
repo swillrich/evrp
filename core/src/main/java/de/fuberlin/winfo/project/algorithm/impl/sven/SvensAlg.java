@@ -11,6 +11,7 @@ import de.fuberlin.winfo.project.algorithm.impl.sven.datastructures.OrderPriorit
 import de.fuberlin.winfo.project.algorithm.impl.sven.datastructures.PendingOrder;
 import de.fuberlin.winfo.project.algorithm.impl.sven.vns.CostFunction;
 import de.fuberlin.winfo.project.algorithm.impl.sven.vns.NeighborhoodStructure;
+import de.fuberlin.winfo.project.algorithm.impl.sven.vns.TwoOptNeighborhoodStructure;
 import de.fuberlin.winfo.project.algorithm.impl.sven.vns.VNS;
 import de.fuberlin.winfo.project.algorithm.restriction.RestrictionException;
 import de.fuberlin.winfo.project.algorithm.restriction.impl.CargoCapacityRestriction;
@@ -47,7 +48,7 @@ public class SvensAlg extends Algorithm {
 	}
 
 	private void improvementProcedure(Solution solution) {
-		VNS vns = new VNS();
+		VNS vns = new VNS(networkProvider);
 		CostFunction f = new CostFunction() {
 
 			@Override
@@ -57,7 +58,7 @@ public class SvensAlg extends Algorithm {
 				return (int) (sum / size);
 			}
 		};
-		Solution optSolution = vns.vns(solution, new NeighborhoodStructure[] {}, f);
+		Solution optSolution = vns.vns(solution, new NeighborhoodStructure[] { new TwoOptNeighborhoodStructure() }, f);
 	}
 
 	private void constructProcedure(Solution solution, Depot depot) throws Exception {

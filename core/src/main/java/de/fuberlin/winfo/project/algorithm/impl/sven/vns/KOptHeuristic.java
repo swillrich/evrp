@@ -2,16 +2,15 @@ package de.fuberlin.winfo.project.algorithm.impl.sven.vns;
 
 import java.util.ArrayList;
 import java.util.Iterator;
-import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
 
-import de.fuberlin.winfo.project.algorithm.impl.sven.vns.KOptHeuristic.Option;
+import de.fuberlin.winfo.project.algorithm.impl.sven.vns.KOptHeuristic.KOptOptions;
 import de.fuberlin.winfo.project.model.network.Edge;
 import de.fuberlin.winfo.project.model.network.solution.Route;
 
-public class KOptHeuristic implements Iterator<Option> {
+public class KOptHeuristic implements Iterator<KOptOptions> {
 	private int[] posArr;
 	private int n;
 	private int k;
@@ -43,14 +42,14 @@ public class KOptHeuristic implements Iterator<Option> {
 	}
 
 	@Override
-	public Option next() {
-		Option options = createOptions();
+	public KOptOptions next() {
+		KOptOptions options = createOptions();
 		increment(0);
 		return options;
 	}
 
-	private Option createOptions() {
-		Option options = new Option(posArr);
+	private KOptOptions createOptions() {
+		KOptOptions options = new KOptOptions(posArr);
 		Map<Integer, Integer> map = new TreeMap<Integer, Integer>();
 		for (int i = 0; i < k; i++) {
 			Edge edge = route.getWay().get(posArr[i]).getEdge();
@@ -169,17 +168,17 @@ public class KOptHeuristic implements Iterator<Option> {
 	public void printAll() {
 		for (int i = 1; hasNext(); i++) {
 			System.out.println(i + ". -> " + toString());
-			Option next = next();
+			KOptOptions next = next();
 			System.out.println(next);
 		}
 		posArr[0] = 0;
 		initAt(0);
 	}
 
-	public static class Option extends LinkedList<List<Integer>> {
+	public static class KOptOptions extends ArrayList<List<Integer>> {
 		int[] toReplace;
 
-		public Option(int[] toReplace) {
+		public KOptOptions(int[] toReplace) {
 			this.toReplace = toReplace;
 		}
 
@@ -198,5 +197,12 @@ public class KOptHeuristic implements Iterator<Option> {
 			}
 			return b.toString();
 		}
+	}
+	
+	public static interface Pair {
+		int getId();
+		int getStart();
+		int getEnd();
+		Object getSrc();
 	}
 }

@@ -49,7 +49,7 @@ public class ZMIVRPInput implements VRPInput {
 
 	@Override
 	public int getCustomerMaximum() {
-		return 500;
+		return 50;
 	}
 
 	@Override

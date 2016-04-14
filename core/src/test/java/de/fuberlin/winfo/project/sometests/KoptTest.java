@@ -5,10 +5,10 @@ import de.fuberlin.winfo.project.model.network.solution.Route;
 
 public class KoptTest {
 	public static void main(String[] args) {
-		Route example = SampleRoute.getExample(10);
+		Route example = SampleRoute.getExample(18);
 		try {
-			KOptHeuristic opt = new KOptHeuristic(3, example);
-			
+			KOptHeuristic opt = new KOptHeuristic(2, example);
+			opt.printAll();
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

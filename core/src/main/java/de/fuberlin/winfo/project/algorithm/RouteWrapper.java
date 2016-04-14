@@ -10,6 +10,7 @@ import de.fuberlin.winfo.project.model.network.NetworkFactory;
 import de.fuberlin.winfo.project.model.network.Node;
 import de.fuberlin.winfo.project.model.network.Order;
 import de.fuberlin.winfo.project.model.network.Vehicle;
+import de.fuberlin.winfo.project.model.network.impl.NetworkFactoryImpl;
 import de.fuberlin.winfo.project.model.network.solution.Delivery;
 import de.fuberlin.winfo.project.model.network.solution.Route;
 import de.fuberlin.winfo.project.model.network.solution.SolutionFactory;
@@ -18,8 +19,8 @@ import de.fuberlin.winfo.project.model.network.solution.impl.SolutionFactoryImpl
 
 public class RouteWrapper {
 	private Route route;
-	private SolutionFactory solutionFactory;
-	private NetworkFactory networkFactory;
+	private SolutionFactory solutionFactory = new SolutionFactoryImpl();
+	private NetworkFactory networkFactory = new NetworkFactoryImpl();
 	private Node depot;
 	private Edge[][] E;
 

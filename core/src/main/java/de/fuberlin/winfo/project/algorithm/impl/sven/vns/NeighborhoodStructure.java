@@ -4,17 +4,11 @@ import java.util.Iterator;
 
 import org.eclipse.emf.ecore.util.EcoreUtil;
 
-import de.fuberlin.winfo.project.algorithm.NetworkProvider;
 import de.fuberlin.winfo.project.model.network.solution.Solution;
 
 public abstract class NeighborhoodStructure implements Iterator<Solution> {
 
 	Solution centralSol;
-	NetworkProvider np;
-
-	public NeighborhoodStructure(NetworkProvider np) {
-		this.np = np;
-	}
 
 	public abstract String getName();
 
@@ -22,7 +16,10 @@ public abstract class NeighborhoodStructure implements Iterator<Solution> {
 
 	public Solution shake(Solution s) {
 		this.centralSol = s;
-		return null;
+		for (int i = 0; i < Math.random() * 10; i++) {
+			next();
+		}
+		return next();
 	}
 
 	public Solution search(Solution solution, CostFunction f) {
