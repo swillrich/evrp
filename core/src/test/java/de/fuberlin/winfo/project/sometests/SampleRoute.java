@@ -26,10 +26,12 @@ public class SampleRoute {
 		usedEdge.setEdge(edge);
 		route.getWay().add(usedEdge);
 		System.out.println("Created route:");
-		for (UsedEdge e : route.getWay()) {
-			System.out.print(e.getEdge().getStart().getId() + " -> ");
+		for (int i = 0; i < route.getWay().size(); i++) {
+			UsedEdge e = route.getWay().get(i);
+			System.out.print("(");
+			System.out.print(e.getEdge().getStart().getId() + " -> " + e.getEdge().getEnd().getId());
+			System.out.print(")  ");
 		}
-		System.out.print(route.getWay().get(route.getWay().size() - 1).getEdge().getEnd().getId());
 		System.out.println();
 		return route;
 	}

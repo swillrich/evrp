@@ -24,7 +24,7 @@ public class Route2KOptPairs {
 						if (prevUsedEdge instanceof Delivery) {
 							return ((Delivery) prevUsedEdge).getOrder().hashCode();
 						} else {
-							return prevUsedEdge.getEdge().getStart().getId();
+							return prevUsedEdge.getEdge().getEnd().getId();
 						}
 					}
 				}
