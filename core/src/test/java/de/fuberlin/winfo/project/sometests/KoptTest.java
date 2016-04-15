@@ -8,7 +8,7 @@ public class KoptTest {
 	public static void main(String[] args) {
 		Route example = SampleRoute.getExample(6);
 		try {
-			KOptHeuristic opt = new KOptHeuristic(3, Route2KOptPairs.convert(example));
+			KOptHeuristic opt = new KOptHeuristic(2, Route2KOptPairs.convert(example));
 			opt.printAll();
 		} catch (Exception e) {
 			e.printStackTrace();
