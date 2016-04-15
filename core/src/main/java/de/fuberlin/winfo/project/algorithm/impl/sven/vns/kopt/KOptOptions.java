@@ -19,7 +19,8 @@ public class KOptOptions extends ArrayList<List<Pair>> {
 			for (int i = 0; i < list.size(); i = i + 2) {
 				final int src = list.get(i);
 				final int target = list.get(i + 1);
-				Pair pair = new Pair() {
+				// withIntermediatePoints(list, l, i, src);
+				l.add(new Pair() {
 
 					@Override
 					public int getStart() {
@@ -31,10 +32,28 @@ public class KOptOptions extends ArrayList<List<Pair>> {
 						return target;
 					}
 
-				};
-				l.add(pair);
+				});
 			}
 			add(l);
+		}
+	}
+
+	private void withIntermediatePoints(List<Integer> list, List<Pair> l, int i, final int src) {
+		if (i > 0) {
+			int prevTarget = list.get(i - 1);
+			l.add(new Pair() {
+
+				@Override
+				public int getStart() {
+					return prevTarget;
+				}
+
+				@Override
+				public int getEnd() {
+					return src;
+				}
+
+			});
 		}
 	}
 
