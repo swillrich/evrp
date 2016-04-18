@@ -6,9 +6,7 @@ import de.fuberlin.winfo.project.Utils.StopWatch;
 import de.fuberlin.winfo.project.algorithm.restriction.Restrictions;
 import de.fuberlin.winfo.project.model.network.Node;
 import de.fuberlin.winfo.project.model.network.Vehicle;
-import de.fuberlin.winfo.project.model.network.solution.Route;
 import de.fuberlin.winfo.project.model.network.solution.Solution;
-import de.fuberlin.winfo.project.model.network.solution.UsedEdge;
 
 /**
  * @author willrich
@@ -56,38 +54,14 @@ public abstract class Algorithm {
 		StopWatch sw = Utils.stopWatchGo();
 		run(solution);
 		Log.info(Log.ALGORITHM, "Finished within " + sw.stop() + " min");
-		Log.debug(Log.ALGORITHM, "Calculate statistics such as total distance and total time", null);
 		calculateTotalValuesForEachRoute();
 	}
 
-	/**
-	 * All the values which are stored in the model and could be calculated,
-	 * will be calculated after finishing this method. Especially the total
-	 * distance and total time values are getting calculated.
-	 * 
-	 * @throws Exception
-	 */
-	private void calculateTotalValuesForEachRoute() throws Exception {
-		long totalSolutionDistance = 0;
-		int totalSolutionTime = 0;
-		for (Route route : solution.getRoutes()) {
-			long totalRouteDistance = 0;
-			int totalRouteTime = route.getWay().get(route.getWay().size() - 1).getDuration().getEndInSec()
-					- route.getWay().get(0).getDuration().getStartInSec();
-			for (UsedEdge usedEdge : route.getWay()) {
-				totalRouteDistance += usedEdge.getEdge().getDistance();
-				// totalRouteTime += usedEdge.getDuration().getEndInSec() -
-				// usedEdge.getDuration().getStartInSec();
-				// totalRouteTime +=
-				// usedEdge.getEdge().getEnd().getRepresentative().getServiceTimeInSec();
-			}
-			route.setTotalDistanceInM(totalRouteDistance);
-			totalSolutionDistance += totalRouteDistance;
-			route.setTotalTimeInSec(totalRouteTime);
-			totalSolutionTime += totalRouteTime;
-		}
-		solution.setTotalDistance(totalSolutionDistance);
-		solution.setTotalTime(totalSolutionTime);
+	void calculateTotalValuesForEachRoute() throws Exception {
+		long distance = solution.getRoutes().stream().mapToLong(r -> r.getTotalDistanceInM()).sum();
+		solution.setTotalDistance(distance);
+		long time = solution.getRoutes().stream().mapToLong(r -> r.getTotalTimeInSec()).sum();
+		solution.setTotalTime(time);
 	}
 
 	public Solution getSolution() {

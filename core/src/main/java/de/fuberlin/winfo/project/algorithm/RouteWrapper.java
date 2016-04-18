@@ -7,6 +7,8 @@ import static de.fuberlin.winfo.project.algorithm.AlgHelper.getTimeWindow;
 import java.util.List;
 import java.util.TreeSet;
 
+import org.eclipse.emf.common.util.EList;
+
 import de.fuberlin.winfo.project.model.network.Duration;
 import de.fuberlin.winfo.project.model.network.Edge;
 import de.fuberlin.winfo.project.model.network.NetworkFactory;
@@ -111,7 +113,13 @@ public class RouteWrapper extends TreeSet<UsedEdge> {
 				}
 				fromBehindUsedEdge.setCurrentVehicleCargoWeight(weightInKg);
 			}
+
+			route.setTotalDistanceInM(route.getTotalDistanceInM() + usedEdge.getEdge().getDistance());
 		}
+
+		int totalRouteTime = route.getWay().get(route.getWay().size() - 1).getDuration().getEndInSec()
+				- route.getWay().get(0).getDuration().getStartInSec();
+		route.setTotalTimeInSec(totalRouteTime);
 
 		/*
 		 * COMPUTATION OF THE REMAINING VEHICLE BATTERY KW
@@ -291,14 +299,6 @@ public class RouteWrapper extends TreeSet<UsedEdge> {
 			Order order = ((Delivery) usedEdge).getOrder();
 			String id = order.getId();
 			System.out.print(" (DEL (" + id + ", " + order.hashCode() + "))");
-		}
-	}
-
-	public static Order getOrderIfDelivery(UsedEdge usedEdge) {
-		if (usedEdge instanceof Delivery) {
-			return ((Delivery) usedEdge).getOrder();
-		} else {
-			return null;
 		}
 	}
 }

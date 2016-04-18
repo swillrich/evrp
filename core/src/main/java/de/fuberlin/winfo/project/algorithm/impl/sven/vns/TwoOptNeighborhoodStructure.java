@@ -1,8 +1,8 @@
 package de.fuberlin.winfo.project.algorithm.impl.sven.vns;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
+import java.util.Map;
 
 import de.fuberlin.winfo.project.algorithm.AlgHelper;
 import de.fuberlin.winfo.project.algorithm.RouteWrapper;
@@ -12,7 +12,6 @@ import de.fuberlin.winfo.project.algorithm.impl.sven.vns.kopt.Route2KOptPairs;
 import de.fuberlin.winfo.project.model.network.Edge;
 import de.fuberlin.winfo.project.model.network.Node;
 import de.fuberlin.winfo.project.model.network.Order;
-import de.fuberlin.winfo.project.model.network.solution.Delivery;
 import de.fuberlin.winfo.project.model.network.solution.Route;
 import de.fuberlin.winfo.project.model.network.solution.Solution;
 import de.fuberlin.winfo.project.model.network.solution.UsedEdge;
@@ -22,6 +21,7 @@ public class TwoOptNeighborhoodStructure extends NeighborhoodStructure {
 	private int current = -1;
 	private KOptIteratorWrapper optionIterator;
 	private Edge[][] E;
+	private Map<Integer, Order> orderMap;
 
 	@Override
 	public String getName() {
@@ -47,8 +47,11 @@ public class TwoOptNeighborhoodStructure extends NeighborhoodStructure {
 			}
 			String string = "Route #" + current + " with edges " + solution.getRoutes().get(current).getWay().size();
 			try {
-				List<Pair> pairs = Route2KOptPairs.convert(solution.getRoutes().get(current));
-				optionIterator = new KOptIteratorWrapper(3, pairs);
+				Route2KOptPairs optPairs = new Route2KOptPairs();
+				optPairs.convert(centralSol.getRoutes().get(current));
+				List<Pair> pairs = optPairs.getPairs();
+				orderMap = optPairs.getOrderMap();
+				optionIterator = new KOptIteratorWrapper(2, pairs);
 				System.out.println(string);
 			} catch (Exception e) {
 				System.out.println(string + ": " + e.getMessage());
@@ -62,14 +65,11 @@ public class TwoOptNeighborhoodStructure extends NeighborhoodStructure {
 		RouteWrapper wrapper = new RouteWrapper(route, null, networkProvider.getEdges());
 
 		int[] toReplace = optionIterator.getOptions().getToReplace();
-		System.out.println("to replace: " + Arrays.toString(toReplace));
-		option.stream().forEach(p -> System.out.print(p.getStart() + " -> " + p.getEnd() + " ; "));
-		System.out.println();
-		wrapper.print();
 		List<UsedEdge> newUsedEdgeList = new ArrayList<UsedEdge>();
+		
 		for (int i = 0; i < option.size(); i++) {
 			Pair pair = option.get(i);
-			UsedEdge newUsedEdge = getNewUsedEdge(route, wrapper, toReplace, pair);
+			UsedEdge newUsedEdge = getNewUsedEdge(wrapper, pair);
 			newUsedEdgeList.add(newUsedEdge);
 			if (i < option.size() - 1) {
 				List<UsedEdge> usedEdgesBetween = getUsedEdgesBetween(toReplace, wrapper, pair.getEnd(),
@@ -78,7 +78,6 @@ public class TwoOptNeighborhoodStructure extends NeighborhoodStructure {
 			}
 		}
 		wrapper.replaceSubRoute(newUsedEdgeList, toReplace[0], toReplace[toReplace.length - 1]);
-		wrapper.print();
 		return solution;
 	}
 
@@ -91,7 +90,7 @@ public class TwoOptNeighborhoodStructure extends NeighborhoodStructure {
 			int[] cases = edgeIndex > 0 ? new int[] { 0, 1 } : new int[] { 0 };
 			for (int i : cases) {
 				UsedEdge usedEdge = way.get(edgeIndex - i);
-				Order order = RouteWrapper.getOrderIfDelivery(usedEdge);
+				Order order = AlgHelper.getOrderIfDelivery(usedEdge);
 				if ((order != null && order.hashCode() == start) || usedEdge.getEdge().getEnd().getId() == start) {
 					isReverse = (i != 0);
 					edgeIterator = edgeIndex + (i == 0 ? 1 : -1);
@@ -105,7 +104,7 @@ public class TwoOptNeighborhoodStructure extends NeighborhoodStructure {
 			if (isReverse) {
 				edge = E[edge.getEnd().getId()][edge.getStart().getId()];
 			}
-			Order order = RouteWrapper.getOrderIfDelivery(way.get(edgeIterator + (isReverse ? -1 : 0)));
+			Order order = AlgHelper.getOrderIfDelivery(way.get(edgeIterator + (isReverse ? -1 : 0)));
 			if (order == null) {
 				usedEdge = wrapper.initializeUsedEdge(edge, null);
 			} else {
@@ -120,9 +119,9 @@ public class TwoOptNeighborhoodStructure extends NeighborhoodStructure {
 		return newSubWay;
 	}
 
-	private UsedEdge getNewUsedEdge(Route route, RouteWrapper wrapper, int[] toReplace, Pair pair) {
-		Order startOrder = getOrderByHash(pair.getStart(), route, toReplace);
-		Order endOrder = getOrderByHash(pair.getEnd(), route, toReplace);
+	private UsedEdge getNewUsedEdge(RouteWrapper wrapper, Pair pair) {
+		Order startOrder = orderMap.get(pair.getStart());
+		Order endOrder = orderMap.get(pair.getEnd());
 		Node startNode = startOrder == null ? networkProvider.getNodes()[pair.getStart()]
 				: AlgHelper.getNodeByOrder(startOrder);
 		Node endNode = endOrder == null ? networkProvider.getNodes()[pair.getEnd()]
@@ -132,27 +131,5 @@ public class TwoOptNeighborhoodStructure extends NeighborhoodStructure {
 		} else {
 			return wrapper.initializeDelivery(startNode, endOrder);
 		}
-	}
-
-	private Order getOrderByHash(int orderHash, Route route, int[] toReplace) {
-		for (int index : toReplace) {
-			UsedEdge usedEdge = route.getWay().get(index);
-			if (usedEdge instanceof Delivery) {
-				Delivery delivery = (Delivery) usedEdge;
-				if (delivery.getOrder().hashCode() == orderHash) {
-					return delivery.getOrder();
-				}
-			}
-			if (index > 0) {
-				UsedEdge prevUsedEdge = route.getWay().get(index - 1);
-				if (prevUsedEdge instanceof Delivery) {
-					Delivery delivery = (Delivery) prevUsedEdge;
-					if (delivery.getOrder().hashCode() == orderHash) {
-						return delivery.getOrder();
-					}
-				}
-			}
-		}
-		return null;
 	}
 }

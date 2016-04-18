@@ -9,6 +9,7 @@ import org.eclipse.emf.common.util.EList;
 
 import de.fuberlin.winfo.project.algorithm.RouteWrapper;
 import de.fuberlin.winfo.project.algorithm.impl.sven.vns.kopt.KOptHeuristic;
+import de.fuberlin.winfo.project.algorithm.impl.sven.vns.kopt.Pair;
 import de.fuberlin.winfo.project.algorithm.impl.sven.vns.kopt.Route2KOptPairs;
 import de.fuberlin.winfo.project.model.network.solution.Route;
 import de.fuberlin.winfo.project.model.network.solution.UsedEdge;
@@ -17,7 +18,10 @@ public class KoptTest {
 	public static void main(String[] args) {
 		Route example = SampleRoute.getExample(6);
 		try {
-			KOptHeuristic opt = new KOptHeuristic(3, Route2KOptPairs.convert(example));
+			Route2KOptPairs optPairs = new Route2KOptPairs();
+			optPairs.convert(example);
+			List<Pair> pairs = optPairs.getPairs();
+			KOptHeuristic opt = new KOptHeuristic(3, pairs);
 			opt.printAll();
 		} catch (Exception e) {
 			e.printStackTrace();

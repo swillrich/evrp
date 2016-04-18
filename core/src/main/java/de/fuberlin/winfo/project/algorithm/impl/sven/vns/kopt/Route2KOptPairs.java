@@ -1,15 +1,22 @@
 package de.fuberlin.winfo.project.algorithm.impl.sven.vns.kopt;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
-import de.fuberlin.winfo.project.model.network.solution.Delivery;
+import de.fuberlin.winfo.project.algorithm.AlgHelper;
+import de.fuberlin.winfo.project.model.network.Order;
 import de.fuberlin.winfo.project.model.network.solution.Route;
 import de.fuberlin.winfo.project.model.network.solution.UsedEdge;
 
 public class Route2KOptPairs {
-	public static List<Pair> convert(Route route) {
-		List<Pair> list = new ArrayList<Pair>();
+
+	private Map<Integer, Order> orderMap = new HashMap<Integer, Order>();
+	private List<Pair> pairs;
+
+	public void convert(Route route) {
+		pairs = new ArrayList<Pair>();
 		for (int i = 0; i < route.getWay().size(); i++) {
 			final int id = i;
 			final UsedEdge usedEdge = route.getWay().get(i);
@@ -21,26 +28,33 @@ public class Route2KOptPairs {
 						return usedEdge.getEdge().getStart().getId();
 					} else {
 						UsedEdge prevUsedEdge = route.getWay().get(id - 1);
-						if (prevUsedEdge instanceof Delivery) {
-							return ((Delivery) prevUsedEdge).getOrder().hashCode();
-						} else {
-							return prevUsedEdge.getEdge().getEnd().getId();
+						Order order = AlgHelper.getOrderIfDelivery(prevUsedEdge);
+						if (order != null) {
+							orderMap.put(order.hashCode(), order);
 						}
+						return AlgHelper.getUniqueTargetId(prevUsedEdge);
 					}
 				}
 
 				@Override
 				public int getEnd() {
-					if (usedEdge instanceof Delivery) {
-						return ((Delivery) usedEdge).getOrder().hashCode();
-					} else {
-						return usedEdge.getEdge().getEnd().getId();
+					Order order = AlgHelper.getOrderIfDelivery(usedEdge);
+					if (order != null) {
+						orderMap.put(order.hashCode(), order);
 					}
+					return AlgHelper.getUniqueTargetId(usedEdge);
 				}
 
 			};
-			list.add(pair);
+			pairs.add(pair);
 		}
-		return list;
+	}
+
+	public Map<Integer, Order> getOrderMap() {
+		return orderMap;
+	}
+
+	public List<Pair> getPairs() {
+		return pairs;
 	}
 }

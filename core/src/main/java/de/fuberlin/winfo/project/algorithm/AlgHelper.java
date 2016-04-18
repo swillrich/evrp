@@ -105,4 +105,20 @@ public class AlgHelper {
 	public static Node getNodeByOrder(Order order) {
 		return (Node) order.getReceiver().eContainer();
 	}
+
+	public static Order getOrderIfDelivery(UsedEdge usedEdge) {
+		if (usedEdge instanceof Delivery) {
+			return ((Delivery) usedEdge).getOrder();
+		} else {
+			return null;
+		}
+	}
+
+	public static int getUniqueTargetId(UsedEdge usedEdge) {
+		if (usedEdge instanceof Delivery) {
+			return ((Delivery) usedEdge).getOrder().hashCode();
+		} else {
+			return usedEdge.getEdge().getEnd().getId();
+		}
+	}
 }
