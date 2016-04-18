@@ -4,7 +4,7 @@ import static de.fuberlin.winfo.project.algorithm.AlgHelper.computeEnergyConsump
 import static de.fuberlin.winfo.project.algorithm.AlgHelper.getNodeByOrder;
 import static de.fuberlin.winfo.project.algorithm.AlgHelper.getTimeWindow;
 
-import java.util.Comparator;
+import java.util.List;
 import java.util.TreeSet;
 
 import de.fuberlin.winfo.project.model.network.Duration;
@@ -20,13 +20,13 @@ import de.fuberlin.winfo.project.model.network.solution.SolutionFactory;
 import de.fuberlin.winfo.project.model.network.solution.UsedEdge;
 import de.fuberlin.winfo.project.model.network.solution.impl.SolutionFactoryImpl;
 
-public class RouteWrapper extends TreeSet<UsedEdge>{
+public class RouteWrapper extends TreeSet<UsedEdge> {
 	private Route route;
 	private SolutionFactory solutionFactory = new SolutionFactoryImpl();
 	private NetworkFactory networkFactory = new NetworkFactoryImpl();
 	private Node depot;
 	private Edge[][] E;
-	
+
 	public RouteWrapper(Route route, Node depot, Edge[][] edges) {
 		this.route = route;
 		this.E = edges;
@@ -229,45 +229,22 @@ public class RouteWrapper extends TreeSet<UsedEdge>{
 		reinitializeRoute();
 	}
 
-	public void swapUsedEdge(int[] swapIndex, UsedEdge[] usedEdge) throws Exception {
-		if (route.getWay().size() < 6) {
-			System.out.println("ORIGINAL: ");
-			print();
-
-			System.out.println("CHANGES: ");
-			for (int i = 0; i < swapIndex.length; i++) {
-				UsedEdge usedE = usedEdge[i];
-				Edge edge = usedE.getEdge();
-				System.out.print(edge.getStart().getId() + "->" + edge.getEnd().getId());
-				if (usedE instanceof Delivery) {
-					Order order = ((Delivery) usedE).getOrder();
-					String id = order.getId();
-					System.out.print(" (DEL (" + id + ", " + order.hashCode() + "))");
-				}
-				if (i + 1 < swapIndex.length) {
-					System.out.print(" ; ");
-				} else {
-					System.out.println();
-				}
-			}
-			System.out.println();
+	public void replaceSubRoute(List<UsedEdge> newUsedEdgeList, int start, int end) throws Exception {
+		for (int i = start; i <= end; i++) {
+			route.getWay().remove(start);
 		}
-		//
-		// for (int i = 0; i < swapIndex.length; i++) {
-		// route.getWay().remove(swapIndex[i]);
-		// route.getWay().add(swapIndex[i], usedEdge[i]);
-		// }
-		// reinitializeRoute();
+		route.getWay().addAll(start, newUsedEdgeList);
+		reinitializeRoute();
 	}
 
-	public UsedEdge initializeDeliveryBy(Node start, Order order) {
+	public Delivery initializeDelivery(Node start, Order order) {
 		Node end = getNodeByOrder(order);
 		Edge edge = E[start.getId()][end.getId()];
 		UsedEdge usedEdge = initializeUsedEdge(edge, order);
-		return usedEdge;
+		return (Delivery) usedEdge;
 	}
 
-	public UsedEdge initializeUsedEdgeBy(Node start, Node end) {
+	public UsedEdge initializeUsedEdge(Node start, Node end) {
 		Edge edge = E[start.getId()][end.getId()];
 		UsedEdge usedEdge = initializeUsedEdge(edge, null);
 		return usedEdge;
@@ -292,21 +269,36 @@ public class RouteWrapper extends TreeSet<UsedEdge>{
 	}
 
 	public void print() {
-		System.out.print("Edges = " + route.getWay().size() + "\t");
-		for (int i = 0; i < route.getWay().size(); i++) {
-			UsedEdge usedEdge = route.getWay().get(i);
-			Edge edge = usedEdge.getEdge();
-			System.out.print(edge.getStart().getId() + "->" + edge.getEnd().getId());
-			if (usedEdge instanceof Delivery) {
-				Order order = ((Delivery) usedEdge).getOrder();
-				String id = order.getId();
-				System.out.print(" (DEL (" + id + ", " + order.hashCode() + "))");
-			}
-			if (i + 1 < route.getWay().size()) {
+		print(route.getWay());
+	}
+
+	public static void print(List<UsedEdge> way) {
+		System.out.print("Edges = " + way.size() + "\t");
+		for (int i = 0; i < way.size(); i++) {
+			UsedEdge usedEdge = way.get(i);
+			printEdge(usedEdge);
+			if (i + 1 < way.size()) {
 				System.out.print(" ; ");
-			} else {
-				System.out.println();
 			}
+		}
+		System.out.println();
+	}
+
+	private static void printEdge(UsedEdge usedEdge) {
+		Edge edge = usedEdge.getEdge();
+		System.out.print(edge.getStart().getId() + "->" + edge.getEnd().getId());
+		if (usedEdge instanceof Delivery) {
+			Order order = ((Delivery) usedEdge).getOrder();
+			String id = order.getId();
+			System.out.print(" (DEL (" + id + ", " + order.hashCode() + "))");
+		}
+	}
+
+	public static Order getOrderIfDelivery(UsedEdge usedEdge) {
+		if (usedEdge instanceof Delivery) {
+			return ((Delivery) usedEdge).getOrder();
+		} else {
+			return null;
 		}
 	}
 }

@@ -33,7 +33,6 @@ public abstract class NeighborhoodStructure implements Iterator<Solution> {
 		while (hasNext()) {
 			Solution neighbor = next();
 			if (f.compare(solution, neighbor) > 0) {
-				System.out.println("IMPROVEMENT !!!");
 				solution = neighbor;
 			}
 		}
@@ -47,6 +46,7 @@ public abstract class NeighborhoodStructure implements Iterator<Solution> {
 			return move(copy);
 		} catch (Exception e) {
 			e.printStackTrace();
+			System.exit(1);
 			return null;
 		}
 	}

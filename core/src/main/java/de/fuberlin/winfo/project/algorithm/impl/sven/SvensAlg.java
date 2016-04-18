@@ -60,7 +60,8 @@ public class SvensAlg extends Algorithm {
 				return (int) (sum / size);
 			}
 		};
-		Solution optSolution = VNS.vns(networkProvider, f, solution, new NeighborhoodStructure[] { new TwoOptNeighborhoodStructure() });
+		Solution optSolution = VNS.vns(networkProvider, f, solution,
+				new NeighborhoodStructure[] { new TwoOptNeighborhoodStructure() });
 	}
 
 	private void constructProcedure(Solution solution, Depot depot) throws Exception {
@@ -70,6 +71,7 @@ public class SvensAlg extends Algorithm {
 			Vehicle vehicle = solution.getUsecase().getVehicles().get(0);
 			RouteWrapper route = buildRoute(vehicle, AlgHelper.getNodeByLocatable(networkProvider, depot));
 			OrderPriorityQueue priorityQueue = new OrderPriorityQueue(networkProvider, route, remainingOrders);
+			RestrictionException exception = null;
 			while (!priorityQueue.isEmpty()) {
 				PendingOrder nextPendingOrder = priorityQueue.poll();
 				try {
@@ -82,12 +84,13 @@ public class SvensAlg extends Algorithm {
 					remainingOrders.remove(nextPendingOrder.getOrder());
 				} catch (RestrictionException e) {
 					if (priorityQueue.isEmpty()) {
-						System.out.println((solution.getRoutes().size() + 1) + ". Route with "
-								+ (route.getActualRoute().getWay().size() + 1) + " nodes built (" + e.getMessage()
-								+ ")");
+						exception = e;
 					}
 				}
 			}
+			String reason = exception != null ? exception.getMessage() : "no restriction violated";
+			System.out.println((solution.getRoutes().size() + 1) + ". Route with "
+					+ (route.getActualRoute().getWay().size() + 1) + " nodes built (" + reason + ")");
 			solution.getRoutes().add(route.getActualRoute());
 		}
 	}
