@@ -1,7 +1,6 @@
 package de.fuberlin.winfo.project.algorithm.impl.sven.vns;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 
@@ -25,43 +24,48 @@ public class TwoOptNeighborhoodStructure extends NeighborhoodStructure {
 	private Map<Integer, Order> orderMap;
 
 	@Override
+	public void init() {
+		E = networkProvider.getEdges();
+		current = -1;
+		initNext();
+	}
+
+	@Override
 	public String getName() {
 		return "2-Opt";
 	}
 
 	@Override
 	public boolean hasNext() {
-		return optionIterator.hasNext() || current != 0;
+		return optionIterator.hasNext();
 	}
 
 	@Override
 	public Solution move(Solution solution) throws Exception {
-		if (optionIterator != null && optionIterator.hasNext()) {
-			List<Pair> option = optionIterator.next();
-			return actualMove(solution, option);
-		} else {
-			if (current == -1) {
-				current = solution.getRoutes().size() - 1;
-				E = networkProvider.getEdges();
-			} else {
-				current--;
-			}
-			String string = "Route #" + current + " with edges " + solution.getRoutes().get(current).getWay().size();
-			try {
-				Route2KOptPairs optPairs = new Route2KOptPairs();
-				optPairs.convert(centralSol.getRoutes().get(current));
-				List<Pair> pairs = optPairs.getPairs();
-				orderMap = optPairs.getOrderMap();
-				optionIterator = new KOptIteratorWrapper(3, pairs);
-				System.out.println(string);
-			} catch (Exception e) {
-				System.out.println(string + ": " + e.getMessage());
-			}
-			return move(solution);
+		List<Pair> option = optionIterator.next();
+		actualMove(solution, option);
+		if (!optionIterator.hasNext() && current + 1 < centralSol.getRoutes().size()) {
+			initNext();
+		}
+		return solution;
+	}
+
+	private void initNext() {
+		current++;
+		String string = "Route #" + current + " with edges " + centralSol.getRoutes().get(current).getWay().size();
+		try {
+			Route2KOptPairs optPairs = new Route2KOptPairs();
+			optPairs.convert(centralSol.getRoutes().get(current));
+			List<Pair> pairs = optPairs.getPairs();
+			optionIterator = new KOptIteratorWrapper(3, pairs);
+			orderMap = optPairs.getOrderMap();
+			System.out.println(string);
+		} catch (Exception e) {
+			System.out.println(string + ": " + e.getMessage());
 		}
 	}
 
-	private Solution actualMove(Solution solution, List<Pair> option) throws Exception {
+	private void actualMove(Solution solution, List<Pair> option) throws Exception {
 		Route route = solution.getRoutes().get(current);
 		RouteWrapper wrapper = new RouteWrapper(route, null, networkProvider.getEdges());
 
@@ -78,8 +82,7 @@ public class TwoOptNeighborhoodStructure extends NeighborhoodStructure {
 				newUsedEdgeList.addAll(usedEdgesBetween);
 			}
 		}
-//		wrapper.replaceSubRoute(newUsedEdgeList, toReplace[0], toReplace[toReplace.length - 1]);
-		return solution;
+		wrapper.replaceSubRoute(newUsedEdgeList, toReplace[0], toReplace[toReplace.length - 1]);
 	}
 
 	private List<UsedEdge> getUsedEdgesBetween(int[] toReplace, RouteWrapper wrapper, int start, int end) {

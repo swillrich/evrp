@@ -17,20 +17,28 @@ public abstract class NeighborhoodStructure implements Iterator<Solution> {
 
 	public abstract Solution move(Solution solution) throws Exception;
 
-	public void init(NetworkProvider np, Solution sol) {
-		this.centralSol = sol;
+	public abstract void init();
+
+	public void setNetworkProvider(NetworkProvider np) {
 		networkProvider = np;
 	}
 
-	public Solution shake() {
+	public Solution shake(Solution sol) {
+		this.centralSol = sol;
+		init();
 		for (int i = 0; i < Math.random() * 10; i++) {
-			next();
+			if (hasNext()) {
+				sol = next();
+			} else {
+				return sol;
+			}
 		}
-		return next();
+		return sol;
 	}
 
 	public Solution search(Solution solution, CostFunction f) {
 		this.centralSol = solution;
+		init();
 		while (hasNext()) {
 			Solution neighbor = next();
 			if (f.compare(solution, neighbor) > 0) {
@@ -46,7 +54,6 @@ public abstract class NeighborhoodStructure implements Iterator<Solution> {
 		EcoreUtil.Copier c = new Copier();
 		Solution copy = (Solution) c.copy(centralSol);
 		c.copyReferences();
-//		Solution copy = EcoreUtil.copy(centralSol);
 		try {
 			return move(copy);
 		} catch (Exception e) {

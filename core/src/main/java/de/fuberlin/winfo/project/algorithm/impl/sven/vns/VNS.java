@@ -8,8 +8,8 @@ public class VNS {
 			NeighborhoodStructure[] neighborhoodStructures) {
 		int k = 0;
 		do {
-			neighborhoodStructures[k].init(np, bestSolution);
-			Solution initialSolution = neighborhoodStructures[k].shake();
+			neighborhoodStructures[k].setNetworkProvider(np);
+			Solution initialSolution = neighborhoodStructures[k].shake(bestSolution);
 			Solution bestNeighbor = neighborhoodStructures[k].search(initialSolution, f);
 			if (f.compare(bestSolution, bestNeighbor) > 0) {
 				k = 0;
