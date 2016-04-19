@@ -62,7 +62,7 @@ public class ListRequest extends AbstractRequest {
 				Object[] solutionLinePart = new Object[] { s.getUsecase().getName(), s.getRoutes().size(),
 						FormatConv.asTime(s.getTotalTime(), "h"),
 						FormatConv.numberWithSeparatorAndMeter(s.getTotalDistance()),
-						FormatConv.numberWithSeparator(st.getAverageDistance(s), "m"), st.getTotalWait(s),
+						FormatConv.withSeparator(st.getAverageDistance(s), "m"), st.getTotalWait(s),
 						FormatConv.getInEuro(st.getPersonnalCosts(s)),
 						FormatConv.getInEuro(st.getMaterialCosts(s)),
 						FormatConv.getInEuro(st.getTotalCosts(s)), detailLink, mapLink, geoJsonLink };

@@ -1,4 +1,4 @@
-package de.fuberlin.winfo.project.algorithm.impl.sven.vns;
+package de.fuberlin.winfo.project.algorithm.impl.sven.vns.neighborhoodstructures;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -6,6 +6,7 @@ import java.util.Map;
 
 import de.fuberlin.winfo.project.algorithm.AlgHelper;
 import de.fuberlin.winfo.project.algorithm.RouteWrapper;
+import de.fuberlin.winfo.project.algorithm.impl.sven.vns.NeighborhoodStructure;
 import de.fuberlin.winfo.project.algorithm.impl.sven.vns.kopt.KOptIteratorWrapper;
 import de.fuberlin.winfo.project.algorithm.impl.sven.vns.kopt.Pair;
 import de.fuberlin.winfo.project.algorithm.impl.sven.vns.kopt.Route2KOptPairs;
@@ -23,7 +24,7 @@ public class KOptNeighborhoodStructure extends NeighborhoodStructure {
 	private Edge[][] E;
 	private Map<Integer, Order> orderMap;
 	private int k;
-	
+
 	public KOptNeighborhoodStructure(int k) {
 		this.k = k;
 	}
@@ -37,7 +38,7 @@ public class KOptNeighborhoodStructure extends NeighborhoodStructure {
 
 	@Override
 	public String getName() {
-		return "2-Opt";
+		return k + "-Opt";
 	}
 
 	@Override
@@ -57,16 +58,13 @@ public class KOptNeighborhoodStructure extends NeighborhoodStructure {
 
 	private void initNext() {
 		current++;
-		String string = "Route #" + current + " with edges " + centralSol.getRoutes().get(current).getWay().size();
 		try {
 			Route2KOptPairs optPairs = new Route2KOptPairs();
 			optPairs.convert(centralSol.getRoutes().get(current));
 			List<Pair> pairs = optPairs.getPairs();
 			optionIterator = new KOptIteratorWrapper(k, pairs);
 			orderMap = optPairs.getOrderMap();
-			System.out.println(string);
 		} catch (Exception e) {
-			System.out.println(string + ": " + e.getMessage());
 		}
 	}
 

@@ -10,8 +10,8 @@ import de.fuberlin.winfo.project.model.network.solution.Solution;
 
 public abstract class NeighborhoodStructure implements Iterator<Solution> {
 
-	Solution centralSol;
-	NetworkProvider networkProvider;
+	protected Solution centralSol;
+	protected NetworkProvider networkProvider;
 
 	public abstract String getName();
 

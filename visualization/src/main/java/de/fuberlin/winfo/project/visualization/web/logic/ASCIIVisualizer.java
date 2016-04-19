@@ -1,7 +1,7 @@
 package de.fuberlin.winfo.project.visualization.web.logic;
 
 import static de.fuberlin.winfo.project.FormatConv.asTime;
-import static de.fuberlin.winfo.project.FormatConv.numberWithSeparator;
+import static de.fuberlin.winfo.project.FormatConv.withSeparator;
 import static de.fuberlin.winfo.project.FormatConv.numberWithSeparatorAndMeter;
 
 import java.io.IOException;
@@ -54,8 +54,8 @@ public class ASCIIVisualizer {
 			out("");
 			out("Route #" + solution.getRoutes().indexOf(route));
 			out("Vehicle #" + vehicle.getId() + " (Reach: " + numberWithSeparatorAndMeter(vehicle.getMaxReachInMeter())
-					+ ", max Cargo Capacity: " + numberWithSeparator(vehicle.getMaxCapacatyPayLoadInKg(), "Kg")
-					+ ", max kWH: " + numberWithSeparator(vehicle.getBatteryCapacityInWh(), "") + ", Driver Costs: "
+					+ ", max Cargo Capacity: " + withSeparator(vehicle.getMaxCapacatyPayLoadInKg(), "Kg")
+					+ ", max kWH: " + withSeparator(vehicle.getBatteryCapacityInWh(), "") + ", Driver Costs: "
 					+ vehicle.getDriverCostsPerHour() + " Euro, " + "Operating Costs per Km: "
 					+ vehicle.getOperatingCostsPerMeter() * 1000 + " Euro");
 
@@ -78,9 +78,9 @@ public class ASCIIVisualizer {
 				content[i][j++] = asTime(usedEdge.getEdge().getTime(), "");
 				content[i][j++] = asTime(usedEdge.getDuration().getEndInSec() - usedEdge.getDuration().getStartInSec(),
 						"");
-				content[i][j++] = numberWithSeparator(usedEdge.getEdge().getDistance(), "");
-				content[i][j++] = numberWithSeparator(usedEdge.getCurrentVehicleCargoWeight(), "");
-				content[i][j++] = numberWithSeparator(usedEdge.getRemainingVehicleBatteryCapacityAtEnd(), "");
+				content[i][j++] = withSeparator(usedEdge.getEdge().getDistance(), "");
+				content[i][j++] = withSeparator(usedEdge.getCurrentVehicleCargoWeight(), "");
+				content[i][j++] = withSeparator(usedEdge.getRemainingVehicleBatteryCapacityAtEnd(), "");
 				content[i][j++] = usedEdge instanceof Delivery ? ((Delivery) usedEdge).getOrder().getId() : "-";
 			}
 

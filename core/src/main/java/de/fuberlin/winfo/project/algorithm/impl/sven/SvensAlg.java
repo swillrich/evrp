@@ -11,8 +11,9 @@ import de.fuberlin.winfo.project.algorithm.impl.sven.datastructures.OrderPriorit
 import de.fuberlin.winfo.project.algorithm.impl.sven.datastructures.PendingOrder;
 import de.fuberlin.winfo.project.algorithm.impl.sven.vns.CostFunction;
 import de.fuberlin.winfo.project.algorithm.impl.sven.vns.NeighborhoodStructure;
-import de.fuberlin.winfo.project.algorithm.impl.sven.vns.KOptNeighborhoodStructure;
 import de.fuberlin.winfo.project.algorithm.impl.sven.vns.VNS;
+import de.fuberlin.winfo.project.algorithm.impl.sven.vns.VNSMonitor;
+import de.fuberlin.winfo.project.algorithm.impl.sven.vns.neighborhoodstructures.KOptNeighborhoodStructure;
 import de.fuberlin.winfo.project.algorithm.restriction.RestrictionException;
 import de.fuberlin.winfo.project.algorithm.restriction.impl.CargoCapacityRestriction;
 import de.fuberlin.winfo.project.algorithm.restriction.impl.TimeWindowRestriction;
@@ -42,7 +43,6 @@ public class SvensAlg extends Algorithm {
 
 		Commissioning.pickCustomerOrder(networkProvider.getLocatables().getMainDepot(),
 				networkProvider.getLocatables().getCustomer());
-
 		constructProcedure(solution, networkProvider.getLocatables().getMainDepot());
 		improvementProcedure(solution);
 	}
@@ -60,8 +60,12 @@ public class SvensAlg extends Algorithm {
 				return (int) (distance);
 			}
 		};
-		Solution optSolution = VNS.vns(networkProvider, f, solution,
-				new NeighborhoodStructure[] { new KOptNeighborhoodStructure(2), new KOptNeighborhoodStructure(3) });
+		Solution optSolution = VNS
+				.vns(networkProvider, f, solution,
+						new NeighborhoodStructure[] { new KOptNeighborhoodStructure(2),
+								new KOptNeighborhoodStructure(3), new KOptNeighborhoodStructure(4),
+								new KOptNeighborhoodStructure(5) },
+						new VNSMonitor(f));
 	}
 
 	private void constructProcedure(Solution solution, Depot depot) throws Exception {
@@ -83,9 +87,7 @@ public class SvensAlg extends Algorithm {
 					}
 					remainingOrders.remove(nextPendingOrder.getOrder());
 				} catch (RestrictionException e) {
-					if (priorityQueue.isEmpty()) {
-						exception = e;
-					}
+					exception = e;
 				}
 			}
 			String reason = exception != null ? exception.getMessage() : "no restriction violated";

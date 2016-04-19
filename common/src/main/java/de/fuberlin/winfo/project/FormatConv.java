@@ -15,17 +15,17 @@ import org.joda.time.format.PeriodFormatterBuilder;
 
 public class FormatConv {
 	public static String numberWithSeparatorAndMeter(long totalDistance) {
-		return numberWithSeparator(totalDistance, "m");
+		return withSeparator(totalDistance, "m");
 	}
 
-	public static String numberWithSeparator(double totalDistance, String appender) {
+	public static String withSeparator(double value, String appender) {
 		DecimalFormat formatter = (DecimalFormat) NumberFormat.getInstance(Locale.GERMAN);
 		DecimalFormatSymbols symbols = formatter.getDecimalFormatSymbols();
 
 		symbols.setGroupingSeparator('.');
 		formatter.setDecimalFormatSymbols(symbols);
 		appender = " " + appender;
-		return formatter.format(totalDistance).concat(appender);
+		return formatter.format(value).concat(appender);
 	}
 
 	public static String asTime(long time, String appender) {
@@ -44,5 +44,15 @@ public class FormatConv {
 		NumberFormat formatter = NumberFormat.getCurrencyInstance();
 		String moneyString = formatter.format(euro);
 		return moneyString;
+	}
+	
+
+	public static double round(double value, int places) {
+		if (places < 0)
+			throw new IllegalArgumentException();
+		long factor = (long) Math.pow(10, places);
+		value = value * factor;
+		long tmp = Math.round(value);
+		return (double) tmp / factor;
 	}
 }
