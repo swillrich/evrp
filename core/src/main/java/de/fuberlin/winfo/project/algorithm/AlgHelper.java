@@ -116,9 +116,20 @@ public class AlgHelper {
 
 	public static int getUniqueTargetId(UsedEdge usedEdge) {
 		if (usedEdge instanceof Delivery) {
-			return ((Delivery) usedEdge).getOrder().hashCode();
+			return getOrderId(((Delivery) usedEdge).getOrder());
 		} else {
 			return usedEdge.getEdge().getEnd().getId();
 		}
+	}
+
+	public static int getOrderId(Order order) {
+		String str = order.getId();
+		if (str.startsWith("Mu-")) {
+			return Integer.valueOf(str.replace("Mu-", ""));
+		}
+		if (str.startsWith("c-")) {
+			return Integer.valueOf(str.replace("c-", "-"));
+		}
+		return -1;
 	}
 }

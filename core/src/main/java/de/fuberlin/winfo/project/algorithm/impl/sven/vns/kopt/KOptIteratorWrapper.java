@@ -13,10 +13,10 @@ public class KOptIteratorWrapper implements Iterator<List<Pair>> {
 
 	@Override
 	public boolean hasNext() {
-		if (!kOptHeuristic.hasNext()) {
-			return !options.isEmpty();
-		} else {
+		if (kOptHeuristic.hasNext()) {
 			return true;
+		} else {
+			return !options.isEmpty();
 		}
 	}
 
@@ -30,5 +30,9 @@ public class KOptIteratorWrapper implements Iterator<List<Pair>> {
 
 	public KOptOptions getOptions() {
 		return options;
+	}
+
+	public KOptHeuristic getkOptHeuristic() {
+		return kOptHeuristic;
 	}
 }

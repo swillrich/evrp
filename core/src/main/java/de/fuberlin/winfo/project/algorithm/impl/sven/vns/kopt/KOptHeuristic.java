@@ -14,7 +14,7 @@ public class KOptHeuristic implements Iterator<KOptOptions> {
 
 	public KOptHeuristic(int k, List<Pair> route) throws Exception {
 		int edges = route.size();
-		if ((double) edges / k < 1.5) {
+		if (edges % 2 == 0 ? edges / 2 < k : (edges + 1) / 2 < k) {
 			throw new Exception("Insufficient edges (" + route.size() + ") for using k = " + k);
 		}
 		this.seq = route;

@@ -30,7 +30,7 @@ public class Route2KOptPairs {
 						UsedEdge prevUsedEdge = route.getWay().get(id - 1);
 						Order order = AlgHelper.getOrderIfDelivery(prevUsedEdge);
 						if (order != null) {
-							orderMap.put(order.hashCode(), order);
+							orderMap.put(AlgHelper.getOrderId(order), order);
 						}
 						return AlgHelper.getUniqueTargetId(prevUsedEdge);
 					}
@@ -40,7 +40,7 @@ public class Route2KOptPairs {
 				public int getEnd() {
 					Order order = AlgHelper.getOrderIfDelivery(usedEdge);
 					if (order != null) {
-						orderMap.put(order.hashCode(), order);
+						orderMap.put(AlgHelper.getOrderId(order), order);
 					}
 					return AlgHelper.getUniqueTargetId(usedEdge);
 				}

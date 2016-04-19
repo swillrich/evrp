@@ -21,16 +21,12 @@ public class KoptTest {
 			Route2KOptPairs optPairs = new Route2KOptPairs();
 			optPairs.convert(example);
 			List<Pair> pairs = optPairs.getPairs();
-			KOptHeuristic opt = new KOptHeuristic(3, pairs);
+			KOptHeuristic opt = new KOptHeuristic(2, pairs);
 			opt.printAll();
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 		RouteWrapper routeWrapper = new RouteWrapper(example, null, null);
-		routeWrapper.print();
-		shuffle(routeWrapper.getActualRoute().getWay());
-		routeWrapper.print();
-		sort(routeWrapper.getActualRoute().getWay());
 		routeWrapper.print();
 	}
 

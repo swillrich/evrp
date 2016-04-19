@@ -1,6 +1,7 @@
 package de.fuberlin.winfo.project.algorithm.impl.sven.vns;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 
@@ -51,7 +52,7 @@ public class TwoOptNeighborhoodStructure extends NeighborhoodStructure {
 				optPairs.convert(centralSol.getRoutes().get(current));
 				List<Pair> pairs = optPairs.getPairs();
 				orderMap = optPairs.getOrderMap();
-				optionIterator = new KOptIteratorWrapper(2, pairs);
+				optionIterator = new KOptIteratorWrapper(3, pairs);
 				System.out.println(string);
 			} catch (Exception e) {
 				System.out.println(string + ": " + e.getMessage());
@@ -66,7 +67,7 @@ public class TwoOptNeighborhoodStructure extends NeighborhoodStructure {
 
 		int[] toReplace = optionIterator.getOptions().getToReplace();
 		List<UsedEdge> newUsedEdgeList = new ArrayList<UsedEdge>();
-		
+
 		for (int i = 0; i < option.size(); i++) {
 			Pair pair = option.get(i);
 			UsedEdge newUsedEdge = getNewUsedEdge(wrapper, pair);
@@ -77,7 +78,7 @@ public class TwoOptNeighborhoodStructure extends NeighborhoodStructure {
 				newUsedEdgeList.addAll(usedEdgesBetween);
 			}
 		}
-		wrapper.replaceSubRoute(newUsedEdgeList, toReplace[0], toReplace[toReplace.length - 1]);
+//		wrapper.replaceSubRoute(newUsedEdgeList, toReplace[0], toReplace[toReplace.length - 1]);
 		return solution;
 	}
 
@@ -91,7 +92,8 @@ public class TwoOptNeighborhoodStructure extends NeighborhoodStructure {
 			for (int i : cases) {
 				UsedEdge usedEdge = way.get(edgeIndex - i);
 				Order order = AlgHelper.getOrderIfDelivery(usedEdge);
-				if ((order != null && order.hashCode() == start) || usedEdge.getEdge().getEnd().getId() == start) {
+				if ((order != null && AlgHelper.getOrderId(order) == start)
+						|| usedEdge.getEdge().getStart().getId() == start) {
 					isReverse = (i != 0);
 					edgeIterator = edgeIndex + (i == 0 ? 1 : -1);
 					break;
@@ -111,7 +113,7 @@ public class TwoOptNeighborhoodStructure extends NeighborhoodStructure {
 				usedEdge = wrapper.initializeUsedEdge(edge, order);
 			}
 			newSubWay.add(usedEdge);
-			if ((order == null && end == edge.getEnd().getId()) || (order != null && order.hashCode() == end)) {
+			if ((order != null && end == AlgHelper.getOrderId(order)) || (end == edge.getEnd().getId())) {
 				break;
 			}
 			edgeIterator = edgeIterator + (isReverse ? -1 : +1);

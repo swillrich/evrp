@@ -3,6 +3,7 @@ package de.fuberlin.winfo.project.algorithm.impl.sven.vns;
 import java.util.Iterator;
 
 import org.eclipse.emf.ecore.util.EcoreUtil;
+import org.eclipse.emf.ecore.util.EcoreUtil.Copier;
 
 import de.fuberlin.winfo.project.algorithm.NetworkProvider;
 import de.fuberlin.winfo.project.model.network.solution.Solution;
@@ -42,7 +43,10 @@ public abstract class NeighborhoodStructure implements Iterator<Solution> {
 
 	@Override
 	public Solution next() {
-		Solution copy = EcoreUtil.copy(centralSol);
+		EcoreUtil.Copier c = new Copier();
+		Solution copy = (Solution) c.copy(centralSol);
+		c.copyReferences();
+//		Solution copy = EcoreUtil.copy(centralSol);
 		try {
 			return move(copy);
 		} catch (Exception e) {
