@@ -63,8 +63,7 @@ public class SvensAlg extends Algorithm {
 		Solution optSolution = VNS
 				.vns(networkProvider, f, solution,
 						new NeighborhoodStructure[] { new KOptNeighborhoodStructure(2),
-								new KOptNeighborhoodStructure(3), new KOptNeighborhoodStructure(4),
-								new KOptNeighborhoodStructure(5) },
+								new KOptNeighborhoodStructure(3), new KOptNeighborhoodStructure(4) },
 						new VNSMonitor(f));
 	}
 
