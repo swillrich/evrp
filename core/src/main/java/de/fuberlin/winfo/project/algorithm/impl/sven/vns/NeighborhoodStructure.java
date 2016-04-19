@@ -6,12 +6,17 @@ import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.emf.ecore.util.EcoreUtil.Copier;
 
 import de.fuberlin.winfo.project.algorithm.NetworkProvider;
+import de.fuberlin.winfo.project.algorithm.RouteWrapper;
+import de.fuberlin.winfo.project.algorithm.restriction.RestrictionException;
+import de.fuberlin.winfo.project.algorithm.restriction.Restrictions;
+import de.fuberlin.winfo.project.model.network.solution.Route;
 import de.fuberlin.winfo.project.model.network.solution.Solution;
 
 public abstract class NeighborhoodStructure implements Iterator<Solution> {
 
 	protected Solution centralSol;
 	protected NetworkProvider networkProvider;
+	protected Restrictions restrictions;
 
 	public abstract String getName();
 
@@ -21,6 +26,7 @@ public abstract class NeighborhoodStructure implements Iterator<Solution> {
 
 	public void setNetworkProvider(NetworkProvider np) {
 		networkProvider = np;
+		this.restrictions = new Restrictions(networkProvider);
 	}
 
 	public Solution shake(Solution sol) {
@@ -41,7 +47,7 @@ public abstract class NeighborhoodStructure implements Iterator<Solution> {
 		init();
 		while (hasNext()) {
 			Solution neighbor = next();
-			if (f.compare(solution, neighbor) > 0) {
+			if (f.compare(solution, neighbor) > 0 && checkRestrictions(neighbor)) {
 				solution = neighbor;
 			}
 		}
@@ -60,5 +66,19 @@ public abstract class NeighborhoodStructure implements Iterator<Solution> {
 			System.exit(1);
 			return null;
 		}
+	}
+
+	boolean checkRestrictions(Solution sol) {
+		for (Route route : sol.getRoutes()) {
+			RouteWrapper routeWrapper = new RouteWrapper(route, null, networkProvider.getEdges());
+			try {
+				restrictions.checkCompleteRoute(routeWrapper);
+				return true;
+			} catch (RestrictionException e) {
+				System.out.println(e.getMessage());
+				return false;
+			}
+		}
+		return true;
 	}
 }

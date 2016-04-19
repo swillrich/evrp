@@ -18,7 +18,7 @@ public class TimeWindowRestriction implements Restriction {
 	private RouteWrapper route;
 
 	@Override
-	public boolean check(NetworkProvider np, RouteWrapper route, Order newOrder, int index)
+	public boolean preliminaryCheck(NetworkProvider np, RouteWrapper route, Order newOrder, int index)
 			throws RestrictionException {
 		this.route = route;
 
@@ -128,6 +128,11 @@ public class TimeWindowRestriction implements Restriction {
 	@Override
 	public String getFailureMessage() {
 		return "Time Window violation";
+	}
+
+	@Override
+	public boolean checkCompleteRoute(NetworkProvider np, RouteWrapper route) throws RestrictionException {
+		return true;
 	}
 
 }

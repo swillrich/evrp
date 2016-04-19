@@ -28,7 +28,7 @@ public class TourLengthRestriction implements Restriction {
 	private SolutionFactory solFac = new SolutionFactoryImpl();
 
 	@Override
-	public boolean check(NetworkProvider np, RouteWrapper route, Order newOrder, int index)
+	public boolean preliminaryCheck(NetworkProvider np, RouteWrapper route, Order newOrder, int index)
 			throws RestrictionException {
 
 		this.route = route;
@@ -150,6 +150,11 @@ public class TourLengthRestriction implements Restriction {
 	@Override
 	public String getFailureMessage() {
 		return "Max tour length exceedance";
+	}
+
+	@Override
+	public boolean checkCompleteRoute(NetworkProvider np, RouteWrapper route) throws RestrictionException {
+		return true;
 	}
 
 }

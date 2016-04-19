@@ -1,5 +1,7 @@
 package de.fuberlin.winfo.project.algorithm.restriction.impl;
 
+import org.eclipse.emf.common.util.EList;
+
 import de.fuberlin.winfo.project.algorithm.AlgHelper;
 import de.fuberlin.winfo.project.algorithm.RouteWrapper;
 import de.fuberlin.winfo.project.algorithm.NetworkProvider;
@@ -8,11 +10,12 @@ import de.fuberlin.winfo.project.algorithm.restriction.RestrictionException;
 import de.fuberlin.winfo.project.model.network.Edge;
 import de.fuberlin.winfo.project.model.network.Node;
 import de.fuberlin.winfo.project.model.network.Order;
+import de.fuberlin.winfo.project.model.network.solution.UsedEdge;
 
 public class VehicleRangeRestriction implements Restriction {
 
 	@Override
-	public boolean check(NetworkProvider np, RouteWrapper route, Order newOrder, int index)
+	public boolean preliminaryCheck(NetworkProvider np, RouteWrapper route, Order newOrder, int index)
 			throws RestrictionException {
 
 		Node node = AlgHelper.getNodeByOrder(newOrder);
@@ -49,5 +52,11 @@ public class VehicleRangeRestriction implements Restriction {
 	@Override
 	public String getFailureMessage() {
 		return "Vehicle maximal range exceedance";
+	}
+
+	@Override
+	public boolean checkCompleteRoute(NetworkProvider np, RouteWrapper route) throws RestrictionException {
+		EList<UsedEdge> list = route.getActualRoute().getWay();
+		return list.get(list.size() - 1).getRemainingVehicleBatteryCapacityAtEnd() >= 0;
 	}
 }

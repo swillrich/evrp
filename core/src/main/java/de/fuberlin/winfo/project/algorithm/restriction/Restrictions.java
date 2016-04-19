@@ -24,7 +24,7 @@ public class Restrictions extends ArrayList<Restriction> {
 			return;
 		}
 		for (Restriction r : this) {
-			if (!r.check(np, route, newOrder, index)) {
+			if (!r.preliminaryCheck(np, route, newOrder, index)) {
 				throw new RestrictionException(r.getClass(), r.getFailureMessage());
 			}
 		}
@@ -34,5 +34,16 @@ public class Restrictions extends ArrayList<Restriction> {
 		Restriction[] restrictions = new Restriction[] { new CargoCapacityRestriction(), new TimeWindowRestriction(),
 				new VehicleRangeRestriction() };
 		addAll(Arrays.asList(restrictions));
+	}
+
+	public void checkCompleteRoute(RouteWrapper route) throws RestrictionException {
+		if (route.getActualRoute().getWay().size() == 0) {
+			return;
+		}
+		for (Restriction r : this) {
+			if (!r.checkCompleteRoute(np, route)) {
+				throw new RestrictionException(r.getClass(), r.getFailureMessage());
+			}
+		}
 	}
 }
