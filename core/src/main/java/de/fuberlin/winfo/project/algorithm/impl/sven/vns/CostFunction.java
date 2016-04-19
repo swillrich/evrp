@@ -8,7 +8,7 @@ public abstract class CostFunction implements Comparator<Solution>{
 
 	@Override
 	public int compare(Solution sol1, Solution sol2) {
-		return Integer.compare(compute(sol1), compute(sol2));
+		return Long.compare(compute(sol1), compute(sol2));
 	}
 	
 	public abstract int compute(Solution s);

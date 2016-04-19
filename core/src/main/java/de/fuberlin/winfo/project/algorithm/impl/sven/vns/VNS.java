@@ -7,6 +7,7 @@ public class VNS {
 	public static Solution vns(NetworkProvider np, CostFunction f, Solution bestSolution,
 			NeighborhoodStructure[] neighborhoodStructures) {
 		int k = 0;
+
 		do {
 			neighborhoodStructures[k].setNetworkProvider(np);
 			Solution initialSolution = neighborhoodStructures[k].shake(bestSolution);

@@ -57,7 +57,7 @@ public class TwoOptNeighborhoodStructure extends NeighborhoodStructure {
 			Route2KOptPairs optPairs = new Route2KOptPairs();
 			optPairs.convert(centralSol.getRoutes().get(current));
 			List<Pair> pairs = optPairs.getPairs();
-			optionIterator = new KOptIteratorWrapper(3, pairs);
+			optionIterator = new KOptIteratorWrapper(2, pairs);
 			orderMap = optPairs.getOrderMap();
 			System.out.println(string);
 		} catch (Exception e) {

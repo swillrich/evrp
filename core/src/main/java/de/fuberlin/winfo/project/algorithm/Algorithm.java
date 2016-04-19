@@ -54,14 +54,6 @@ public abstract class Algorithm {
 		StopWatch sw = Utils.stopWatchGo();
 		run(solution);
 		Log.info(Log.ALGORITHM, "Finished within " + sw.stop() + " min");
-		calculateTotalValuesForEachRoute();
-	}
-
-	void calculateTotalValuesForEachRoute() throws Exception {
-		long distance = solution.getRoutes().stream().mapToLong(r -> r.getTotalDistanceInM()).sum();
-		solution.setTotalDistance(distance);
-		long time = solution.getRoutes().stream().mapToLong(r -> r.getTotalTimeInSec()).sum();
-		solution.setTotalTime(time);
 	}
 
 	public Solution getSolution() {

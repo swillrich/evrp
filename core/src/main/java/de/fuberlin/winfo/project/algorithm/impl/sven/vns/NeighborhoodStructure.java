@@ -26,7 +26,7 @@ public abstract class NeighborhoodStructure implements Iterator<Solution> {
 	public Solution shake(Solution sol) {
 		this.centralSol = sol;
 		init();
-		for (int i = 0; i < Math.random() * 10; i++) {
+		for (int i = 0; i < Math.random() * 10000; i++) {
 			if (hasNext()) {
 				sol = next();
 			} else {
@@ -42,7 +42,6 @@ public abstract class NeighborhoodStructure implements Iterator<Solution> {
 		while (hasNext()) {
 			Solution neighbor = next();
 			if (f.compare(solution, neighbor) > 0) {
-				System.out.println("IMPROVEMENT");
 				solution = neighbor;
 			}
 		}

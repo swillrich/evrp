@@ -56,8 +56,8 @@ public class SvensAlg extends Algorithm {
 					return Integer.MAX_VALUE;
 				}
 				int size = s.getRoutes().size();
-				long sum = s.getRoutes().stream().mapToLong(r -> r.getTotalDistanceInM()).sum();
-				return (int) (sum / size);
+				long distance = s.getTotalDistance();
+				return (int) (distance);
 			}
 		};
 		Solution optSolution = VNS.vns(networkProvider, f, solution,
@@ -92,6 +92,7 @@ public class SvensAlg extends Algorithm {
 			System.out.println((solution.getRoutes().size() + 1) + ". Route with "
 					+ (route.getActualRoute().getWay().size() + 1) + " nodes built (" + reason + ")");
 			solution.getRoutes().add(route.getActualRoute());
+			route.takeCareOfSolutionValues();
 		}
 	}
 }

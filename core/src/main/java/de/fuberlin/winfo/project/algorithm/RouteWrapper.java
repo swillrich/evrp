@@ -16,6 +16,7 @@ import de.fuberlin.winfo.project.model.network.Vehicle;
 import de.fuberlin.winfo.project.model.network.impl.NetworkFactoryImpl;
 import de.fuberlin.winfo.project.model.network.solution.Delivery;
 import de.fuberlin.winfo.project.model.network.solution.Route;
+import de.fuberlin.winfo.project.model.network.solution.Solution;
 import de.fuberlin.winfo.project.model.network.solution.SolutionFactory;
 import de.fuberlin.winfo.project.model.network.solution.UsedEdge;
 import de.fuberlin.winfo.project.model.network.solution.impl.SolutionFactoryImpl;
@@ -75,6 +76,8 @@ public class RouteWrapper extends TreeSet<UsedEdge> {
 	}
 
 	private void reinitializeRoute() throws Exception {
+		route.setTotalDistanceInM(0);
+		route.setTotalTimeInSec(0);
 		for (int i = 0; i < route.getWay().size(); i++) {
 			UsedEdge usedEdge = route.getWay().get(i);
 
@@ -115,14 +118,27 @@ public class RouteWrapper extends TreeSet<UsedEdge> {
 			route.setTotalDistanceInM(route.getTotalDistanceInM() + usedEdge.getEdge().getDistance());
 		}
 
-		int totalRouteTime = route.getWay().get(route.getWay().size() - 1).getDuration().getEndInSec()
-				- route.getWay().get(0).getDuration().getStartInSec();
-		route.setTotalTimeInSec(totalRouteTime);
-
 		/*
 		 * COMPUTATION OF THE REMAINING VEHICLE BATTERY KW
 		 */
 		computePredictedRemainingVehicleBatteryCapacity(-1, 0, true);
+
+		int totalRouteTime = route.getWay().get(route.getWay().size() - 1).getDuration().getEndInSec()
+				- route.getWay().get(0).getDuration().getStartInSec();
+		route.setTotalTimeInSec(totalRouteTime);
+
+		takeCareOfSolutionValues();
+	}
+
+	public void takeCareOfSolutionValues() {
+		if (route.eContainer() != null && route.eContainer() instanceof Solution) {
+			Solution solution = (Solution) route.eContainer();
+			long distance = solution.getRoutes().stream().mapToLong(r -> r.getTotalDistanceInM()).sum();
+			solution.setTotalDistance(distance);
+
+			long time = solution.getRoutes().stream().mapToLong(r -> r.getTotalTimeInSec()).sum();
+			solution.setTotalTime(time);
+		}
 	}
 
 	private void computeArrival(UsedEdge usedEdge) {
