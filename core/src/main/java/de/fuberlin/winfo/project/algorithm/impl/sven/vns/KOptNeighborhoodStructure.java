@@ -16,12 +16,17 @@ import de.fuberlin.winfo.project.model.network.solution.Route;
 import de.fuberlin.winfo.project.model.network.solution.Solution;
 import de.fuberlin.winfo.project.model.network.solution.UsedEdge;
 
-public class TwoOptNeighborhoodStructure extends NeighborhoodStructure {
+public class KOptNeighborhoodStructure extends NeighborhoodStructure {
 
 	private int current = -1;
 	private KOptIteratorWrapper optionIterator;
 	private Edge[][] E;
 	private Map<Integer, Order> orderMap;
+	private int k;
+	
+	public KOptNeighborhoodStructure(int k) {
+		this.k = k;
+	}
 
 	@Override
 	public void init() {
@@ -57,7 +62,7 @@ public class TwoOptNeighborhoodStructure extends NeighborhoodStructure {
 			Route2KOptPairs optPairs = new Route2KOptPairs();
 			optPairs.convert(centralSol.getRoutes().get(current));
 			List<Pair> pairs = optPairs.getPairs();
-			optionIterator = new KOptIteratorWrapper(2, pairs);
+			optionIterator = new KOptIteratorWrapper(k, pairs);
 			orderMap = optPairs.getOrderMap();
 			System.out.println(string);
 		} catch (Exception e) {
