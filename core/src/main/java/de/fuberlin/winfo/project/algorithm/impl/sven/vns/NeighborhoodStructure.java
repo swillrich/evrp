@@ -7,6 +7,7 @@ import org.eclipse.emf.ecore.util.EcoreUtil.Copier;
 
 import de.fuberlin.winfo.project.algorithm.NetworkProvider;
 import de.fuberlin.winfo.project.algorithm.RouteWrapper;
+import de.fuberlin.winfo.project.algorithm.impl.sven.vns.logging.VNSHistory;
 import de.fuberlin.winfo.project.algorithm.restriction.RestrictionException;
 import de.fuberlin.winfo.project.algorithm.restriction.Restrictions;
 import de.fuberlin.winfo.project.model.network.solution.Route;
@@ -17,7 +18,7 @@ public abstract class NeighborhoodStructure implements Iterator<Solution> {
 	protected Solution centralSol;
 	protected NetworkProvider networkProvider;
 	protected Restrictions restrictions;
-	protected VNSMonitor monitor;
+	protected VNSHistory history;
 
 	public abstract String getName();
 
@@ -25,11 +26,11 @@ public abstract class NeighborhoodStructure implements Iterator<Solution> {
 
 	public abstract void init();
 
-	public void setNetworkProvider(NetworkProvider np, VNSMonitor monitor) {
+	public void setNetworkProvider(NetworkProvider np, VNSHistory history) {
 		networkProvider = np;
 		this.restrictions = new Restrictions(networkProvider);
 		this.restrictions.addAll();
-		this.monitor = monitor;
+		this.history = history;
 	}
 
 	public Solution shake(Solution sol) {
@@ -39,9 +40,10 @@ public abstract class NeighborhoodStructure implements Iterator<Solution> {
 			if (hasNext()) {
 				sol = next();
 			} else {
-				return sol;
+				break;
 			}
 		}
+		history.neighborhoodChange(this, this.centralSol, sol, "shaked");
 		return sol;
 	}
 
@@ -51,6 +53,7 @@ public abstract class NeighborhoodStructure implements Iterator<Solution> {
 		while (hasNext()) {
 			Solution neighbor = next();
 			if (f.compare(solution, neighbor) > 0 && checkRestrictions(neighbor)) {
+				history.neighborhoodChange(this, solution, neighbor, "improved");
 				solution = neighbor;
 			}
 		}

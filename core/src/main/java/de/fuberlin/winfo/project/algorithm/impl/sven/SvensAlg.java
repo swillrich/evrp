@@ -12,7 +12,8 @@ import de.fuberlin.winfo.project.algorithm.impl.sven.datastructures.PendingOrder
 import de.fuberlin.winfo.project.algorithm.impl.sven.vns.CostFunction;
 import de.fuberlin.winfo.project.algorithm.impl.sven.vns.NeighborhoodStructure;
 import de.fuberlin.winfo.project.algorithm.impl.sven.vns.VNS;
-import de.fuberlin.winfo.project.algorithm.impl.sven.vns.VNSMonitor;
+import de.fuberlin.winfo.project.algorithm.impl.sven.vns.logging.VNSConsoleOutput;
+import de.fuberlin.winfo.project.algorithm.impl.sven.vns.logging.VNSHistory;
 import de.fuberlin.winfo.project.algorithm.impl.sven.vns.neighborhoodstructures.KOptNeighborhoodStructure;
 import de.fuberlin.winfo.project.algorithm.restriction.RestrictionException;
 import de.fuberlin.winfo.project.algorithm.restriction.impl.CargoCapacityRestriction;
@@ -48,9 +49,9 @@ public class SvensAlg extends Algorithm {
 	}
 
 	private void improvementProcedure(Solution solution) {
-		
+
 		System.out.println("VNS starts ...");
-		
+
 		CostFunction f = new CostFunction() {
 
 			@Override
@@ -63,12 +64,13 @@ public class SvensAlg extends Algorithm {
 				return (int) (distance);
 			}
 		};
-		Solution optSolution = VNS
-				.vns(networkProvider, f, solution,
-						new NeighborhoodStructure[] { new KOptNeighborhoodStructure(2),
-								new KOptNeighborhoodStructure(3), new KOptNeighborhoodStructure(4) },
-						new VNSMonitor(f));
-		
+
+		VNSHistory history = new VNSHistory(f);
+		history.setChangeListener(new VNSConsoleOutput());
+		Solution optSolution = VNS.vns(networkProvider, f, solution, new NeighborhoodStructure[] {
+				new KOptNeighborhoodStructure(2), new KOptNeighborhoodStructure(3), new KOptNeighborhoodStructure(4) },
+				history);
+
 		updateSolution(optSolution);
 	}
 
