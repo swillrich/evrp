@@ -65,6 +65,8 @@ public class SvensAlg extends Algorithm {
 						new NeighborhoodStructure[] { new KOptNeighborhoodStructure(2),
 								new KOptNeighborhoodStructure(3), new KOptNeighborhoodStructure(4) },
 						new VNSMonitor(f));
+		
+		updateSolution(optSolution);
 	}
 
 	private void constructProcedure(Solution solution, Depot depot) throws Exception {

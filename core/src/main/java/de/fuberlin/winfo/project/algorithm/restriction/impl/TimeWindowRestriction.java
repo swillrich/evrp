@@ -1,8 +1,8 @@
 package de.fuberlin.winfo.project.algorithm.restriction.impl;
 
 import de.fuberlin.winfo.project.algorithm.AlgHelper;
-import de.fuberlin.winfo.project.algorithm.RouteWrapper;
 import de.fuberlin.winfo.project.algorithm.NetworkProvider;
+import de.fuberlin.winfo.project.algorithm.RouteWrapper;
 import de.fuberlin.winfo.project.algorithm.restriction.Restriction;
 import de.fuberlin.winfo.project.algorithm.restriction.RestrictionException;
 import de.fuberlin.winfo.project.model.network.Customer;
@@ -12,6 +12,7 @@ import de.fuberlin.winfo.project.model.network.Locatable;
 import de.fuberlin.winfo.project.model.network.Node;
 import de.fuberlin.winfo.project.model.network.Order;
 import de.fuberlin.winfo.project.model.network.solution.Delivery;
+import de.fuberlin.winfo.project.model.network.solution.UsedEdge;
 
 public class TimeWindowRestriction implements Restriction {
 
@@ -132,6 +133,17 @@ public class TimeWindowRestriction implements Restriction {
 
 	@Override
 	public boolean checkCompleteRoute(NetworkProvider np, RouteWrapper route) throws RestrictionException {
+		for (int i = 0; i < route.getActualRoute().getWay().size(); i++) {
+			UsedEdge usedEdge = route.getActualRoute().getWay().get(i);
+			if (usedEdge instanceof Delivery) {
+				Delivery del = (Delivery) usedEdge;
+				Duration orderTW = del.getOrder().getTimeWindow();
+				if (orderTW == null) {
+					return true;
+				}
+				return del.getDuration().getEndInSec() <= orderTW.getEndInSec();
+			}
+		}
 		return true;
 	}
 

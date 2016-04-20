@@ -38,6 +38,17 @@ public abstract class Algorithm {
 	 * 
 	 */
 	public abstract void run(Solution solution) throws Exception;
+	
+	public void updateSolution(Solution update) {
+		int indexOf = networkProvider.getNetwork().getSolution().indexOf(this.solution);
+		this.solution = update;
+		if (indexOf == -1) {
+			networkProvider.getNetwork().getSolution().add(update);
+		} else {
+			networkProvider.getNetwork().getSolution().remove(indexOf);
+			networkProvider.getNetwork().getSolution().add(indexOf, update);
+		}
+	}
 
 	public void prepareAndRun(NetworkProvider networkProvider, Solution solution) throws Exception {
 		Log.info(Log.ALGORITHM,

@@ -8,7 +8,7 @@ public class VNS {
 			NeighborhoodStructure[] neighborhoodStructures, VNSMonitor monitor) {
 		int k = 0;
 		do {
-			neighborhoodStructures[k].setNetworkProvider(np);
+			neighborhoodStructures[k].setNetworkProvider(np, monitor);
 			Solution initialSolution = neighborhoodStructures[k].shake(bestSolution);
 			Solution bestNeighbor = neighborhoodStructures[k].search(initialSolution, f);
 			monitor.vnsUpdate(neighborhoodStructures[k], k, bestSolution, bestNeighbor);

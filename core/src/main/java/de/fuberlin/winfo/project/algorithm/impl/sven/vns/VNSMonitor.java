@@ -10,15 +10,14 @@ public class VNSMonitor {
 
 	public VNSMonitor(CostFunction function) {
 		this.f = function;
-		tablePrinter.setTitles("#, NH, Prev Costs, New Costs, diff".split(", "));
+		tablePrinter.setTitles("#, NH, Prev Costs, New Costs, Diff, Reason".split(", "));
 	}
 
 	public void vnsUpdate(NeighborhoodStructure nb, int k, Solution prev, Solution better) {
 		int prevCost = f.compute(prev);
 		int betterCost = f.compute(better);
 
-		String diff = withSeparator((prevCost - betterCost), "") + " ("
-				+ round(((double) (prevCost - betterCost) / prevCost), 4) + ")";
+		String diff = withSeparator((prevCost - betterCost), "");
 		String name = k + " (" + nb.getName() + ")";
 		String prevString = withSeparator(prevCost, "");
 		String betterString = withSeparator(betterCost, "");
@@ -28,6 +27,6 @@ public class VNSMonitor {
 			diff = "-";
 		}
 
-		tablePrinter.print(name, prevString, betterString, diff);
+		tablePrinter.print(name, prevString, betterString, diff, "no yet implemented");
 	}
 }

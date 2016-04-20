@@ -24,9 +24,10 @@ public abstract class NeighborhoodStructure implements Iterator<Solution> {
 
 	public abstract void init();
 
-	public void setNetworkProvider(NetworkProvider np) {
+	public void setNetworkProvider(NetworkProvider np, VNSMonitor monitor) {
 		networkProvider = np;
 		this.restrictions = new Restrictions(networkProvider);
+		this.restrictions.addAll();
 	}
 
 	public Solution shake(Solution sol) {
@@ -75,7 +76,6 @@ public abstract class NeighborhoodStructure implements Iterator<Solution> {
 				restrictions.checkCompleteRoute(routeWrapper);
 				return true;
 			} catch (RestrictionException e) {
-				System.out.println(e.getMessage());
 				return false;
 			}
 		}
