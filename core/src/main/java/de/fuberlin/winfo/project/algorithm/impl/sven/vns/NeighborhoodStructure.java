@@ -17,6 +17,7 @@ public abstract class NeighborhoodStructure implements Iterator<Solution> {
 	protected Solution centralSol;
 	protected NetworkProvider networkProvider;
 	protected Restrictions restrictions;
+	protected VNSMonitor monitor;
 
 	public abstract String getName();
 
@@ -28,6 +29,7 @@ public abstract class NeighborhoodStructure implements Iterator<Solution> {
 		networkProvider = np;
 		this.restrictions = new Restrictions(networkProvider);
 		this.restrictions.addAll();
+		this.monitor = monitor;
 	}
 
 	public Solution shake(Solution sol) {

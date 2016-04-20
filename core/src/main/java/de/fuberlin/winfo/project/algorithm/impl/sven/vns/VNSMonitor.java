@@ -28,5 +28,5 @@ public class VNSMonitor {
 		}
 
 		tablePrinter.print(name, prevString, betterString, diff, "no yet implemented");
-	}
+	} 
 }

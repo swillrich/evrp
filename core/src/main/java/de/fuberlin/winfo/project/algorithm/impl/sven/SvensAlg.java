@@ -48,6 +48,9 @@ public class SvensAlg extends Algorithm {
 	}
 
 	private void improvementProcedure(Solution solution) {
+		
+		System.out.println("VNS starts ...");
+		
 		CostFunction f = new CostFunction() {
 
 			@Override
