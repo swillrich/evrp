@@ -43,10 +43,7 @@ public class VNSConsoleOutput {
 		NeighborhoodSearch search = searches.get(searches.size() - 1);
 		String operation = search.getOperation();
 		String newCost = withSeparator(search.getCost(), "");
-		String costDiff = "-";
-		if (searches.size() > 1) {
-			costDiff = withSeparator(improvement.getPrevCost() - searches.get(searches.size() - 1).getCost(), "");
-		}
+		String costDiff = withSeparator(improvement.getPrevCost() - search.getCost(), "");
 		String sek = asTime(search.getTime(), "");
 		tablePrinter.print(improvement.getName(), operation, sek, newCost, costDiff, "", "");
 	}
