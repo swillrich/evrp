@@ -1,6 +1,7 @@
 package de.fuberlin.winfo.project.algorithm.impl.sven.vns.neighborhoodstructures;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 import java.util.Map;
 
@@ -30,6 +31,26 @@ public class KOptNeighborhoodStructure extends NeighborhoodStructure {
 	public KOptNeighborhoodStructure(int k) {
 		this.k = k;
 	}
+
+//	@Override
+//	protected Solution shakeProcedure(Solution sol) {
+//		while (true) {
+//			for (int i = 0; i < Math.random() * 10 * k; i++) {
+//				if (hasNext()) {
+//					sol = next();
+//				} else {
+//					break;
+//				}
+//			}
+//			takePartialSolutionFromIncumbent(sol);
+//			incumbentSol = sol;
+//			if (current == initialSol.getRoutes().size() - 1) {
+//				return sol;
+//			} else {
+//				initNext();
+//			}
+//		}
+//	}
 
 	@Override
 	public void init() {
@@ -62,8 +83,10 @@ public class KOptNeighborhoodStructure extends NeighborhoodStructure {
 
 	private void takePartialSolutionFromIncumbent(Solution solution) {
 		for (int i = 0; i < current; i++) {
-			Route route = EcoreUtil.copy(incumbentSol.getRoutes().get(i));
-			solution.getRoutes().set(i, route);
+			Collection<UsedEdge> way = EcoreUtil.copyAll(incumbentSol.getRoutes().get(i).getWay());
+			solution.getRoutes().get(i).getWay().clear();
+			solution.getRoutes().get(i).getWay().addAll(way);
+			new RouteWrapper(solution.getRoutes().get(i), null, null);
 		}
 	}
 

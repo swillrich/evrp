@@ -36,6 +36,13 @@ public class RouteWrapper extends TreeSet<UsedEdge> {
 		} else {
 			this.depot = depot;
 		}
+		try {
+			if (route.getWay().size() > 2) {
+				reinitializeRoute();
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 	}
 
 	public Route getActualRoute() {

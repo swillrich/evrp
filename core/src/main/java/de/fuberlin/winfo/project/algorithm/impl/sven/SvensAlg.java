@@ -3,6 +3,7 @@ package de.fuberlin.winfo.project.algorithm.impl.sven;
 import java.util.ArrayList;
 import java.util.List;
 
+import de.fuberlin.winfo.project.FormatConv;
 import de.fuberlin.winfo.project.algorithm.AlgHelper;
 import de.fuberlin.winfo.project.algorithm.Algorithm;
 import de.fuberlin.winfo.project.algorithm.RouteWrapper;
@@ -49,8 +50,6 @@ public class SvensAlg extends Algorithm {
 
 	private void improvementProcedure(Solution solution) {
 
-		System.out.println("VNS starts ...");
-
 		CostFunction f = new CostFunction() {
 
 			@Override
@@ -64,9 +63,11 @@ public class SvensAlg extends Algorithm {
 			}
 		};
 
+		System.out.println("VNS starts with " + FormatConv.withSeparator(f.compute(solution), ""));
+
 		VNSMonitor historyMonitor = new VNSMonitor(f);
-		Solution optSolution = VNS.vns(networkProvider, f, solution, new NeighborhoodStructure[] {
-				new KOptNeighborhoodStructure(2), new KOptNeighborhoodStructure(3), new KOptNeighborhoodStructure(4) },
+		Solution optSolution = VNS.vns(networkProvider, f, solution,
+				new NeighborhoodStructure[] { new KOptNeighborhoodStructure(2), new KOptNeighborhoodStructure(3) },
 				historyMonitor);
 		optSolution.setHistory(historyMonitor.getHistory());
 		updateSolution(optSolution);

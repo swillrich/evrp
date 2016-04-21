@@ -52,7 +52,6 @@ public abstract class NeighborhoodStructure implements Iterator<Solution> {
 		}
 		return solution;
 	}
-
 	public Solution search(Solution solution, CostFunction f) {
 		this.initialSol = solution;
 		this.incumbentSol = solution;
@@ -64,7 +63,7 @@ public abstract class NeighborhoodStructure implements Iterator<Solution> {
 				incumbentSol = candidate;
 			}
 		}
-		return incumbentSol;
+		return search(incumbentSol, f);
 	}
 
 	@Override
