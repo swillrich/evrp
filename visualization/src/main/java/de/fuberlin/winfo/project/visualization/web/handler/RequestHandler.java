@@ -13,6 +13,7 @@ import org.eclipse.jetty.server.handler.AbstractHandler;
 import de.fuberlin.winfo.project.visualization.web.handler.impl.ASCIIRequest;
 import de.fuberlin.winfo.project.visualization.web.handler.impl.AddNetworkRequest;
 import de.fuberlin.winfo.project.visualization.web.handler.impl.FileProviderRequest;
+import de.fuberlin.winfo.project.visualization.web.handler.impl.HistoryRequest;
 import de.fuberlin.winfo.project.visualization.web.handler.impl.JSONRequest;
 import de.fuberlin.winfo.project.visualization.web.handler.impl.ListRequest;
 import de.fuberlin.winfo.project.visualization.web.handler.impl.MapRequest;
@@ -22,7 +23,8 @@ import de.fuberlin.winfo.project.visualization.web.handler.impl.TestRequest;
 public class RequestHandler extends AbstractHandler {
 	public static Logger LOGGER = Logger.getLogger("RequestHandler");
 	AbstractRequest[] col = new AbstractRequest[] { new AddNetworkRequest(), new TestRequest(), new JSONRequest(),
-			new MapRequest(), new ListRequest(), new Nodes(), new ASCIIRequest(), new FileProviderRequest() };
+			new MapRequest(), new ListRequest(), new Nodes(), new ASCIIRequest(), new FileProviderRequest(),
+			new HistoryRequest() };
 
 	@Override
 	public void handle(String target, Request baseRequest, HttpServletRequest request, HttpServletResponse response)

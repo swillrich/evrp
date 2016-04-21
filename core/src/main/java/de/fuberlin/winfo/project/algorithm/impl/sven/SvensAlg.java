@@ -64,11 +64,11 @@ public class SvensAlg extends Algorithm {
 			}
 		};
 
-		VNSMonitor history = new VNSMonitor(f);
-		Solution optSolution = VNS.vns(networkProvider, f, solution, new NeighborhoodStructure[] {
-				new KOptNeighborhoodStructure(2), new KOptNeighborhoodStructure(3) },
-				history);
-
+		VNSMonitor historyMonitor = new VNSMonitor(f);
+		Solution optSolution = VNS.vns(networkProvider, f, solution,
+				new NeighborhoodStructure[] { new KOptNeighborhoodStructure(2), new KOptNeighborhoodStructure(3) },
+				historyMonitor);
+		optSolution.setHistory(historyMonitor.getHistory());
 		updateSolution(optSolution);
 	}
 

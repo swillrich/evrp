@@ -23,6 +23,10 @@ public class VNSMonitor {
 	public VNSMonitor(CostFunction f) {
 		this.costFunction = f;
 	}
+	
+	public SearchHistory getHistory() {
+		return history;
+	}
 
 	public void vnsSearch(NeighborhoodStructure nb, int k, Solution prev, Solution better) {
 		vnsSearch.setPrevCost(costFunction.compute(prev));
