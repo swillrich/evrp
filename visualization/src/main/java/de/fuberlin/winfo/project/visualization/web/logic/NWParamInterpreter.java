@@ -18,7 +18,7 @@ public class NWParamInterpreter {
 			return Integer.valueOf(parameter);
 		}
 	}
-
+	
 	public static int getSolId(Request request) {
 		int nwId = getNWId(request);
 		String parameter = request.getParameter("solid");

@@ -38,6 +38,7 @@ public class GuiStart {
 
 		try {
 			server = new VisualizationServer(8080);
+			server.setNWDirectory("target/networks");
 			server.start();
 		} catch (Exception e) {
 			e.printStackTrace();

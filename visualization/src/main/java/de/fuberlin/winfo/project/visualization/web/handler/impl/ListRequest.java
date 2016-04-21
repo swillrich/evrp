@@ -14,7 +14,7 @@ import de.fuberlin.winfo.project.model.network.Network;
 import de.fuberlin.winfo.project.model.network.solution.Solution;
 import de.fuberlin.winfo.project.visualization.web.VisualizationServer;
 import de.fuberlin.winfo.project.visualization.web.handler.AbstractRequest;
-import de.fuberlin.winfo.project.visualization.web.logic.Statistics;
+import de.fuberlin.winfo.project.visualization.web.logic.NWParamInterpreter;
 
 public class ListRequest extends AbstractRequest {
 
@@ -25,25 +25,43 @@ public class ListRequest extends AbstractRequest {
 	@Override
 	public void run(Request baseRequest, HttpServletResponse response) throws IOException {
 		this.r = baseRequest;
+		saveNetworkIfRequested();
+		removeNetworkIfRequested();
 		sBuilder = new StringBuilder();
 		String html = getResourceAsString("List.html");
 		this.networks = VisualizationServer.networkCache;
+		String thisPageLink = "<a href=\"" + getBaseURL(r).concat(getKey() + "\">Solutions</a>");
 		if (networks.size() == 0) {
-			response.getWriter().write("No Solutions available so far.");
+			response.getWriter().write("No " + thisPageLink + " available so far.");
 		} else {
 			writeContent();
 			addSubstitation("content", sBuilder.toString());
+			addSubstitation("title", thisPageLink);
 			String str = replace(html);
 			response.getWriter().write(str);
 		}
 	}
 
+	private void removeNetworkIfRequested() throws IOException {
+		if (r.getParameter("remove") != null) {
+			int id = NWParamInterpreter.getNWId(r);
+			VisualizationServer.removeNetwork(id);
+		}
+	}
+
+	private void saveNetworkIfRequested() throws IOException {
+		if (r.getParameter("save") == null) {
+			return;
+		}
+		int id = NWParamInterpreter.getNWId(r);
+		VisualizationServer.save(id);
+	}
+
 	private void writeContent() {
 		add("<Table id=\"t01\">");
 
-		String[] columns = new String[] { "Id", "NW Nodes", "NW Edges", "Scenario Name", "Routes", "Total Time",
-				"Total Distance", "Distance Avg / Route", "Total Wait", "Pers Costs", "Mat Costs", "Total Costs",
-				"Details", "Map", "GeoJson" };
+		String[] columns = new String[] { "Id", "NW Nodes", "save / remove", "Scenario Name", "Routes", "Total Time",
+				"Total Distance", "Details", "Map", "GeoJson" };
 		addRow(columns, true, 1, -1);
 
 		for (int i = 0; i < networks.size(); i++) {
@@ -51,21 +69,18 @@ public class ListRequest extends AbstractRequest {
 			for (int j = 0; j < n.getSolution().size(); j++) {
 				Solution s = n.getSolution().get(j);
 
-				Statistics st = new Statistics(n);
+				String geoJsonLink = getLink(true, "json", "GeoJson", i, j);
+				String detailLink = getLink(true, "ascii", "Details", i, j);
+				String mapLink = getLink(true, "map", "Map", i, j);
+				String saveLink = getSaveLink(i);
+				String removeLink = getLink(false, "list", "x", i, -1, "remove=true");
 
-				String geoJsonLink = getLink("json", "GeoJson", i, j);
-				String detailLink = getLink("ascii", "Details", i, j);
-				String mapLink = getLink("map", "Map", i, j);
-
-				Object[] networkLinePart = new Object[] { i, n.getNodes().size(), n.getEdges().size() };
+				Object[] networkLinePart = new Object[] { i, n.getNodes().size(), saveLink + " / " + removeLink };
 
 				Object[] solutionLinePart = new Object[] { s.getUsecase().getName(), s.getRoutes().size(),
 						FormatConv.asTime(s.getTotalTime(), "h"),
-						FormatConv.numberWithSeparatorAndMeter(s.getTotalDistance()),
-						FormatConv.withSeparator(st.getAverageDistance(s), "m"), st.getTotalWait(s),
-						FormatConv.getInEuro(st.getPersonnalCosts(s)),
-						FormatConv.getInEuro(st.getMaterialCosts(s)),
-						FormatConv.getInEuro(st.getTotalCosts(s)), detailLink, mapLink, geoJsonLink };
+						FormatConv.numberWithSeparatorAndMeter(s.getTotalDistance()), detailLink, mapLink,
+						geoJsonLink };
 
 				if (n.getSolution().size() > 1) {
 					if (j == 0) {
@@ -82,9 +97,26 @@ public class ListRequest extends AbstractRequest {
 		add("</table>");
 	}
 
-	private String getLink(String urlSuffix, String linkName, int id, int solId) {
-		String link = "<a href=\"{0}\" target=\"_blank\">{1}</a>";
-		String url = getBaseURL(r).concat(urlSuffix + "?id=" + id + "&solid=" + solId);
+	private String getSaveLink(int i) {
+		Network network = VisualizationServer.networkCache.get(i);
+		if (VisualizationServer.map.containsKey(network)) {
+			return "saved";
+		} else {
+			return getLink(false, "list", "save", i, -1, "save=true");
+		}
+	}
+
+	private String getLink(boolean newPage, String urlSuffix, String linkName, int id, int solId, String... params) {
+		String p = "";
+		for (int i = 0; i < params.length; i++) {
+			p += "&" + params[i];
+		}
+		String blank = "";
+		if (newPage) {
+			blank = "target=\"_blank\"";
+		}
+		String link = "<a href=\"{0}\" " + blank + ">{1}</a>";
+		String url = getBaseURL(r).concat(urlSuffix + "?id=" + id + "&solid=" + solId + p);
 		return MessageFormat.format(link, url, linkName);
 	}
 
