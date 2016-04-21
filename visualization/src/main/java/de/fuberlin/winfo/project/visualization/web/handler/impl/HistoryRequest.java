@@ -25,7 +25,12 @@ public class HistoryRequest extends AbstractRequest {
 		Solution solution = network.getSolution().get(solId);
 		PrintStream printWriter = new PrintStream(response.getOutputStream());
 		HistoryVisualizer visualizer = new HistoryVisualizer(network, solution, printWriter);
-		visualizer.visualize();
+		if (baseRequest.getParameter("asCSV") == null) {
+			visualizer.visualizeTable();
+		} else {
+			visualizer.visualizeCSV();	
+		}
+		
 	}
 
 	@Override

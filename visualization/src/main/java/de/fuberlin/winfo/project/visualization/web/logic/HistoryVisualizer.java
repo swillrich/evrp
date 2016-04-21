@@ -2,8 +2,6 @@ package de.fuberlin.winfo.project.visualization.web.logic;
 
 import java.io.PrintStream;
 
-import javax.swing.table.AbstractTableModel;
-
 import de.fuberlin.winfo.project.FormatConv;
 import de.fuberlin.winfo.project.model.network.Network;
 import de.fuberlin.winfo.project.model.network.solution.NeighborhoodSearch;
@@ -18,19 +16,25 @@ public class HistoryVisualizer {
 	private PrintStream stream;
 	private SearchHistory history;
 	private String[] titles = "Neighborhood, Operation, Sek, Best Neighbor, Diff (prev), Best Solution".split(", ");
+	private TextTable table;
 
 	public HistoryVisualizer(Network nw, Solution sol, PrintStream stream) {
 		this.nw = nw;
 		this.sol = sol;
 		this.stream = stream;
 		history = sol.getHistory();
+		Object[][] data = getData();
+		table = new TextTable(titles, data);
+		table.setAddRowNumbering(true);
 	}
 
-	public void visualize() {
-		Object[][] data = getData();
-		TextTable table = new TextTable(titles, data);
-		table.setAddRowNumbering(true);
+	public void visualizeTable() {
 		table.printTable(stream, 0);
+
+	}
+
+	public void visualizeCSV() {
+		table.toCsv(stream);
 	}
 
 	private Object[][] getData() {
