@@ -15,7 +15,8 @@ import de.fuberlin.winfo.project.model.network.solution.Solution;
 
 public abstract class NeighborhoodStructure implements Iterator<Solution> {
 
-	protected Solution centralSol;
+	protected Solution initialSol;
+	protected Solution incumbentSol;
 	protected NetworkProvider networkProvider;
 	protected Restrictions restrictions;
 	protected VNSMonitor history;
@@ -33,37 +34,43 @@ public abstract class NeighborhoodStructure implements Iterator<Solution> {
 		this.history = history;
 	}
 
-	public Solution shake(Solution sol) {
-		this.centralSol = sol;
+	public Solution shake(Solution solution) {
+		this.initialSol = solution;
 		init();
-		for (int i = 0; i < Math.random() * 10000; i++) {
-			if (hasNext()) {
-				sol = next();
-			} else {
-				break;
-			}
-		}
-		history.neighborhoodChange(this, this.centralSol, sol, "shaked");
-		return sol;
+		this.incumbentSol = shakeProcedure(solution);
+		history.neighborhoodChange(this, this.initialSol, incumbentSol, "shaked");
+		return incumbentSol;
 	}
 
-	public Solution search(Solution solution, CostFunction f) {
-		this.centralSol = solution;
-		init();
-		while (hasNext()) {
-			Solution neighbor = next();
-			if (f.compare(solution, neighbor) > 0 && checkRestrictions(neighbor)) {
-				history.neighborhoodChange(this, solution, neighbor, "improved");
-				solution = neighbor;
+	protected Solution shakeProcedure(Solution solution) {
+		for (int i = 0; i < Math.random() * 10000; i++) {
+			if (hasNext()) {
+				solution = next();
+			} else {
+				return solution;
 			}
 		}
 		return solution;
 	}
 
+	public Solution search(Solution solution, CostFunction f) {
+		this.initialSol = solution;
+		this.incumbentSol = solution;
+		init();
+		while (hasNext()) {
+			Solution candidate = next();
+			if (f.compare(incumbentSol, candidate) > 0 && checkRestrictions(candidate)) {
+				history.neighborhoodChange(this, incumbentSol, candidate, "improved");
+				incumbentSol = candidate;
+			}
+		}
+		return incumbentSol;
+	}
+
 	@Override
 	public Solution next() {
 		EcoreUtil.Copier c = new Copier();
-		Solution copy = (Solution) c.copy(centralSol);
+		Solution copy = (Solution) c.copy(initialSol);
 		c.copyReferences();
 		try {
 			return move(copy);

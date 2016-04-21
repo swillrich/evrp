@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
+import org.eclipse.emf.ecore.util.EcoreUtil;
+
 import de.fuberlin.winfo.project.algorithm.AlgHelper;
 import de.fuberlin.winfo.project.algorithm.RouteWrapper;
 import de.fuberlin.winfo.project.algorithm.impl.sven.vns.NeighborhoodStructure;
@@ -50,17 +52,26 @@ public class KOptNeighborhoodStructure extends NeighborhoodStructure {
 	public Solution move(Solution solution) throws Exception {
 		List<Pair> option = optionIterator.next();
 		actualMove(solution, option);
-		if (!optionIterator.hasNext() && current + 1 < centralSol.getRoutes().size()) {
+		if (!optionIterator.hasNext() && current + 1 < initialSol.getRoutes().size()) {
 			initNext();
+			takePartialSolutionFromIncumbent(solution);
 		}
 		return solution;
+
+	}
+
+	private void takePartialSolutionFromIncumbent(Solution solution) {
+		for (int i = 0; i < current; i++) {
+			Route route = EcoreUtil.copy(incumbentSol.getRoutes().get(i));
+			solution.getRoutes().set(i, route);
+		}
 	}
 
 	private void initNext() {
 		current++;
 		try {
 			Route2KOptPairs optPairs = new Route2KOptPairs();
-			optPairs.convert(centralSol.getRoutes().get(current));
+			optPairs.convert(initialSol.getRoutes().get(current));
 			List<Pair> pairs = optPairs.getPairs();
 			optionIterator = new KOptIteratorWrapper(k, pairs);
 			orderMap = optPairs.getOrderMap();
