@@ -3,6 +3,7 @@
 package de.fuberlin.winfo.project.model.network.solution.impl;
 
 import de.fuberlin.winfo.project.model.network.solution.Route;
+import de.fuberlin.winfo.project.model.network.solution.SearchHistory;
 import de.fuberlin.winfo.project.model.network.solution.Solution;
 import de.fuberlin.winfo.project.model.network.solution.SolutionPackage;
 import de.fuberlin.winfo.project.model.network.solution.UseCase;
@@ -37,6 +38,7 @@ import org.eclipse.emf.ecore.util.InternalEList;
  *   <li>{@link de.fuberlin.winfo.project.model.network.solution.impl.SolutionImpl#getTotalTime <em>Total Time</em>}</li>
  *   <li>{@link de.fuberlin.winfo.project.model.network.solution.impl.SolutionImpl#getProcedure <em>Procedure</em>}</li>
  *   <li>{@link de.fuberlin.winfo.project.model.network.solution.impl.SolutionImpl#getUsecase <em>Usecase</em>}</li>
+ *   <li>{@link de.fuberlin.winfo.project.model.network.solution.impl.SolutionImpl#getHistory <em>History</em>}</li>
  * </ul>
  *
  * @generated
@@ -141,6 +143,16 @@ public class SolutionImpl extends MinimalEObjectImpl.Container implements Soluti
 	 * @ordered
 	 */
 	protected UseCase usecase;
+
+	/**
+	 * The cached value of the '{@link #getHistory() <em>History</em>}' containment reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #getHistory()
+	 * @generated
+	 * @ordered
+	 */
+	protected SearchHistory history;
 
 	/**
 	 * <!-- begin-user-doc -->
@@ -305,6 +317,49 @@ public class SolutionImpl extends MinimalEObjectImpl.Container implements Soluti
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	public SearchHistory getHistory() {
+		return history;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public NotificationChain basicSetHistory(SearchHistory newHistory, NotificationChain msgs) {
+		SearchHistory oldHistory = history;
+		history = newHistory;
+		if (eNotificationRequired()) {
+			ENotificationImpl notification = new ENotificationImpl(this, Notification.SET, SolutionPackage.SOLUTION__HISTORY, oldHistory, newHistory);
+			if (msgs == null) msgs = notification; else msgs.add(notification);
+		}
+		return msgs;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public void setHistory(SearchHistory newHistory) {
+		if (newHistory != history) {
+			NotificationChain msgs = null;
+			if (history != null)
+				msgs = ((InternalEObject)history).eInverseRemove(this, EOPPOSITE_FEATURE_BASE - SolutionPackage.SOLUTION__HISTORY, null, msgs);
+			if (newHistory != null)
+				msgs = ((InternalEObject)newHistory).eInverseAdd(this, EOPPOSITE_FEATURE_BASE - SolutionPackage.SOLUTION__HISTORY, null, msgs);
+			msgs = basicSetHistory(newHistory, msgs);
+			if (msgs != null) msgs.dispatch();
+		}
+		else if (eNotificationRequired())
+			eNotify(new ENotificationImpl(this, Notification.SET, SolutionPackage.SOLUTION__HISTORY, newHistory, newHistory));
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	@Override
 	public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, NotificationChain msgs) {
 		switch (featureID) {
@@ -312,6 +367,8 @@ public class SolutionImpl extends MinimalEObjectImpl.Container implements Soluti
 				return ((InternalEList<?>)getRoutes()).basicRemove(otherEnd, msgs);
 			case SolutionPackage.SOLUTION__USECASE:
 				return basicSetUsecase(null, msgs);
+			case SolutionPackage.SOLUTION__HISTORY:
+				return basicSetHistory(null, msgs);
 		}
 		return super.eInverseRemove(otherEnd, featureID, msgs);
 	}
@@ -336,6 +393,8 @@ public class SolutionImpl extends MinimalEObjectImpl.Container implements Soluti
 				return getProcedure();
 			case SolutionPackage.SOLUTION__USECASE:
 				return getUsecase();
+			case SolutionPackage.SOLUTION__HISTORY:
+				return getHistory();
 		}
 		return super.eGet(featureID, resolve, coreType);
 	}
@@ -368,6 +427,9 @@ public class SolutionImpl extends MinimalEObjectImpl.Container implements Soluti
 			case SolutionPackage.SOLUTION__USECASE:
 				setUsecase((UseCase)newValue);
 				return;
+			case SolutionPackage.SOLUTION__HISTORY:
+				setHistory((SearchHistory)newValue);
+				return;
 		}
 		super.eSet(featureID, newValue);
 	}
@@ -398,6 +460,9 @@ public class SolutionImpl extends MinimalEObjectImpl.Container implements Soluti
 			case SolutionPackage.SOLUTION__USECASE:
 				setUsecase((UseCase)null);
 				return;
+			case SolutionPackage.SOLUTION__HISTORY:
+				setHistory((SearchHistory)null);
+				return;
 		}
 		super.eUnset(featureID);
 	}
@@ -422,6 +487,8 @@ public class SolutionImpl extends MinimalEObjectImpl.Container implements Soluti
 				return PROCEDURE_EDEFAULT == null ? procedure != null : !PROCEDURE_EDEFAULT.equals(procedure);
 			case SolutionPackage.SOLUTION__USECASE:
 				return usecase != null;
+			case SolutionPackage.SOLUTION__HISTORY:
+				return history != null;
 		}
 		return super.eIsSet(featureID);
 	}

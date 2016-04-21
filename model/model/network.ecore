@@ -104,6 +104,8 @@
       <eStructuralFeatures xsi:type="ecore:EAttribute" name="procedure" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
       <eStructuralFeatures xsi:type="ecore:EReference" name="usecase" lowerBound="1"
           eType="#//solution/UseCase" containment="true"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="history" eType="#//solution/SearchHistory"
+          containment="true"/>
     </eClassifiers>
     <eClassifiers xsi:type="ecore:EClass" name="UsedEdge">
       <eStructuralFeatures xsi:type="ecore:EReference" name="edge" lowerBound="1"
@@ -129,6 +131,24 @@
     </eClassifiers>
     <eClassifiers xsi:type="ecore:EClass" name="Delivery" eSuperTypes="#//solution/UsedEdge">
       <eStructuralFeatures xsi:type="ecore:EReference" name="order" eType="#//Order"/>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="VNSSearch">
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="cost" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//ELong"/>
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="prevCost" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//ELong"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="neighborhoodSearches"
+          upperBound="-1" eType="#//solution/NeighborhoodSearch" containment="true"/>
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="operation" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="time" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//ELong"/>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="NeighborhoodSearch">
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="operation" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="cost" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//ELong"/>
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="time" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//ELong"/>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="SearchHistory">
+      <eStructuralFeatures xsi:type="ecore:EReference" name="vnsSearches" upperBound="-1"
+          eType="#//solution/VNSSearch" containment="true"/>
     </eClassifiers>
   </eSubpackages>
 </ecore:EPackage>

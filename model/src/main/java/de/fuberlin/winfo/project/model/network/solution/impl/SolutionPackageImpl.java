@@ -7,13 +7,16 @@ import de.fuberlin.winfo.project.model.network.NetworkPackage;
 import de.fuberlin.winfo.project.model.network.impl.NetworkPackageImpl;
 
 import de.fuberlin.winfo.project.model.network.solution.Delivery;
+import de.fuberlin.winfo.project.model.network.solution.NeighborhoodSearch;
 import de.fuberlin.winfo.project.model.network.solution.Route;
+import de.fuberlin.winfo.project.model.network.solution.SearchHistory;
 import de.fuberlin.winfo.project.model.network.solution.Solution;
 import de.fuberlin.winfo.project.model.network.solution.SolutionFactory;
 import de.fuberlin.winfo.project.model.network.solution.SolutionPackage;
 import de.fuberlin.winfo.project.model.network.solution.UseCase;
 import de.fuberlin.winfo.project.model.network.solution.UsedEdge;
 
+import de.fuberlin.winfo.project.model.network.solution.VNSSearch;
 import org.eclipse.emf.ecore.EAttribute;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EPackage;
@@ -62,6 +65,27 @@ public class SolutionPackageImpl extends EPackageImpl implements SolutionPackage
 	 * @generated
 	 */
 	private EClass deliveryEClass = null;
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	private EClass vnsSearchEClass = null;
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	private EClass neighborhoodSearchEClass = null;
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	private EClass searchHistoryEClass = null;
 
 	/**
 	 * Creates an instance of the model <b>Package</b>, registered with
@@ -242,6 +266,15 @@ public class SolutionPackageImpl extends EPackageImpl implements SolutionPackage
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	public EReference getSolution_History() {
+		return (EReference)solutionEClass.getEStructuralFeatures().get(6);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	public EClass getUsedEdge() {
 		return usedEdgeEClass;
 	}
@@ -368,6 +401,123 @@ public class SolutionPackageImpl extends EPackageImpl implements SolutionPackage
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	public EClass getVNSSearch() {
+		return vnsSearchEClass;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EAttribute getVNSSearch_Name() {
+		return (EAttribute)vnsSearchEClass.getEStructuralFeatures().get(0);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EAttribute getVNSSearch_Cost() {
+		return (EAttribute)vnsSearchEClass.getEStructuralFeatures().get(1);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EAttribute getVNSSearch_PrevCost() {
+		return (EAttribute)vnsSearchEClass.getEStructuralFeatures().get(2);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EReference getVNSSearch_NeighborhoodSearches() {
+		return (EReference)vnsSearchEClass.getEStructuralFeatures().get(3);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EAttribute getVNSSearch_Operation() {
+		return (EAttribute)vnsSearchEClass.getEStructuralFeatures().get(4);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EAttribute getVNSSearch_Time() {
+		return (EAttribute)vnsSearchEClass.getEStructuralFeatures().get(5);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EClass getNeighborhoodSearch() {
+		return neighborhoodSearchEClass;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EAttribute getNeighborhoodSearch_Operation() {
+		return (EAttribute)neighborhoodSearchEClass.getEStructuralFeatures().get(0);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EAttribute getNeighborhoodSearch_Cost() {
+		return (EAttribute)neighborhoodSearchEClass.getEStructuralFeatures().get(1);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EAttribute getNeighborhoodSearch_Time() {
+		return (EAttribute)neighborhoodSearchEClass.getEStructuralFeatures().get(2);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EClass getSearchHistory() {
+		return searchHistoryEClass;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EReference getSearchHistory_VnsSearches() {
+		return (EReference)searchHistoryEClass.getEStructuralFeatures().get(0);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	public SolutionFactory getSolutionFactory() {
 		return (SolutionFactory)getEFactoryInstance();
 	}
@@ -404,6 +554,7 @@ public class SolutionPackageImpl extends EPackageImpl implements SolutionPackage
 		createEAttribute(solutionEClass, SOLUTION__TOTAL_TIME);
 		createEAttribute(solutionEClass, SOLUTION__PROCEDURE);
 		createEReference(solutionEClass, SOLUTION__USECASE);
+		createEReference(solutionEClass, SOLUTION__HISTORY);
 
 		usedEdgeEClass = createEClass(USED_EDGE);
 		createEReference(usedEdgeEClass, USED_EDGE__EDGE);
@@ -421,6 +572,22 @@ public class SolutionPackageImpl extends EPackageImpl implements SolutionPackage
 
 		deliveryEClass = createEClass(DELIVERY);
 		createEReference(deliveryEClass, DELIVERY__ORDER);
+
+		vnsSearchEClass = createEClass(VNS_SEARCH);
+		createEAttribute(vnsSearchEClass, VNS_SEARCH__NAME);
+		createEAttribute(vnsSearchEClass, VNS_SEARCH__COST);
+		createEAttribute(vnsSearchEClass, VNS_SEARCH__PREV_COST);
+		createEReference(vnsSearchEClass, VNS_SEARCH__NEIGHBORHOOD_SEARCHES);
+		createEAttribute(vnsSearchEClass, VNS_SEARCH__OPERATION);
+		createEAttribute(vnsSearchEClass, VNS_SEARCH__TIME);
+
+		neighborhoodSearchEClass = createEClass(NEIGHBORHOOD_SEARCH);
+		createEAttribute(neighborhoodSearchEClass, NEIGHBORHOOD_SEARCH__OPERATION);
+		createEAttribute(neighborhoodSearchEClass, NEIGHBORHOOD_SEARCH__COST);
+		createEAttribute(neighborhoodSearchEClass, NEIGHBORHOOD_SEARCH__TIME);
+
+		searchHistoryEClass = createEClass(SEARCH_HISTORY);
+		createEReference(searchHistoryEClass, SEARCH_HISTORY__VNS_SEARCHES);
 	}
 
 	/**
@@ -470,6 +637,7 @@ public class SolutionPackageImpl extends EPackageImpl implements SolutionPackage
 		initEAttribute(getSolution_TotalTime(), ecorePackage.getELong(), "totalTime", null, 0, 1, Solution.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEAttribute(getSolution_Procedure(), ecorePackage.getEString(), "procedure", null, 0, 1, Solution.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEReference(getSolution_Usecase(), this.getUseCase(), null, "usecase", null, 1, 1, Solution.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEReference(getSolution_History(), this.getSearchHistory(), null, "history", null, 0, 1, Solution.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		initEClass(usedEdgeEClass, UsedEdge.class, "UsedEdge", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 		initEReference(getUsedEdge_Edge(), theNetworkPackage.getEdge(), null, "edge", null, 1, 1, UsedEdge.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
@@ -487,6 +655,22 @@ public class SolutionPackageImpl extends EPackageImpl implements SolutionPackage
 
 		initEClass(deliveryEClass, Delivery.class, "Delivery", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 		initEReference(getDelivery_Order(), theNetworkPackage.getOrder(), null, "order", null, 0, 1, Delivery.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+
+		initEClass(vnsSearchEClass, VNSSearch.class, "VNSSearch", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+		initEAttribute(getVNSSearch_Name(), ecorePackage.getEString(), "name", null, 0, 1, VNSSearch.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEAttribute(getVNSSearch_Cost(), ecorePackage.getELong(), "cost", null, 0, 1, VNSSearch.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEAttribute(getVNSSearch_PrevCost(), ecorePackage.getELong(), "prevCost", null, 0, 1, VNSSearch.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEReference(getVNSSearch_NeighborhoodSearches(), this.getNeighborhoodSearch(), null, "neighborhoodSearches", null, 0, -1, VNSSearch.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEAttribute(getVNSSearch_Operation(), ecorePackage.getEString(), "operation", null, 0, 1, VNSSearch.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEAttribute(getVNSSearch_Time(), ecorePackage.getELong(), "time", null, 0, 1, VNSSearch.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+
+		initEClass(neighborhoodSearchEClass, NeighborhoodSearch.class, "NeighborhoodSearch", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+		initEAttribute(getNeighborhoodSearch_Operation(), ecorePackage.getEString(), "operation", null, 0, 1, NeighborhoodSearch.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEAttribute(getNeighborhoodSearch_Cost(), ecorePackage.getELong(), "cost", null, 0, 1, NeighborhoodSearch.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEAttribute(getNeighborhoodSearch_Time(), ecorePackage.getELong(), "time", null, 0, 1, NeighborhoodSearch.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+
+		initEClass(searchHistoryEClass, SearchHistory.class, "SearchHistory", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+		initEReference(getSearchHistory_VnsSearches(), this.getVNSSearch(), null, "vnsSearches", null, 0, -1, SearchHistory.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 	}
 
 } //SolutionPackageImpl

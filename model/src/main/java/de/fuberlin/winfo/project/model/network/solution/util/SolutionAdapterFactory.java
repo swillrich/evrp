@@ -88,6 +88,18 @@ public class SolutionAdapterFactory extends AdapterFactoryImpl {
 				return createDeliveryAdapter();
 			}
 			@Override
+			public Adapter caseVNSSearch(VNSSearch object) {
+				return createVNSSearchAdapter();
+			}
+			@Override
+			public Adapter caseNeighborhoodSearch(NeighborhoodSearch object) {
+				return createNeighborhoodSearchAdapter();
+			}
+			@Override
+			public Adapter caseSearchHistory(SearchHistory object) {
+				return createSearchHistoryAdapter();
+			}
+			@Override
 			public Adapter defaultCase(EObject object) {
 				return createEObjectAdapter();
 			}
@@ -174,6 +186,48 @@ public class SolutionAdapterFactory extends AdapterFactoryImpl {
 	 * @generated
 	 */
 	public Adapter createDeliveryAdapter() {
+		return null;
+	}
+
+	/**
+	 * Creates a new adapter for an object of class '{@link de.fuberlin.winfo.project.model.network.solution.VNSSearch <em>VNS Search</em>}'.
+	 * <!-- begin-user-doc -->
+	 * This default implementation returns null so that we can easily ignore cases;
+	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
+	 * <!-- end-user-doc -->
+	 * @return the new adapter.
+	 * @see de.fuberlin.winfo.project.model.network.solution.VNSSearch
+	 * @generated
+	 */
+	public Adapter createVNSSearchAdapter() {
+		return null;
+	}
+
+	/**
+	 * Creates a new adapter for an object of class '{@link de.fuberlin.winfo.project.model.network.solution.NeighborhoodSearch <em>Neighborhood Search</em>}'.
+	 * <!-- begin-user-doc -->
+	 * This default implementation returns null so that we can easily ignore cases;
+	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
+	 * <!-- end-user-doc -->
+	 * @return the new adapter.
+	 * @see de.fuberlin.winfo.project.model.network.solution.NeighborhoodSearch
+	 * @generated
+	 */
+	public Adapter createNeighborhoodSearchAdapter() {
+		return null;
+	}
+
+	/**
+	 * Creates a new adapter for an object of class '{@link de.fuberlin.winfo.project.model.network.solution.SearchHistory <em>Search History</em>}'.
+	 * <!-- begin-user-doc -->
+	 * This default implementation returns null so that we can easily ignore cases;
+	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
+	 * <!-- end-user-doc -->
+	 * @return the new adapter.
+	 * @see de.fuberlin.winfo.project.model.network.solution.SearchHistory
+	 * @generated
+	 */
+	public Adapter createSearchHistoryAdapter() {
 		return null;
 	}
 

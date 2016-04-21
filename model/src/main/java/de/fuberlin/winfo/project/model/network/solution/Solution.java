@@ -21,6 +21,7 @@ import org.eclipse.emf.ecore.EObject;
  *   <li>{@link de.fuberlin.winfo.project.model.network.solution.Solution#getTotalTime <em>Total Time</em>}</li>
  *   <li>{@link de.fuberlin.winfo.project.model.network.solution.Solution#getProcedure <em>Procedure</em>}</li>
  *   <li>{@link de.fuberlin.winfo.project.model.network.solution.Solution#getUsecase <em>Usecase</em>}</li>
+ *   <li>{@link de.fuberlin.winfo.project.model.network.solution.Solution#getHistory <em>History</em>}</li>
  * </ul>
  *
  * @see de.fuberlin.winfo.project.model.network.solution.SolutionPackage#getSolution()
@@ -173,5 +174,31 @@ public interface Solution extends EObject {
 	 * @generated
 	 */
 	void setUsecase(UseCase value);
+
+	/**
+	 * Returns the value of the '<em><b>History</b></em>' containment reference.
+	 * <!-- begin-user-doc -->
+	 * <p>
+	 * If the meaning of the '<em>History</em>' containment reference isn't clear,
+	 * there really should be more of a description here...
+	 * </p>
+	 * <!-- end-user-doc -->
+	 * @return the value of the '<em>History</em>' containment reference.
+	 * @see #setHistory(SearchHistory)
+	 * @see de.fuberlin.winfo.project.model.network.solution.SolutionPackage#getSolution_History()
+	 * @model containment="true"
+	 * @generated
+	 */
+	SearchHistory getHistory();
+
+	/**
+	 * Sets the value of the '{@link de.fuberlin.winfo.project.model.network.solution.Solution#getHistory <em>History</em>}' containment reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @param value the new value of the '<em>History</em>' containment reference.
+	 * @see #getHistory()
+	 * @generated
+	 */
+	void setHistory(SearchHistory value);
 
 } // Solution

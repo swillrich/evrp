@@ -185,13 +185,22 @@ public interface SolutionPackage extends EPackage {
 	int SOLUTION__USECASE = 5;
 
 	/**
+	 * The feature id for the '<em><b>History</b></em>' containment reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int SOLUTION__HISTORY = 6;
+
+	/**
 	 * The number of structural features of the '<em>Solution</em>' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int SOLUTION_FEATURE_COUNT = 6;
+	int SOLUTION_FEATURE_COUNT = 7;
 
 	/**
 	 * The number of operations of the '<em>Solution</em>' class.
@@ -423,6 +432,181 @@ public interface SolutionPackage extends EPackage {
 
 
 	/**
+	 * The meta object id for the '{@link de.fuberlin.winfo.project.model.network.solution.impl.VNSSearchImpl <em>VNS Search</em>}' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see de.fuberlin.winfo.project.model.network.solution.impl.VNSSearchImpl
+	 * @see de.fuberlin.winfo.project.model.network.solution.impl.SolutionPackageImpl#getVNSSearch()
+	 * @generated
+	 */
+	int VNS_SEARCH = 5;
+
+	/**
+	 * The feature id for the '<em><b>Name</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int VNS_SEARCH__NAME = 0;
+
+	/**
+	 * The feature id for the '<em><b>Cost</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int VNS_SEARCH__COST = 1;
+
+	/**
+	 * The feature id for the '<em><b>Prev Cost</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int VNS_SEARCH__PREV_COST = 2;
+
+	/**
+	 * The feature id for the '<em><b>Neighborhood Searches</b></em>' containment reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int VNS_SEARCH__NEIGHBORHOOD_SEARCHES = 3;
+
+	/**
+	 * The feature id for the '<em><b>Operation</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int VNS_SEARCH__OPERATION = 4;
+
+	/**
+	 * The feature id for the '<em><b>Time</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int VNS_SEARCH__TIME = 5;
+
+	/**
+	 * The number of structural features of the '<em>VNS Search</em>' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int VNS_SEARCH_FEATURE_COUNT = 6;
+
+	/**
+	 * The number of operations of the '<em>VNS Search</em>' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int VNS_SEARCH_OPERATION_COUNT = 0;
+
+	/**
+	 * The meta object id for the '{@link de.fuberlin.winfo.project.model.network.solution.impl.NeighborhoodSearchImpl <em>Neighborhood Search</em>}' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see de.fuberlin.winfo.project.model.network.solution.impl.NeighborhoodSearchImpl
+	 * @see de.fuberlin.winfo.project.model.network.solution.impl.SolutionPackageImpl#getNeighborhoodSearch()
+	 * @generated
+	 */
+	int NEIGHBORHOOD_SEARCH = 6;
+
+	/**
+	 * The feature id for the '<em><b>Operation</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int NEIGHBORHOOD_SEARCH__OPERATION = 0;
+
+	/**
+	 * The feature id for the '<em><b>Cost</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int NEIGHBORHOOD_SEARCH__COST = 1;
+
+	/**
+	 * The feature id for the '<em><b>Time</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int NEIGHBORHOOD_SEARCH__TIME = 2;
+
+	/**
+	 * The number of structural features of the '<em>Neighborhood Search</em>' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int NEIGHBORHOOD_SEARCH_FEATURE_COUNT = 3;
+
+	/**
+	 * The number of operations of the '<em>Neighborhood Search</em>' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int NEIGHBORHOOD_SEARCH_OPERATION_COUNT = 0;
+
+	/**
+	 * The meta object id for the '{@link de.fuberlin.winfo.project.model.network.solution.impl.SearchHistoryImpl <em>Search History</em>}' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see de.fuberlin.winfo.project.model.network.solution.impl.SearchHistoryImpl
+	 * @see de.fuberlin.winfo.project.model.network.solution.impl.SolutionPackageImpl#getSearchHistory()
+	 * @generated
+	 */
+	int SEARCH_HISTORY = 7;
+
+	/**
+	 * The feature id for the '<em><b>Vns Searches</b></em>' containment reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int SEARCH_HISTORY__VNS_SEARCHES = 0;
+
+	/**
+	 * The number of structural features of the '<em>Search History</em>' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int SEARCH_HISTORY_FEATURE_COUNT = 1;
+
+	/**
+	 * The number of operations of the '<em>Search History</em>' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int SEARCH_HISTORY_OPERATION_COUNT = 0;
+
+
+	/**
 	 * Returns the meta object for class '{@link de.fuberlin.winfo.project.model.network.solution.Route <em>Route</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -551,6 +735,17 @@ public interface SolutionPackage extends EPackage {
 	 * @generated
 	 */
 	EReference getSolution_Usecase();
+
+	/**
+	 * Returns the meta object for the containment reference '{@link de.fuberlin.winfo.project.model.network.solution.Solution#getHistory <em>History</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the containment reference '<em>History</em>'.
+	 * @see de.fuberlin.winfo.project.model.network.solution.Solution#getHistory()
+	 * @see #getSolution()
+	 * @generated
+	 */
+	EReference getSolution_History();
 
 	/**
 	 * Returns the meta object for class '{@link de.fuberlin.winfo.project.model.network.solution.UsedEdge <em>Used Edge</em>}'.
@@ -704,6 +899,146 @@ public interface SolutionPackage extends EPackage {
 	EReference getDelivery_Order();
 
 	/**
+	 * Returns the meta object for class '{@link de.fuberlin.winfo.project.model.network.solution.VNSSearch <em>VNS Search</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for class '<em>VNS Search</em>'.
+	 * @see de.fuberlin.winfo.project.model.network.solution.VNSSearch
+	 * @generated
+	 */
+	EClass getVNSSearch();
+
+	/**
+	 * Returns the meta object for the attribute '{@link de.fuberlin.winfo.project.model.network.solution.VNSSearch#getName <em>Name</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the attribute '<em>Name</em>'.
+	 * @see de.fuberlin.winfo.project.model.network.solution.VNSSearch#getName()
+	 * @see #getVNSSearch()
+	 * @generated
+	 */
+	EAttribute getVNSSearch_Name();
+
+	/**
+	 * Returns the meta object for the attribute '{@link de.fuberlin.winfo.project.model.network.solution.VNSSearch#getCost <em>Cost</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the attribute '<em>Cost</em>'.
+	 * @see de.fuberlin.winfo.project.model.network.solution.VNSSearch#getCost()
+	 * @see #getVNSSearch()
+	 * @generated
+	 */
+	EAttribute getVNSSearch_Cost();
+
+	/**
+	 * Returns the meta object for the attribute '{@link de.fuberlin.winfo.project.model.network.solution.VNSSearch#getPrevCost <em>Prev Cost</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the attribute '<em>Prev Cost</em>'.
+	 * @see de.fuberlin.winfo.project.model.network.solution.VNSSearch#getPrevCost()
+	 * @see #getVNSSearch()
+	 * @generated
+	 */
+	EAttribute getVNSSearch_PrevCost();
+
+	/**
+	 * Returns the meta object for the containment reference list '{@link de.fuberlin.winfo.project.model.network.solution.VNSSearch#getNeighborhoodSearches <em>Neighborhood Searches</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the containment reference list '<em>Neighborhood Searches</em>'.
+	 * @see de.fuberlin.winfo.project.model.network.solution.VNSSearch#getNeighborhoodSearches()
+	 * @see #getVNSSearch()
+	 * @generated
+	 */
+	EReference getVNSSearch_NeighborhoodSearches();
+
+	/**
+	 * Returns the meta object for the attribute '{@link de.fuberlin.winfo.project.model.network.solution.VNSSearch#getOperation <em>Operation</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the attribute '<em>Operation</em>'.
+	 * @see de.fuberlin.winfo.project.model.network.solution.VNSSearch#getOperation()
+	 * @see #getVNSSearch()
+	 * @generated
+	 */
+	EAttribute getVNSSearch_Operation();
+
+	/**
+	 * Returns the meta object for the attribute '{@link de.fuberlin.winfo.project.model.network.solution.VNSSearch#getTime <em>Time</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the attribute '<em>Time</em>'.
+	 * @see de.fuberlin.winfo.project.model.network.solution.VNSSearch#getTime()
+	 * @see #getVNSSearch()
+	 * @generated
+	 */
+	EAttribute getVNSSearch_Time();
+
+	/**
+	 * Returns the meta object for class '{@link de.fuberlin.winfo.project.model.network.solution.NeighborhoodSearch <em>Neighborhood Search</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for class '<em>Neighborhood Search</em>'.
+	 * @see de.fuberlin.winfo.project.model.network.solution.NeighborhoodSearch
+	 * @generated
+	 */
+	EClass getNeighborhoodSearch();
+
+	/**
+	 * Returns the meta object for the attribute '{@link de.fuberlin.winfo.project.model.network.solution.NeighborhoodSearch#getOperation <em>Operation</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the attribute '<em>Operation</em>'.
+	 * @see de.fuberlin.winfo.project.model.network.solution.NeighborhoodSearch#getOperation()
+	 * @see #getNeighborhoodSearch()
+	 * @generated
+	 */
+	EAttribute getNeighborhoodSearch_Operation();
+
+	/**
+	 * Returns the meta object for the attribute '{@link de.fuberlin.winfo.project.model.network.solution.NeighborhoodSearch#getCost <em>Cost</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the attribute '<em>Cost</em>'.
+	 * @see de.fuberlin.winfo.project.model.network.solution.NeighborhoodSearch#getCost()
+	 * @see #getNeighborhoodSearch()
+	 * @generated
+	 */
+	EAttribute getNeighborhoodSearch_Cost();
+
+	/**
+	 * Returns the meta object for the attribute '{@link de.fuberlin.winfo.project.model.network.solution.NeighborhoodSearch#getTime <em>Time</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the attribute '<em>Time</em>'.
+	 * @see de.fuberlin.winfo.project.model.network.solution.NeighborhoodSearch#getTime()
+	 * @see #getNeighborhoodSearch()
+	 * @generated
+	 */
+	EAttribute getNeighborhoodSearch_Time();
+
+	/**
+	 * Returns the meta object for class '{@link de.fuberlin.winfo.project.model.network.solution.SearchHistory <em>Search History</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for class '<em>Search History</em>'.
+	 * @see de.fuberlin.winfo.project.model.network.solution.SearchHistory
+	 * @generated
+	 */
+	EClass getSearchHistory();
+
+	/**
+	 * Returns the meta object for the containment reference list '{@link de.fuberlin.winfo.project.model.network.solution.SearchHistory#getVnsSearches <em>Vns Searches</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the containment reference list '<em>Vns Searches</em>'.
+	 * @see de.fuberlin.winfo.project.model.network.solution.SearchHistory#getVnsSearches()
+	 * @see #getSearchHistory()
+	 * @generated
+	 */
+	EReference getSearchHistory_VnsSearches();
+
+	/**
 	 * Returns the factory that creates the instances of the model.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -827,6 +1162,14 @@ public interface SolutionPackage extends EPackage {
 		EReference SOLUTION__USECASE = eINSTANCE.getSolution_Usecase();
 
 		/**
+		 * The meta object literal for the '<em><b>History</b></em>' containment reference feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EReference SOLUTION__HISTORY = eINSTANCE.getSolution_History();
+
+		/**
 		 * The meta object literal for the '{@link de.fuberlin.winfo.project.model.network.solution.impl.UsedEdgeImpl <em>Used Edge</em>}' class.
 		 * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
@@ -943,6 +1286,116 @@ public interface SolutionPackage extends EPackage {
 		 * @generated
 		 */
 		EReference DELIVERY__ORDER = eINSTANCE.getDelivery_Order();
+
+		/**
+		 * The meta object literal for the '{@link de.fuberlin.winfo.project.model.network.solution.impl.VNSSearchImpl <em>VNS Search</em>}' class.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @see de.fuberlin.winfo.project.model.network.solution.impl.VNSSearchImpl
+		 * @see de.fuberlin.winfo.project.model.network.solution.impl.SolutionPackageImpl#getVNSSearch()
+		 * @generated
+		 */
+		EClass VNS_SEARCH = eINSTANCE.getVNSSearch();
+
+		/**
+		 * The meta object literal for the '<em><b>Name</b></em>' attribute feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute VNS_SEARCH__NAME = eINSTANCE.getVNSSearch_Name();
+
+		/**
+		 * The meta object literal for the '<em><b>Cost</b></em>' attribute feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute VNS_SEARCH__COST = eINSTANCE.getVNSSearch_Cost();
+
+		/**
+		 * The meta object literal for the '<em><b>Prev Cost</b></em>' attribute feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute VNS_SEARCH__PREV_COST = eINSTANCE.getVNSSearch_PrevCost();
+
+		/**
+		 * The meta object literal for the '<em><b>Neighborhood Searches</b></em>' containment reference list feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EReference VNS_SEARCH__NEIGHBORHOOD_SEARCHES = eINSTANCE.getVNSSearch_NeighborhoodSearches();
+
+		/**
+		 * The meta object literal for the '<em><b>Operation</b></em>' attribute feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute VNS_SEARCH__OPERATION = eINSTANCE.getVNSSearch_Operation();
+
+		/**
+		 * The meta object literal for the '<em><b>Time</b></em>' attribute feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute VNS_SEARCH__TIME = eINSTANCE.getVNSSearch_Time();
+
+		/**
+		 * The meta object literal for the '{@link de.fuberlin.winfo.project.model.network.solution.impl.NeighborhoodSearchImpl <em>Neighborhood Search</em>}' class.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @see de.fuberlin.winfo.project.model.network.solution.impl.NeighborhoodSearchImpl
+		 * @see de.fuberlin.winfo.project.model.network.solution.impl.SolutionPackageImpl#getNeighborhoodSearch()
+		 * @generated
+		 */
+		EClass NEIGHBORHOOD_SEARCH = eINSTANCE.getNeighborhoodSearch();
+
+		/**
+		 * The meta object literal for the '<em><b>Operation</b></em>' attribute feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute NEIGHBORHOOD_SEARCH__OPERATION = eINSTANCE.getNeighborhoodSearch_Operation();
+
+		/**
+		 * The meta object literal for the '<em><b>Cost</b></em>' attribute feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute NEIGHBORHOOD_SEARCH__COST = eINSTANCE.getNeighborhoodSearch_Cost();
+
+		/**
+		 * The meta object literal for the '<em><b>Time</b></em>' attribute feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute NEIGHBORHOOD_SEARCH__TIME = eINSTANCE.getNeighborhoodSearch_Time();
+
+		/**
+		 * The meta object literal for the '{@link de.fuberlin.winfo.project.model.network.solution.impl.SearchHistoryImpl <em>Search History</em>}' class.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @see de.fuberlin.winfo.project.model.network.solution.impl.SearchHistoryImpl
+		 * @see de.fuberlin.winfo.project.model.network.solution.impl.SolutionPackageImpl#getSearchHistory()
+		 * @generated
+		 */
+		EClass SEARCH_HISTORY = eINSTANCE.getSearchHistory();
+
+		/**
+		 * The meta object literal for the '<em><b>Vns Searches</b></em>' containment reference list feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EReference SEARCH_HISTORY__VNS_SEARCHES = eINSTANCE.getSearchHistory_VnsSearches();
 
 	}
 

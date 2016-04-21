@@ -7,7 +7,7 @@ import org.eclipse.emf.ecore.util.EcoreUtil.Copier;
 
 import de.fuberlin.winfo.project.algorithm.NetworkProvider;
 import de.fuberlin.winfo.project.algorithm.RouteWrapper;
-import de.fuberlin.winfo.project.algorithm.impl.sven.vns.logging.VNSHistory;
+import de.fuberlin.winfo.project.algorithm.impl.sven.vns.logging.VNSMonitor;
 import de.fuberlin.winfo.project.algorithm.restriction.RestrictionException;
 import de.fuberlin.winfo.project.algorithm.restriction.Restrictions;
 import de.fuberlin.winfo.project.model.network.solution.Route;
@@ -18,7 +18,7 @@ public abstract class NeighborhoodStructure implements Iterator<Solution> {
 	protected Solution centralSol;
 	protected NetworkProvider networkProvider;
 	protected Restrictions restrictions;
-	protected VNSHistory history;
+	protected VNSMonitor history;
 
 	public abstract String getName();
 
@@ -26,7 +26,7 @@ public abstract class NeighborhoodStructure implements Iterator<Solution> {
 
 	public abstract void init();
 
-	public void setNetworkProvider(NetworkProvider np, VNSHistory history) {
+	public void setNetworkProvider(NetworkProvider np, VNSMonitor history) {
 		networkProvider = np;
 		this.restrictions = new Restrictions(networkProvider);
 		this.restrictions.addAll();

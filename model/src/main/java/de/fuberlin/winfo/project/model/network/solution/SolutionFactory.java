@@ -67,6 +67,33 @@ public interface SolutionFactory extends EFactory {
 	Delivery createDelivery();
 
 	/**
+	 * Returns a new object of class '<em>VNS Search</em>'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return a new object of class '<em>VNS Search</em>'.
+	 * @generated
+	 */
+	VNSSearch createVNSSearch();
+
+	/**
+	 * Returns a new object of class '<em>Neighborhood Search</em>'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return a new object of class '<em>Neighborhood Search</em>'.
+	 * @generated
+	 */
+	NeighborhoodSearch createNeighborhoodSearch();
+
+	/**
+	 * Returns a new object of class '<em>Search History</em>'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return a new object of class '<em>Search History</em>'.
+	 * @generated
+	 */
+	SearchHistory createSearchHistory();
+
+	/**
 	 * Returns the package supported by this factory.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->

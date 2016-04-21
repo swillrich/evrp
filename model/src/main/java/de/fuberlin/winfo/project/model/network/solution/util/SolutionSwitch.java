@@ -97,6 +97,24 @@ public class SolutionSwitch<T> extends Switch<T> {
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}
+			case SolutionPackage.VNS_SEARCH: {
+				VNSSearch vnsSearch = (VNSSearch)theEObject;
+				T result = caseVNSSearch(vnsSearch);
+				if (result == null) result = defaultCase(theEObject);
+				return result;
+			}
+			case SolutionPackage.NEIGHBORHOOD_SEARCH: {
+				NeighborhoodSearch neighborhoodSearch = (NeighborhoodSearch)theEObject;
+				T result = caseNeighborhoodSearch(neighborhoodSearch);
+				if (result == null) result = defaultCase(theEObject);
+				return result;
+			}
+			case SolutionPackage.SEARCH_HISTORY: {
+				SearchHistory searchHistory = (SearchHistory)theEObject;
+				T result = caseSearchHistory(searchHistory);
+				if (result == null) result = defaultCase(theEObject);
+				return result;
+			}
 			default: return defaultCase(theEObject);
 		}
 	}
@@ -173,6 +191,51 @@ public class SolutionSwitch<T> extends Switch<T> {
 	 * @generated
 	 */
 	public T caseDelivery(Delivery object) {
+		return null;
+	}
+
+	/**
+	 * Returns the result of interpreting the object as an instance of '<em>VNS Search</em>'.
+	 * <!-- begin-user-doc -->
+	 * This implementation returns null;
+	 * returning a non-null result will terminate the switch.
+	 * <!-- end-user-doc -->
+	 * @param object the target of the switch.
+	 * @return the result of interpreting the object as an instance of '<em>VNS Search</em>'.
+	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+	 * @generated
+	 */
+	public T caseVNSSearch(VNSSearch object) {
+		return null;
+	}
+
+	/**
+	 * Returns the result of interpreting the object as an instance of '<em>Neighborhood Search</em>'.
+	 * <!-- begin-user-doc -->
+	 * This implementation returns null;
+	 * returning a non-null result will terminate the switch.
+	 * <!-- end-user-doc -->
+	 * @param object the target of the switch.
+	 * @return the result of interpreting the object as an instance of '<em>Neighborhood Search</em>'.
+	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+	 * @generated
+	 */
+	public T caseNeighborhoodSearch(NeighborhoodSearch object) {
+		return null;
+	}
+
+	/**
+	 * Returns the result of interpreting the object as an instance of '<em>Search History</em>'.
+	 * <!-- begin-user-doc -->
+	 * This implementation returns null;
+	 * returning a non-null result will terminate the switch.
+	 * <!-- end-user-doc -->
+	 * @param object the target of the switch.
+	 * @return the result of interpreting the object as an instance of '<em>Search History</em>'.
+	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+	 * @generated
+	 */
+	public T caseSearchHistory(SearchHistory object) {
 		return null;
 	}
 

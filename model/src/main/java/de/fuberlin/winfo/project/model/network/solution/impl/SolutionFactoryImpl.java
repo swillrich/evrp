@@ -61,6 +61,9 @@ public class SolutionFactoryImpl extends EFactoryImpl implements SolutionFactory
 			case SolutionPackage.USED_EDGE: return createUsedEdge();
 			case SolutionPackage.USE_CASE: return createUseCase();
 			case SolutionPackage.DELIVERY: return createDelivery();
+			case SolutionPackage.VNS_SEARCH: return createVNSSearch();
+			case SolutionPackage.NEIGHBORHOOD_SEARCH: return createNeighborhoodSearch();
+			case SolutionPackage.SEARCH_HISTORY: return createSearchHistory();
 			default:
 				throw new IllegalArgumentException("The class '" + eClass.getName() + "' is not a valid classifier");
 		}
@@ -114,6 +117,36 @@ public class SolutionFactoryImpl extends EFactoryImpl implements SolutionFactory
 	public Delivery createDelivery() {
 		DeliveryImpl delivery = new DeliveryImpl();
 		return delivery;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public VNSSearch createVNSSearch() {
+		VNSSearchImpl vnsSearch = new VNSSearchImpl();
+		return vnsSearch;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public NeighborhoodSearch createNeighborhoodSearch() {
+		NeighborhoodSearchImpl neighborhoodSearch = new NeighborhoodSearchImpl();
+		return neighborhoodSearch;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public SearchHistory createSearchHistory() {
+		SearchHistoryImpl searchHistory = new SearchHistoryImpl();
+		return searchHistory;
 	}
 
 	/**
