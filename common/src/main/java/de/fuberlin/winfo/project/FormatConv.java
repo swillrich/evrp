@@ -45,7 +45,6 @@ public class FormatConv {
 		String moneyString = formatter.format(euro);
 		return moneyString;
 	}
-	
 
 	public static double round(double value, int places) {
 		if (places < 0)
@@ -54,5 +53,10 @@ public class FormatConv {
 		value = value * factor;
 		long tmp = Math.round(value);
 		return (double) tmp / factor;
+	}
+
+	public static String asDateTime(long dateTime) {
+		SimpleDateFormat sdf = new SimpleDateFormat("yy-MM-dd HH:mm");
+		return sdf.format(new Date(dateTime));
 	}
 }

@@ -518,6 +518,15 @@ public class SolutionPackageImpl extends EPackageImpl implements SolutionPackage
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	public EAttribute getSearchHistory_CreationTime() {
+		return (EAttribute)searchHistoryEClass.getEStructuralFeatures().get(1);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	public SolutionFactory getSolutionFactory() {
 		return (SolutionFactory)getEFactoryInstance();
 	}
@@ -588,6 +597,7 @@ public class SolutionPackageImpl extends EPackageImpl implements SolutionPackage
 
 		searchHistoryEClass = createEClass(SEARCH_HISTORY);
 		createEReference(searchHistoryEClass, SEARCH_HISTORY__VNS_SEARCHES);
+		createEAttribute(searchHistoryEClass, SEARCH_HISTORY__CREATION_TIME);
 	}
 
 	/**
@@ -671,6 +681,7 @@ public class SolutionPackageImpl extends EPackageImpl implements SolutionPackage
 
 		initEClass(searchHistoryEClass, SearchHistory.class, "SearchHistory", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 		initEReference(getSearchHistory_VnsSearches(), this.getVNSSearch(), null, "vnsSearches", null, 0, -1, SearchHistory.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEAttribute(getSearchHistory_CreationTime(), ecorePackage.getELong(), "creationTime", null, 0, 1, SearchHistory.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 	}
 
 } //SolutionPackageImpl

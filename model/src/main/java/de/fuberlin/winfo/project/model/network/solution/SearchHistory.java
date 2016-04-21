@@ -16,6 +16,7 @@ import org.eclipse.emf.ecore.EObject;
  * </p>
  * <ul>
  *   <li>{@link de.fuberlin.winfo.project.model.network.solution.SearchHistory#getVnsSearches <em>Vns Searches</em>}</li>
+ *   <li>{@link de.fuberlin.winfo.project.model.network.solution.SearchHistory#getCreationTime <em>Creation Time</em>}</li>
  * </ul>
  *
  * @see de.fuberlin.winfo.project.model.network.solution.SolutionPackage#getSearchHistory()
@@ -38,5 +39,31 @@ public interface SearchHistory extends EObject {
 	 * @generated
 	 */
 	EList<VNSSearch> getVnsSearches();
+
+	/**
+	 * Returns the value of the '<em><b>Creation Time</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <p>
+	 * If the meaning of the '<em>Creation Time</em>' attribute isn't clear,
+	 * there really should be more of a description here...
+	 * </p>
+	 * <!-- end-user-doc -->
+	 * @return the value of the '<em>Creation Time</em>' attribute.
+	 * @see #setCreationTime(long)
+	 * @see de.fuberlin.winfo.project.model.network.solution.SolutionPackage#getSearchHistory_CreationTime()
+	 * @model
+	 * @generated
+	 */
+	long getCreationTime();
+
+	/**
+	 * Sets the value of the '{@link de.fuberlin.winfo.project.model.network.solution.SearchHistory#getCreationTime <em>Creation Time</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @param value the new value of the '<em>Creation Time</em>' attribute.
+	 * @see #getCreationTime()
+	 * @generated
+	 */
+	void setCreationTime(long value);
 
 } // SearchHistory

@@ -588,13 +588,22 @@ public interface SolutionPackage extends EPackage {
 	int SEARCH_HISTORY__VNS_SEARCHES = 0;
 
 	/**
+	 * The feature id for the '<em><b>Creation Time</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int SEARCH_HISTORY__CREATION_TIME = 1;
+
+	/**
 	 * The number of structural features of the '<em>Search History</em>' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int SEARCH_HISTORY_FEATURE_COUNT = 1;
+	int SEARCH_HISTORY_FEATURE_COUNT = 2;
 
 	/**
 	 * The number of operations of the '<em>Search History</em>' class.
@@ -1039,6 +1048,17 @@ public interface SolutionPackage extends EPackage {
 	EReference getSearchHistory_VnsSearches();
 
 	/**
+	 * Returns the meta object for the attribute '{@link de.fuberlin.winfo.project.model.network.solution.SearchHistory#getCreationTime <em>Creation Time</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the attribute '<em>Creation Time</em>'.
+	 * @see de.fuberlin.winfo.project.model.network.solution.SearchHistory#getCreationTime()
+	 * @see #getSearchHistory()
+	 * @generated
+	 */
+	EAttribute getSearchHistory_CreationTime();
+
+	/**
 	 * Returns the factory that creates the instances of the model.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -1396,6 +1416,14 @@ public interface SolutionPackage extends EPackage {
 		 * @generated
 		 */
 		EReference SEARCH_HISTORY__VNS_SEARCHES = eINSTANCE.getSearchHistory_VnsSearches();
+
+		/**
+		 * The meta object literal for the '<em><b>Creation Time</b></em>' attribute feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute SEARCH_HISTORY__CREATION_TIME = eINSTANCE.getSearchHistory_CreationTime();
 
 	}
 

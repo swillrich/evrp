@@ -1,12 +1,16 @@
 package de.fuberlin.winfo.project.algorithm;
 
+import java.util.Date;
+
 import de.fuberlin.winfo.project.Log;
 import de.fuberlin.winfo.project.Utils;
 import de.fuberlin.winfo.project.Utils.StopWatch;
 import de.fuberlin.winfo.project.algorithm.restriction.Restrictions;
 import de.fuberlin.winfo.project.model.network.Node;
 import de.fuberlin.winfo.project.model.network.Vehicle;
+import de.fuberlin.winfo.project.model.network.solution.SearchHistory;
 import de.fuberlin.winfo.project.model.network.solution.Solution;
+import de.fuberlin.winfo.project.model.network.solution.impl.SolutionFactoryImpl;
 
 /**
  * @author willrich
@@ -38,13 +42,22 @@ public abstract class Algorithm {
 	 * 
 	 */
 	public abstract void run(Solution solution) throws Exception;
-	
+
 	public void updateSolution(Solution update) {
 		int indexOf = networkProvider.getNetwork().getSolution().indexOf(this.solution);
 		this.solution = update;
 		if (indexOf == -1) {
 			networkProvider.getNetwork().getSolution().add(update);
+			SearchHistory history = new SolutionFactoryImpl().createSearchHistory();
+			history.setCreationTime(new Date().getTime());
+			update.setHistory(history);
 		} else {
+			SearchHistory history = networkProvider.getNetwork().getSolution().get(indexOf).getHistory();
+			if (history != null) {
+				update.getHistory().setCreationTime(history.getCreationTime());
+			} else {
+				update.getHistory().setCreationTime(new Date().getTime());
+			}
 			networkProvider.getNetwork().getSolution().remove(indexOf);
 			networkProvider.getNetwork().getSolution().add(indexOf, update);
 		}
@@ -56,7 +69,7 @@ public abstract class Algorithm {
 		this.networkProvider = networkProvider;
 		restrictions = new Restrictions(this.networkProvider);
 		this.networkProvider.getLocatables().reinitializeByUseCase(solution.getUsecase());
-		this.solution = solution;
+		updateSolution(solution);
 		runAlgorithm();
 	}
 

@@ -149,6 +149,7 @@
     <eClassifiers xsi:type="ecore:EClass" name="SearchHistory">
       <eStructuralFeatures xsi:type="ecore:EReference" name="vnsSearches" upperBound="-1"
           eType="#//solution/VNSSearch" containment="true"/>
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="creationTime" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//ELong"/>
     </eClassifiers>
   </eSubpackages>
 </ecore:EPackage>

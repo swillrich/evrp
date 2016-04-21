@@ -60,8 +60,8 @@ public class ListRequest extends AbstractRequest {
 	private void writeContent() {
 		add("<Table id=\"t01\">");
 
-		String[] columns = new String[] { "Id", "NW Nodes", "save / remove", "Scenario Name", "Routes", "Total Time",
-				"Total Distance", "Details", "Map", "GeoJson" };
+		String[] columns = new String[] { "Id", "NW Nodes", "save / remove", "Creation Time", "Scenario Name", "Routes",
+				"Total Time", "Total Distance", "Details", "Map", "GeoJson" };
 		addRow(columns, true, 1, -1);
 
 		for (int i = 0; i < networks.size(); i++) {
@@ -77,8 +77,8 @@ public class ListRequest extends AbstractRequest {
 
 				Object[] networkLinePart = new Object[] { i, n.getNodes().size(), saveLink + " / " + removeLink };
 
-				Object[] solutionLinePart = new Object[] { s.getUsecase().getName(), s.getRoutes().size(),
-						FormatConv.asTime(s.getTotalTime(), "h"),
+				Object[] solutionLinePart = new Object[] { FormatConv.asDateTime(s.getHistory().getCreationTime()),
+						s.getUsecase().getName(), s.getRoutes().size(), FormatConv.asTime(s.getTotalTime(), "h"),
 						FormatConv.numberWithSeparatorAndMeter(s.getTotalDistance()), detailLink, mapLink,
 						geoJsonLink };
 
