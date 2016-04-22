@@ -1,6 +1,6 @@
 package de.fuberlin.winfo.project.visualization.web.logic;
 
-import static de.fuberlin.winfo.project.FormatConv.asTime;
+import static de.fuberlin.winfo.project.FormatConv.asDuration;
 import static de.fuberlin.winfo.project.FormatConv.withSeparator;
 import static de.fuberlin.winfo.project.FormatConv.numberWithSeparatorAndMeter;
 
@@ -67,16 +67,16 @@ public class ASCIIVisualizer {
 				String timeWindow = "-";
 				Duration duration = getTimeWindow(usedEdge, false);
 				if (duration != null) {
-					timeWindow = asTime(duration.getStartInSec(), "") + " - " + asTime(duration.getEndInSec(), "");
+					timeWindow = asDuration(duration.getStartInSec(), "") + " - " + asDuration(duration.getEndInSec(), "");
 				}
 				int j = 0;
 				content[i][j++] = "#" + start.getId() + "(" + getAbbreviation(start.getRepresentative()) + ")";
 				content[i][j++] = "#" + end.getId() + "(" + getAbbreviation(end.getRepresentative()) + ")";
-				content[i][j++] = asTime(usedEdge.getDuration().getStartInSec(), "");
-				content[i][j++] = asTime(usedEdge.getDuration().getEndInSec(), "");
+				content[i][j++] = asDuration(usedEdge.getDuration().getStartInSec(), "");
+				content[i][j++] = asDuration(usedEdge.getDuration().getEndInSec(), "");
 				content[i][j++] = timeWindow;
-				content[i][j++] = asTime(usedEdge.getEdge().getTime(), "");
-				content[i][j++] = asTime(usedEdge.getDuration().getEndInSec() - usedEdge.getDuration().getStartInSec(),
+				content[i][j++] = asDuration(usedEdge.getEdge().getTime(), "");
+				content[i][j++] = asDuration(usedEdge.getDuration().getEndInSec() - usedEdge.getDuration().getStartInSec(),
 						"");
 				content[i][j++] = withSeparator(usedEdge.getEdge().getDistance(), "");
 				content[i][j++] = withSeparator(usedEdge.getCurrentVehicleCargoWeight(), "");
@@ -89,7 +89,7 @@ public class ASCIIVisualizer {
 			textTable.printTable(printStream, 0);
 			out("");
 			out("Total distance of this route: " + numberWithSeparatorAndMeter(route.getTotalDistanceInM()));
-			out("Total time of this route: " + asTime(route.getTotalTimeInSec(), "h"));
+			out("Total time of this route: " + asDuration(route.getTotalTimeInSec(), "h"));
 			out("Total waiting time of this route: " + statistics.getTotalWait(route));
 			out("Personnal Costs: " + FormatConv.getInEuro(statistics.getPersonnalCosts(route)));
 			out("Material Costs: " + FormatConv.getInEuro(statistics.getMaterialCosts(route)));
@@ -97,7 +97,7 @@ public class ASCIIVisualizer {
 		out("");
 		out("Total number of routes: " + solution.getRoutes().size());
 		out("Total distance of this solution: " + numberWithSeparatorAndMeter(solution.getTotalDistance()));
-		out("Total time of this solution: " + asTime(solution.getTotalTime(), "h"));
+		out("Total time of this solution: " + asDuration(solution.getTotalTime(), "h"));
 		out("Total waiting time of this solution: " + statistics.getTotalWait(solution));
 		out("Total Costs: " + FormatConv.getInEuro(statistics.getTotalCosts(solution)));
 	}

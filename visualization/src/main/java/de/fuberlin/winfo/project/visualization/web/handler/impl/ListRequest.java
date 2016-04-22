@@ -11,7 +11,9 @@ import org.eclipse.jetty.server.Request;
 
 import de.fuberlin.winfo.project.FormatConv;
 import de.fuberlin.winfo.project.model.network.Network;
+import de.fuberlin.winfo.project.model.network.solution.NeighborhoodSearch;
 import de.fuberlin.winfo.project.model.network.solution.Solution;
+import de.fuberlin.winfo.project.model.network.solution.VNSSearch;
 import de.fuberlin.winfo.project.visualization.web.VisualizationServer;
 import de.fuberlin.winfo.project.visualization.web.handler.AbstractRequest;
 import de.fuberlin.winfo.project.visualization.web.logic.NWParamInterpreter;
@@ -60,8 +62,8 @@ public class ListRequest extends AbstractRequest {
 	private void writeContent() {
 		add("<Table id=\"t01\">");
 
-		String[] columns = new String[] { "Id", "NW Nodes", "save / remove", "Creation Time", "Scenario Name", "Routes",
-				"Total Time", "Total Distance", "Details", "Map", "GeoJson", "VNS History" };
+		String[] columns = new String[] { "Id", "NW Nodes", "save / remove", "Creation Time", "Scenario Name",
+				"Solving time", "Routes", "Total Time", "Total Distance", "Details", "Map", "GeoJson", "VNS History" };
 		addRow(columns, true, 1, -1);
 
 		for (int i = 0; i < networks.size(); i++) {
@@ -80,7 +82,8 @@ public class ListRequest extends AbstractRequest {
 				Object[] networkLinePart = new Object[] { i, n.getNodes().size(), saveLink + " / " + removeLink };
 
 				Object[] solutionLinePart = new Object[] { FormatConv.asDateTime(s.getHistory().getCreationTime()),
-						s.getUsecase().getName(), s.getRoutes().size(), FormatConv.asTime(s.getTotalTime(), "h"),
+						s.getUsecase().getName(), getSolvingTime(s), s.getRoutes().size(),
+						FormatConv.asDuration(s.getTotalTime(), "h"),
 						FormatConv.numberWithSeparatorAndMeter(s.getTotalDistance()), detailLink, mapLink, geoJsonLink,
 						vnsHistory };
 
@@ -97,6 +100,18 @@ public class ListRequest extends AbstractRequest {
 			}
 		}
 		add("</table>");
+	}
+
+	private String getSolvingTime(Solution s) {
+		if (s.getHistory().getVnsSearches().size() > 0) {
+			VNSSearch search = s.getHistory().getVnsSearches().get(s.getHistory().getVnsSearches().size() - 1);
+			if (search.getNeighborhoodSearches().size() > 0) {
+				NeighborhoodSearch neighborhoodSearch = search.getNeighborhoodSearches()
+						.get(search.getNeighborhoodSearches().size() - 1);
+				return FormatConv.asDuration(neighborhoodSearch.getTime(), "");
+			}
+		}
+		return "-";
 	}
 
 	private String getSaveLink(int i) {

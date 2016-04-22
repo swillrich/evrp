@@ -66,7 +66,7 @@ public class HistoryVisualizer {
 		case 1:
 			return search != null ? search.getOperation() : vnsSearch.getOperation();
 		case 2:
-			return FormatConv.asTime(search != null ? search.getTime() : vnsSearch.getTime(), "");
+			return FormatConv.asDuration(search != null ? search.getTime() : vnsSearch.getTime(), "");
 		case 3:
 			return search != null ? FormatConv.withSeparator(search.getCost(), "") : "";
 		case 4:

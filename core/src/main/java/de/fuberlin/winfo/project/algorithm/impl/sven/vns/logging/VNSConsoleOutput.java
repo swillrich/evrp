@@ -10,7 +10,7 @@ import de.fuberlin.winfo.project.model.network.solution.SearchHistory;
 import de.fuberlin.winfo.project.model.network.solution.VNSSearch;
 
 public class VNSConsoleOutput {
-	String[] titles = new String[] { "Neighborhood", "Operation", "Sek", "Best Neighbor", "Diff (prev)",
+	String[] titles = new String[] { "Neighborhood", "Operation", "Time", "Best Neighbor", "Abs. Diff", "Rel. Diff",
 			"Best Solution" };
 
 	private TablePrinter tablePrinter;
@@ -24,6 +24,7 @@ public class VNSConsoleOutput {
 		tablePrinter.setParam(i++, true, 15);
 		tablePrinter.setParam(i++, true, 15);
 		tablePrinter.setParam(i++, true, 15);
+		tablePrinter.setParam(i++, true, 15);
 	}
 
 	public void vnsChange(SearchHistory history) {
@@ -32,9 +33,8 @@ public class VNSConsoleOutput {
 		String nhName = improvement.getName();
 		String newCost = withSeparator(improvement.getCost(), "");
 		long diff = improvement.getPrevCost() - improvement.getCost();
-		String diffString = withSeparator(diff, "");
-		String sek = asTime(improvement.getTime(), "");
-		tablePrinter.print(nhName, improvement.getOperation(), sek, "", "", newCost, diffString);
+		String sek = asDuration(improvement.getTime(), "");
+		tablePrinter.print(nhName, improvement.getOperation(), sek, "", "", "", newCost);
 	}
 
 	public void neighborhoodChange(SearchHistory history) {
@@ -44,8 +44,13 @@ public class VNSConsoleOutput {
 		String operation = search.getOperation();
 		String newCost = withSeparator(search.getCost(), "");
 		String costDiff = withSeparator(improvement.getPrevCost() - search.getCost(), "");
-		String sek = asTime(search.getTime(), "");
-		tablePrinter.print(improvement.getName(), operation, sek, newCost, costDiff, "", "");
+		String costDiffRel = "(-)";
+		if (searches.size() > 1) {
+			costDiffRel = withSeparator(searches.get(searches.size() - 2).getCost() - search.getCost(), "");
+		}
+
+		String sek = asDuration(search.getTime(), "");
+		tablePrinter.print(improvement.getName(), operation, sek, newCost, costDiff, costDiffRel, "");
 	}
 
 }

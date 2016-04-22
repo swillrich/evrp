@@ -28,33 +28,52 @@ public class KOptNeighborhoodStructure extends NeighborhoodStructure {
 	private Map<Integer, Order> orderMap;
 	private int k;
 
+	private int counter;
+
 	public KOptNeighborhoodStructure(int k) {
 		this.k = k;
 	}
 
-//	@Override
-//	protected Solution shakeProcedure(Solution sol) {
-//		while (true) {
-//			for (int i = 0; i < Math.random() * 10 * k; i++) {
-//				if (hasNext()) {
-//					sol = next();
-//				} else {
-//					break;
-//				}
-//			}
-//			takePartialSolutionFromIncumbent(sol);
-//			incumbentSol = sol;
-//			if (current == initialSol.getRoutes().size() - 1) {
-//				return sol;
-//			} else {
-//				initNext();
-//			}
-//		}
-//	}
+	@Override
+	protected boolean returnIfConditionReached(Solution incumbent, Solution newSol) {
+		if (costFunction.compute(incumbentSol) - costFunction.compute(newSol) < 500) {
+			if (++counter == 5) {
+				return true;
+			}
+		} else {
+			counter = 0;
+		}
+		return false;
+	}
 
 	@Override
-	public void init() {
+	protected Solution shakeProcedure(Solution sol) {
+		while (true) {
+			for (int i = 0; i < Math.random() * 10 * k; i++) {
+				if (hasNext()) {
+					sol = next();
+				} else {
+					break;
+				}
+			}
+
+			takePartialSolutionFromIncumbent(sol);
+			if (current == initialSol.getRoutes().size() - 1) {
+				return sol;
+			} else {
+				incumbentSol = sol;
+				initNext();
+			}
+		}
+	}
+
+	@Override
+	public void initSearch() {
 		E = networkProvider.getEdges();
+		current = -1;
+		optionIterator = null;
+		orderMap = null;
+		this.counter = 0;
 		current = -1;
 		initNext();
 	}

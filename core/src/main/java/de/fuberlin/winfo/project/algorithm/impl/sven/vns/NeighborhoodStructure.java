@@ -20,23 +20,25 @@ public abstract class NeighborhoodStructure implements Iterator<Solution> {
 	protected NetworkProvider networkProvider;
 	protected Restrictions restrictions;
 	protected VNSMonitor history;
+	protected CostFunction costFunction;
 
 	public abstract String getName();
 
 	public abstract Solution move(Solution solution) throws Exception;
 
-	public abstract void init();
+	public abstract void initSearch();
 
-	public void setNetworkProvider(NetworkProvider np, VNSMonitor history) {
-		networkProvider = np;
+	public void setUp(NetworkProvider np, VNSMonitor history, CostFunction f) {
+		this.networkProvider = np;
 		this.restrictions = new Restrictions(networkProvider);
 		this.restrictions.addAll();
 		this.history = history;
+		this.costFunction = f;
 	}
 
 	public Solution shake(Solution solution) {
 		this.initialSol = solution;
-		init();
+		initSearch();
 		this.incumbentSol = shakeProcedure(solution);
 		history.neighborhoodChange(this, this.initialSol, incumbentSol, "shaked");
 		return incumbentSol;
@@ -52,19 +54,28 @@ public abstract class NeighborhoodStructure implements Iterator<Solution> {
 		}
 		return solution;
 	}
-	public Solution search(Solution solution, CostFunction f) {
+
+	public Solution search(Solution solution) {
 		this.initialSol = solution;
 		this.incumbentSol = solution;
-		init();
+		initSearch();
 		while (hasNext()) {
 			Solution candidate = next();
-			if (f.compare(incumbentSol, candidate) > 0 && checkRestrictions(candidate)) {
+			if (costFunction.compare(incumbentSol, candidate) > 0 && checkRestrictions(candidate)) {
 				history.neighborhoodChange(this, incumbentSol, candidate, "improved");
+				if (returnIfConditionReached(incumbentSol, candidate)) {
+					return incumbentSol;
+				}
 				incumbentSol = candidate;
 			}
 		}
-		return search(incumbentSol, f);
+		return search(incumbentSol);
 	}
+
+	protected boolean returnIfConditionReached(Solution incumbent, Solution newSol) {
+		return false;
+	}
+
 
 	@Override
 	public Solution next() {

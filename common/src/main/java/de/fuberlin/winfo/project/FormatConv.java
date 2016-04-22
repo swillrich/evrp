@@ -24,11 +24,13 @@ public class FormatConv {
 
 		symbols.setGroupingSeparator('.');
 		formatter.setDecimalFormatSymbols(symbols);
-		appender = " " + appender;
+		if (appender.length() > 0) {
+			appender = " " + appender;
+		}
 		return formatter.format(value).concat(appender);
 	}
 
-	public static String asTime(long time, String appender) {
+	public static String asDuration(long time, String appender) {
 		DateTime timeObj = new DateTime(time * 1000);
 
 		String result = new SimpleDateFormat("mm:ss").format(new Date(time * 1000));

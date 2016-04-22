@@ -9,9 +9,9 @@ public class VNS {
 			NeighborhoodStructure[] neighborhoodStructures, VNSMonitor history) {
 		int k = 0;
 		do {
-			neighborhoodStructures[k].setNetworkProvider(np, history);
+			neighborhoodStructures[k].setUp(np, history, f);
 			Solution initialSolution = neighborhoodStructures[k].shake(bestSolution);
-			Solution bestNeighbor = neighborhoodStructures[k].search(initialSolution, f);
+			Solution bestNeighbor = neighborhoodStructures[k].search(initialSolution);
 			history.vnsSearch(neighborhoodStructures[k], k, bestSolution, bestNeighbor);
 			if (f.compare(bestSolution, bestNeighbor) > 0) {
 				k = 0;
