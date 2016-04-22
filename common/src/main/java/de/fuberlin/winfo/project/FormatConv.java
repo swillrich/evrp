@@ -61,4 +61,9 @@ public class FormatConv {
 		SimpleDateFormat sdf = new SimpleDateFormat("yy-MM-dd HH:mm:ss");
 		return sdf.format(new Date(dateTime));
 	}
+	
+	public static String getDateTimeUntilHours(long dateTime) {
+		SimpleDateFormat sdf = new SimpleDateFormat("HH:mm:ss");
+		return sdf.format(new Date(dateTime));
+	}
 }

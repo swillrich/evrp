@@ -41,7 +41,7 @@ public class VNSConsoleOutput {
 		String sek = asDuration(improvement.getTime(), "");
 		String absImprovement = withSeparator(history.getVnsSearches().get(0).getPrevCost() - improvement.getCost(),
 				"");
-		tablePrinter.print(nhName, improvement.getOperation(), sek, FormatConv.asDateTime(new Date().getTime()), "", "",
+		tablePrinter.print(nhName, improvement.getOperation(), sek, FormatConv.getDateTimeUntilHours(new Date().getTime()), "", "",
 				"", newCost, absImprovement);
 	}
 
@@ -58,7 +58,7 @@ public class VNSConsoleOutput {
 		}
 
 		String sek = asDuration(search.getTime(), "");
-		tablePrinter.print(improvement.getName(), operation, sek, FormatConv.asDateTime(new Date().getTime()), newCost,
+		tablePrinter.print(improvement.getName(), operation, sek, FormatConv.getDateTimeUntilHours(new Date().getTime()), newCost,
 				costDiff, costDiffRel, "", "");
 	}
 

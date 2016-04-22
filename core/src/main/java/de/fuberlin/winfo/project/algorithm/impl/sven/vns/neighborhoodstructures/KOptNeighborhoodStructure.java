@@ -101,7 +101,7 @@ public class KOptNeighborhoodStructure extends NeighborhoodStructure {
 
 	@Override
 	public boolean hasNext() {
-		return optionIterator.hasNext();
+		return optionIterator != null && optionIterator.hasNext();
 	}
 
 	@Override
@@ -126,15 +126,21 @@ public class KOptNeighborhoodStructure extends NeighborhoodStructure {
 	}
 
 	private void initNext() {
-		current++;
-		try {
-			Route2KOptPairs optPairs = new Route2KOptPairs();
-			optPairs.convert(initialSol.getRoutes().get(current));
-			List<Pair> pairs = optPairs.getPairs();
-			optionIterator = new KOptIteratorWrapper(k, pairs);
-			orderMap = optPairs.getOrderMap();
-		} catch (Exception e) {
+		while (current + 1 < initialSol.getRoutes().size()) {
+			current++;
+			try {
+				Route2KOptPairs optPairs = new Route2KOptPairs();
+				optPairs.convert(initialSol.getRoutes().get(current));
+				List<Pair> pairs = optPairs.getPairs();
+				optionIterator = new KOptIteratorWrapper(k, pairs);
+				orderMap = optPairs.getOrderMap();
+				break;
+			} catch (Exception e) {
+				optionIterator = null;
+				orderMap = null;
+			}
 		}
+
 	}
 
 	private void actualMove(Solution solution, List<Pair> option) throws Exception {
@@ -143,7 +149,6 @@ public class KOptNeighborhoodStructure extends NeighborhoodStructure {
 
 		int[] toReplace = optionIterator.getOptions().getToReplace();
 		List<UsedEdge> newUsedEdgeList = new ArrayList<UsedEdge>();
-
 		for (int i = 0; i < option.size(); i++) {
 			Pair pair = option.get(i);
 			UsedEdge newUsedEdge = getNewUsedEdge(wrapper, pair);
