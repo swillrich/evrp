@@ -1,17 +1,21 @@
 package de.fuberlin.winfo.project.algorithm.impl.sven.vns.logging;
 
-import static de.fuberlin.winfo.project.FormatConv.*;
+import static de.fuberlin.winfo.project.FormatConv.asDuration;
+import static de.fuberlin.winfo.project.FormatConv.withSeparator;
+
+import java.util.Date;
 
 import org.eclipse.emf.common.util.EList;
 
+import de.fuberlin.winfo.project.FormatConv;
 import de.fuberlin.winfo.project.TablePrinter;
 import de.fuberlin.winfo.project.model.network.solution.NeighborhoodSearch;
 import de.fuberlin.winfo.project.model.network.solution.SearchHistory;
 import de.fuberlin.winfo.project.model.network.solution.VNSSearch;
 
 public class VNSConsoleOutput {
-	String[] titles = new String[] { "Neighborhood", "Operation", "Time", "Best Neighbor", "Abs. Diff", "Rel. Diff",
-			"Best Solution" };
+	String[] titles = new String[] { "Neighborhood", "Operation", "Duration", "Time", "Best Neighbor", "Abs. Diff",
+			"Rel. Diff", "Best Solution", "Abs. Improvement" };
 
 	private TablePrinter tablePrinter;
 
@@ -25,6 +29,8 @@ public class VNSConsoleOutput {
 		tablePrinter.setParam(i++, true, 15);
 		tablePrinter.setParam(i++, true, 15);
 		tablePrinter.setParam(i++, true, 15);
+		tablePrinter.setParam(i++, true, 15);
+		tablePrinter.setParam(i++, true, 15);
 	}
 
 	public void vnsChange(SearchHistory history) {
@@ -32,9 +38,11 @@ public class VNSConsoleOutput {
 		VNSSearch improvement = list.get(list.size() - 1);
 		String nhName = improvement.getName();
 		String newCost = withSeparator(improvement.getCost(), "");
-		long diff = improvement.getPrevCost() - improvement.getCost();
 		String sek = asDuration(improvement.getTime(), "");
-		tablePrinter.print(nhName, improvement.getOperation(), sek, "", "", "", newCost);
+		String absImprovement = withSeparator(history.getVnsSearches().get(0).getPrevCost() - improvement.getCost(),
+				"");
+		tablePrinter.print(nhName, improvement.getOperation(), sek, FormatConv.asDateTime(new Date().getTime()), "", "",
+				newCost, absImprovement);
 	}
 
 	public void neighborhoodChange(SearchHistory history) {
@@ -50,7 +58,8 @@ public class VNSConsoleOutput {
 		}
 
 		String sek = asDuration(search.getTime(), "");
-		tablePrinter.print(improvement.getName(), operation, sek, newCost, costDiff, costDiffRel, "");
+		tablePrinter.print(improvement.getName(), operation, sek, FormatConv.asDateTime(new Date().getTime()), newCost,
+				costDiff, costDiffRel, "", "");
 	}
 
 }

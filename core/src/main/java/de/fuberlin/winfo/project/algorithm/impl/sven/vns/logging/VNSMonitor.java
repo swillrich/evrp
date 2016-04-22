@@ -29,6 +29,9 @@ public class VNSMonitor {
 	}
 
 	public void vnsSearch(NeighborhoodStructure nb, int k, Solution prev, Solution better) {
+		if (vnsSearch == null) {
+			initVNSSearch(nb, prev);
+		}
 		vnsSearch.setPrevCost(costFunction.compute(prev));
 		vnsSearch.setCost(costFunction.compute(better));
 		vnsSearch.setName(nb.getName() + "(k=" + k + ")");
@@ -47,10 +50,7 @@ public class VNSMonitor {
 
 	public void neighborhoodChange(NeighborhoodStructure nb, Solution prev, Solution better, String string) {
 		if (vnsSearch == null) {
-			vnsSearch = factory.createVNSSearch();
-			history.getVnsSearches().add(vnsSearch);
-			vnsSearch.setName(nb.getName());
-			vnsSearch.setPrevCost(costFunction.compute(prev));
+			initVNSSearch(nb, prev);
 		}
 		NeighborhoodSearch change = factory.createNeighborhoodSearch();
 		change.setTime(new Date().getTime() / 1000 - start);
@@ -58,5 +58,12 @@ public class VNSMonitor {
 		change.setCost(costFunction.compute(better));
 		vnsSearch.getNeighborhoodSearches().add(change);
 		output.neighborhoodChange(history);
+	}
+
+	private void initVNSSearch(NeighborhoodStructure nb, Solution prev) {
+		vnsSearch = factory.createVNSSearch();
+		history.getVnsSearches().add(vnsSearch);
+		vnsSearch.setName(nb.getName());
+		vnsSearch.setPrevCost(costFunction.compute(prev));
 	}
 }
