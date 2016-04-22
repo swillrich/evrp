@@ -1,5 +1,6 @@
 package de.fuberlin.winfo.project.algorithm.impl.sven.vns;
 
+import java.util.Date;
 import java.util.Iterator;
 
 import org.eclipse.emf.ecore.util.EcoreUtil;
@@ -21,6 +22,7 @@ public abstract class NeighborhoodStructure implements Iterator<Solution> {
 	protected Restrictions restrictions;
 	protected VNSMonitor history;
 	protected CostFunction costFunction;
+	protected long lastImprovement;
 
 	public abstract String getName();
 
@@ -34,13 +36,14 @@ public abstract class NeighborhoodStructure implements Iterator<Solution> {
 		this.restrictions.addAll();
 		this.history = history;
 		this.costFunction = f;
+		this.lastImprovement = -1;
 	}
 
 	public Solution shake(Solution solution) {
 		this.initialSol = solution;
 		initSearch();
 		this.incumbentSol = shakeProcedure(solution);
-		history.neighborhoodChange(this, this.initialSol, incumbentSol, "shaked");
+		history.neighborChange(this, this.initialSol, incumbentSol, "shaked");
 		return incumbentSol;
 	}
 
@@ -55,27 +58,35 @@ public abstract class NeighborhoodStructure implements Iterator<Solution> {
 		return solution;
 	}
 
-	public Solution search(Solution solution) {
+	public Solution search(Solution solution)  {
 		this.initialSol = solution;
 		this.incumbentSol = solution;
 		initSearch();
 		while (hasNext()) {
 			Solution candidate = next();
 			if (costFunction.compare(incumbentSol, candidate) > 0 && checkRestrictions(candidate)) {
-				history.neighborhoodChange(this, incumbentSol, candidate, "improved");
+				history.neighborChange(this, incumbentSol, candidate, "improved");
 				if (returnIfConditionReached(incumbentSol, candidate)) {
 					return incumbentSol;
 				}
+				lastImprovement = new Date().getTime();
 				incumbentSol = candidate;
+			} else {
+				if (onNoImprovement(incumbentSol, candidate, lastImprovement)) {
+					return incumbentSol;
+				}
 			}
 		}
 		return search(incumbentSol);
 	}
 
-	protected boolean returnIfConditionReached(Solution incumbent, Solution newSol) {
+	protected boolean onNoImprovement(Solution incumbentSol, Solution candidate, long lastImprovement) {
 		return false;
 	}
 
+	protected boolean returnIfConditionReached(Solution incumbent, Solution newSol) {
+		return false;
+	}
 
 	@Override
 	public Solution next() {

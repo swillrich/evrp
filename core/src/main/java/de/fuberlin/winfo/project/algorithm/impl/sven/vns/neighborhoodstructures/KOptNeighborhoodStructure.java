@@ -2,6 +2,7 @@ package de.fuberlin.winfo.project.algorithm.impl.sven.vns.neighborhoodstructures
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
@@ -35,15 +36,30 @@ public class KOptNeighborhoodStructure extends NeighborhoodStructure {
 	}
 
 	@Override
-	protected boolean returnIfConditionReached(Solution incumbent, Solution newSol) {
-		if (costFunction.compute(incumbentSol) - costFunction.compute(newSol) < 500) {
+	protected boolean onNoImprovement(Solution incumbentSol, Solution candidate, long lastImprovement) {
+		if (lastImprovement == -1) {
+			return false;
+		}
+		long diff = new Date().getTime() - lastImprovement;
+		long sec = diff / 1000;
+		if (sec > 90) {
+			return true;
+		}
+		return false;
+	}
+
+	@Override
+	protected boolean returnIfConditionReached(Solution incumbent, Solution candidate) {
+		if (costFunction.compute(incumbentSol) - costFunction.compute(candidate) < k * 2 * 500) {
 			if (++counter == 5) {
 				return true;
+			} else {
+				return false;
 			}
 		} else {
 			counter = 0;
+			return false;
 		}
-		return false;
 	}
 
 	@Override
@@ -73,7 +89,7 @@ public class KOptNeighborhoodStructure extends NeighborhoodStructure {
 		current = -1;
 		optionIterator = null;
 		orderMap = null;
-		this.counter = 0;
+		counter = 0;
 		current = -1;
 		initNext();
 	}

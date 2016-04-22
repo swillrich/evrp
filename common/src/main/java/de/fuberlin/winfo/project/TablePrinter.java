@@ -92,4 +92,8 @@ public class TablePrinter {
 		printer.setParam(3, false, 10);
 		IntStream.range(0, 10).forEach(i -> printer.print(i * 2 + 1, i * 4, i * 2, i * 4, 1));
 	}
+
+	public String getFormat() {
+		return format;
+	}
 }

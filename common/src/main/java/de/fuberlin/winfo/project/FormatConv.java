@@ -58,7 +58,7 @@ public class FormatConv {
 	}
 
 	public static String asDateTime(long dateTime) {
-		SimpleDateFormat sdf = new SimpleDateFormat("yy-MM-dd HH:mm");
+		SimpleDateFormat sdf = new SimpleDateFormat("yy-MM-dd HH:mm:ss");
 		return sdf.format(new Date(dateTime));
 	}
 }

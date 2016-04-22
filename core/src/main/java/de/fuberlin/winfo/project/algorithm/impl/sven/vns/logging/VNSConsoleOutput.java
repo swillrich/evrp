@@ -30,7 +30,7 @@ public class VNSConsoleOutput {
 		tablePrinter.setParam(i++, true, 15);
 		tablePrinter.setParam(i++, true, 15);
 		tablePrinter.setParam(i++, true, 15);
-		tablePrinter.setParam(i++, true, 15);
+		tablePrinter.setParam(i++, true, 20);
 	}
 
 	public void vnsChange(SearchHistory history) {
@@ -42,7 +42,7 @@ public class VNSConsoleOutput {
 		String absImprovement = withSeparator(history.getVnsSearches().get(0).getPrevCost() - improvement.getCost(),
 				"");
 		tablePrinter.print(nhName, improvement.getOperation(), sek, FormatConv.asDateTime(new Date().getTime()), "", "",
-				newCost, absImprovement);
+				"", newCost, absImprovement);
 	}
 
 	public void neighborhoodChange(SearchHistory history) {

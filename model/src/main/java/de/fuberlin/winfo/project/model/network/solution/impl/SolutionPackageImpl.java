@@ -275,6 +275,15 @@ public class SolutionPackageImpl extends EPackageImpl implements SolutionPackage
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	public EAttribute getSolution_AlgorithmName() {
+		return (EAttribute)solutionEClass.getEStructuralFeatures().get(7);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	public EClass getUsedEdge() {
 		return usedEdgeEClass;
 	}
@@ -564,6 +573,7 @@ public class SolutionPackageImpl extends EPackageImpl implements SolutionPackage
 		createEAttribute(solutionEClass, SOLUTION__PROCEDURE);
 		createEReference(solutionEClass, SOLUTION__USECASE);
 		createEReference(solutionEClass, SOLUTION__HISTORY);
+		createEAttribute(solutionEClass, SOLUTION__ALGORITHM_NAME);
 
 		usedEdgeEClass = createEClass(USED_EDGE);
 		createEReference(usedEdgeEClass, USED_EDGE__EDGE);
@@ -648,6 +658,7 @@ public class SolutionPackageImpl extends EPackageImpl implements SolutionPackage
 		initEAttribute(getSolution_Procedure(), ecorePackage.getEString(), "procedure", null, 0, 1, Solution.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEReference(getSolution_Usecase(), this.getUseCase(), null, "usecase", null, 1, 1, Solution.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEReference(getSolution_History(), this.getSearchHistory(), null, "history", null, 0, 1, Solution.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEAttribute(getSolution_AlgorithmName(), ecorePackage.getEString(), "algorithmName", null, 0, 1, Solution.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		initEClass(usedEdgeEClass, UsedEdge.class, "UsedEdge", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 		initEReference(getUsedEdge_Edge(), theNetworkPackage.getEdge(), null, "edge", null, 1, 1, UsedEdge.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);

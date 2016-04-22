@@ -194,13 +194,22 @@ public interface SolutionPackage extends EPackage {
 	int SOLUTION__HISTORY = 6;
 
 	/**
+	 * The feature id for the '<em><b>Algorithm Name</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int SOLUTION__ALGORITHM_NAME = 7;
+
+	/**
 	 * The number of structural features of the '<em>Solution</em>' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int SOLUTION_FEATURE_COUNT = 7;
+	int SOLUTION_FEATURE_COUNT = 8;
 
 	/**
 	 * The number of operations of the '<em>Solution</em>' class.
@@ -757,6 +766,17 @@ public interface SolutionPackage extends EPackage {
 	EReference getSolution_History();
 
 	/**
+	 * Returns the meta object for the attribute '{@link de.fuberlin.winfo.project.model.network.solution.Solution#getAlgorithmName <em>Algorithm Name</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the attribute '<em>Algorithm Name</em>'.
+	 * @see de.fuberlin.winfo.project.model.network.solution.Solution#getAlgorithmName()
+	 * @see #getSolution()
+	 * @generated
+	 */
+	EAttribute getSolution_AlgorithmName();
+
+	/**
 	 * Returns the meta object for class '{@link de.fuberlin.winfo.project.model.network.solution.UsedEdge <em>Used Edge</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -1188,6 +1208,14 @@ public interface SolutionPackage extends EPackage {
 		 * @generated
 		 */
 		EReference SOLUTION__HISTORY = eINSTANCE.getSolution_History();
+
+		/**
+		 * The meta object literal for the '<em><b>Algorithm Name</b></em>' attribute feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute SOLUTION__ALGORITHM_NAME = eINSTANCE.getSolution_AlgorithmName();
 
 		/**
 		 * The meta object literal for the '{@link de.fuberlin.winfo.project.model.network.solution.impl.UsedEdgeImpl <em>Used Edge</em>}' class.

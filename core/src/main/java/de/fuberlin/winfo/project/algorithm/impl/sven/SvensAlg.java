@@ -29,7 +29,7 @@ public class SvensAlg extends Algorithm {
 
 	@Override
 	public String getName() {
-		return "Svens Insertion Heuristic";
+		return "Svens Insertion Heuristic with VNS (2/3-opt)";
 	}
 
 	Edge[][] E = null;
@@ -67,7 +67,7 @@ public class SvensAlg extends Algorithm {
 
 		VNSMonitor historyMonitor = new VNSMonitor(f);
 		Solution optSolution = VNS.vns(networkProvider, f, solution,
-				new NeighborhoodStructure[] { new KOptNeighborhoodStructure(2), new KOptNeighborhoodStructure(3) },
+				new NeighborhoodStructure[] { new KOptNeighborhoodStructure(3), new KOptNeighborhoodStructure(2) },
 				historyMonitor);
 		optSolution.setHistory(historyMonitor.getHistory());
 		updateSolution(optSolution);

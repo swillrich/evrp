@@ -48,7 +48,7 @@ public class VNSMonitor {
 		vnsSearch = null;
 	}
 
-	public void neighborhoodChange(NeighborhoodStructure nb, Solution prev, Solution better, String string) {
+	public void neighborChange(NeighborhoodStructure nb, Solution prev, Solution better, String string) {
 		if (vnsSearch == null) {
 			initVNSSearch(nb, prev);
 		}

@@ -22,6 +22,7 @@ import org.eclipse.emf.ecore.EObject;
  *   <li>{@link de.fuberlin.winfo.project.model.network.solution.Solution#getProcedure <em>Procedure</em>}</li>
  *   <li>{@link de.fuberlin.winfo.project.model.network.solution.Solution#getUsecase <em>Usecase</em>}</li>
  *   <li>{@link de.fuberlin.winfo.project.model.network.solution.Solution#getHistory <em>History</em>}</li>
+ *   <li>{@link de.fuberlin.winfo.project.model.network.solution.Solution#getAlgorithmName <em>Algorithm Name</em>}</li>
  * </ul>
  *
  * @see de.fuberlin.winfo.project.model.network.solution.SolutionPackage#getSolution()
@@ -200,5 +201,31 @@ public interface Solution extends EObject {
 	 * @generated
 	 */
 	void setHistory(SearchHistory value);
+
+	/**
+	 * Returns the value of the '<em><b>Algorithm Name</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <p>
+	 * If the meaning of the '<em>Algorithm Name</em>' attribute isn't clear,
+	 * there really should be more of a description here...
+	 * </p>
+	 * <!-- end-user-doc -->
+	 * @return the value of the '<em>Algorithm Name</em>' attribute.
+	 * @see #setAlgorithmName(String)
+	 * @see de.fuberlin.winfo.project.model.network.solution.SolutionPackage#getSolution_AlgorithmName()
+	 * @model
+	 * @generated
+	 */
+	String getAlgorithmName();
+
+	/**
+	 * Sets the value of the '{@link de.fuberlin.winfo.project.model.network.solution.Solution#getAlgorithmName <em>Algorithm Name</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @param value the new value of the '<em>Algorithm Name</em>' attribute.
+	 * @see #getAlgorithmName()
+	 * @generated
+	 */
+	void setAlgorithmName(String value);
 
 } // Solution

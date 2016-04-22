@@ -39,6 +39,7 @@ import org.eclipse.emf.ecore.util.InternalEList;
  *   <li>{@link de.fuberlin.winfo.project.model.network.solution.impl.SolutionImpl#getProcedure <em>Procedure</em>}</li>
  *   <li>{@link de.fuberlin.winfo.project.model.network.solution.impl.SolutionImpl#getUsecase <em>Usecase</em>}</li>
  *   <li>{@link de.fuberlin.winfo.project.model.network.solution.impl.SolutionImpl#getHistory <em>History</em>}</li>
+ *   <li>{@link de.fuberlin.winfo.project.model.network.solution.impl.SolutionImpl#getAlgorithmName <em>Algorithm Name</em>}</li>
  * </ul>
  *
  * @generated
@@ -153,6 +154,26 @@ public class SolutionImpl extends MinimalEObjectImpl.Container implements Soluti
 	 * @ordered
 	 */
 	protected SearchHistory history;
+
+	/**
+	 * The default value of the '{@link #getAlgorithmName() <em>Algorithm Name</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #getAlgorithmName()
+	 * @generated
+	 * @ordered
+	 */
+	protected static final String ALGORITHM_NAME_EDEFAULT = null;
+
+	/**
+	 * The cached value of the '{@link #getAlgorithmName() <em>Algorithm Name</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #getAlgorithmName()
+	 * @generated
+	 * @ordered
+	 */
+	protected String algorithmName = ALGORITHM_NAME_EDEFAULT;
 
 	/**
 	 * <!-- begin-user-doc -->
@@ -360,6 +381,27 @@ public class SolutionImpl extends MinimalEObjectImpl.Container implements Soluti
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	public String getAlgorithmName() {
+		return algorithmName;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public void setAlgorithmName(String newAlgorithmName) {
+		String oldAlgorithmName = algorithmName;
+		algorithmName = newAlgorithmName;
+		if (eNotificationRequired())
+			eNotify(new ENotificationImpl(this, Notification.SET, SolutionPackage.SOLUTION__ALGORITHM_NAME, oldAlgorithmName, algorithmName));
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	@Override
 	public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, NotificationChain msgs) {
 		switch (featureID) {
@@ -395,6 +437,8 @@ public class SolutionImpl extends MinimalEObjectImpl.Container implements Soluti
 				return getUsecase();
 			case SolutionPackage.SOLUTION__HISTORY:
 				return getHistory();
+			case SolutionPackage.SOLUTION__ALGORITHM_NAME:
+				return getAlgorithmName();
 		}
 		return super.eGet(featureID, resolve, coreType);
 	}
@@ -430,6 +474,9 @@ public class SolutionImpl extends MinimalEObjectImpl.Container implements Soluti
 			case SolutionPackage.SOLUTION__HISTORY:
 				setHistory((SearchHistory)newValue);
 				return;
+			case SolutionPackage.SOLUTION__ALGORITHM_NAME:
+				setAlgorithmName((String)newValue);
+				return;
 		}
 		super.eSet(featureID, newValue);
 	}
@@ -463,6 +510,9 @@ public class SolutionImpl extends MinimalEObjectImpl.Container implements Soluti
 			case SolutionPackage.SOLUTION__HISTORY:
 				setHistory((SearchHistory)null);
 				return;
+			case SolutionPackage.SOLUTION__ALGORITHM_NAME:
+				setAlgorithmName(ALGORITHM_NAME_EDEFAULT);
+				return;
 		}
 		super.eUnset(featureID);
 	}
@@ -489,6 +539,8 @@ public class SolutionImpl extends MinimalEObjectImpl.Container implements Soluti
 				return usecase != null;
 			case SolutionPackage.SOLUTION__HISTORY:
 				return history != null;
+			case SolutionPackage.SOLUTION__ALGORITHM_NAME:
+				return ALGORITHM_NAME_EDEFAULT == null ? algorithmName != null : !ALGORITHM_NAME_EDEFAULT.equals(algorithmName);
 		}
 		return super.eIsSet(featureID);
 	}
@@ -511,6 +563,8 @@ public class SolutionImpl extends MinimalEObjectImpl.Container implements Soluti
 		result.append(totalTime);
 		result.append(", procedure: ");
 		result.append(procedure);
+		result.append(", algorithmName: ");
+		result.append(algorithmName);
 		result.append(')');
 		return result.toString();
 	}
