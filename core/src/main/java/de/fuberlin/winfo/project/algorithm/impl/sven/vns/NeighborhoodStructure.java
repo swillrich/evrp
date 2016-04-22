@@ -1,6 +1,5 @@
 package de.fuberlin.winfo.project.algorithm.impl.sven.vns;
 
-import java.util.Date;
 import java.util.Iterator;
 
 import org.eclipse.emf.ecore.util.EcoreUtil;
@@ -22,7 +21,6 @@ public abstract class NeighborhoodStructure implements Iterator<Solution> {
 	protected Restrictions restrictions;
 	protected VNSMonitor history;
 	protected CostFunction costFunction;
-	protected long lastImprovement;
 
 	public abstract String getName();
 
@@ -30,13 +28,16 @@ public abstract class NeighborhoodStructure implements Iterator<Solution> {
 
 	public abstract void initSearch();
 
+	protected abstract boolean onNonImprovement(Solution incumbentSol, Solution candidate);
+
+	protected abstract boolean onImprovement(Solution incumbent, Solution newSol);
+
 	public void setUp(NetworkProvider np, VNSMonitor history, CostFunction f) {
 		this.networkProvider = np;
 		this.restrictions = new Restrictions(networkProvider);
 		this.restrictions.addAll();
 		this.history = history;
 		this.costFunction = f;
-		this.lastImprovement = -1;
 	}
 
 	public Solution shake(Solution solution) {
@@ -58,7 +59,7 @@ public abstract class NeighborhoodStructure implements Iterator<Solution> {
 		return solution;
 	}
 
-	public Solution search(Solution solution)  {
+	public Solution search(Solution solution) {
 		this.initialSol = solution;
 		this.incumbentSol = solution;
 		initSearch();
@@ -66,26 +67,21 @@ public abstract class NeighborhoodStructure implements Iterator<Solution> {
 			Solution candidate = next();
 			if (costFunction.compare(incumbentSol, candidate) > 0 && checkRestrictions(candidate)) {
 				history.neighborChange(this, incumbentSol, candidate, "improved");
-				if (returnIfConditionReached(incumbentSol, candidate)) {
-					return incumbentSol;
+				if (onImprovement(incumbentSol, candidate)) {
+					return initialSol;
 				}
-				lastImprovement = new Date().getTime();
 				incumbentSol = candidate;
 			} else {
-				if (onNoImprovement(incumbentSol, candidate, lastImprovement)) {
+				if (onNonImprovement(incumbentSol, candidate)) {
 					return incumbentSol;
 				}
 			}
 		}
-		return search(incumbentSol);
+		return returnBestNeighbor(initialSol, incumbentSol);
 	}
 
-	protected boolean onNoImprovement(Solution incumbentSol, Solution candidate, long lastImprovement) {
-		return false;
-	}
-
-	protected boolean returnIfConditionReached(Solution incumbent, Solution newSol) {
-		return false;
+	protected Solution returnBestNeighbor(Solution initialSol, Solution incumbentSol) {
+		return incumbentSol;
 	}
 
 	@Override

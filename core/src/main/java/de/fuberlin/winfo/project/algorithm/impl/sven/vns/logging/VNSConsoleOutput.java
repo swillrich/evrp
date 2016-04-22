@@ -1,7 +1,6 @@
 package de.fuberlin.winfo.project.algorithm.impl.sven.vns.logging;
 
-import static de.fuberlin.winfo.project.FormatConv.asDuration;
-import static de.fuberlin.winfo.project.FormatConv.withSeparator;
+import static de.fuberlin.winfo.project.FormatConv.*;
 
 import java.util.Date;
 
@@ -39,10 +38,11 @@ public class VNSConsoleOutput {
 		String nhName = improvement.getName();
 		String newCost = withSeparator(improvement.getCost(), "");
 		String sek = asDuration(improvement.getTime(), "");
-		String absImprovement = withSeparator(history.getVnsSearches().get(0).getPrevCost() - improvement.getCost(),
-				"");
-		tablePrinter.print(nhName, improvement.getOperation(), sek, FormatConv.getDateTimeUntilHours(new Date().getTime()), "", "",
-				"", newCost, absImprovement);
+		long absDiff = history.getVnsSearches().get(0).getPrevCost() - improvement.getCost();
+		String absImprovement = "(+" + round(absDiff / (double) history.getVnsSearches().get(0).getPrevCost(), 4)
+				+ "%) " + withSeparator(absDiff, "");
+		tablePrinter.print(nhName, improvement.getOperation(), sek,
+				FormatConv.getDateTimeUntilHours(new Date().getTime()), "", "", "", newCost, absImprovement);
 	}
 
 	public void neighborhoodChange(SearchHistory history) {
@@ -58,8 +58,8 @@ public class VNSConsoleOutput {
 		}
 
 		String sek = asDuration(search.getTime(), "");
-		tablePrinter.print(improvement.getName(), operation, sek, FormatConv.getDateTimeUntilHours(new Date().getTime()), newCost,
-				costDiff, costDiffRel, "", "");
+		tablePrinter.print(improvement.getName(), operation, sek,
+				FormatConv.getDateTimeUntilHours(new Date().getTime()), newCost, costDiff, costDiffRel, "", "");
 	}
 
 }

@@ -2,7 +2,6 @@ package de.fuberlin.winfo.project.algorithm.impl.sven.vns.neighborhoodstructures
 
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
@@ -21,45 +20,35 @@ import de.fuberlin.winfo.project.model.network.solution.Route;
 import de.fuberlin.winfo.project.model.network.solution.Solution;
 import de.fuberlin.winfo.project.model.network.solution.UsedEdge;
 
-public class KOptNeighborhoodStructure extends NeighborhoodStructure {
+public abstract class KOptNeighborhoodStructure extends NeighborhoodStructure {
 
 	private int current = -1;
 	private KOptIteratorWrapper optionIterator;
 	private Edge[][] E;
 	private Map<Integer, Order> orderMap;
-	private int k;
-
-	private int counter;
+	protected int k;
 
 	public KOptNeighborhoodStructure(int k) {
 		this.k = k;
 	}
 
 	@Override
-	protected boolean onNoImprovement(Solution incumbentSol, Solution candidate, long lastImprovement) {
-		if (lastImprovement == -1) {
-			return false;
-		}
-		long diff = new Date().getTime() - lastImprovement;
-		long sec = diff / 1000;
-		if (sec > 90) {
-			return true;
-		}
+	public void initSearch() {
+		E = networkProvider.getEdges();
+		optionIterator = null;
+		orderMap = null;
+		current = -1;
+		initNext();
+	}
+
+	@Override
+	protected boolean onImprovement(Solution incumbent, Solution candidate) {
 		return false;
 	}
 
 	@Override
-	protected boolean returnIfConditionReached(Solution incumbent, Solution candidate) {
-		if (costFunction.compute(incumbentSol) - costFunction.compute(candidate) < k * 2 * 500) {
-			if (++counter == 5) {
-				return true;
-			} else {
-				return false;
-			}
-		} else {
-			counter = 0;
-			return false;
-		}
+	protected boolean onNonImprovement(Solution incumbentSol, Solution candidate) {
+		return false;
 	}
 
 	@Override
@@ -84,14 +73,15 @@ public class KOptNeighborhoodStructure extends NeighborhoodStructure {
 	}
 
 	@Override
-	public void initSearch() {
-		E = networkProvider.getEdges();
-		current = -1;
-		optionIterator = null;
-		orderMap = null;
-		counter = 0;
-		current = -1;
-		initNext();
+	protected Solution returnBestNeighbor(Solution initialSol, Solution incumbentSol) {
+		double imp = (costFunction.compute(initialSol) - costFunction.compute(incumbentSol))
+				/ (double) costFunction.compute(initialSol);
+
+		if (imp < 0.001) {
+			return initialSol;
+		} else {
+			return incumbentSol;
+		}
 	}
 
 	@Override
@@ -140,7 +130,6 @@ public class KOptNeighborhoodStructure extends NeighborhoodStructure {
 				orderMap = null;
 			}
 		}
-
 	}
 
 	private void actualMove(Solution solution, List<Pair> option) throws Exception {
