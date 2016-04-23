@@ -55,28 +55,43 @@ public class InterRouteSingleNodeRelocationNeighborhoodStructure extends Neighbo
 
 	@Override
 	public Solution move(Solution solution) throws Exception {
-		initilizeNext();
-		RouteWrapper wrapper = new RouteWrapper(solution.getRoutes().get(route), null, E);
-		RouteWrapper neighborWrapper = new RouteWrapper(solution.getRoutes().get(neighborRoute), null, E);
-		wrapper.relocateSingleNode(node, neighborWrapper, neighborNode);
+		if (initilizeNext()) {
+			RouteWrapper wrapper = new RouteWrapper(solution.getRoutes().get(route), null, E);
+			RouteWrapper neighborWrapper = new RouteWrapper(solution.getRoutes().get(neighborRoute), null, E);
+			wrapper.relocateSingleNode(node, neighborWrapper, neighborNode);
+		}
 		return solution;
 	}
 
-	private void initilizeNext() {
+	private boolean initilizeNext() {
 		if (hasNextNeighborNode()) {
 			neighborNode++;
+			return true;
 		} else if (hasNextNeighborRoute()) {
 			neighborRoute++;
+			if (neighborRoute == route) {
+				if (neighborRoute + 1 >= initialSol.getRoutes().size()) {
+					return false;
+				} else {
+					neighborRoute++;
+					return initilizeNext();
+				}
+			}
 			neighborNode = 0;
+			return true;
 		} else if (hasNextNode()) {
 			node++;
 			neighborNode = 0;
 			neighborRoute = 0;
+			return true;
 		} else if (hasNextRoute()) {
 			route++;
 			node = 0;
 			neighborNode = 0;
 			neighborRoute = 0;
+			return true;
+		} else {
+			return false;
 		}
 	}
 
@@ -90,4 +105,14 @@ public class InterRouteSingleNodeRelocationNeighborhoodStructure extends Neighbo
 		return false;
 	}
 
+	int counter = 0;
+
+	@Override
+	protected Solution returnBestNeighbor(Solution initialSol, Solution incumbentSol) {
+		if (counter++ > 10) {
+			return initialSol;
+		} else {
+			return incumbentSol;
+		}
+	}
 }

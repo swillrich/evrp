@@ -1,11 +1,8 @@
 package de.fuberlin.winfo.project.algorithm.impl.sven.vns.neighborhoodstructures;
 
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.List;
 import java.util.Map;
-
-import org.eclipse.emf.ecore.util.EcoreUtil;
 
 import de.fuberlin.winfo.project.algorithm.AlgHelper;
 import de.fuberlin.winfo.project.algorithm.RouteWrapper;
@@ -20,7 +17,7 @@ import de.fuberlin.winfo.project.model.network.solution.Route;
 import de.fuberlin.winfo.project.model.network.solution.Solution;
 import de.fuberlin.winfo.project.model.network.solution.UsedEdge;
 
-public abstract class KOptNeighborhoodStructure extends NeighborhoodStructure {
+public class KOptNeighborhoodStructure extends NeighborhoodStructure {
 
 	private int current = -1;
 	private KOptIteratorWrapper optionIterator;
@@ -53,35 +50,28 @@ public abstract class KOptNeighborhoodStructure extends NeighborhoodStructure {
 
 	@Override
 	protected Solution shakeProcedure(Solution sol) {
-		while (true) {
-			for (int i = 0; i < Math.random() * 10 * k; i++) {
-				if (hasNext()) {
-					sol = next();
-				} else {
-					break;
-				}
-			}
-
-			takePartialSolutionFromIncumbent(sol);
-			if (current == initialSol.getRoutes().size() - 1) {
-				return sol;
-			} else {
-				incumbentSol = sol;
-				initNext();
-			}
-		}
+		// while (true) {
+		// for (int i = 0; i < Math.random() * 10 * k; i++) {
+		// if (hasNext()) {
+		// sol = next();
+		// } else {
+		// break;
+		// }
+		// }
+		//
+		// if (current == initialSol.getRoutes().size() - 1) {
+		// return sol;
+		// } else {
+		// incumbentSol = sol;
+		// initNext();
+		// }
+		// }
+		return sol;
 	}
-
+	
 	@Override
 	protected Solution returnBestNeighbor(Solution initialSol, Solution incumbentSol) {
-		double imp = (costFunction.compute(initialSol) - costFunction.compute(incumbentSol))
-				/ (double) costFunction.compute(initialSol);
-
-		if (imp < 0.001) {
-			return initialSol;
-		} else {
-			return incumbentSol;
-		}
+		return incumbentSol;
 	}
 
 	@Override
@@ -100,23 +90,9 @@ public abstract class KOptNeighborhoodStructure extends NeighborhoodStructure {
 		actualMove(solution, option);
 		if (!optionIterator.hasNext() && current + 1 < initialSol.getRoutes().size()) {
 			initNext();
-			takePartialSolutionFromIncumbent(solution);
 		}
 		return solution;
 
-	}
-
-	private void takePartialSolutionFromIncumbent(Solution solution) {
-		for (int i = 0; i < current; i++) {
-			Collection<UsedEdge> way = EcoreUtil.copyAll(incumbentSol.getRoutes().get(i).getWay());
-			solution.getRoutes().get(i).getWay().clear();
-			solution.getRoutes().get(i).getWay().addAll(way);
-			try {
-				new RouteWrapper(solution.getRoutes().get(i), null, null).reinitializeRoute();
-			} catch (Exception e) {
-				e.printStackTrace();
-			}
-		}
 	}
 
 	private void initNext() {

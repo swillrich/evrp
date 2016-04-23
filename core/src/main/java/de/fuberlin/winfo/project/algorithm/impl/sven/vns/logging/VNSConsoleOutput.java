@@ -13,8 +13,8 @@ import de.fuberlin.winfo.project.model.network.solution.SearchHistory;
 import de.fuberlin.winfo.project.model.network.solution.VNSSearch;
 
 public class VNSConsoleOutput {
-	String[] titles = new String[] { "Neighborhood", "Operation", "Duration", "Time", "Best Neighbor", "Abs. Diff",
-			"Rel. Diff", "Best Solution", "Abs. Improvement" };
+	String[] titles = new String[] { "Neighborhood", "Operation", "Duration", "Time", "Best Neighbor",
+			"(Rel.) Abs. Diff", "Best Solution", "Abs. Improvement" };
 
 	private TablePrinter tablePrinter;
 
@@ -26,8 +26,7 @@ public class VNSConsoleOutput {
 		tablePrinter.setParam(i++, true, 10);
 		tablePrinter.setParam(i++, true, 10);
 		tablePrinter.setParam(i++, true, 15);
-		tablePrinter.setParam(i++, true, 13);
-		tablePrinter.setParam(i++, true, 13);
+		tablePrinter.setParam(i++, true, 20);
 		tablePrinter.setParam(i++, true, 15);
 		tablePrinter.setParam(i++, true, 20);
 	}
@@ -42,7 +41,7 @@ public class VNSConsoleOutput {
 		String absImprovement = "(+" + round(absDiff / (double) history.getVnsSearches().get(0).getPrevCost(), 4)
 				+ "%) " + withSeparator(absDiff, "");
 		tablePrinter.print(nhName, improvement.getOperation(), sek,
-				FormatConv.getDateTimeUntilHours(new Date().getTime()), "", "", "", newCost, absImprovement);
+				FormatConv.getDateTimeUntilHours(new Date().getTime()), "", "", newCost, absImprovement);
 	}
 
 	public void neighborhoodChange(SearchHistory history) {
@@ -51,15 +50,20 @@ public class VNSConsoleOutput {
 		NeighborhoodSearch search = searches.get(searches.size() - 1);
 		String operation = search.getOperation();
 		String newCost = withSeparator(search.getCost(), "");
-		String costDiff = withSeparator(improvement.getPrevCost() - search.getCost(), "");
-		String costDiffRel = "(-)";
-		if (searches.size() > 1) {
-			costDiffRel = withSeparator(searches.get(searches.size() - 2).getCost() - search.getCost(), "");
+		String costDiff = withSeparator(search.getCost() - improvement.getPrevCost(), "");
+		if (search.getCost() - improvement.getPrevCost() > 0) {
+			costDiff = "+" + costDiff;
 		}
+		String costDiffRel = "";
+		if (searches.size() > 1) {
+			costDiffRel = "(-" + withSeparator(searches.get(searches.size() - 2).getCost() - search.getCost(), "")
+					+ ")";
+		}
+		costDiff = costDiffRel + " " + costDiff;
 
 		String sek = asDuration(search.getTime(), "");
 		tablePrinter.print(improvement.getName(), operation, sek,
-				FormatConv.getDateTimeUntilHours(new Date().getTime()), newCost, costDiff, costDiffRel, "", "");
+				FormatConv.getDateTimeUntilHours(new Date().getTime()), newCost, costDiff, "", "");
 	}
 
 }
