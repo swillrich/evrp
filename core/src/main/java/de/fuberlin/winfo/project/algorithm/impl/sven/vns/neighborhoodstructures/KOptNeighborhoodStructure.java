@@ -7,6 +7,7 @@ import java.util.Map;
 import de.fuberlin.winfo.project.algorithm.AlgHelper;
 import de.fuberlin.winfo.project.algorithm.RouteWrapper;
 import de.fuberlin.winfo.project.algorithm.impl.sven.vns.NeighborhoodStructure;
+import de.fuberlin.winfo.project.algorithm.impl.sven.vns.Operation;
 import de.fuberlin.winfo.project.algorithm.impl.sven.vns.kopt.KOptIteratorWrapper;
 import de.fuberlin.winfo.project.algorithm.impl.sven.vns.kopt.Pair;
 import de.fuberlin.winfo.project.algorithm.impl.sven.vns.kopt.Route2KOptPairs;
@@ -55,7 +56,8 @@ public class KOptNeighborhoodStructure extends NeighborhoodStructure {
 
 	@Override
 	protected Solution returnBestNeighbor(Solution initialSol, Solution incumbentSol) {
-		return incumbentSol;
+		applyOperationList();
+		return this.incumbentSol;
 	}
 
 	@Override
@@ -69,14 +71,13 @@ public class KOptNeighborhoodStructure extends NeighborhoodStructure {
 	}
 
 	@Override
-	public Solution move(Solution solution) throws Exception {
+	public Operation getMoveOperation(Solution solution) throws Exception {
 		List<Pair> option = optionIterator.next();
-		actualMove(solution, option);
+		KoptOperation operation = actualMove(solution, option);
 		if (!optionIterator.hasNext() && current + 1 < initialSol.getRoutes().size()) {
 			initNext();
 		}
-		return solution;
-
+		return operation;
 	}
 
 	private void initNext() {
@@ -96,7 +97,44 @@ public class KOptNeighborhoodStructure extends NeighborhoodStructure {
 		}
 	}
 
-	private void actualMove(Solution solution, List<Pair> option) throws Exception {
+	private class KoptOperation extends Operation {
+		private int currentRoute;
+		private List<UsedEdge> newUsedEdgeList;
+		private int[] toReplace;
+
+		public KoptOperation(int current, List<UsedEdge> newUsedEdgeList, int[] toReplace) {
+			this.currentRoute = current;
+			this.newUsedEdgeList = newUsedEdgeList;
+			this.toReplace = toReplace;
+		}
+
+		@Override
+		public Solution apply(Solution solution) throws Exception {
+			RouteWrapper wrapper = new RouteWrapper(solution.getRoutes().get(currentRoute), null, E);
+			wrapper.replaceSubRoute(newUsedEdgeList, toReplace[0], toReplace[toReplace.length - 1]);
+			return solution;
+		}
+
+		@Override
+		public boolean isPreconditionSatisfied(Solution solution) {
+			RouteWrapper wrapper = new RouteWrapper(solution.getRoutes().get(currentRoute), null, E);
+			for (int i : toReplace) {
+				if (wrapper.getActualRoute().getWay().size() <= i) {
+					return false;
+				}
+			}
+
+			Solution copy = getCopy(solution);
+			try {
+				apply(copy);
+				return true;
+			} catch (Exception e) {
+				return false;
+			}
+		}
+	}
+
+	private KoptOperation actualMove(Solution solution, List<Pair> option) throws Exception {
 		Route route = solution.getRoutes().get(current);
 		RouteWrapper wrapper = new RouteWrapper(route, null, networkProvider.getEdges());
 
@@ -112,7 +150,7 @@ public class KOptNeighborhoodStructure extends NeighborhoodStructure {
 				newUsedEdgeList.addAll(usedEdgesBetween);
 			}
 		}
-		wrapper.replaceSubRoute(newUsedEdgeList, toReplace[0], toReplace[toReplace.length - 1]);
+		return new KoptOperation(current, newUsedEdgeList, toReplace);
 	}
 
 	private List<UsedEdge> getUsedEdgesBetween(int[] toReplace, RouteWrapper wrapper, int start, int end) {

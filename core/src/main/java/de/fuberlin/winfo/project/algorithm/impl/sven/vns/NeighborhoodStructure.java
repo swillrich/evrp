@@ -21,10 +21,11 @@ public abstract class NeighborhoodStructure implements Iterator<Solution> {
 	protected Restrictions restrictions;
 	protected VNSMonitor history;
 	protected CostFunction costFunction;
+	protected SortedOperationList operationList;
 
 	public abstract String getName();
 
-	public abstract Solution move(Solution solution) throws Exception;
+	public abstract Operation getMoveOperation(Solution solution) throws Exception;
 
 	public abstract void initSearch();
 
@@ -38,6 +39,7 @@ public abstract class NeighborhoodStructure implements Iterator<Solution> {
 		this.restrictions.addAll();
 		this.history = history;
 		this.costFunction = f;
+		operationList = new SortedOperationList(200, f);
 	}
 
 	public Solution shake(Solution solution) {
@@ -86,16 +88,24 @@ public abstract class NeighborhoodStructure implements Iterator<Solution> {
 
 	@Override
 	public Solution next() {
-		EcoreUtil.Copier c = new Copier();
-		Solution copy = (Solution) c.copy(initialSol);
-		c.copyReferences();
+		Solution copy = getCopy(initialSol);
 		try {
-			return move(copy);
+			Operation operation = getMoveOperation(initialSol);
+			operation.execute(copy);
+			operationList.add(operation);
+			return copy;
 		} catch (Exception e) {
 			e.printStackTrace();
 			System.exit(1);
 			return null;
 		}
+	}
+
+	protected Solution getCopy(Solution original) {
+		EcoreUtil.Copier c = new Copier();
+		Solution copy = (Solution) c.copy(original);
+		c.copyReferences();
+		return copy;
 	}
 
 	boolean checkRestrictions(Solution sol) {
@@ -113,5 +123,19 @@ public abstract class NeighborhoodStructure implements Iterator<Solution> {
 
 	protected int f(Solution s) {
 		return costFunction.compute(s);
+	}
+
+	protected void applyOperationList() {
+		for (Operation o : operationList) {
+			try {
+				Solution copy = getCopy(incumbentSol);
+				o.execute(copy);
+				if (costFunction.compare(incumbentSol, o.getResult()) > 0 && checkRestrictions(o.getResult())) {
+					incumbentSol = o.getResult();
+				}
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+		}
 	}
 }

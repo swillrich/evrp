@@ -87,7 +87,6 @@ public class RouteWrapper {
 				boolean endEqualsStart = route.getWay().get(i - 1).getEdge().getEnd() == route.getWay().get(i).getEdge()
 						.getStart();
 				if (!endEqualsStart) {
-					print();
 					throw new Exception("End id is not equal to start id at index " + i);
 				}
 			}
@@ -330,6 +329,9 @@ public class RouteWrapper {
 
 	public void relocateSingleNode(int toRemove, RouteWrapper neighborWrapper, int insertionPos) throws Exception {
 		UsedEdge usedEdge = remove(toRemove);
+		if (usedEdge == null) {
+			throw new NullPointerException("UsedEdge is null (could not be deleted)");
+		}
 		Order order = ((Delivery) usedEdge).getOrder();
 		neighborWrapper.addDeliveryAtIndex(order, insertionPos);
 		reinitializeRoute();
@@ -337,7 +339,7 @@ public class RouteWrapper {
 
 	private UsedEdge remove(int toRemove) {
 		if (toRemove + 1 >= route.getWay().size() || toRemove < 0) {
-			return null;
+			throw new IndexOutOfBoundsException("index is " + toRemove + " / " + (route.getWay().size() - 1));
 		}
 		UsedEdge usedEdgeToRemove = route.getWay().get(toRemove);
 
