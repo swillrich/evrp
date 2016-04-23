@@ -1,4 +1,4 @@
-package de.fuberlin.winfo.project.algorithm.impl.sven.datastructures;
+package de.fuberlin.winfo.project.algorithm.impl.sven.routeconstruction;
 
 import java.util.Collections;
 import java.util.Comparator;

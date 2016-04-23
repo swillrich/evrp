@@ -50,25 +50,9 @@ public class KOptNeighborhoodStructure extends NeighborhoodStructure {
 
 	@Override
 	protected Solution shakeProcedure(Solution sol) {
-		// while (true) {
-		// for (int i = 0; i < Math.random() * 10 * k; i++) {
-		// if (hasNext()) {
-		// sol = next();
-		// } else {
-		// break;
-		// }
-		// }
-		//
-		// if (current == initialSol.getRoutes().size() - 1) {
-		// return sol;
-		// } else {
-		// incumbentSol = sol;
-		// initNext();
-		// }
-		// }
 		return sol;
 	}
-	
+
 	@Override
 	protected Solution returnBestNeighbor(Solution initialSol, Solution incumbentSol) {
 		return incumbentSol;

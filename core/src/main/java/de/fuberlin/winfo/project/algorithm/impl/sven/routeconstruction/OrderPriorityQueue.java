@@ -1,4 +1,4 @@
-package de.fuberlin.winfo.project.algorithm.impl.sven.datastructures;
+package de.fuberlin.winfo.project.algorithm.impl.sven.routeconstruction;
 
 import java.util.List;
 import java.util.PriorityQueue;
