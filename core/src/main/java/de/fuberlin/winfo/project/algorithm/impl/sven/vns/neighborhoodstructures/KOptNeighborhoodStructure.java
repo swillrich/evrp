@@ -111,7 +111,11 @@ public abstract class KOptNeighborhoodStructure extends NeighborhoodStructure {
 			Collection<UsedEdge> way = EcoreUtil.copyAll(incumbentSol.getRoutes().get(i).getWay());
 			solution.getRoutes().get(i).getWay().clear();
 			solution.getRoutes().get(i).getWay().addAll(way);
-			new RouteWrapper(solution.getRoutes().get(i), null, null);
+			try {
+				new RouteWrapper(solution.getRoutes().get(i), null, null).reinitializeRoute();
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
 		}
 	}
 

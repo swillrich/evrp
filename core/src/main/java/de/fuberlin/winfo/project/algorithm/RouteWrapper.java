@@ -5,7 +5,6 @@ import static de.fuberlin.winfo.project.algorithm.AlgHelper.getNodeByOrder;
 import static de.fuberlin.winfo.project.algorithm.AlgHelper.getTimeWindow;
 
 import java.util.List;
-import java.util.TreeSet;
 
 import de.fuberlin.winfo.project.model.network.Duration;
 import de.fuberlin.winfo.project.model.network.Edge;
@@ -21,7 +20,7 @@ import de.fuberlin.winfo.project.model.network.solution.SolutionFactory;
 import de.fuberlin.winfo.project.model.network.solution.UsedEdge;
 import de.fuberlin.winfo.project.model.network.solution.impl.SolutionFactoryImpl;
 
-public class RouteWrapper extends TreeSet<UsedEdge> {
+public class RouteWrapper {
 	private Route route;
 	private SolutionFactory solutionFactory = new SolutionFactoryImpl();
 	private NetworkFactory networkFactory = new NetworkFactoryImpl();
@@ -35,13 +34,6 @@ public class RouteWrapper extends TreeSet<UsedEdge> {
 			this.depot = route.getWay().get(0).getEdge().getStart();
 		} else {
 			this.depot = depot;
-		}
-		try {
-			if (route.getWay().size() > 2) {
-				reinitializeRoute();
-			}
-		} catch (Exception e) {
-			e.printStackTrace();
 		}
 	}
 
@@ -82,7 +74,10 @@ public class RouteWrapper extends TreeSet<UsedEdge> {
 		return capLeft;
 	}
 
-	private void reinitializeRoute() throws Exception {
+	public void reinitializeRoute() throws Exception {
+		if (route.getWay().size() < 2) {
+			return;
+		}
 		route.setTotalDistanceInM(0);
 		route.setTotalTimeInSec(0);
 		for (int i = 0; i < route.getWay().size(); i++) {
@@ -321,5 +316,43 @@ public class RouteWrapper extends TreeSet<UsedEdge> {
 			String id = order.getId();
 			System.out.print(" (DEL (" + id + "))");
 		}
+	}
+
+	public Order getOrder(int node) {
+		UsedEdge usedEdge = getActualRoute().getWay().get(node);
+		if (usedEdge instanceof Delivery) {
+			Order order = ((Delivery) usedEdge).getOrder();
+			return order;
+		} else {
+			return null;
+		}
+	}
+
+	public void relocateSingleNode(int toRemove, RouteWrapper neighborWrapper, int insertionPos) throws Exception {
+		UsedEdge usedEdge = remove(toRemove);
+		Order order = ((Delivery) usedEdge).getOrder();
+		neighborWrapper.addDeliveryAtIndex(order, insertionPos);
+		reinitializeRoute();
+	}
+
+	private UsedEdge remove(int toRemove) {
+		if (toRemove + 1 >= route.getWay().size() || toRemove < 0) {
+			return null;
+		}
+		UsedEdge usedEdgeToRemove = route.getWay().get(toRemove);
+
+		Order order = null;
+		if (usedEdgeToRemove instanceof Delivery) {
+			order = ((Delivery) usedEdgeToRemove).getOrder();
+		}
+
+		Node start = usedEdgeToRemove.getEdge().getStart();
+		Node end = route.getWay().get(toRemove + 1).getEdge().getEnd();
+		Edge newEdge = E[start.getId()][end.getId()];
+		UsedEdge newUsedEdge = initializeUsedEdge(newEdge, order);
+		UsedEdge remove = route.getWay().remove(toRemove);
+		route.getWay().remove(toRemove);
+		route.getWay().add(toRemove, newUsedEdge);
+		return remove;
 	}
 }

@@ -14,8 +14,7 @@ import de.fuberlin.winfo.project.algorithm.impl.sven.vns.CostFunction;
 import de.fuberlin.winfo.project.algorithm.impl.sven.vns.NeighborhoodStructure;
 import de.fuberlin.winfo.project.algorithm.impl.sven.vns.VNS;
 import de.fuberlin.winfo.project.algorithm.impl.sven.vns.logging.VNSMonitor;
-import de.fuberlin.winfo.project.algorithm.impl.sven.vns.neighborhoodstructures.ThreeOptNeighborhoodStructure;
-import de.fuberlin.winfo.project.algorithm.impl.sven.vns.neighborhoodstructures.TwoOptNeighborhoodStructure;
+import de.fuberlin.winfo.project.algorithm.impl.sven.vns.neighborhoodstructures.InterRouteSingleNodeRelocationNeighborhoodStructure;
 import de.fuberlin.winfo.project.algorithm.restriction.RestrictionException;
 import de.fuberlin.winfo.project.algorithm.restriction.impl.CargoCapacityRestriction;
 import de.fuberlin.winfo.project.algorithm.restriction.impl.TimeWindowRestriction;
@@ -68,7 +67,7 @@ public class SvensAlg extends Algorithm {
 
 		VNSMonitor historyMonitor = new VNSMonitor(f);
 		Solution optSolution = VNS.vns(networkProvider, f, solution,
-				new NeighborhoodStructure[] { new TwoOptNeighborhoodStructure(), new ThreeOptNeighborhoodStructure() },
+				new NeighborhoodStructure[] { new InterRouteSingleNodeRelocationNeighborhoodStructure() },
 				historyMonitor);
 		optSolution.setHistory(historyMonitor.getHistory());
 		updateSolution(optSolution);
