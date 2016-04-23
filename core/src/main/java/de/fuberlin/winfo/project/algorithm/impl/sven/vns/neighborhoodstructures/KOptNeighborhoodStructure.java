@@ -8,7 +8,8 @@ import de.fuberlin.winfo.project.algorithm.AlgHelper;
 import de.fuberlin.winfo.project.algorithm.RouteWrapper;
 import de.fuberlin.winfo.project.algorithm.impl.sven.vns.NeighborhoodStructure;
 import de.fuberlin.winfo.project.algorithm.impl.sven.vns.Operation;
-import de.fuberlin.winfo.project.algorithm.impl.sven.vns.kopt.KOptIteratorWrapper;
+import de.fuberlin.winfo.project.algorithm.impl.sven.vns.kopt.KOptHeuristic;
+import de.fuberlin.winfo.project.algorithm.impl.sven.vns.kopt.KOptOptions;
 import de.fuberlin.winfo.project.algorithm.impl.sven.vns.kopt.Pair;
 import de.fuberlin.winfo.project.algorithm.impl.sven.vns.kopt.Route2KOptPairs;
 import de.fuberlin.winfo.project.model.network.Edge;
@@ -20,8 +21,10 @@ import de.fuberlin.winfo.project.model.network.solution.UsedEdge;
 
 public class KOptNeighborhoodStructure extends NeighborhoodStructure {
 
-	private int current = -1;
-	private KOptIteratorWrapper optionIterator;
+	private int current;
+	private KOptHeuristic kOptHeuristic;
+	private KOptOptions options;
+	private List<Pair> pairs;
 	private Edge[][] E;
 	private Map<Integer, Order> orderMap;
 	protected int k;
@@ -33,7 +36,9 @@ public class KOptNeighborhoodStructure extends NeighborhoodStructure {
 	@Override
 	public void initSearch() {
 		E = networkProvider.getEdges();
-		optionIterator = null;
+		kOptHeuristic = null;
+		options = null;
+		pairs = null;
 		orderMap = null;
 		current = -1;
 		initNext();
@@ -67,33 +72,68 @@ public class KOptNeighborhoodStructure extends NeighborhoodStructure {
 
 	@Override
 	public boolean hasNext() {
-		return optionIterator != null && optionIterator.hasNext();
+		return hasNextRoute() || hasNextK() || hasNextOption() || hasNextPairs();
+	}
+
+	private boolean hasNextK() {
+		return kOptHeuristic != null && kOptHeuristic.hasNext();
+	}
+
+	private boolean hasNextPairs() {
+		return pairs != null && !pairs.isEmpty();
+	}
+
+	private boolean hasNextOption() {
+		return options != null && !options.isEmpty();
+	}
+
+	private boolean hasNextRoute() {
+		return current + 1 < initialSol.getRoutes().size();
 	}
 
 	@Override
 	public Operation getMoveOperation(Solution solution) throws Exception {
-		List<Pair> option = optionIterator.next();
-		KoptOperation operation = actualMove(solution, option);
-		if (!optionIterator.hasNext() && current + 1 < initialSol.getRoutes().size()) {
-			initNext();
+		if (initNext()) {
+			return actualMove(solution);
+		} else {
+			return new Operation() {
+				@Override
+				public boolean isPreconditionSatisfied(Solution solution) {
+					return false;
+				}
+
+				@Override
+				public Solution apply(Solution solution) throws Exception {
+					return solution;
+				}
+			};
 		}
-		return operation;
 	}
 
-	private void initNext() {
-		while (current + 1 < initialSol.getRoutes().size()) {
+	private boolean initNext() {
+		if (hasNextPairs()) {
+			return true;
+		} else if (hasNextOption()) {
+			pairs = options.remove(0);
+			return true;
+		} else if (hasNextK()) {
+			options = kOptHeuristic.next();
+			return initNext();
+		} else if (hasNextRoute()) {
 			current++;
 			try {
 				Route2KOptPairs optPairs = new Route2KOptPairs();
 				optPairs.convert(initialSol.getRoutes().get(current));
 				List<Pair> pairs = optPairs.getPairs();
-				optionIterator = new KOptIteratorWrapper(k, pairs);
+				kOptHeuristic = new KOptHeuristic(k, pairs);
 				orderMap = optPairs.getOrderMap();
-				break;
+				return true;
 			} catch (Exception e) {
-				optionIterator = null;
 				orderMap = null;
+				return initNext();
 			}
+		} else {
+			return false;
 		}
 	}
 
@@ -134,22 +174,23 @@ public class KOptNeighborhoodStructure extends NeighborhoodStructure {
 		}
 	}
 
-	private KoptOperation actualMove(Solution solution, List<Pair> option) throws Exception {
+	private KoptOperation actualMove(Solution solution) throws Exception {
 		Route route = solution.getRoutes().get(current);
 		RouteWrapper wrapper = new RouteWrapper(route, null, networkProvider.getEdges());
 
-		int[] toReplace = optionIterator.getOptions().getToReplace();
+		int[] toReplace = this.options.getToReplace();
 		List<UsedEdge> newUsedEdgeList = new ArrayList<UsedEdge>();
-		for (int i = 0; i < option.size(); i++) {
-			Pair pair = option.get(i);
+		for (int i = 0; i < pairs.size(); i++) {
+			Pair pair = pairs.get(i);
 			UsedEdge newUsedEdge = getNewUsedEdge(wrapper, pair);
 			newUsedEdgeList.add(newUsedEdge);
-			if (i < option.size() - 1) {
+			if (i < pairs.size() - 1) {
 				List<UsedEdge> usedEdgesBetween = getUsedEdgesBetween(toReplace, wrapper, pair.getEnd(),
-						option.get(i + 1).getStart());
+						pairs.get(i + 1).getStart());
 				newUsedEdgeList.addAll(usedEdgesBetween);
 			}
 		}
+		pairs.clear();
 		return new KoptOperation(current, newUsedEdgeList, toReplace);
 	}
 
