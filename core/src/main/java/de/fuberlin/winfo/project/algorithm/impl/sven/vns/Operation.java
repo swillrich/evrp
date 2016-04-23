@@ -7,18 +7,18 @@ public abstract class Operation {
 
 	public abstract Solution apply(Solution solution) throws Exception;
 
-	public void execute(Solution solution) throws Exception {
-		if (isPreconditionSatisfied(solution)) {
-			result = apply(solution);
-		} else {
-			result = solution;
-		}
-	}
-
 	public abstract boolean isPreconditionSatisfied(Solution solution);
 
 	public Solution getResult() {
 		return result;
+	}
+
+	public void execute(Solution solution, boolean checkPrecondition) throws Exception {
+		if (checkPrecondition && !isPreconditionSatisfied(solution)) {
+			result = solution;
+		} else {
+			result = apply(solution);
+		}
 	}
 
 }

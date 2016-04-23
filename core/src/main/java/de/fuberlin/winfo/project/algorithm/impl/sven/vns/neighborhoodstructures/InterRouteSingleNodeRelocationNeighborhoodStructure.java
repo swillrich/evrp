@@ -55,7 +55,7 @@ public class InterRouteSingleNodeRelocationNeighborhoodStructure extends Neighbo
 	}
 
 	@Override
-	public Operation getMoveOperation(Solution solution) throws Exception {
+	public Operation generateOperation(Solution solution) throws Exception {
 		Operation operation;
 		if (initilizeNext()) {
 			operation = new InterRouteSingleNodeRelocationOperation(route, node, neighborRoute, neighborNode);

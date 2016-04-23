@@ -25,7 +25,7 @@ public abstract class NeighborhoodStructure implements Iterator<Solution> {
 
 	public abstract String getName();
 
-	public abstract Operation getMoveOperation(Solution solution) throws Exception;
+	public abstract Operation generateOperation(Solution solution) throws Exception;
 
 	public abstract void initSearch();
 
@@ -39,7 +39,7 @@ public abstract class NeighborhoodStructure implements Iterator<Solution> {
 		this.restrictions.addAll();
 		this.history = history;
 		this.costFunction = f;
-		operationList = new SortedOperationList(200, f);
+		operationList = new SortedOperationList(150, f);
 	}
 
 	public Solution shake(Solution solution) {
@@ -90,14 +90,12 @@ public abstract class NeighborhoodStructure implements Iterator<Solution> {
 	public Solution next() {
 		Solution copy = getCopy(initialSol);
 		try {
-			Operation operation = getMoveOperation(initialSol);
-			operation.execute(copy);
+			Operation operation = generateOperation(initialSol);
+			operation.execute(copy, false);
 			operationList.add(operation);
-			return copy;
+			return operation.getResult();
 		} catch (Exception e) {
-			e.printStackTrace();
-			System.exit(1);
-			return null;
+			return initialSol;
 		}
 	}
 
@@ -129,7 +127,7 @@ public abstract class NeighborhoodStructure implements Iterator<Solution> {
 		for (Operation o : operationList) {
 			try {
 				Solution copy = getCopy(incumbentSol);
-				o.execute(copy);
+				o.execute(copy, true);
 				if (costFunction.compare(incumbentSol, o.getResult()) > 0 && checkRestrictions(o.getResult())) {
 					incumbentSol = o.getResult();
 				}
@@ -137,5 +135,6 @@ public abstract class NeighborhoodStructure implements Iterator<Solution> {
 				e.printStackTrace();
 			}
 		}
+		operationList.clear();
 	}
 }

@@ -67,8 +67,10 @@ public class SvensAlg extends Algorithm {
 		System.out.println("VNS starts with " + FormatConv.withSeparator(f.compute(solution), ""));
 
 		VNSMonitor historyMonitor = new VNSMonitor(f);
-		Solution optSolution = VNS.vns(networkProvider, f, solution,
-				new NeighborhoodStructure[] { new KOptNeighborhoodStructure(2) }, historyMonitor);
+		Solution optSolution = VNS.vns(
+				networkProvider, f, solution, new NeighborhoodStructure[] {
+						new InterRouteSingleNodeRelocationNeighborhoodStructure(), new KOptNeighborhoodStructure(2) },
+				historyMonitor);
 		optSolution.setHistory(historyMonitor.getHistory());
 		updateSolution(optSolution);
 	}

@@ -92,7 +92,7 @@ public class KOptNeighborhoodStructure extends NeighborhoodStructure {
 	}
 
 	@Override
-	public Operation getMoveOperation(Solution solution) throws Exception {
+	public Operation generateOperation(Solution solution) throws Exception {
 		if (initNext()) {
 			return actualMove(solution);
 		} else {
@@ -127,7 +127,7 @@ public class KOptNeighborhoodStructure extends NeighborhoodStructure {
 				List<Pair> pairs = optPairs.getPairs();
 				kOptHeuristic = new KOptHeuristic(k, pairs);
 				orderMap = optPairs.getOrderMap();
-				return true;
+				return initNext();
 			} catch (Exception e) {
 				orderMap = null;
 				return initNext();
