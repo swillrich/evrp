@@ -23,47 +23,45 @@ public class VNSMonitor {
 	public VNSMonitor(CostFunction f) {
 		this.costFunction = f;
 	}
-	
+
 	public SearchHistory getHistory() {
 		return history;
 	}
 
-	public void vnsSearch(NeighborhoodStructure nb, int k, Solution prev, Solution better) {
-		if (vnsSearch == null) {
-			initVNSSearch(nb, prev);
-		}
-		vnsSearch.setPrevCost(costFunction.compute(prev));
-		vnsSearch.setCost(costFunction.compute(better));
-		vnsSearch.setName(nb.getName() + "(k=" + k + ")");
+	public void startLocalSearch(NeighborhoodStructure nb, Solution initialSol) {
+		initVNSSearch(nb);
+		vnsSearch.setPrevCost(costFunction.compute(initialSol));
+		vnsSearch.setName(nb.getName());
 		vnsSearch.setTime(new Date().getTime() / 1000 - start);
+
+		output.vnsStart(history);
+	}
+
+	public void neighborChange(NeighborhoodStructure nb, Solution better, String string) {
+		NeighborhoodSearch change = factory.createNeighborhoodSearch();
+		change.setTime(new Date().getTime() / 1000 - start);
+		change.setOperation(string);
+		change.setCost(costFunction.compute(better));
+		vnsSearch.getNeighborhoodSearches().add(change);
+		output.neighborChange(history);
+	}
+
+	public void finishedLocalSearch(NeighborhoodStructure neighborhoodStructure, Solution initialSol,
+			Solution incumbentSol, int iterations) {
+		vnsSearch.setCost(costFunction.compute(incumbentSol));
 
 		long diff = vnsSearch.getPrevCost() - vnsSearch.getCost();
 		String operation = "VNS reset";
 		if (diff <= 0) {
 			operation = "VNS change";
 		}
-
 		vnsSearch.setOperation(operation);
-		output.vnsChange(history);
-		vnsSearch = null;
+		output.vnsFinished(history, iterations);
 	}
 
-	public void neighborChange(NeighborhoodStructure nb, Solution prev, Solution better, String string) {
-		if (vnsSearch == null) {
-			initVNSSearch(nb, prev);
-		}
-		NeighborhoodSearch change = factory.createNeighborhoodSearch();
-		change.setTime(new Date().getTime() / 1000 - start);
-		change.setOperation(string);
-		change.setCost(costFunction.compute(better));
-		vnsSearch.getNeighborhoodSearches().add(change);
-		output.neighborhoodChange(history);
-	}
-
-	private void initVNSSearch(NeighborhoodStructure nb, Solution prev) {
+	private void initVNSSearch(NeighborhoodStructure nb) {
 		vnsSearch = factory.createVNSSearch();
 		history.getVnsSearches().add(vnsSearch);
 		vnsSearch.setName(nb.getName());
-		vnsSearch.setPrevCost(costFunction.compute(prev));
 	}
 }

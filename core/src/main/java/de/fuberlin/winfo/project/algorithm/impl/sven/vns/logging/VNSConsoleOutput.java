@@ -15,8 +15,7 @@ import de.fuberlin.winfo.project.model.network.solution.SearchHistory;
 import de.fuberlin.winfo.project.model.network.solution.VNSSearch;
 
 public class VNSConsoleOutput {
-	String[] titles = new String[] { "Neighborhood", "Operation", "Duration", "Time", "Best Neighbor",
-			"(Rel.) Abs. Diff", "Best Solution", "Abs. Improvement", "Rel. Improvement" };
+	String[] titles = new String[] { "Neighborhood", "Operation", "Duration", "Time", "Best Neighbor", "Diff", "Cost" };
 
 	private TablePrinter tablePrinter;
 
@@ -24,54 +23,59 @@ public class VNSConsoleOutput {
 		tablePrinter = new TablePrinter(System.out, titles);
 		int i = 0;
 		tablePrinter.setParam(i++, 40);
-		tablePrinter.setParam(i++, 15);
+		tablePrinter.setParam(i++, 23);
 		tablePrinter.setParam(i++, true, 10);
 		tablePrinter.setParam(i++, true, 10);
-		tablePrinter.setParam(i++, true, 15);
-		tablePrinter.setParam(i++, true, 20);
 		tablePrinter.setParam(i++, true, 15);
 		tablePrinter.setParam(i++, true, 20);
 		tablePrinter.setParam(i++, true, 20);
 	}
 
-	public void vnsChange(SearchHistory history) {
-		EList<VNSSearch> list = history.getVnsSearches();
-		VNSSearch improvement = list.get(list.size() - 1);
-		String nhName = improvement.getName();
-		String newCost = withSeparator(improvement.getCost(), "");
-		String sek = asDuration(improvement.getTime(), "");
+	public void vnsFinished(SearchHistory history, int iterations) {
+		VNSSearch improvement = lastLS(history);
 		long absDiff = history.getVnsSearches().get(0).getPrevCost() - improvement.getCost();
-		String absImprovement = "(+" + round(absDiff / (double) history.getVnsSearches().get(0).getPrevCost(), 4)
-				+ "%) " + withSeparator(absDiff, "");
 		double diffPrev = improvement.getPrevCost() - improvement.getCost();
-		String relImprovement = "(+" + round(diffPrev / (double) improvement.getPrevCost(), 4) + "%) "
-				+ withSeparator(diffPrev, "");
 
-		tablePrinter.print(nhName, improvement.getOperation(), sek,
-				FormatConv.getDateTimeUntilHours(new Date().getTime()), "", "", newCost, absImprovement,
-				relImprovement);
+		String nhName = improvement.getName();
+		String dur = asDuration(improvement.getTime(), "");
+		String absImprovement = "(" + round(absDiff / (double) history.getVnsSearches().get(0).getPrevCost(), 4) + "%) "
+				+ withSeparator(improvement.getCost(), "");
+		String relImprovement = "(" + round(diffPrev / (double) improvement.getPrevCost(), 4) + "%) "
+				+ withSeparator(diffPrev, "");
+		String it = withSeparator(iterations, "");
+
+		String time = FormatConv.getDateTimeUntilHours(new Date().getTime());
+		tablePrinter.print(nhName, improvement.getOperation() + " (" + it + ")", dur, time, "", relImprovement,
+				absImprovement);
 	}
 
-	public void neighborhoodChange(SearchHistory history) {
-		VNSSearch improvement = history.getVnsSearches().get(history.getVnsSearches().size() - 1);
+	public void neighborChange(SearchHistory history) {
+		VNSSearch improvement = lastLS(history);
 		EList<NeighborhoodSearch> searches = improvement.getNeighborhoodSearches();
 		NeighborhoodSearch search = searches.get(searches.size() - 1);
 		String operation = search.getOperation();
 		String newCost = withSeparator(search.getCost(), "");
 		String costDiff = withSeparator(search.getCost() - improvement.getPrevCost(), "");
-		if (search.getCost() - improvement.getPrevCost() > 0) {
-			costDiff = "+" + costDiff;
-		}
-		String costDiffRel = "";
-		if (searches.size() > 1) {
-			costDiffRel = "(-" + withSeparator(searches.get(searches.size() - 2).getCost() - search.getCost(), "")
-					+ ")";
-		}
-		costDiff = costDiffRel + " " + costDiff;
 
-		String sek = asDuration(search.getTime(), "");
-		tablePrinter.print(improvement.getName(), operation, sek,
-				FormatConv.getDateTimeUntilHours(new Date().getTime()), newCost, costDiff, "", "", "");
+		String dur = asDuration(search.getTime(), "");
+		String name = improvement.getName();
+		String time = FormatConv.getDateTimeUntilHours(new Date().getTime());
+		tablePrinter.print(name, operation, dur, time, newCost, costDiff, "");
 	}
 
+	public void vnsStart(SearchHistory history) {
+		VNSSearch lastLS = lastLS(history);
+
+		String time = asDuration(lastLS.getTime(), "");
+		String name = lastLS.getName();
+		String pc = withSeparator(lastLS.getPrevCost(), "");
+		String dateTimeUntilHours = FormatConv.getDateTimeUntilHours(new Date().getTime());
+		tablePrinter.print(name, "start", time, dateTimeUntilHours, "", "", pc);
+	}
+
+	private VNSSearch lastLS(SearchHistory history) {
+		EList<VNSSearch> list = history.getVnsSearches();
+		VNSSearch improvement = list.get(list.size() - 1);
+		return improvement;
+	}
 }

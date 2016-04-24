@@ -22,6 +22,7 @@ public abstract class NeighborhoodStructure implements Iterator<Solution> {
 	protected VNSMonitor history;
 	protected CostFunction costFunction;
 	protected SortedOperationList operationList;
+	protected int iterations;
 
 	public abstract String getName();
 
@@ -39,14 +40,14 @@ public abstract class NeighborhoodStructure implements Iterator<Solution> {
 		this.restrictions.addAll();
 		this.history = history;
 		this.costFunction = f;
-		operationList = new SortedOperationList(150, f);
+		operationList = new SortedOperationList(200, f);
+		iterations = 0;
 	}
 
 	public Solution shake(Solution solution) {
 		this.initialSol = solution;
 		initSearch();
 		this.incumbentSol = shakeProcedure(solution);
-		history.neighborChange(this, this.initialSol, incumbentSol, "shaked");
 		return incumbentSol;
 	}
 
@@ -65,10 +66,12 @@ public abstract class NeighborhoodStructure implements Iterator<Solution> {
 		this.initialSol = solution;
 		this.incumbentSol = solution;
 		initSearch();
+		history.startLocalSearch(this, initialSol);
 		while (hasNext()) {
+			iterations++;
 			Solution candidate = next();
 			if (costFunction.compare(incumbentSol, candidate) > 0 && checkRestrictions(candidate)) {
-				history.neighborChange(this, incumbentSol, candidate, "improved");
+				history.neighborChange(this, candidate, "improved");
 				if (onImprovement(incumbentSol, candidate)) {
 					return initialSol;
 				}
@@ -79,7 +82,9 @@ public abstract class NeighborhoodStructure implements Iterator<Solution> {
 				}
 			}
 		}
-		return returnBestNeighbor(initialSol, incumbentSol);
+		incumbentSol = returnBestNeighbor(initialSol, incumbentSol);
+		history.finishedLocalSearch(this, initialSol, incumbentSol, iterations);
+		return incumbentSol;
 	}
 
 	protected Solution returnBestNeighbor(Solution initialSol, Solution incumbentSol) {
@@ -96,7 +101,6 @@ public abstract class NeighborhoodStructure implements Iterator<Solution> {
 			return operation.getResult();
 		} catch (Exception e) {
 			e.printStackTrace();
-			System.exit(1);
 			return initialSol;
 		}
 	}
@@ -127,17 +131,20 @@ public abstract class NeighborhoodStructure implements Iterator<Solution> {
 
 	protected void applyOperationList() {
 		incumbentSol = getCopy(initialSol);
+		int counter = 0;
 		for (Operation o : operationList) {
 			try {
 				Solution copy = getCopy(incumbentSol);
 				o.execute(copy, true);
 				if (costFunction.compare(incumbentSol, o.getResult()) > 0 && checkRestrictions(o.getResult())) {
 					incumbentSol = o.getResult();
+					counter++;
 				}
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
 		}
+		history.neighborChange(this, incumbentSol, "OpList applied (" + counter + ")");
 		operationList.clear();
 	}
 }

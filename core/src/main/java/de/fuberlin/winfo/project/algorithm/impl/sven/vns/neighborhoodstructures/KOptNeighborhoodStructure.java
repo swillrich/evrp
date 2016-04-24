@@ -63,7 +63,7 @@ public class KOptNeighborhoodStructure extends NeighborhoodStructure {
 	protected Solution returnBestNeighbor(Solution initialSol, Solution incumbentSol) {
 		applyOperationList();
 		double ratio = costFunction.getImprovementRatio(initialSol, this.incumbentSol);
-		if (ratio < 0.03) {
+		if (ratio < 0.01) {
 			return initialSol;
 		} else {
 			return this.incumbentSol;

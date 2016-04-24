@@ -163,7 +163,7 @@ public class InterRouteSingleNodeRelocationNeighborhoodStructure extends Neighbo
 	protected Solution returnBestNeighbor(Solution initialSol, Solution incumbentSol) {
 		applyOperationList();
 		double diff = costFunction.getImprovementRatio(initialSol, this.incumbentSol);
-		if (diff < 0.03) {
+		if (diff < 0.05) {
 			return initialSol;
 		} else {
 			return this.incumbentSol;
