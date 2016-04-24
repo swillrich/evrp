@@ -4,7 +4,9 @@ import static de.fuberlin.winfo.project.algorithm.AlgHelper.computeEnergyConsump
 import static de.fuberlin.winfo.project.algorithm.AlgHelper.getNodeByOrder;
 import static de.fuberlin.winfo.project.algorithm.AlgHelper.getTimeWindow;
 
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import de.fuberlin.winfo.project.model.network.Duration;
 import de.fuberlin.winfo.project.model.network.Edge;
@@ -25,6 +27,7 @@ public class RouteWrapper {
 	private SolutionFactory solutionFactory = new SolutionFactoryImpl();
 	private NetworkFactory networkFactory = new NetworkFactoryImpl();
 	private Node depot;
+	private Set<Order> orders;
 	private Edge[][] E;
 
 	public RouteWrapper(Route route, Node depot, Edge[][] edges) {
@@ -74,14 +77,36 @@ public class RouteWrapper {
 		return capLeft;
 	}
 
+	public Set<Order> getOrders() throws Exception {
+		if (orders != null) {
+			return orders;
+		} else {
+			reinitializeRoute();
+			return orders;
+		}
+	}
+
 	public void reinitializeRoute() throws Exception {
 		if (route.getWay().size() < 2) {
 			return;
 		}
+		orders = new HashSet<Order>();
+
 		route.setTotalDistanceInM(0);
 		route.setTotalTimeInSec(0);
 		for (int i = 0; i < route.getWay().size(); i++) {
 			UsedEdge usedEdge = route.getWay().get(i);
+
+			if (usedEdge instanceof Delivery) {
+				Order order = ((Delivery) usedEdge).getOrder();
+				boolean b = orders.contains(order);
+				if (b) {
+					throw new Exception(
+							"Order " + order.getId() + " exists twice in route (" + route.getWay().size() + " edges)");
+				} else {
+					orders.add(order);
+				}
+			}
 
 			if (i > 0) {
 				boolean endEqualsStart = route.getWay().get(i - 1).getEdge().getEnd() == route.getWay().get(i).getEdge()
@@ -337,24 +362,24 @@ public class RouteWrapper {
 		reinitializeRoute();
 	}
 
-	private UsedEdge remove(int toRemove) {
+	private UsedEdge remove(int toRemove) throws Exception {
 		if (toRemove + 1 >= route.getWay().size() || toRemove < 0) {
 			throw new IndexOutOfBoundsException("index is " + toRemove + " / " + (route.getWay().size() - 1));
 		}
-		UsedEdge usedEdgeToRemove = route.getWay().get(toRemove);
+		UsedEdge usedEdgeToRemove = route.getWay().remove(toRemove);
+		UsedEdge usedEdgeToReplace = route.getWay().remove(toRemove);
 
 		Order order = null;
-		if (usedEdgeToRemove instanceof Delivery) {
-			order = ((Delivery) usedEdgeToRemove).getOrder();
+		if (usedEdgeToReplace instanceof Delivery) {
+			order = ((Delivery) usedEdgeToReplace).getOrder();
 		}
 
 		Node start = usedEdgeToRemove.getEdge().getStart();
-		Node end = route.getWay().get(toRemove + 1).getEdge().getEnd();
+		Node end = usedEdgeToReplace.getEdge().getEnd();
 		Edge newEdge = E[start.getId()][end.getId()];
 		UsedEdge newUsedEdge = initializeUsedEdge(newEdge, order);
-		UsedEdge remove = route.getWay().remove(toRemove);
-		route.getWay().remove(toRemove);
+
 		route.getWay().add(toRemove, newUsedEdge);
-		return remove;
+		return usedEdgeToRemove;
 	}
 }

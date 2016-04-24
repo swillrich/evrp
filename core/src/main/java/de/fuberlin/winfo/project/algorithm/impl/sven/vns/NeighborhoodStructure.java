@@ -95,6 +95,8 @@ public abstract class NeighborhoodStructure implements Iterator<Solution> {
 			operationList.add(operation);
 			return operation.getResult();
 		} catch (Exception e) {
+			e.printStackTrace();
+			System.exit(1);
 			return initialSol;
 		}
 	}
@@ -124,6 +126,7 @@ public abstract class NeighborhoodStructure implements Iterator<Solution> {
 	}
 
 	protected void applyOperationList() {
+		incumbentSol = getCopy(initialSol);
 		for (Operation o : operationList) {
 			try {
 				Solution copy = getCopy(incumbentSol);

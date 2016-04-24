@@ -1,6 +1,8 @@
 package de.fuberlin.winfo.project.algorithm.impl.sven.vns.logging;
 
-import static de.fuberlin.winfo.project.FormatConv.*;
+import static de.fuberlin.winfo.project.FormatConv.asDuration;
+import static de.fuberlin.winfo.project.FormatConv.round;
+import static de.fuberlin.winfo.project.FormatConv.withSeparator;
 
 import java.util.Date;
 
@@ -14,7 +16,7 @@ import de.fuberlin.winfo.project.model.network.solution.VNSSearch;
 
 public class VNSConsoleOutput {
 	String[] titles = new String[] { "Neighborhood", "Operation", "Duration", "Time", "Best Neighbor",
-			"(Rel.) Abs. Diff", "Best Solution", "Abs. Improvement" };
+			"(Rel.) Abs. Diff", "Best Solution", "Abs. Improvement", "Rel. Improvement" };
 
 	private TablePrinter tablePrinter;
 
@@ -29,6 +31,7 @@ public class VNSConsoleOutput {
 		tablePrinter.setParam(i++, true, 20);
 		tablePrinter.setParam(i++, true, 15);
 		tablePrinter.setParam(i++, true, 20);
+		tablePrinter.setParam(i++, true, 20);
 	}
 
 	public void vnsChange(SearchHistory history) {
@@ -40,8 +43,13 @@ public class VNSConsoleOutput {
 		long absDiff = history.getVnsSearches().get(0).getPrevCost() - improvement.getCost();
 		String absImprovement = "(+" + round(absDiff / (double) history.getVnsSearches().get(0).getPrevCost(), 4)
 				+ "%) " + withSeparator(absDiff, "");
+		double diffPrev = improvement.getPrevCost() - improvement.getCost();
+		String relImprovement = "(+" + round(diffPrev / (double) improvement.getPrevCost(), 4) + "%) "
+				+ withSeparator(diffPrev, "");
+
 		tablePrinter.print(nhName, improvement.getOperation(), sek,
-				FormatConv.getDateTimeUntilHours(new Date().getTime()), "", "", newCost, absImprovement);
+				FormatConv.getDateTimeUntilHours(new Date().getTime()), "", "", newCost, absImprovement,
+				relImprovement);
 	}
 
 	public void neighborhoodChange(SearchHistory history) {
@@ -63,7 +71,7 @@ public class VNSConsoleOutput {
 
 		String sek = asDuration(search.getTime(), "");
 		tablePrinter.print(improvement.getName(), operation, sek,
-				FormatConv.getDateTimeUntilHours(new Date().getTime()), newCost, costDiff, "", "");
+				FormatConv.getDateTimeUntilHours(new Date().getTime()), newCost, costDiff, "", "", "");
 	}
 
 }

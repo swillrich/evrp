@@ -1,9 +1,13 @@
 package de.fuberlin.winfo.project.algorithm.impl.sven.vns.neighborhoodstructures;
 
+import java.util.HashSet;
+import java.util.Set;
+
 import de.fuberlin.winfo.project.algorithm.RouteWrapper;
 import de.fuberlin.winfo.project.algorithm.impl.sven.vns.NeighborhoodStructure;
 import de.fuberlin.winfo.project.algorithm.impl.sven.vns.Operation;
 import de.fuberlin.winfo.project.model.network.Edge;
+import de.fuberlin.winfo.project.model.network.Order;
 import de.fuberlin.winfo.project.model.network.solution.Solution;
 
 public class InterRouteSingleNodeRelocationNeighborhoodStructure extends NeighborhoodStructure {
@@ -19,7 +23,7 @@ public class InterRouteSingleNodeRelocationNeighborhoodStructure extends Neighbo
 		E = networkProvider.getEdges();
 		route = 0;
 		node = 0;
-		neighborRoute = 1;
+		neighborRoute = 0;
 		neighborNode = 0;
 	}
 
@@ -41,7 +45,7 @@ public class InterRouteSingleNodeRelocationNeighborhoodStructure extends Neighbo
 	}
 
 	private boolean hasNextNeighborNode() {
-		return neighborNode + 2 < initialSol.getRoutes().get(neighborRoute).getWay().size();
+		return neighborNode + 1 < initialSol.getRoutes().get(neighborRoute).getWay().size();
 	}
 
 	@Override
@@ -57,7 +61,7 @@ public class InterRouteSingleNodeRelocationNeighborhoodStructure extends Neighbo
 	@Override
 	public Operation generateOperation(Solution solution) throws Exception {
 		Operation operation;
-		if (initilizeNext()) {
+		if (initilizeNext() && route != neighborRoute) {
 			operation = new InterRouteSingleNodeRelocationOperation(route, node, neighborRoute, neighborNode);
 		} else {
 			operation = new Operation() {
@@ -72,6 +76,7 @@ public class InterRouteSingleNodeRelocationNeighborhoodStructure extends Neighbo
 				}
 			};
 		}
+		neighborNode++;
 		return operation;
 	}
 
@@ -107,37 +112,38 @@ public class InterRouteSingleNodeRelocationNeighborhoodStructure extends Neighbo
 			if (neighborWrapper.getActualRoute().getWay().size() < neighborNode + 2) {
 				return false;
 			}
+			try {
+				Set<Order> all = new HashSet<Order>();
+				all.addAll(wrapper.getOrders());
+				all.addAll(neighborWrapper.getOrders());
+				if (all.size() < wrapper.getOrders().size() + neighborWrapper.getOrders().size()) {
+					return false;
+				}
+			} catch (Exception e) {
+				return false;
+			}
 			return true;
 		}
 	}
 
 	private boolean initilizeNext() {
 		if (hasNextNeighborNode()) {
-			neighborNode++;
 			return true;
 		} else if (hasNextNeighborRoute()) {
 			neighborRoute++;
-			if (neighborRoute == route) {
-				if (neighborRoute + 1 >= initialSol.getRoutes().size()) {
-					return false;
-				} else {
-					neighborRoute++;
-					return initilizeNext();
-				}
-			}
 			neighborNode = 0;
-			return true;
+			return initilizeNext();
 		} else if (hasNextNode()) {
 			node++;
 			neighborNode = 0;
 			neighborRoute = 0;
-			return true;
+			return initilizeNext();
 		} else if (hasNextRoute()) {
 			route++;
 			node = 0;
 			neighborNode = 0;
 			neighborRoute = 0;
-			return true;
+			return initilizeNext();
 		} else {
 			return false;
 		}
@@ -152,11 +158,15 @@ public class InterRouteSingleNodeRelocationNeighborhoodStructure extends Neighbo
 	protected boolean onImprovement(Solution incumbent, Solution newSol) {
 		return false;
 	}
-	
+
 	@Override
 	protected Solution returnBestNeighbor(Solution initialSol, Solution incumbentSol) {
 		applyOperationList();
-		return this.incumbentSol;
+		double diff = costFunction.getImprovementRatio(initialSol, this.incumbentSol);
+		if (diff < 0.03) {
+			return initialSol;
+		} else {
+			return this.incumbentSol;
+		}
 	}
-
 }

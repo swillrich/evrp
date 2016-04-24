@@ -62,7 +62,13 @@ public class KOptNeighborhoodStructure extends NeighborhoodStructure {
 	@Override
 	protected Solution returnBestNeighbor(Solution initialSol, Solution incumbentSol) {
 		applyOperationList();
-		return this.incumbentSol;
+		double ratio = costFunction.getImprovementRatio(initialSol, this.incumbentSol);
+		if (ratio < 0.03) {
+			return initialSol;
+		} else {
+			return this.incumbentSol;
+		}
+
 	}
 
 	@Override
@@ -137,6 +143,25 @@ public class KOptNeighborhoodStructure extends NeighborhoodStructure {
 		}
 	}
 
+	private KoptOperation actualMove(Solution solution) throws Exception {
+		Route route = solution.getRoutes().get(current);
+		RouteWrapper wrapper = new RouteWrapper(route, null, networkProvider.getEdges());
+		int[] toReplace = this.options.getToReplace();
+		List<UsedEdge> newUsedEdgeList = new ArrayList<UsedEdge>();
+		for (int i = 0; i < pairs.size(); i++) {
+			Pair pair = pairs.get(i);
+			UsedEdge newUsedEdge = getNewUsedEdge(wrapper, pair);
+			newUsedEdgeList.add(newUsedEdge);
+			if (i < pairs.size() - 1) {
+				List<UsedEdge> usedEdgesBetween = getUsedEdgesBetween(toReplace, wrapper, pair.getEnd(),
+						pairs.get(i + 1).getStart());
+				newUsedEdgeList.addAll(usedEdgesBetween);
+			}
+		}
+		pairs = null;
+		return new KoptOperation(current, newUsedEdgeList, toReplace);
+	}
+
 	private class KoptOperation extends Operation {
 		private int currentRoute;
 		private List<UsedEdge> newUsedEdgeList;
@@ -172,26 +197,6 @@ public class KOptNeighborhoodStructure extends NeighborhoodStructure {
 				return false;
 			}
 		}
-	}
-
-	private KoptOperation actualMove(Solution solution) throws Exception {
-		Route route = solution.getRoutes().get(current);
-		RouteWrapper wrapper = new RouteWrapper(route, null, networkProvider.getEdges());
-
-		int[] toReplace = this.options.getToReplace();
-		List<UsedEdge> newUsedEdgeList = new ArrayList<UsedEdge>();
-		for (int i = 0; i < pairs.size(); i++) {
-			Pair pair = pairs.get(i);
-			UsedEdge newUsedEdge = getNewUsedEdge(wrapper, pair);
-			newUsedEdgeList.add(newUsedEdge);
-			if (i < pairs.size() - 1) {
-				List<UsedEdge> usedEdgesBetween = getUsedEdgesBetween(toReplace, wrapper, pair.getEnd(),
-						pairs.get(i + 1).getStart());
-				newUsedEdgeList.addAll(usedEdgesBetween);
-			}
-		}
-		pairs.clear();
-		return new KoptOperation(current, newUsedEdgeList, toReplace);
 	}
 
 	private List<UsedEdge> getUsedEdgesBetween(int[] toReplace, RouteWrapper wrapper, int start, int end) {

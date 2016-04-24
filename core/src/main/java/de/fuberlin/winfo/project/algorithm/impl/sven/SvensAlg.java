@@ -63,7 +63,6 @@ public class SvensAlg extends Algorithm {
 				return (int) (distance);
 			}
 		};
-
 		System.out.println("VNS starts with " + FormatConv.withSeparator(f.compute(solution), ""));
 
 		VNSMonitor historyMonitor = new VNSMonitor(f);
