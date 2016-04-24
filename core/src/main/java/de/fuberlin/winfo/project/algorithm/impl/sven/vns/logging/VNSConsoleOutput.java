@@ -26,7 +26,7 @@ public class VNSConsoleOutput {
 		tablePrinter.setParam(i++, 23);
 		tablePrinter.setParam(i++, true, 10);
 		tablePrinter.setParam(i++, true, 10);
-		tablePrinter.setParam(i++, true, 15);
+		tablePrinter.setParam(i++, true, 23);
 		tablePrinter.setParam(i++, true, 20);
 		tablePrinter.setParam(i++, true, 20);
 	}
@@ -55,6 +55,8 @@ public class VNSConsoleOutput {
 		NeighborhoodSearch search = searches.get(searches.size() - 1);
 		String operation = search.getOperation();
 		String newCost = withSeparator(search.getCost(), "");
+		newCost = "(" + (round((improvement.getPrevCost() - search.getCost()) / (double) improvement.getPrevCost(), 4))
+				+ "%) " + newCost;
 		String costDiff = withSeparator(search.getCost() - improvement.getPrevCost(), "");
 
 		String dur = asDuration(search.getTime(), "");
