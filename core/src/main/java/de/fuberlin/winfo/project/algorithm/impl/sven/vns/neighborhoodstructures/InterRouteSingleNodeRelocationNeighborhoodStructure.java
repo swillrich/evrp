@@ -1,13 +1,8 @@
 package de.fuberlin.winfo.project.algorithm.impl.sven.vns.neighborhoodstructures;
 
-import java.util.HashSet;
-import java.util.Set;
-
-import de.fuberlin.winfo.project.algorithm.RouteWrapper;
+import de.fuberlin.winfo.project.algorithm.impl.sven.vns.NeighborhoodOperation;
 import de.fuberlin.winfo.project.algorithm.impl.sven.vns.NeighborhoodStructure;
-import de.fuberlin.winfo.project.algorithm.impl.sven.vns.Operation;
 import de.fuberlin.winfo.project.model.network.Edge;
-import de.fuberlin.winfo.project.model.network.Order;
 import de.fuberlin.winfo.project.model.network.solution.Solution;
 
 public class InterRouteSingleNodeRelocationNeighborhoodStructure extends NeighborhoodStructure {
@@ -54,17 +49,12 @@ public class InterRouteSingleNodeRelocationNeighborhoodStructure extends Neighbo
 	}
 
 	@Override
-	protected Solution shakeProcedure(Solution solution) {
-		return solution;
-	}
-
-	@Override
-	public Operation generateOperation(Solution solution) throws Exception {
-		Operation operation;
+	public NeighborhoodOperation generateOperation(Solution solution) throws Exception {
+		NeighborhoodOperation operation;
 		if (initilizeNext() && route != neighborRoute) {
-			operation = new InterRouteSingleNodeRelocationOperation(route, node, neighborRoute, neighborNode);
+			operation = new InterRouteSingleNodeRelocationNeighborhoodOperation(route, node, neighborRoute, neighborNode, E);
 		} else {
-			operation = new Operation() {
+			operation = new NeighborhoodOperation() {
 				@Override
 				public Solution apply(Solution solution) throws Exception {
 					return solution;
@@ -74,56 +64,15 @@ public class InterRouteSingleNodeRelocationNeighborhoodStructure extends Neighbo
 				public boolean isPreconditionSatisfied(Solution solution) {
 					return true;
 				}
+
+				@Override
+				public int operationHash() {
+					return 0;
+				}
 			};
 		}
 		neighborNode++;
 		return operation;
-	}
-
-	private class InterRouteSingleNodeRelocationOperation extends Operation {
-
-		private int route;
-		private int node;
-		private int neighborRoute;
-		private int neighborNode;
-
-		public InterRouteSingleNodeRelocationOperation(int route, int node, int neighborRoute, int neighborNode) {
-			this.route = route;
-			this.node = node;
-			this.neighborNode = neighborNode;
-			this.neighborRoute = neighborRoute;
-		}
-
-		@Override
-		public Solution apply(Solution solution) throws Exception {
-			RouteWrapper wrapper = new RouteWrapper(solution.getRoutes().get(route), null, E);
-			RouteWrapper neighborWrapper = new RouteWrapper(solution.getRoutes().get(neighborRoute), null, E);
-			wrapper.relocateSingleNode(node, neighborWrapper, neighborNode);
-			return solution;
-		}
-
-		@Override
-		public boolean isPreconditionSatisfied(Solution sol) {
-			RouteWrapper wrapper = new RouteWrapper(sol.getRoutes().get(route), null, E);
-			RouteWrapper neighborWrapper = new RouteWrapper(sol.getRoutes().get(neighborRoute), null, E);
-			if (wrapper.getActualRoute().getWay().size() < node + 2) {
-				return false;
-			}
-			if (neighborWrapper.getActualRoute().getWay().size() < neighborNode + 2) {
-				return false;
-			}
-			try {
-				Set<Order> all = new HashSet<Order>();
-				all.addAll(wrapper.getOrders());
-				all.addAll(neighborWrapper.getOrders());
-				if (all.size() < wrapper.getOrders().size() + neighborWrapper.getOrders().size()) {
-					return false;
-				}
-			} catch (Exception e) {
-				return false;
-			}
-			return true;
-		}
 	}
 
 	private boolean initilizeNext() {
@@ -150,23 +99,14 @@ public class InterRouteSingleNodeRelocationNeighborhoodStructure extends Neighbo
 	}
 
 	@Override
-	protected boolean onNonImprovement(Solution incumbentSol, Solution candidate) {
-		return false;
-	}
-
-	@Override
-	protected boolean onImprovement(Solution incumbent, Solution newSol) {
-		return false;
-	}
-
-	@Override
 	protected Solution returnBestNeighbor(Solution initialSol, Solution incumbentSol) {
 		applyOperationList();
 		double diff = costFunction.getImprovementRatio(initialSol, this.incumbentSol);
-		if (diff < 0.05) {
+		if (diff < 0.01) {
 			return initialSol;
 		} else {
 			return this.incumbentSol;
 		}
 	}
+
 }

@@ -16,6 +16,7 @@ import de.fuberlin.winfo.project.algorithm.impl.sven.vns.VNS;
 import de.fuberlin.winfo.project.algorithm.impl.sven.vns.logging.VNSMonitor;
 import de.fuberlin.winfo.project.algorithm.impl.sven.vns.neighborhoodstructures.InterRouteSingleNodeRelocationNeighborhoodStructure;
 import de.fuberlin.winfo.project.algorithm.impl.sven.vns.neighborhoodstructures.KOptNeighborhoodStructure;
+import de.fuberlin.winfo.project.algorithm.impl.sven.vns.neighborhoodstructures.NonDeterministicInterRouteSingleNodeRelocationNeighborhoodStructure;
 import de.fuberlin.winfo.project.algorithm.restriction.RestrictionException;
 import de.fuberlin.winfo.project.algorithm.restriction.impl.CargoCapacityRestriction;
 import de.fuberlin.winfo.project.algorithm.restriction.impl.TimeWindowRestriction;
@@ -66,10 +67,12 @@ public class SvensAlg extends Algorithm {
 		System.out.println("VNS starts with " + FormatConv.withSeparator(f.compute(solution), ""));
 
 		VNSMonitor historyMonitor = new VNSMonitor(f);
-		Solution optSolution = VNS.vns(
-				networkProvider, f, solution, new NeighborhoodStructure[] {
-						new InterRouteSingleNodeRelocationNeighborhoodStructure(), new KOptNeighborhoodStructure(2) },
-				historyMonitor);
+		Solution optSolution = VNS
+				.vns(networkProvider, f, solution,
+						new NeighborhoodStructure[] {
+								new NonDeterministicInterRouteSingleNodeRelocationNeighborhoodStructure(),
+								new KOptNeighborhoodStructure(2) },
+						historyMonitor);
 		optSolution.setHistory(historyMonitor.getHistory());
 		updateSolution(optSolution);
 	}

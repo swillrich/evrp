@@ -6,8 +6,8 @@ import java.util.Map;
 
 import de.fuberlin.winfo.project.algorithm.AlgHelper;
 import de.fuberlin.winfo.project.algorithm.RouteWrapper;
+import de.fuberlin.winfo.project.algorithm.impl.sven.vns.NeighborhoodOperation;
 import de.fuberlin.winfo.project.algorithm.impl.sven.vns.NeighborhoodStructure;
-import de.fuberlin.winfo.project.algorithm.impl.sven.vns.Operation;
 import de.fuberlin.winfo.project.algorithm.impl.sven.vns.kopt.KOptHeuristic;
 import de.fuberlin.winfo.project.algorithm.impl.sven.vns.kopt.KOptOptions;
 import de.fuberlin.winfo.project.algorithm.impl.sven.vns.kopt.Pair;
@@ -42,21 +42,6 @@ public class KOptNeighborhoodStructure extends NeighborhoodStructure {
 		orderMap = null;
 		current = -1;
 		initNext();
-	}
-
-	@Override
-	protected boolean onImprovement(Solution incumbent, Solution candidate) {
-		return false;
-	}
-
-	@Override
-	protected boolean onNonImprovement(Solution incumbentSol, Solution candidate) {
-		return false;
-	}
-
-	@Override
-	protected Solution shakeProcedure(Solution sol) {
-		return sol;
 	}
 
 	@Override
@@ -98,11 +83,11 @@ public class KOptNeighborhoodStructure extends NeighborhoodStructure {
 	}
 
 	@Override
-	public Operation generateOperation(Solution solution) throws Exception {
+	public NeighborhoodOperation generateOperation(Solution solution) throws Exception {
 		if (initNext()) {
 			return actualMove(solution);
 		} else {
-			return new Operation() {
+			return new NeighborhoodOperation() {
 				@Override
 				public boolean isPreconditionSatisfied(Solution solution) {
 					return false;
@@ -111,6 +96,11 @@ public class KOptNeighborhoodStructure extends NeighborhoodStructure {
 				@Override
 				public Solution apply(Solution solution) throws Exception {
 					return solution;
+				}
+
+				@Override
+				public int operationHash() {
+					return 0;
 				}
 			};
 		}
@@ -162,7 +152,7 @@ public class KOptNeighborhoodStructure extends NeighborhoodStructure {
 		return new KoptOperation(current, newUsedEdgeList, toReplace);
 	}
 
-	private class KoptOperation extends Operation {
+	private class KoptOperation extends NeighborhoodOperation {
 		private int currentRoute;
 		private List<UsedEdge> newUsedEdgeList;
 		private int[] toReplace;
@@ -196,6 +186,11 @@ public class KOptNeighborhoodStructure extends NeighborhoodStructure {
 			} catch (Exception e) {
 				return false;
 			}
+		}
+
+		@Override
+		public int operationHash() {
+			return 0;
 		}
 	}
 
