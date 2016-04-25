@@ -3,7 +3,7 @@ package de.fuberlin.winfo.project.algorithm.impl.sven.vns.logging;
 import java.util.Date;
 
 import de.fuberlin.winfo.project.algorithm.impl.sven.vns.CostFunction;
-import de.fuberlin.winfo.project.algorithm.impl.sven.vns.NeighborhoodStructure;
+import de.fuberlin.winfo.project.algorithm.impl.sven.vns.neighborhoodstructures.NeighborhoodStructure;
 import de.fuberlin.winfo.project.model.network.solution.NeighborhoodSearch;
 import de.fuberlin.winfo.project.model.network.solution.SearchHistory;
 import de.fuberlin.winfo.project.model.network.solution.Solution;

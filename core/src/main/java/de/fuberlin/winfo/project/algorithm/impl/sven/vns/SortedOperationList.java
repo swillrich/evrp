@@ -5,6 +5,9 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.Comparator;
 
+import de.fuberlin.winfo.project.algorithm.impl.sven.vns.neighborhoodstructures.NeighborhoodOperation;
+import de.fuberlin.winfo.project.model.network.solution.Solution;
+
 @SuppressWarnings("serial")
 public class SortedOperationList extends ArrayList<NeighborhoodOperation> {
 	private int maxSize;
@@ -15,6 +18,7 @@ public class SortedOperationList extends ArrayList<NeighborhoodOperation> {
 			return f.compare(o1.getResult(), o2.getResult());
 		}
 	};
+	private Solution initialSolution;
 
 	public SortedOperationList(int size, CostFunction f) {
 		this.maxSize = size;
@@ -28,6 +32,9 @@ public class SortedOperationList extends ArrayList<NeighborhoodOperation> {
 
 	@Override
 	public boolean add(NeighborhoodOperation e) {
+		if (initialSolution != null && f.compare(initialSolution, e.getResult()) <= 0) {
+			return false;
+		}
 		boolean add = super.add(e);
 		Collections.sort(this, comparator);
 		while (maxSize < size() && maxSize > 0) {
@@ -42,5 +49,9 @@ public class SortedOperationList extends ArrayList<NeighborhoodOperation> {
 			add(p);
 		}
 		return true;
+	}
+
+	public void setLimit(Solution solution) {
+		this.initialSolution = solution;
 	}
 }

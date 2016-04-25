@@ -1,4 +1,4 @@
-package de.fuberlin.winfo.project.algorithm.impl.sven.vns;
+package de.fuberlin.winfo.project.algorithm.impl.sven.vns.neighborhoodstructures;
 
 import de.fuberlin.winfo.project.model.network.solution.Solution;
 

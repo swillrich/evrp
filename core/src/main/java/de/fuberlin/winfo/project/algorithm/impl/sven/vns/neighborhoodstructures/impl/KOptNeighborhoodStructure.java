@@ -1,4 +1,4 @@
-package de.fuberlin.winfo.project.algorithm.impl.sven.vns.neighborhoodstructures;
+package de.fuberlin.winfo.project.algorithm.impl.sven.vns.neighborhoodstructures.impl;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -6,12 +6,12 @@ import java.util.Map;
 
 import de.fuberlin.winfo.project.algorithm.AlgHelper;
 import de.fuberlin.winfo.project.algorithm.RouteWrapper;
-import de.fuberlin.winfo.project.algorithm.impl.sven.vns.NeighborhoodOperation;
-import de.fuberlin.winfo.project.algorithm.impl.sven.vns.NeighborhoodStructure;
 import de.fuberlin.winfo.project.algorithm.impl.sven.vns.kopt.KOptHeuristic;
 import de.fuberlin.winfo.project.algorithm.impl.sven.vns.kopt.KOptOptions;
 import de.fuberlin.winfo.project.algorithm.impl.sven.vns.kopt.Pair;
 import de.fuberlin.winfo.project.algorithm.impl.sven.vns.kopt.Route2KOptPairs;
+import de.fuberlin.winfo.project.algorithm.impl.sven.vns.neighborhoodstructures.NeighborhoodOperation;
+import de.fuberlin.winfo.project.algorithm.impl.sven.vns.neighborhoodstructures.NeighborhoodStructure;
 import de.fuberlin.winfo.project.model.network.Edge;
 import de.fuberlin.winfo.project.model.network.Node;
 import de.fuberlin.winfo.project.model.network.Order;

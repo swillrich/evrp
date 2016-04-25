@@ -1,4 +1,4 @@
-package de.fuberlin.winfo.project.algorithm.impl.sven.vns;
+package de.fuberlin.winfo.project.algorithm.impl.sven.vns.neighborhoodstructures;
 
 import java.util.Iterator;
 
@@ -7,6 +7,8 @@ import org.eclipse.emf.ecore.util.EcoreUtil.Copier;
 
 import de.fuberlin.winfo.project.algorithm.NetworkProvider;
 import de.fuberlin.winfo.project.algorithm.RouteWrapper;
+import de.fuberlin.winfo.project.algorithm.impl.sven.vns.CostFunction;
+import de.fuberlin.winfo.project.algorithm.impl.sven.vns.SortedOperationList;
 import de.fuberlin.winfo.project.algorithm.impl.sven.vns.logging.VNSMonitor;
 import de.fuberlin.winfo.project.algorithm.restriction.RestrictionException;
 import de.fuberlin.winfo.project.algorithm.restriction.Restrictions;
@@ -49,6 +51,7 @@ public abstract class NeighborhoodStructure implements Iterator<Solution> {
 	public Solution search(Solution solution) {
 		this.initialSol = solution;
 		this.incumbentSol = solution;
+		operationList.setLimit(solution);
 		initSearch();
 		history.startLocalSearch(this, initialSol);
 		while (hasNext()) {

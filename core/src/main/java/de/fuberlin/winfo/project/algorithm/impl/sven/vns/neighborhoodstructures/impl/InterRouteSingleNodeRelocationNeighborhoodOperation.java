@@ -1,10 +1,10 @@
-package de.fuberlin.winfo.project.algorithm.impl.sven.vns.neighborhoodstructures;
+package de.fuberlin.winfo.project.algorithm.impl.sven.vns.neighborhoodstructures.impl;
 
 import java.util.HashSet;
 import java.util.Set;
 
 import de.fuberlin.winfo.project.algorithm.RouteWrapper;
-import de.fuberlin.winfo.project.algorithm.impl.sven.vns.NeighborhoodOperation;
+import de.fuberlin.winfo.project.algorithm.impl.sven.vns.neighborhoodstructures.NeighborhoodOperation;
 import de.fuberlin.winfo.project.model.network.Edge;
 import de.fuberlin.winfo.project.model.network.Order;
 import de.fuberlin.winfo.project.model.network.solution.Solution;

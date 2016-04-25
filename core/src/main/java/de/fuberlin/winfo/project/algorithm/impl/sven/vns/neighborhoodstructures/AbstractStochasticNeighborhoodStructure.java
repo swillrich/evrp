@@ -4,11 +4,9 @@ import java.util.Random;
 import java.util.Set;
 import java.util.TreeSet;
 
-import de.fuberlin.winfo.project.algorithm.impl.sven.vns.NeighborhoodOperation;
-import de.fuberlin.winfo.project.algorithm.impl.sven.vns.NeighborhoodStructure;
 import de.fuberlin.winfo.project.model.network.solution.Solution;
 
-public abstract class NonDeterministicNeighborhoodStructure extends NeighborhoodStructure {
+public abstract class AbstractStochasticNeighborhoodStructure extends NeighborhoodStructure {
 
 	protected int maxIterations;
 	protected Random random = new Random();
@@ -16,7 +14,7 @@ public abstract class NonDeterministicNeighborhoodStructure extends Neighborhood
 
 	protected abstract NeighborhoodOperation generateRandomOperation(Solution solution);
 
-	public NonDeterministicNeighborhoodStructure(int maxIterations) {
+	public AbstractStochasticNeighborhoodStructure(int maxIterations) {
 		this.maxIterations = maxIterations;
 	}
 

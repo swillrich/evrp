@@ -2,6 +2,7 @@ package de.fuberlin.winfo.project.algorithm.impl.sven.vns;
 
 import de.fuberlin.winfo.project.algorithm.NetworkProvider;
 import de.fuberlin.winfo.project.algorithm.impl.sven.vns.logging.VNSMonitor;
+import de.fuberlin.winfo.project.algorithm.impl.sven.vns.neighborhoodstructures.NeighborhoodStructure;
 import de.fuberlin.winfo.project.model.network.solution.Solution;
 
 public class VNS {
