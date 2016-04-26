@@ -2,9 +2,9 @@
  */
 package de.fuberlin.winfo.project.model.network.impl;
 
-import de.fuberlin.winfo.project.model.network.CollectiveOrder;
+import de.fuberlin.winfo.project.model.network.GlobalSearch;
 import de.fuberlin.winfo.project.model.network.NetworkPackage;
-import de.fuberlin.winfo.project.model.network.Order;
+import de.fuberlin.winfo.project.model.network.SearchHistory;
 
 import java.util.Collection;
 
@@ -15,39 +15,41 @@ import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.InternalEObject;
 
+import org.eclipse.emf.ecore.impl.MinimalEObjectImpl;
+
 import org.eclipse.emf.ecore.util.EObjectContainmentEList;
 import org.eclipse.emf.ecore.util.InternalEList;
 
 /**
  * <!-- begin-user-doc -->
- * An implementation of the model object '<em><b>Collective Order</b></em>'.
+ * An implementation of the model object '<em><b>Search History</b></em>'.
  * <!-- end-user-doc -->
  * <p>
  * The following features are implemented:
  * </p>
  * <ul>
- *   <li>{@link de.fuberlin.winfo.project.model.network.impl.CollectiveOrderImpl#getSubOrder <em>Sub Order</em>}</li>
+ *   <li>{@link de.fuberlin.winfo.project.model.network.impl.SearchHistoryImpl#getSearches <em>Searches</em>}</li>
  * </ul>
  *
  * @generated
  */
-public class CollectiveOrderImpl extends OrderImpl implements CollectiveOrder {
+public class SearchHistoryImpl extends MinimalEObjectImpl.Container implements SearchHistory {
 	/**
-	 * The cached value of the '{@link #getSubOrder() <em>Sub Order</em>}' containment reference list.
+	 * The cached value of the '{@link #getSearches() <em>Searches</em>}' containment reference list.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @see #getSubOrder()
+	 * @see #getSearches()
 	 * @generated
 	 * @ordered
 	 */
-	protected EList<Order> subOrder;
+	protected EList<GlobalSearch> searches;
 
 	/**
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	protected CollectiveOrderImpl() {
+	protected SearchHistoryImpl() {
 		super();
 	}
 
@@ -58,7 +60,7 @@ public class CollectiveOrderImpl extends OrderImpl implements CollectiveOrder {
 	 */
 	@Override
 	protected EClass eStaticClass() {
-		return NetworkPackage.Literals.COLLECTIVE_ORDER;
+		return NetworkPackage.Literals.SEARCH_HISTORY;
 	}
 
 	/**
@@ -66,11 +68,11 @@ public class CollectiveOrderImpl extends OrderImpl implements CollectiveOrder {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EList<Order> getSubOrder() {
-		if (subOrder == null) {
-			subOrder = new EObjectContainmentEList<Order>(Order.class, this, NetworkPackage.COLLECTIVE_ORDER__SUB_ORDER);
+	public EList<GlobalSearch> getSearches() {
+		if (searches == null) {
+			searches = new EObjectContainmentEList<GlobalSearch>(GlobalSearch.class, this, NetworkPackage.SEARCH_HISTORY__SEARCHES);
 		}
-		return subOrder;
+		return searches;
 	}
 
 	/**
@@ -81,8 +83,8 @@ public class CollectiveOrderImpl extends OrderImpl implements CollectiveOrder {
 	@Override
 	public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, NotificationChain msgs) {
 		switch (featureID) {
-			case NetworkPackage.COLLECTIVE_ORDER__SUB_ORDER:
-				return ((InternalEList<?>)getSubOrder()).basicRemove(otherEnd, msgs);
+			case NetworkPackage.SEARCH_HISTORY__SEARCHES:
+				return ((InternalEList<?>)getSearches()).basicRemove(otherEnd, msgs);
 		}
 		return super.eInverseRemove(otherEnd, featureID, msgs);
 	}
@@ -95,8 +97,8 @@ public class CollectiveOrderImpl extends OrderImpl implements CollectiveOrder {
 	@Override
 	public Object eGet(int featureID, boolean resolve, boolean coreType) {
 		switch (featureID) {
-			case NetworkPackage.COLLECTIVE_ORDER__SUB_ORDER:
-				return getSubOrder();
+			case NetworkPackage.SEARCH_HISTORY__SEARCHES:
+				return getSearches();
 		}
 		return super.eGet(featureID, resolve, coreType);
 	}
@@ -110,9 +112,9 @@ public class CollectiveOrderImpl extends OrderImpl implements CollectiveOrder {
 	@Override
 	public void eSet(int featureID, Object newValue) {
 		switch (featureID) {
-			case NetworkPackage.COLLECTIVE_ORDER__SUB_ORDER:
-				getSubOrder().clear();
-				getSubOrder().addAll((Collection<? extends Order>)newValue);
+			case NetworkPackage.SEARCH_HISTORY__SEARCHES:
+				getSearches().clear();
+				getSearches().addAll((Collection<? extends GlobalSearch>)newValue);
 				return;
 		}
 		super.eSet(featureID, newValue);
@@ -126,8 +128,8 @@ public class CollectiveOrderImpl extends OrderImpl implements CollectiveOrder {
 	@Override
 	public void eUnset(int featureID) {
 		switch (featureID) {
-			case NetworkPackage.COLLECTIVE_ORDER__SUB_ORDER:
-				getSubOrder().clear();
+			case NetworkPackage.SEARCH_HISTORY__SEARCHES:
+				getSearches().clear();
 				return;
 		}
 		super.eUnset(featureID);
@@ -141,10 +143,10 @@ public class CollectiveOrderImpl extends OrderImpl implements CollectiveOrder {
 	@Override
 	public boolean eIsSet(int featureID) {
 		switch (featureID) {
-			case NetworkPackage.COLLECTIVE_ORDER__SUB_ORDER:
-				return subOrder != null && !subOrder.isEmpty();
+			case NetworkPackage.SEARCH_HISTORY__SEARCHES:
+				return searches != null && !searches.isEmpty();
 		}
 		return super.eIsSet(featureID);
 	}
 
-} //CollectiveOrderImpl
+} //SearchHistoryImpl

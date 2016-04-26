@@ -21,14 +21,14 @@ import com.google.gson.GsonBuilder;
 import com.google.gson.JsonParser;
 
 import de.fuberlin.winfo.project.Locatables;
-import de.fuberlin.winfo.project.model.network.Customer;
+import de.fuberlin.winfo.project.model.network.Arc;
 import de.fuberlin.winfo.project.model.network.Depot;
-import de.fuberlin.winfo.project.model.network.Edge;
 import de.fuberlin.winfo.project.model.network.Locatable;
 import de.fuberlin.winfo.project.model.network.Network;
-import de.fuberlin.winfo.project.model.network.Node;
-import de.fuberlin.winfo.project.model.network.solution.Route;
-import de.fuberlin.winfo.project.model.network.solution.Solution;
+import de.fuberlin.winfo.project.model.network.Order;
+import de.fuberlin.winfo.project.model.network.Route;
+import de.fuberlin.winfo.project.model.network.Solution;
+import de.fuberlin.winfo.project.model.network.Vertex;
 import de.fuberlin.winfo.project.visualization.web.VisualizationServer;
 import de.fuberlin.winfo.project.visualization.web.handler.AbstractRequest;
 import de.fuberlin.winfo.project.visualization.web.logic.Color;
@@ -67,7 +67,6 @@ public class JSONRequest extends AbstractRequest {
 
 	private FeatureCollection returnSolutionAsGeoJson(Network network, Solution solution) {
 		locatables = Locatables.inflateBy(network);
-		locatables.assignNew(solution.getUsecase().getTranshipmentPoints());
 		Map<Locatable, Feature> featureMap = new HashMap<Locatable, Feature>();
 
 		FeatureCollection fCollection = new FeatureCollection();
@@ -78,16 +77,20 @@ public class JSONRequest extends AbstractRequest {
 			Feature routesFeature = getRouteConnectorFeature(i, coordinatesList, route);
 
 			for (int j = 0; j < route.getWay().size(); j++) {
-				Edge edge = route.getWay().get(j).getEdge();
-				Node startNode = edge.getStart();
-				Node endNode = edge.getEnd();
+				Arc arc = route.getWay().get(j).getArc();
+				Vertex startVertex = arc.getStart();
+				Vertex endVertex = arc.getEnd();
+				Locatable startLocatable = startVertex instanceof Depot ? (Depot) startVertex
+						: ((Order) startVertex).getReceiver();
+				Locatable endLocatable = endVertex instanceof Depot ? (Depot) endVertex
+						: ((Order) endVertex).getReceiver();
 
-				LngLatAlt lngLatAlt = getLatLng(startNode);
+				LngLatAlt lngLatAlt = getLatLng(startLocatable);
 
-				Feature startFeature = featureMap.get(startNode.getRepresentative());
+				Feature startFeature = featureMap.get(startLocatable);
 				if (startFeature == null) {
-					startFeature = getPointFeature(j, startNode, lngLatAlt);
-					featureMap.put(startNode.getRepresentative(), startFeature);
+					startFeature = getPointFeature(j, startVertex, lngLatAlt);
+					featureMap.put((Locatable) startLocatable, startFeature);
 					fCollection.add(startFeature);
 				}
 
@@ -96,8 +99,8 @@ public class JSONRequest extends AbstractRequest {
 				 */
 				coordinatesList.add(lngLatAlt);
 				if (j == route.getWay().size() - 1) {
-					LngLatAlt lastNodeCoordinates = getLatLng(endNode);
-					coordinatesList.add(lastNodeCoordinates);
+					LngLatAlt lastVertexCoordinates = getLatLng(endLocatable);
+					coordinatesList.add(lastVertexCoordinates);
 				}
 			}
 			fCollection.add(routesFeature);
@@ -105,35 +108,31 @@ public class JSONRequest extends AbstractRequest {
 		return fCollection;
 	}
 
-	private LngLatAlt getLatLng(Node node) {
-		Locatable r = node.getRepresentative();
+	private LngLatAlt getLatLng(Locatable r) {
 		LngLatAlt lngLatAlt = new LngLatAlt(r.getLongitude(), r.getLatitude());
 		return lngLatAlt;
 	}
 
-	private Feature getPointFeature(int j, Node node, LngLatAlt lngLatAlt) {
+	private Feature getPointFeature(int j, Vertex vertex, LngLatAlt lngLatAlt) {
 		Point point = new Point();
 		point.setCoordinates(lngLatAlt);
 		Feature feature = new Feature();
 		feature.setGeometry(point);
-		feature.setId(String.valueOf(node.getId()));
-		feature.setProperty("name", String.valueOf(node.getId()));
-		feature.setProperty("popupContent", "Order: " + (j == -1 ? "not included" : (j + 1)) + " --> Node #"
-				+ node.getId() + ", Type:" + (node.getRepresentative() instanceof Customer ? "Customer" : "Depot"));
+		feature.setId(String.valueOf(vertex.getId()));
+		feature.setProperty("name", String.valueOf(vertex.getId()));
+		feature.setProperty("popupContent", "Order: " + (j == -1 ? "not included" : (j + 1)) + " --> Vertex #"
+				+ vertex.getId() + ", Type:" + (vertex instanceof Order ? "Customer" : "Depot"));
+
 		String icon = baseURL + "files/";
 
-		if (node.getRepresentative() instanceof Depot) {
+		if (vertex instanceof Depot) {
 			icon += "maindepot.png";
-		} else if (node.getRepresentative() instanceof Customer) {
-			Customer c = (Customer) node.getRepresentative();
-			if (c.getHasTranshipmentPoint() != null) {
-				icon += "depot.png";
-			} else {
-				icon = "none";
-			}
+		} else {
+			icon = "none";
 		}
 
 		feature.setProperty("customizedIcon", icon);
+
 		return feature;
 	}
 

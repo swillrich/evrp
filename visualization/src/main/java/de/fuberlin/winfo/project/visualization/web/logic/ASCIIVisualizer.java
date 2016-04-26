@@ -1,8 +1,8 @@
 package de.fuberlin.winfo.project.visualization.web.logic;
 
 import static de.fuberlin.winfo.project.FormatConv.asDuration;
-import static de.fuberlin.winfo.project.FormatConv.withSeparator;
 import static de.fuberlin.winfo.project.FormatConv.numberWithSeparatorAndMeter;
+import static de.fuberlin.winfo.project.FormatConv.withSeparator;
 
 import java.io.IOException;
 import java.io.PrintStream;
@@ -12,14 +12,13 @@ import de.fuberlin.winfo.project.FormatConv;
 import de.fuberlin.winfo.project.model.network.Customer;
 import de.fuberlin.winfo.project.model.network.Depot;
 import de.fuberlin.winfo.project.model.network.Duration;
-import de.fuberlin.winfo.project.model.network.Locatable;
 import de.fuberlin.winfo.project.model.network.Network;
-import de.fuberlin.winfo.project.model.network.Node;
+import de.fuberlin.winfo.project.model.network.Order;
+import de.fuberlin.winfo.project.model.network.Route;
+import de.fuberlin.winfo.project.model.network.Solution;
+import de.fuberlin.winfo.project.model.network.UsedArc;
 import de.fuberlin.winfo.project.model.network.Vehicle;
-import de.fuberlin.winfo.project.model.network.solution.Delivery;
-import de.fuberlin.winfo.project.model.network.solution.Route;
-import de.fuberlin.winfo.project.model.network.solution.Solution;
-import de.fuberlin.winfo.project.model.network.solution.UsedEdge;
+import de.fuberlin.winfo.project.model.network.Vertex;
 import dnl.utils.text.table.TextTable;
 
 public class ASCIIVisualizer {
@@ -36,11 +35,11 @@ public class ASCIIVisualizer {
 	}
 
 	public void visualize() throws UnsupportedEncodingException, IOException {
-		String[] title = new String[] { "Source Node", "Target Node", "Departure (h)", "Arrival (h)",
-				"Target Node TimeWindow", "Duration (h)", "Real duration (h)", "Distance (m)", "Rem. Weight (Kg)",
+		String[] title = new String[] { "Source Vertex", "Target Vertex", "Departure (h)", "Arrival (h)",
+				"Target Vertex TimeWindow", "Duration (h)", "Real duration (h)", "Distance (m)", "Rem. Weight (Kg)",
 				"Rem. KW", "Order Id" };
 
-		out("ASCII Visualization of the following solution solved by " + solution.getProcedure());
+		out("ASCII Visualization of the following solution solved by " + solution.getAlgorithmName());
 		out("");
 		out("Explanation:");
 
@@ -61,27 +60,29 @@ public class ASCIIVisualizer {
 
 			content = new Object[route.getWay().size()][title.length];
 			for (int i = 0; i < route.getWay().size(); i++) {
-				UsedEdge usedEdge = route.getWay().get(i);
-				Node start = usedEdge.getEdge().getStart();
-				Node end = usedEdge.getEdge().getEnd();
+				UsedArc usedArc = route.getWay().get(i);
+				Vertex start = usedArc.getArc().getStart();
+				Vertex end = usedArc.getArc().getEnd();
 				String timeWindow = "-";
-				Duration duration = getTimeWindow(usedEdge, false);
+				Duration duration = getTimeWindow(usedArc.getArc().getEnd());
 				if (duration != null) {
-					timeWindow = asDuration(duration.getStartInSec(), "") + " - " + asDuration(duration.getEndInSec(), "");
+					timeWindow = asDuration(duration.getStartInSec() * 1000, "") + " - "
+							+ asDuration(duration.getEndInSec() * 1000, "");
 				}
 				int j = 0;
-				content[i][j++] = "#" + start.getId() + "(" + getAbbreviation(start.getRepresentative()) + ")";
-				content[i][j++] = "#" + end.getId() + "(" + getAbbreviation(end.getRepresentative()) + ")";
-				content[i][j++] = asDuration(usedEdge.getDuration().getStartInSec(), "");
-				content[i][j++] = asDuration(usedEdge.getDuration().getEndInSec(), "");
+				content[i][j++] = "#" + start.getId();
+				content[i][j++] = "#" + end.getId();
+				content[i][j++] = asDuration(usedArc.getDuration().getStartInSec() * 1000, "");
+				content[i][j++] = asDuration(usedArc.getDuration().getEndInSec() * 1000, "");
 				content[i][j++] = timeWindow;
-				content[i][j++] = asDuration(usedEdge.getEdge().getTime(), "");
-				content[i][j++] = asDuration(usedEdge.getDuration().getEndInSec() - usedEdge.getDuration().getStartInSec(),
-						"");
-				content[i][j++] = withSeparator(usedEdge.getEdge().getDistance(), "");
-				content[i][j++] = withSeparator(usedEdge.getCurrentVehicleCargoWeight(), "");
-				content[i][j++] = withSeparator(usedEdge.getRemainingVehicleBatteryCapacityAtEnd(), "");
-				content[i][j++] = usedEdge instanceof Delivery ? ((Delivery) usedEdge).getOrder().getId() : "-";
+				content[i][j++] = asDuration(usedArc.getArc().getTime() * 1000, "");
+				content[i][j++] = asDuration(
+						(usedArc.getDuration().getEndInSec() - usedArc.getDuration().getStartInSec()) * 1000, "");
+				content[i][j++] = withSeparator(usedArc.getArc().getDistance(), "");
+				content[i][j++] = withSeparator(usedArc.getCurrentVehicleCargoWeight(), "");
+				content[i][j++] = withSeparator(usedArc.getRemainingVehicleBatteryCapacityAtEnd(), "");
+				content[i][j++] = usedArc.getArc().getEnd() instanceof Order
+						? ((Order) usedArc.getArc().getEnd()).getOrderId() : "-";
 			}
 
 			TextTable textTable = new TextTable(title, content);
@@ -89,52 +90,25 @@ public class ASCIIVisualizer {
 			textTable.printTable(printStream, 0);
 			out("");
 			out("Total distance of this route: " + numberWithSeparatorAndMeter(route.getTotalDistanceInM()));
-			out("Total time of this route: " + asDuration(route.getTotalTimeInSec(), "h"));
-			out("Total waiting time of this route: " + statistics.getTotalWait(route));
+			out("Total time of this route: " + asDuration(route.getTotalTimeInSec() * 1000, "h"));
 			out("Personnal Costs: " + FormatConv.getInEuro(statistics.getPersonnalCosts(route)));
 			out("Material Costs: " + FormatConv.getInEuro(statistics.getMaterialCosts(route)));
 		}
 		out("");
 		out("Total number of routes: " + solution.getRoutes().size());
 		out("Total distance of this solution: " + numberWithSeparatorAndMeter(solution.getTotalDistance()));
-		out("Total time of this solution: " + asDuration(solution.getTotalTime(), "h"));
-		out("Total waiting time of this solution: " + statistics.getTotalWait(solution));
+		out("Total time of this solution: " + asDuration(solution.getTotalTime() * 1000, "h"));
 		out("Total Costs: " + FormatConv.getInEuro(statistics.getTotalCosts(solution)));
 	}
 
-	private String getAbbreviation(Locatable locatable) {
-		if (locatable instanceof Customer) {
-			if (((Customer) locatable).getHasTranshipmentPoint() != null) {
-				return "CU, DE";
-			}
-			return "CU";
-		} else if (locatable instanceof Depot) {
-			return "DE";
-		}
-		return null;
-	}
-
-	public Duration getTimeWindow(UsedEdge usedEdge, boolean atStart) {
-		if (usedEdge instanceof Delivery) {
-			return ((Delivery) usedEdge).getOrder().getTimeWindow();
+	public Duration getTimeWindow(Vertex v) {
+		if (v instanceof Order) {
+			return ((Order) v).getTimeWindow();
+		} else if (v instanceof Depot) {
+			return ((Depot) v).getTimeWindow();
 		} else {
-			Locatable locatable = null;
-			if (atStart) {
-				locatable = usedEdge.getEdge().getStart().getRepresentative();
-			} else {
-				locatable = usedEdge.getEdge().getEnd().getRepresentative();
-			}
-			if (locatable instanceof Depot) {
-				return ((Depot) locatable).getTimeWindow();
-			} else if (locatable instanceof Customer) {
-				Customer c = (Customer) locatable;
-				if (c.getHasTranshipmentPoint() != null) {
-					return c.getHasTranshipmentPoint().getTimeWindow();
-				}
-
-			}
+			return null;
 		}
-		return null;
 	}
 
 	private void out(String out) throws UnsupportedEncodingException, IOException {

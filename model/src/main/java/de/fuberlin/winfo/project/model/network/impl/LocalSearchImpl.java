@@ -1,9 +1,9 @@
 /**
  */
-package de.fuberlin.winfo.project.model.network.solution.impl;
+package de.fuberlin.winfo.project.model.network.impl;
 
-import de.fuberlin.winfo.project.model.network.solution.NeighborhoodSearch;
-import de.fuberlin.winfo.project.model.network.solution.SolutionPackage;
+import de.fuberlin.winfo.project.model.network.LocalSearch;
+import de.fuberlin.winfo.project.model.network.NetworkPackage;
 
 import org.eclipse.emf.common.notify.Notification;
 
@@ -14,20 +14,20 @@ import org.eclipse.emf.ecore.impl.MinimalEObjectImpl;
 
 /**
  * <!-- begin-user-doc -->
- * An implementation of the model object '<em><b>Neighborhood Search</b></em>'.
+ * An implementation of the model object '<em><b>Local Search</b></em>'.
  * <!-- end-user-doc -->
  * <p>
  * The following features are implemented:
  * </p>
  * <ul>
- *   <li>{@link de.fuberlin.winfo.project.model.network.solution.impl.NeighborhoodSearchImpl#getOperation <em>Operation</em>}</li>
- *   <li>{@link de.fuberlin.winfo.project.model.network.solution.impl.NeighborhoodSearchImpl#getCost <em>Cost</em>}</li>
- *   <li>{@link de.fuberlin.winfo.project.model.network.solution.impl.NeighborhoodSearchImpl#getTime <em>Time</em>}</li>
+ *   <li>{@link de.fuberlin.winfo.project.model.network.impl.LocalSearchImpl#getOperation <em>Operation</em>}</li>
+ *   <li>{@link de.fuberlin.winfo.project.model.network.impl.LocalSearchImpl#getCost <em>Cost</em>}</li>
+ *   <li>{@link de.fuberlin.winfo.project.model.network.impl.LocalSearchImpl#getTime <em>Time</em>}</li>
  * </ul>
  *
  * @generated
  */
-public class NeighborhoodSearchImpl extends MinimalEObjectImpl.Container implements NeighborhoodSearch {
+public class LocalSearchImpl extends MinimalEObjectImpl.Container implements LocalSearch {
 	/**
 	 * The default value of the '{@link #getOperation() <em>Operation</em>}' attribute.
 	 * <!-- begin-user-doc -->
@@ -93,7 +93,7 @@ public class NeighborhoodSearchImpl extends MinimalEObjectImpl.Container impleme
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	protected NeighborhoodSearchImpl() {
+	protected LocalSearchImpl() {
 		super();
 	}
 
@@ -104,7 +104,7 @@ public class NeighborhoodSearchImpl extends MinimalEObjectImpl.Container impleme
 	 */
 	@Override
 	protected EClass eStaticClass() {
-		return SolutionPackage.Literals.NEIGHBORHOOD_SEARCH;
+		return NetworkPackage.Literals.LOCAL_SEARCH;
 	}
 
 	/**
@@ -125,7 +125,7 @@ public class NeighborhoodSearchImpl extends MinimalEObjectImpl.Container impleme
 		String oldOperation = operation;
 		operation = newOperation;
 		if (eNotificationRequired())
-			eNotify(new ENotificationImpl(this, Notification.SET, SolutionPackage.NEIGHBORHOOD_SEARCH__OPERATION, oldOperation, operation));
+			eNotify(new ENotificationImpl(this, Notification.SET, NetworkPackage.LOCAL_SEARCH__OPERATION, oldOperation, operation));
 	}
 
 	/**
@@ -146,7 +146,7 @@ public class NeighborhoodSearchImpl extends MinimalEObjectImpl.Container impleme
 		long oldCost = cost;
 		cost = newCost;
 		if (eNotificationRequired())
-			eNotify(new ENotificationImpl(this, Notification.SET, SolutionPackage.NEIGHBORHOOD_SEARCH__COST, oldCost, cost));
+			eNotify(new ENotificationImpl(this, Notification.SET, NetworkPackage.LOCAL_SEARCH__COST, oldCost, cost));
 	}
 
 	/**
@@ -167,7 +167,7 @@ public class NeighborhoodSearchImpl extends MinimalEObjectImpl.Container impleme
 		long oldTime = time;
 		time = newTime;
 		if (eNotificationRequired())
-			eNotify(new ENotificationImpl(this, Notification.SET, SolutionPackage.NEIGHBORHOOD_SEARCH__TIME, oldTime, time));
+			eNotify(new ENotificationImpl(this, Notification.SET, NetworkPackage.LOCAL_SEARCH__TIME, oldTime, time));
 	}
 
 	/**
@@ -178,11 +178,11 @@ public class NeighborhoodSearchImpl extends MinimalEObjectImpl.Container impleme
 	@Override
 	public Object eGet(int featureID, boolean resolve, boolean coreType) {
 		switch (featureID) {
-			case SolutionPackage.NEIGHBORHOOD_SEARCH__OPERATION:
+			case NetworkPackage.LOCAL_SEARCH__OPERATION:
 				return getOperation();
-			case SolutionPackage.NEIGHBORHOOD_SEARCH__COST:
+			case NetworkPackage.LOCAL_SEARCH__COST:
 				return getCost();
-			case SolutionPackage.NEIGHBORHOOD_SEARCH__TIME:
+			case NetworkPackage.LOCAL_SEARCH__TIME:
 				return getTime();
 		}
 		return super.eGet(featureID, resolve, coreType);
@@ -196,13 +196,13 @@ public class NeighborhoodSearchImpl extends MinimalEObjectImpl.Container impleme
 	@Override
 	public void eSet(int featureID, Object newValue) {
 		switch (featureID) {
-			case SolutionPackage.NEIGHBORHOOD_SEARCH__OPERATION:
+			case NetworkPackage.LOCAL_SEARCH__OPERATION:
 				setOperation((String)newValue);
 				return;
-			case SolutionPackage.NEIGHBORHOOD_SEARCH__COST:
+			case NetworkPackage.LOCAL_SEARCH__COST:
 				setCost((Long)newValue);
 				return;
-			case SolutionPackage.NEIGHBORHOOD_SEARCH__TIME:
+			case NetworkPackage.LOCAL_SEARCH__TIME:
 				setTime((Long)newValue);
 				return;
 		}
@@ -217,13 +217,13 @@ public class NeighborhoodSearchImpl extends MinimalEObjectImpl.Container impleme
 	@Override
 	public void eUnset(int featureID) {
 		switch (featureID) {
-			case SolutionPackage.NEIGHBORHOOD_SEARCH__OPERATION:
+			case NetworkPackage.LOCAL_SEARCH__OPERATION:
 				setOperation(OPERATION_EDEFAULT);
 				return;
-			case SolutionPackage.NEIGHBORHOOD_SEARCH__COST:
+			case NetworkPackage.LOCAL_SEARCH__COST:
 				setCost(COST_EDEFAULT);
 				return;
-			case SolutionPackage.NEIGHBORHOOD_SEARCH__TIME:
+			case NetworkPackage.LOCAL_SEARCH__TIME:
 				setTime(TIME_EDEFAULT);
 				return;
 		}
@@ -238,11 +238,11 @@ public class NeighborhoodSearchImpl extends MinimalEObjectImpl.Container impleme
 	@Override
 	public boolean eIsSet(int featureID) {
 		switch (featureID) {
-			case SolutionPackage.NEIGHBORHOOD_SEARCH__OPERATION:
+			case NetworkPackage.LOCAL_SEARCH__OPERATION:
 				return OPERATION_EDEFAULT == null ? operation != null : !OPERATION_EDEFAULT.equals(operation);
-			case SolutionPackage.NEIGHBORHOOD_SEARCH__COST:
+			case NetworkPackage.LOCAL_SEARCH__COST:
 				return cost != COST_EDEFAULT;
-			case SolutionPackage.NEIGHBORHOOD_SEARCH__TIME:
+			case NetworkPackage.LOCAL_SEARCH__TIME:
 				return time != TIME_EDEFAULT;
 		}
 		return super.eIsSet(featureID);
@@ -268,4 +268,4 @@ public class NeighborhoodSearchImpl extends MinimalEObjectImpl.Container impleme
 		return result.toString();
 	}
 
-} //NeighborhoodSearchImpl
+} //LocalSearchImpl

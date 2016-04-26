@@ -1,14 +1,13 @@
 package de.fuberlin.winfo.project.algorithm.restriction.impl;
 
-import de.fuberlin.winfo.project.algorithm.RouteWrapper;
-
 import org.eclipse.emf.common.util.EList;
 
 import de.fuberlin.winfo.project.algorithm.NetworkProvider;
+import de.fuberlin.winfo.project.algorithm.RouteWrapper;
 import de.fuberlin.winfo.project.algorithm.restriction.Restriction;
 import de.fuberlin.winfo.project.algorithm.restriction.RestrictionException;
 import de.fuberlin.winfo.project.model.network.Order;
-import de.fuberlin.winfo.project.model.network.solution.UsedEdge;
+import de.fuberlin.winfo.project.model.network.UsedArc;
 
 public class CargoCapacityRestriction implements Restriction {
 
@@ -32,7 +31,7 @@ public class CargoCapacityRestriction implements Restriction {
 
 	@Override
 	public boolean checkCompleteRoute(NetworkProvider np, RouteWrapper route) throws RestrictionException {
-		EList<UsedEdge> list = route.getActualRoute().getWay();
+		EList<UsedArc> list = route.getActualRoute().getWay();
 		return list.get(list.size() - 1).getCurrentVehicleCargoWeight() >= 0;
 	}
 

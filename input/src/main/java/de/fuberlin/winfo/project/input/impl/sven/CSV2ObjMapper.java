@@ -15,10 +15,9 @@ import de.fuberlin.winfo.project.model.network.Depot;
 import de.fuberlin.winfo.project.model.network.Duration;
 import de.fuberlin.winfo.project.model.network.Locatable;
 import de.fuberlin.winfo.project.model.network.Order;
+import de.fuberlin.winfo.project.model.network.UseCase;
 import de.fuberlin.winfo.project.model.network.Vehicle;
 import de.fuberlin.winfo.project.model.network.impl.NetworkFactoryImpl;
-import de.fuberlin.winfo.project.model.network.solution.UseCase;
-import de.fuberlin.winfo.project.model.network.solution.impl.SolutionFactoryImpl;
 
 /**
  * @author willrich
@@ -29,7 +28,6 @@ import de.fuberlin.winfo.project.model.network.solution.impl.SolutionFactoryImpl
 public class CSV2ObjMapper {
 
 	private NetworkFactoryImpl networkFactory = new NetworkFactoryImpl();
-	private SolutionFactoryImpl solutionFactory = new SolutionFactoryImpl();
 	private Locatables locatables = new Locatables();
 	final List<UseCase> useCaseList = new ArrayList<UseCase>();
 	private List<Vehicle> vehicleList = new ArrayList<Vehicle>();
@@ -83,14 +81,14 @@ public class CSV2ObjMapper {
 			public void nextLine(String[] line) {
 				double latidute = asDouble(line[1]);
 				double longitude = asDouble(line[2]);
-				Iterator<Locatable> iterator = locatables.findLocatable(latidute, longitude, Customer.class);
+				Iterator<Locatable> iterator = locatables.findLocatable(latidute, longitude);
 				if (!iterator.hasNext()) {
 					Customer customer = networkFactory.createCustomer();
 					customer.setLatitude(asDouble(line[1]));
 					customer.setLongitude(asDouble(line[2]));
 					customer.setServiceTimeInSec(-1);
 					addOrder(customer, line);
-					locatables.addNewStaticLocatable(customer);
+					locatables.addNewLocatable(customer);
 				} else {
 					Customer customer = (Customer) iterator.next();
 					addOrder(customer, line);
@@ -99,7 +97,7 @@ public class CSV2ObjMapper {
 
 			private void addOrder(Customer customer, String[] line) {
 				Order newOrder = networkFactory.createOrder();
-				newOrder.setId(line[0]);
+				newOrder.setOrderId(line[0]);
 				String[] split = line[3].split(",");
 				newOrder.setWeight(asDouble(split[0]));
 				newOrder.setVolume(asDouble(split[1]));
@@ -120,11 +118,10 @@ public class CSV2ObjMapper {
 				depot.setLatitude(asDouble(line[0]));
 				depot.setLongitude(asDouble(line[1]));
 				depot.setTimeWindow(getDuration(line[2]));
-				depot.setPlannedPeriod(getDuration(line[3]));
 				depot.setMaxTourLength(asInt(line[4]));
 				depot.setFixPlaceTimeIfMultipleOperations(asInt(line[5]));
 				depot.setMaxEmployment(asInt(line[6]));
-				locatables.addNewStaticLocatable(depot);
+				locatables.addNewLocatable(depot);
 			}
 		};
 	}
@@ -143,19 +140,13 @@ public class CSV2ObjMapper {
 		new AbstractCSVInput(useCaseCSV, null, true, '"') {
 			@Override
 			public void nextLine(String[] line) {
-				UseCase useCase = solutionFactory.createUseCase();
+				UseCase useCase = networkFactory.createUseCase();
 				useCase.setId(asInt(line[0]));
 				for (String vehicleId : getAsArr(line[1])) {
 					Vehicle vehicle = vehicles.stream().filter(v -> v.getId().equals(vehicleId)).iterator().next();
 					useCase.getVehicles().add(EcoreUtil.copy(vehicle));
 				}
-				for (String cS : getAsArr(line[4])) {
-					Depot transhipmentPoint = networkFactory.createDepot();
-					configureAsAdditionalService(cS, transhipmentPoint);
-					useCase.getTranshipmentPoints().add(transhipmentPoint);
-				}
 				useCase.setMaxTourLengthInSec(asInt(line[5]));
-				useCase.setStorageCostsPerKgPerSec(asDouble(line[6]));
 				useCase.setName(line[7]);
 				useCaseList.add(useCase);
 			}
@@ -174,7 +165,7 @@ public class CSV2ObjMapper {
 		String[] langLot = lanLon.split(",");
 		double latitudeAsDouble = asDouble(langLot[0]);
 		double longitudeAsDouble = asDouble(langLot[1]);
-		Iterator<Locatable> iterator = locatables.findLocatable(latitudeAsDouble, longitudeAsDouble, Customer.class);
+		Iterator<Locatable> iterator = locatables.findLocatable(latitudeAsDouble, longitudeAsDouble);
 		if (iterator.hasNext()) {
 			return iterator.next();
 		} else {

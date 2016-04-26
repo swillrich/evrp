@@ -1,18 +1,13 @@
 package de.fuberlin.winfo.project.algorithm.restriction.impl;
 
-import de.fuberlin.winfo.project.algorithm.AlgHelper;
+import de.fuberlin.winfo.project.Utils;
 import de.fuberlin.winfo.project.algorithm.NetworkProvider;
 import de.fuberlin.winfo.project.algorithm.RouteWrapper;
 import de.fuberlin.winfo.project.algorithm.restriction.Restriction;
 import de.fuberlin.winfo.project.algorithm.restriction.RestrictionException;
-import de.fuberlin.winfo.project.model.network.Customer;
-import de.fuberlin.winfo.project.model.network.Depot;
 import de.fuberlin.winfo.project.model.network.Duration;
-import de.fuberlin.winfo.project.model.network.Locatable;
-import de.fuberlin.winfo.project.model.network.Node;
 import de.fuberlin.winfo.project.model.network.Order;
-import de.fuberlin.winfo.project.model.network.solution.Delivery;
-import de.fuberlin.winfo.project.model.network.solution.UsedEdge;
+import de.fuberlin.winfo.project.model.network.UsedArc;
 
 public class TimeWindowRestriction implements Restriction {
 
@@ -29,101 +24,90 @@ public class TimeWindowRestriction implements Restriction {
 			newOrder_TW_StartInSec = newOrder.getTimeWindow().getStartInSec();
 			newOrder_TW_EndInSec = newOrder.getTimeWindow().getEndInSec();
 		}
-		double edgeStartInSec = route.getActualRoute().getWay().get(index).getDuration().getStartInSec();
-		double edgeEndInSec = route.getActualRoute().getWay().get(index).getDuration().getEndInSec();
+		double arcStartInSec = route.getActualRoute().getWay().get(index).getDuration().getStartInSec();
+		double arcEndInSec = route.getActualRoute().getWay().get(index).getDuration().getEndInSec();
 
-		Node newNode = AlgHelper.getNodeByOrder(newOrder);
-		double serviceTimeAtNewNode = newOrder.getStandingTimeInSec();
-		double timeStartNodeToNewNode = np.getEdges()[route.getActualRoute().getWay().get(index).getEdge().getStart()
-				.getId()][newNode.getId()].getTime();
-		double timeNewNodeToEndNode = np.getEdges()[newNode.getId()][route.getActualRoute().getWay().get(index)
-				.getEdge().getEnd().getId()].getTime();
-		double actualUsedTime = route.getActualRoute().getWay().get(index).getEdge().getTime();
-		double possibleShiftEdgeStart = getPossibleShiftEdgeStart(index);
-		double possibleShiftEdgeEnd = getPossibleShiftEdgeEnd(index);
+		double serviceTimeAtNewVertex = newOrder.getStandingTimeInSec();
+		double timeStartVertexToNewVertex = np.getArcs()[route.getActualRoute().getWay().get(index).getArc().getStart()
+				.getId()][newOrder.getId()].getTime();
+		double timeNewVertexToEndVertex = np.getArcs()[newOrder.getId()][route.getActualRoute().getWay().get(index)
+				.getArc().getEnd().getId()].getTime();
+		double actualUsedTime = route.getActualRoute().getWay().get(index).getArc().getTime();
+		double possibleShiftarcStart = getPossibleShiftarcStart(index);
+		double possibleShiftarcEnd = getPossibleShiftarcEnd(index);
 
-		double availableTime = possibleShiftEdgeStart + actualUsedTime + possibleShiftEdgeEnd;
+		double availableTime = possibleShiftarcStart + actualUsedTime + possibleShiftarcEnd;
 
-		double neededTime = timeStartNodeToNewNode + serviceTimeAtNewNode + timeNewNodeToEndNode;
+		double neededTime = timeStartVertexToNewVertex + serviceTimeAtNewVertex + timeNewVertexToEndVertex;
 
 		if (availableTime >= neededTime) {
-			if (edgeStartInSec + timeStartNodeToNewNode - possibleShiftEdgeStart <= newOrder_TW_EndInSec && edgeEndInSec
-					- timeNewNodeToEndNode - serviceTimeAtNewNode + possibleShiftEdgeEnd >= newOrder_TW_StartInSec) {
+			if (arcStartInSec + timeStartVertexToNewVertex - possibleShiftarcStart <= newOrder_TW_EndInSec
+					&& arcEndInSec - timeNewVertexToEndVertex - serviceTimeAtNewVertex
+							+ possibleShiftarcEnd >= newOrder_TW_StartInSec) {
 				return true;
 			}
 		}
 		return false;
 	}
 
-	private double getPossibleShiftEdgeEnd(int usedEdgeIndex) {
-		double possibleShiftEdgeEnd = Double.MAX_VALUE;
-		for (int i = usedEdgeIndex; i < route.getActualRoute().getWay().size(); i++) {
-			double tmpEdgeEndInSec = route.getActualRoute().getWay().get(i).getDuration().getEndInSec();
+	private double getPossibleShiftarcEnd(int usedarcIndex) {
+		double possibleShiftarcEnd = Double.MAX_VALUE;
+		for (int i = usedarcIndex; i < route.getActualRoute().getWay().size(); i++) {
+			double tmparcEndInSec = route.getActualRoute().getWay().get(i).getDuration().getEndInSec();
 
-			double timewindowEndAtEdgeEnd;
+			double timewindowEndAtarcEnd;
 
 			if (i == route.getActualRoute().getWay().size() - 1) {
-				timewindowEndAtEdgeEnd = getTimewindowFromDepot(route.getDepot()).getEndInSec();
+				timewindowEndAtarcEnd = Utils.getTimeWindow(route.getDepot()).getEndInSec();
 			} else {
-				timewindowEndAtEdgeEnd = Double.MAX_VALUE;
-				Duration timewindowAtEdgeEnd = ((Delivery) route.getActualRoute().getWay().get(i)).getOrder()
-						.getTimeWindow();
-				if (timewindowAtEdgeEnd != null)
-					timewindowEndAtEdgeEnd = timewindowAtEdgeEnd.getEndInSec();
+				timewindowEndAtarcEnd = Double.MAX_VALUE;
+				Duration timewindowAtarcEnd = Utils
+						.getTimeWindow(route.getActualRoute().getWay().get(i).getArc().getEnd());
+				if (timewindowAtarcEnd != null)
+					timewindowEndAtarcEnd = timewindowAtarcEnd.getEndInSec();
 			}
-			double possibleShiftEdgeEndAtThisEdge = timewindowEndAtEdgeEnd - tmpEdgeEndInSec;
+			double possibleShiftarcEndAtThisarc = timewindowEndAtarcEnd - tmparcEndInSec;
 
-			if (possibleShiftEdgeEndAtThisEdge < possibleShiftEdgeEnd) {
-				possibleShiftEdgeEnd = possibleShiftEdgeEndAtThisEdge;
+			if (possibleShiftarcEndAtThisarc < possibleShiftarcEnd) {
+				possibleShiftarcEnd = possibleShiftarcEndAtThisarc;
 			}
 		}
-		return possibleShiftEdgeEnd;
+		return possibleShiftarcEnd;
 	}
 
-	private double getPossibleShiftEdgeStart(int usedEdgeIndex) {
-		double possibleShiftEdgeStart = Double.MAX_VALUE;
-		for (int i = 0; i < usedEdgeIndex + 1; i++) {
-			double tmpEdgeStartInSec = route.getActualRoute().getWay().get(i).getDuration().getStartInSec();
+	private double getPossibleShiftarcStart(int usedarcIndex) {
+		double possibleShiftarcStart = Double.MAX_VALUE;
+		for (int i = 0; i < usedarcIndex + 1; i++) {
+			double tmparcStartInSec = route.getActualRoute().getWay().get(i).getDuration().getStartInSec();
 
-			double timewindowStartAtEdgeStart;
-			double serviceTimeAtEdgeStart;
+			double timewindowStartAtarcStart;
+			double serviceTimeAtArcStart;
 
 			if (i == 0) {
-				timewindowStartAtEdgeStart = getTimewindowFromDepot(route.getDepot()).getStartInSec();
-				serviceTimeAtEdgeStart = 0; // The service time at the depot
+				timewindowStartAtarcStart = Utils.getTimeWindow(route.getDepot()).getStartInSec();
+				serviceTimeAtArcStart = 0; // The service time at the depot
 											// is
 											// zero at the beginning of the
 											// route, else
-											// getServiceTimeFromDepot(node);
+											// getServiceTimeFromDepot(vertex);
 			} else {
-				serviceTimeAtEdgeStart = ((Delivery) route.getActualRoute().getWay().get(i - 1)).getOrder()
+				serviceTimeAtArcStart = ((Order) route.getActualRoute().getWay().get(i - 1).getArc().getEnd())
 						.getStandingTimeInSec();
 
-				timewindowStartAtEdgeStart = Double.MIN_VALUE;
-				Duration timewindowAtEdgeStart = ((Delivery) route.getActualRoute().getWay().get(i - 1)).getOrder()
+				timewindowStartAtarcStart = Double.MIN_VALUE;
+				Duration timewindowAtArcStart = ((Order) route.getActualRoute().getWay().get(i - 1).getArc().getEnd())
 						.getTimeWindow();
-				if (timewindowAtEdgeStart != null)
-					timewindowStartAtEdgeStart = timewindowAtEdgeStart.getStartInSec();
+				if (timewindowAtArcStart != null)
+					timewindowStartAtarcStart = timewindowAtArcStart.getStartInSec();
 			}
-			double possibleShiftEdgeStartAtThisEdge = tmpEdgeStartInSec - serviceTimeAtEdgeStart
-					- timewindowStartAtEdgeStart;
+			double possibleShiftarcStartAtThisarc = tmparcStartInSec - serviceTimeAtArcStart
+					- timewindowStartAtarcStart;
 
-			if (possibleShiftEdgeStartAtThisEdge < possibleShiftEdgeStart) {
-				possibleShiftEdgeStart = possibleShiftEdgeStartAtThisEdge;
+			if (possibleShiftarcStartAtThisarc < possibleShiftarcStart) {
+				possibleShiftarcStart = possibleShiftarcStartAtThisarc;
 			}
 		}
-		return possibleShiftEdgeStart;
-	}
-
-	private Duration getTimewindowFromDepot(Node node) {
-
-		Locatable l = node.getRepresentative();
-
-		if (l instanceof Depot) {
-			return ((Depot) node.getRepresentative()).getTimeWindow();
-		} else {
-			return ((Customer) node.getRepresentative()).getHasTranshipmentPoint().getTimeWindow();
-		}
+		return possibleShiftarcStart;
 	}
 
 	@Override
@@ -134,14 +118,14 @@ public class TimeWindowRestriction implements Restriction {
 	@Override
 	public boolean checkCompleteRoute(NetworkProvider np, RouteWrapper route) throws RestrictionException {
 		for (int i = 0; i < route.getActualRoute().getWay().size(); i++) {
-			UsedEdge usedEdge = route.getActualRoute().getWay().get(i);
-			if (usedEdge instanceof Delivery) {
-				Delivery del = (Delivery) usedEdge;
-				Duration orderTW = del.getOrder().getTimeWindow();
+			UsedArc usedArc = route.getActualRoute().getWay().get(i);
+			if (usedArc.getArc().getEnd() instanceof Order) {
+				Order del = (Order) usedArc.getArc().getEnd();
+				Duration orderTW = del.getTimeWindow();
 				if (orderTW == null) {
 					return true;
 				}
-				return del.getDuration().getEndInSec() <= orderTW.getEndInSec();
+				return usedArc.getDuration().getEndInSec() <= orderTW.getEndInSec();
 			}
 		}
 		return true;

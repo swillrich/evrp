@@ -1,10 +1,12 @@
 package de.fuberlin.winfo.project.algorithm;
 
+import org.eclipse.emf.common.util.EList;
+
 import de.fuberlin.winfo.project.Locatables;
 import de.fuberlin.winfo.project.input.VRPInput;
-import de.fuberlin.winfo.project.model.network.Edge;
+import de.fuberlin.winfo.project.model.network.Arc;
 import de.fuberlin.winfo.project.model.network.Network;
-import de.fuberlin.winfo.project.model.network.Node;
+import de.fuberlin.winfo.project.model.network.Vertex;
 
 /**
  * @author willrich
@@ -16,8 +18,8 @@ import de.fuberlin.winfo.project.model.network.Node;
  */
 public class NetworkProvider {
 
-	private Edge[][] edges;
-	private Node[] nodes;
+	private Arc[][] arcs;
+	private Vertex[] vertexs;
 	private Network network;
 	private Locatables locatables;
 
@@ -28,17 +30,16 @@ public class NetworkProvider {
 	}
 
 	private void buildArrays() {
-		edges = new Edge[locatables.size()][locatables.size()];
-		for (Edge edge : network.getEdges()) {
-			int startId = edge.getStart().getId();
-			int endId = edge.getEnd().getId();
-			edges[startId][endId] = edge;
+		EList<Vertex> nwVertices = network.getVertices();
+		int size = nwVertices.size();
+		arcs = new Arc[size][size];
+		for (Arc arc : network.getArcs()) {
+			int startId = arc.getStart().getId();
+			int endId = arc.getEnd().getId();
+			arcs[startId][endId] = arc;
 		}
 
-		nodes = new Node[network.getNodes().size()];
-		for (int i = 0; i < nodes.length; i++) {
-			nodes[i] = network.getNodes().get(i);
-		}
+		vertexs = nwVertices.toArray(new Vertex[nwVertices.size()]);
 	}
 
 	public Locatables getLocatables() {
@@ -49,11 +50,11 @@ public class NetworkProvider {
 		return network;
 	}
 
-	public Edge[][] getEdges() {
-		return edges;
+	public Arc[][] getArcs() {
+		return arcs;
 	}
 
-	public Node[] getNodes() {
-		return nodes;
+	public Vertex[] getVertices() {
+		return vertexs;
 	}
 }

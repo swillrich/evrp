@@ -6,7 +6,7 @@ import java.util.Collections;
 import java.util.Comparator;
 
 import de.fuberlin.winfo.project.algorithm.impl.sven.vns.neighborhoodstructures.NeighborhoodOperation;
-import de.fuberlin.winfo.project.model.network.solution.Solution;
+import de.fuberlin.winfo.project.model.network.Solution;
 
 @SuppressWarnings("serial")
 public class SortedOperationList extends ArrayList<NeighborhoodOperation> {

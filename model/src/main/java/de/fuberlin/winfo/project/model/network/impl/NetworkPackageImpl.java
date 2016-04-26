@@ -2,22 +2,24 @@
  */
 package de.fuberlin.winfo.project.model.network.impl;
 
-import de.fuberlin.winfo.project.model.network.CollectiveOrder;
+import de.fuberlin.winfo.project.model.network.Arc;
 import de.fuberlin.winfo.project.model.network.Customer;
 import de.fuberlin.winfo.project.model.network.Depot;
 import de.fuberlin.winfo.project.model.network.Duration;
-import de.fuberlin.winfo.project.model.network.Edge;
+import de.fuberlin.winfo.project.model.network.GlobalSearch;
+import de.fuberlin.winfo.project.model.network.LocalSearch;
 import de.fuberlin.winfo.project.model.network.Locatable;
 import de.fuberlin.winfo.project.model.network.Network;
 import de.fuberlin.winfo.project.model.network.NetworkFactory;
 import de.fuberlin.winfo.project.model.network.NetworkPackage;
-import de.fuberlin.winfo.project.model.network.Node;
 import de.fuberlin.winfo.project.model.network.Order;
+import de.fuberlin.winfo.project.model.network.Route;
+import de.fuberlin.winfo.project.model.network.SearchHistory;
+import de.fuberlin.winfo.project.model.network.Solution;
+import de.fuberlin.winfo.project.model.network.UseCase;
+import de.fuberlin.winfo.project.model.network.UsedArc;
 import de.fuberlin.winfo.project.model.network.Vehicle;
-
-import de.fuberlin.winfo.project.model.network.solution.SolutionPackage;
-
-import de.fuberlin.winfo.project.model.network.solution.impl.SolutionPackageImpl;
+import de.fuberlin.winfo.project.model.network.Vertex;
 
 import org.eclipse.emf.ecore.EAttribute;
 import org.eclipse.emf.ecore.EClass;
@@ -38,14 +40,14 @@ public class NetworkPackageImpl extends EPackageImpl implements NetworkPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	private EClass nodeEClass = null;
+	private EClass vertexEClass = null;
 
 	/**
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	private EClass edgeEClass = null;
+	private EClass arcEClass = null;
 
 	/**
 	 * <!-- begin-user-doc -->
@@ -53,6 +55,13 @@ public class NetworkPackageImpl extends EPackageImpl implements NetworkPackage {
 	 * @generated
 	 */
 	private EClass networkEClass = null;
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	private EClass orderEClass = null;
 
 	/**
 	 * <!-- begin-user-doc -->
@@ -94,14 +103,49 @@ public class NetworkPackageImpl extends EPackageImpl implements NetworkPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	private EClass orderEClass = null;
+	private EClass routeEClass = null;
 
 	/**
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	private EClass collectiveOrderEClass = null;
+	private EClass solutionEClass = null;
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	private EClass usedArcEClass = null;
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	private EClass useCaseEClass = null;
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	private EClass globalSearchEClass = null;
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	private EClass localSearchEClass = null;
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	private EClass searchHistoryEClass = null;
 
 	/**
 	 * Creates an instance of the model <b>Package</b>, registered with
@@ -149,16 +193,11 @@ public class NetworkPackageImpl extends EPackageImpl implements NetworkPackage {
 
 		isInited = true;
 
-		// Obtain or create and register interdependencies
-		SolutionPackageImpl theSolutionPackage = (SolutionPackageImpl)(EPackage.Registry.INSTANCE.getEPackage(SolutionPackage.eNS_URI) instanceof SolutionPackageImpl ? EPackage.Registry.INSTANCE.getEPackage(SolutionPackage.eNS_URI) : SolutionPackage.eINSTANCE);
-
 		// Create package meta-data objects
 		theNetworkPackage.createPackageContents();
-		theSolutionPackage.createPackageContents();
 
 		// Initialize created meta-data
 		theNetworkPackage.initializePackageContents();
-		theSolutionPackage.initializePackageContents();
 
 		// Mark meta-data to indicate it can't be changed
 		theNetworkPackage.freeze();
@@ -174,8 +213,8 @@ public class NetworkPackageImpl extends EPackageImpl implements NetworkPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EClass getNode() {
-		return nodeEClass;
+	public EClass getVertex() {
+		return vertexEClass;
 	}
 
 	/**
@@ -183,8 +222,8 @@ public class NetworkPackageImpl extends EPackageImpl implements NetworkPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EAttribute getNode_Id() {
-		return (EAttribute)nodeEClass.getEStructuralFeatures().get(0);
+	public EAttribute getVertex_Id() {
+		return (EAttribute)vertexEClass.getEStructuralFeatures().get(0);
 	}
 
 	/**
@@ -192,8 +231,8 @@ public class NetworkPackageImpl extends EPackageImpl implements NetworkPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EReference getNode_EdgeIn() {
-		return (EReference)nodeEClass.getEStructuralFeatures().get(1);
+	public EReference getVertex_ArcIn() {
+		return (EReference)vertexEClass.getEStructuralFeatures().get(1);
 	}
 
 	/**
@@ -201,8 +240,8 @@ public class NetworkPackageImpl extends EPackageImpl implements NetworkPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EReference getNode_EdgeOut() {
-		return (EReference)nodeEClass.getEStructuralFeatures().get(2);
+	public EReference getVertex_ArcOut() {
+		return (EReference)vertexEClass.getEStructuralFeatures().get(2);
 	}
 
 	/**
@@ -210,8 +249,8 @@ public class NetworkPackageImpl extends EPackageImpl implements NetworkPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EReference getNode_Representative() {
-		return (EReference)nodeEClass.getEStructuralFeatures().get(3);
+	public EClass getArc() {
+		return arcEClass;
 	}
 
 	/**
@@ -219,8 +258,8 @@ public class NetworkPackageImpl extends EPackageImpl implements NetworkPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EClass getEdge() {
-		return edgeEClass;
+	public EAttribute getArc_Id() {
+		return (EAttribute)arcEClass.getEStructuralFeatures().get(0);
 	}
 
 	/**
@@ -228,8 +267,8 @@ public class NetworkPackageImpl extends EPackageImpl implements NetworkPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EAttribute getEdge_Id() {
-		return (EAttribute)edgeEClass.getEStructuralFeatures().get(0);
+	public EReference getArc_Start() {
+		return (EReference)arcEClass.getEStructuralFeatures().get(1);
 	}
 
 	/**
@@ -237,8 +276,8 @@ public class NetworkPackageImpl extends EPackageImpl implements NetworkPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EReference getEdge_Start() {
-		return (EReference)edgeEClass.getEStructuralFeatures().get(1);
+	public EReference getArc_End() {
+		return (EReference)arcEClass.getEStructuralFeatures().get(2);
 	}
 
 	/**
@@ -246,8 +285,8 @@ public class NetworkPackageImpl extends EPackageImpl implements NetworkPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EReference getEdge_End() {
-		return (EReference)edgeEClass.getEStructuralFeatures().get(2);
+	public EAttribute getArc_Distance() {
+		return (EAttribute)arcEClass.getEStructuralFeatures().get(3);
 	}
 
 	/**
@@ -255,8 +294,8 @@ public class NetworkPackageImpl extends EPackageImpl implements NetworkPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EAttribute getEdge_Distance() {
-		return (EAttribute)edgeEClass.getEStructuralFeatures().get(3);
+	public EAttribute getArc_Time() {
+		return (EAttribute)arcEClass.getEStructuralFeatures().get(4);
 	}
 
 	/**
@@ -264,17 +303,8 @@ public class NetworkPackageImpl extends EPackageImpl implements NetworkPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EAttribute getEdge_Time() {
-		return (EAttribute)edgeEClass.getEStructuralFeatures().get(4);
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public EAttribute getEdge_IsUsed() {
-		return (EAttribute)edgeEClass.getEStructuralFeatures().get(5);
+	public EAttribute getArc_IsUsed() {
+		return (EAttribute)arcEClass.getEStructuralFeatures().get(5);
 	}
 
 	/**
@@ -291,7 +321,7 @@ public class NetworkPackageImpl extends EPackageImpl implements NetworkPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EReference getNetwork_Edges() {
+	public EReference getNetwork_Arcs() {
 		return (EReference)networkEClass.getEStructuralFeatures().get(0);
 	}
 
@@ -300,7 +330,7 @@ public class NetworkPackageImpl extends EPackageImpl implements NetworkPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EReference getNetwork_Nodes() {
+	public EReference getNetwork_Vertices() {
 		return (EReference)networkEClass.getEStructuralFeatures().get(1);
 	}
 
@@ -318,6 +348,78 @@ public class NetworkPackageImpl extends EPackageImpl implements NetworkPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	public EReference getNetwork_Locatables() {
+		return (EReference)networkEClass.getEStructuralFeatures().get(3);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EClass getOrder() {
+		return orderEClass;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EAttribute getOrder_OrderId() {
+		return (EAttribute)orderEClass.getEStructuralFeatures().get(0);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EReference getOrder_Receiver() {
+		return (EReference)orderEClass.getEStructuralFeatures().get(1);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EAttribute getOrder_Volume() {
+		return (EAttribute)orderEClass.getEStructuralFeatures().get(2);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EAttribute getOrder_Weight() {
+		return (EAttribute)orderEClass.getEStructuralFeatures().get(3);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EReference getOrder_TimeWindow() {
+		return (EReference)orderEClass.getEStructuralFeatures().get(4);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EAttribute getOrder_StandingTimeInSec() {
+		return (EAttribute)orderEClass.getEStructuralFeatures().get(5);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	public EClass getCustomer() {
 		return customerEClass;
 	}
@@ -327,17 +429,8 @@ public class NetworkPackageImpl extends EPackageImpl implements NetworkPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EReference getCustomer_HasTranshipmentPoint() {
-		return (EReference)customerEClass.getEStructuralFeatures().get(0);
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
 	public EReference getCustomer_Orders() {
-		return (EReference)customerEClass.getEStructuralFeatures().get(1);
+		return (EReference)customerEClass.getEStructuralFeatures().get(0);
 	}
 
 	/**
@@ -363,17 +456,8 @@ public class NetworkPackageImpl extends EPackageImpl implements NetworkPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EReference getDepot_PlannedPeriod() {
-		return (EReference)depotEClass.getEStructuralFeatures().get(1);
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
 	public EAttribute getDepot_MaxTourLength() {
-		return (EAttribute)depotEClass.getEStructuralFeatures().get(2);
+		return (EAttribute)depotEClass.getEStructuralFeatures().get(1);
 	}
 
 	/**
@@ -382,25 +466,7 @@ public class NetworkPackageImpl extends EPackageImpl implements NetworkPackage {
 	 * @generated
 	 */
 	public EAttribute getDepot_MaxEmployment() {
-		return (EAttribute)depotEClass.getEStructuralFeatures().get(3);
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public EReference getDepot_TimeWindow() {
-		return (EReference)depotEClass.getEStructuralFeatures().get(4);
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public EReference getDepot_Deliveries() {
-		return (EReference)depotEClass.getEStructuralFeatures().get(5);
+		return (EAttribute)depotEClass.getEStructuralFeatures().get(2);
 	}
 
 	/**
@@ -579,8 +645,8 @@ public class NetworkPackageImpl extends EPackageImpl implements NetworkPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EClass getOrder() {
-		return orderEClass;
+	public EReference getLocatable_TimeWindow() {
+		return (EReference)locatableEClass.getEStructuralFeatures().get(3);
 	}
 
 	/**
@@ -588,8 +654,8 @@ public class NetworkPackageImpl extends EPackageImpl implements NetworkPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EAttribute getOrder_Id() {
-		return (EAttribute)orderEClass.getEStructuralFeatures().get(0);
+	public EClass getRoute() {
+		return routeEClass;
 	}
 
 	/**
@@ -597,8 +663,8 @@ public class NetworkPackageImpl extends EPackageImpl implements NetworkPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EReference getOrder_Receiver() {
-		return (EReference)orderEClass.getEStructuralFeatures().get(1);
+	public EReference getRoute_Vehicle() {
+		return (EReference)routeEClass.getEStructuralFeatures().get(0);
 	}
 
 	/**
@@ -606,8 +672,8 @@ public class NetworkPackageImpl extends EPackageImpl implements NetworkPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EAttribute getOrder_Volume() {
-		return (EAttribute)orderEClass.getEStructuralFeatures().get(2);
+	public EAttribute getRoute_TotalDistanceInM() {
+		return (EAttribute)routeEClass.getEStructuralFeatures().get(1);
 	}
 
 	/**
@@ -615,8 +681,8 @@ public class NetworkPackageImpl extends EPackageImpl implements NetworkPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EAttribute getOrder_Weight() {
-		return (EAttribute)orderEClass.getEStructuralFeatures().get(3);
+	public EAttribute getRoute_TotalTimeInSec() {
+		return (EAttribute)routeEClass.getEStructuralFeatures().get(2);
 	}
 
 	/**
@@ -624,8 +690,8 @@ public class NetworkPackageImpl extends EPackageImpl implements NetworkPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EReference getOrder_TimeWindow() {
-		return (EReference)orderEClass.getEStructuralFeatures().get(4);
+	public EReference getRoute_Way() {
+		return (EReference)routeEClass.getEStructuralFeatures().get(3);
 	}
 
 	/**
@@ -633,8 +699,8 @@ public class NetworkPackageImpl extends EPackageImpl implements NetworkPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EAttribute getOrder_StandingTimeInSec() {
-		return (EAttribute)orderEClass.getEStructuralFeatures().get(5);
+	public EClass getSolution() {
+		return solutionEClass;
 	}
 
 	/**
@@ -642,8 +708,8 @@ public class NetworkPackageImpl extends EPackageImpl implements NetworkPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EClass getCollectiveOrder() {
-		return collectiveOrderEClass;
+	public EReference getSolution_Routes() {
+		return (EReference)solutionEClass.getEStructuralFeatures().get(0);
 	}
 
 	/**
@@ -651,8 +717,269 @@ public class NetworkPackageImpl extends EPackageImpl implements NetworkPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EReference getCollectiveOrder_SubOrder() {
-		return (EReference)collectiveOrderEClass.getEStructuralFeatures().get(0);
+	public EAttribute getSolution_Id() {
+		return (EAttribute)solutionEClass.getEStructuralFeatures().get(1);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EAttribute getSolution_TotalDistance() {
+		return (EAttribute)solutionEClass.getEStructuralFeatures().get(2);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EAttribute getSolution_TotalTime() {
+		return (EAttribute)solutionEClass.getEStructuralFeatures().get(3);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EReference getSolution_Usecase() {
+		return (EReference)solutionEClass.getEStructuralFeatures().get(4);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EReference getSolution_History() {
+		return (EReference)solutionEClass.getEStructuralFeatures().get(5);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EAttribute getSolution_AlgorithmName() {
+		return (EAttribute)solutionEClass.getEStructuralFeatures().get(6);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EAttribute getSolution_CreationTime() {
+		return (EAttribute)solutionEClass.getEStructuralFeatures().get(7);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EAttribute getSolution_SolvingTime() {
+		return (EAttribute)solutionEClass.getEStructuralFeatures().get(8);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EClass getUsedArc() {
+		return usedArcEClass;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EReference getUsedArc_Arc() {
+		return (EReference)usedArcEClass.getEStructuralFeatures().get(0);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EAttribute getUsedArc_CurrentVehicleCargoWeight() {
+		return (EAttribute)usedArcEClass.getEStructuralFeatures().get(1);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EReference getUsedArc_Duration() {
+		return (EReference)usedArcEClass.getEStructuralFeatures().get(2);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EAttribute getUsedArc_RemainingVehicleBatteryCapacityAtEnd() {
+		return (EAttribute)usedArcEClass.getEStructuralFeatures().get(3);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EClass getUseCase() {
+		return useCaseEClass;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EAttribute getUseCase_Id() {
+		return (EAttribute)useCaseEClass.getEStructuralFeatures().get(0);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EAttribute getUseCase_Name() {
+		return (EAttribute)useCaseEClass.getEStructuralFeatures().get(1);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EReference getUseCase_Vehicles() {
+		return (EReference)useCaseEClass.getEStructuralFeatures().get(2);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EAttribute getUseCase_MaxTourLengthInSec() {
+		return (EAttribute)useCaseEClass.getEStructuralFeatures().get(3);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EClass getGlobalSearch() {
+		return globalSearchEClass;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EAttribute getGlobalSearch_Name() {
+		return (EAttribute)globalSearchEClass.getEStructuralFeatures().get(0);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EAttribute getGlobalSearch_Cost() {
+		return (EAttribute)globalSearchEClass.getEStructuralFeatures().get(1);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EAttribute getGlobalSearch_PrevCost() {
+		return (EAttribute)globalSearchEClass.getEStructuralFeatures().get(2);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EReference getGlobalSearch_LocalSearches() {
+		return (EReference)globalSearchEClass.getEStructuralFeatures().get(3);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EAttribute getGlobalSearch_Operation() {
+		return (EAttribute)globalSearchEClass.getEStructuralFeatures().get(4);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EClass getLocalSearch() {
+		return localSearchEClass;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EAttribute getLocalSearch_Operation() {
+		return (EAttribute)localSearchEClass.getEStructuralFeatures().get(0);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EAttribute getLocalSearch_Cost() {
+		return (EAttribute)localSearchEClass.getEStructuralFeatures().get(1);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EAttribute getLocalSearch_Time() {
+		return (EAttribute)localSearchEClass.getEStructuralFeatures().get(2);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EClass getSearchHistory() {
+		return searchHistoryEClass;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EReference getSearchHistory_Searches() {
+		return (EReference)searchHistoryEClass.getEStructuralFeatures().get(0);
 	}
 
 	/**
@@ -683,36 +1010,40 @@ public class NetworkPackageImpl extends EPackageImpl implements NetworkPackage {
 		isCreated = true;
 
 		// Create classes and their features
-		nodeEClass = createEClass(NODE);
-		createEAttribute(nodeEClass, NODE__ID);
-		createEReference(nodeEClass, NODE__EDGE_IN);
-		createEReference(nodeEClass, NODE__EDGE_OUT);
-		createEReference(nodeEClass, NODE__REPRESENTATIVE);
+		vertexEClass = createEClass(VERTEX);
+		createEAttribute(vertexEClass, VERTEX__ID);
+		createEReference(vertexEClass, VERTEX__ARC_IN);
+		createEReference(vertexEClass, VERTEX__ARC_OUT);
 
-		edgeEClass = createEClass(EDGE);
-		createEAttribute(edgeEClass, EDGE__ID);
-		createEReference(edgeEClass, EDGE__START);
-		createEReference(edgeEClass, EDGE__END);
-		createEAttribute(edgeEClass, EDGE__DISTANCE);
-		createEAttribute(edgeEClass, EDGE__TIME);
-		createEAttribute(edgeEClass, EDGE__IS_USED);
+		arcEClass = createEClass(ARC);
+		createEAttribute(arcEClass, ARC__ID);
+		createEReference(arcEClass, ARC__START);
+		createEReference(arcEClass, ARC__END);
+		createEAttribute(arcEClass, ARC__DISTANCE);
+		createEAttribute(arcEClass, ARC__TIME);
+		createEAttribute(arcEClass, ARC__IS_USED);
 
 		networkEClass = createEClass(NETWORK);
-		createEReference(networkEClass, NETWORK__EDGES);
-		createEReference(networkEClass, NETWORK__NODES);
+		createEReference(networkEClass, NETWORK__ARCS);
+		createEReference(networkEClass, NETWORK__VERTICES);
 		createEReference(networkEClass, NETWORK__SOLUTION);
+		createEReference(networkEClass, NETWORK__LOCATABLES);
+
+		orderEClass = createEClass(ORDER);
+		createEAttribute(orderEClass, ORDER__ORDER_ID);
+		createEReference(orderEClass, ORDER__RECEIVER);
+		createEAttribute(orderEClass, ORDER__VOLUME);
+		createEAttribute(orderEClass, ORDER__WEIGHT);
+		createEReference(orderEClass, ORDER__TIME_WINDOW);
+		createEAttribute(orderEClass, ORDER__STANDING_TIME_IN_SEC);
 
 		customerEClass = createEClass(CUSTOMER);
-		createEReference(customerEClass, CUSTOMER__HAS_TRANSHIPMENT_POINT);
 		createEReference(customerEClass, CUSTOMER__ORDERS);
 
 		depotEClass = createEClass(DEPOT);
 		createEAttribute(depotEClass, DEPOT__FIX_PLACE_TIME_IF_MULTIPLE_OPERATIONS);
-		createEReference(depotEClass, DEPOT__PLANNED_PERIOD);
 		createEAttribute(depotEClass, DEPOT__MAX_TOUR_LENGTH);
 		createEAttribute(depotEClass, DEPOT__MAX_EMPLOYMENT);
-		createEReference(depotEClass, DEPOT__TIME_WINDOW);
-		createEReference(depotEClass, DEPOT__DELIVERIES);
 
 		durationEClass = createEClass(DURATION);
 		createEAttribute(durationEClass, DURATION__START_IN_SEC);
@@ -735,17 +1066,51 @@ public class NetworkPackageImpl extends EPackageImpl implements NetworkPackage {
 		createEAttribute(locatableEClass, LOCATABLE__LATITUDE);
 		createEAttribute(locatableEClass, LOCATABLE__LONGITUDE);
 		createEAttribute(locatableEClass, LOCATABLE__SERVICE_TIME_IN_SEC);
+		createEReference(locatableEClass, LOCATABLE__TIME_WINDOW);
 
-		orderEClass = createEClass(ORDER);
-		createEAttribute(orderEClass, ORDER__ID);
-		createEReference(orderEClass, ORDER__RECEIVER);
-		createEAttribute(orderEClass, ORDER__VOLUME);
-		createEAttribute(orderEClass, ORDER__WEIGHT);
-		createEReference(orderEClass, ORDER__TIME_WINDOW);
-		createEAttribute(orderEClass, ORDER__STANDING_TIME_IN_SEC);
+		routeEClass = createEClass(ROUTE);
+		createEReference(routeEClass, ROUTE__VEHICLE);
+		createEAttribute(routeEClass, ROUTE__TOTAL_DISTANCE_IN_M);
+		createEAttribute(routeEClass, ROUTE__TOTAL_TIME_IN_SEC);
+		createEReference(routeEClass, ROUTE__WAY);
 
-		collectiveOrderEClass = createEClass(COLLECTIVE_ORDER);
-		createEReference(collectiveOrderEClass, COLLECTIVE_ORDER__SUB_ORDER);
+		solutionEClass = createEClass(SOLUTION);
+		createEReference(solutionEClass, SOLUTION__ROUTES);
+		createEAttribute(solutionEClass, SOLUTION__ID);
+		createEAttribute(solutionEClass, SOLUTION__TOTAL_DISTANCE);
+		createEAttribute(solutionEClass, SOLUTION__TOTAL_TIME);
+		createEReference(solutionEClass, SOLUTION__USECASE);
+		createEReference(solutionEClass, SOLUTION__HISTORY);
+		createEAttribute(solutionEClass, SOLUTION__ALGORITHM_NAME);
+		createEAttribute(solutionEClass, SOLUTION__CREATION_TIME);
+		createEAttribute(solutionEClass, SOLUTION__SOLVING_TIME);
+
+		usedArcEClass = createEClass(USED_ARC);
+		createEReference(usedArcEClass, USED_ARC__ARC);
+		createEAttribute(usedArcEClass, USED_ARC__CURRENT_VEHICLE_CARGO_WEIGHT);
+		createEReference(usedArcEClass, USED_ARC__DURATION);
+		createEAttribute(usedArcEClass, USED_ARC__REMAINING_VEHICLE_BATTERY_CAPACITY_AT_END);
+
+		useCaseEClass = createEClass(USE_CASE);
+		createEAttribute(useCaseEClass, USE_CASE__ID);
+		createEAttribute(useCaseEClass, USE_CASE__NAME);
+		createEReference(useCaseEClass, USE_CASE__VEHICLES);
+		createEAttribute(useCaseEClass, USE_CASE__MAX_TOUR_LENGTH_IN_SEC);
+
+		globalSearchEClass = createEClass(GLOBAL_SEARCH);
+		createEAttribute(globalSearchEClass, GLOBAL_SEARCH__NAME);
+		createEAttribute(globalSearchEClass, GLOBAL_SEARCH__COST);
+		createEAttribute(globalSearchEClass, GLOBAL_SEARCH__PREV_COST);
+		createEReference(globalSearchEClass, GLOBAL_SEARCH__LOCAL_SEARCHES);
+		createEAttribute(globalSearchEClass, GLOBAL_SEARCH__OPERATION);
+
+		localSearchEClass = createEClass(LOCAL_SEARCH);
+		createEAttribute(localSearchEClass, LOCAL_SEARCH__OPERATION);
+		createEAttribute(localSearchEClass, LOCAL_SEARCH__COST);
+		createEAttribute(localSearchEClass, LOCAL_SEARCH__TIME);
+
+		searchHistoryEClass = createEClass(SEARCH_HISTORY);
+		createEReference(searchHistoryEClass, SEARCH_HISTORY__SEARCHES);
 	}
 
 	/**
@@ -771,52 +1136,51 @@ public class NetworkPackageImpl extends EPackageImpl implements NetworkPackage {
 		setNsPrefix(eNS_PREFIX);
 		setNsURI(eNS_URI);
 
-		// Obtain other dependent packages
-		SolutionPackage theSolutionPackage = (SolutionPackage)EPackage.Registry.INSTANCE.getEPackage(SolutionPackage.eNS_URI);
-
-		// Add subpackages
-		getESubpackages().add(theSolutionPackage);
-
 		// Create type parameters
 
 		// Set bounds for type parameters
 
 		// Add supertypes to classes
+		orderEClass.getESuperTypes().add(this.getVertex());
 		customerEClass.getESuperTypes().add(this.getLocatable());
+		depotEClass.getESuperTypes().add(this.getVertex());
 		depotEClass.getESuperTypes().add(this.getLocatable());
-		collectiveOrderEClass.getESuperTypes().add(this.getOrder());
 
 		// Initialize classes, features, and operations; add parameters
-		initEClass(nodeEClass, Node.class, "Node", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
-		initEAttribute(getNode_Id(), ecorePackage.getEInt(), "id", null, 0, 1, Node.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-		initEReference(getNode_EdgeIn(), this.getEdge(), null, "edgeIn", null, 0, -1, Node.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-		initEReference(getNode_EdgeOut(), this.getEdge(), null, "edgeOut", null, 0, -1, Node.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-		initEReference(getNode_Representative(), this.getLocatable(), null, "representative", null, 0, 1, Node.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEClass(vertexEClass, Vertex.class, "Vertex", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+		initEAttribute(getVertex_Id(), ecorePackage.getEInt(), "id", null, 0, 1, Vertex.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEReference(getVertex_ArcIn(), this.getArc(), null, "arcIn", null, 0, -1, Vertex.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEReference(getVertex_ArcOut(), this.getArc(), null, "arcOut", null, 0, -1, Vertex.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
-		initEClass(edgeEClass, Edge.class, "Edge", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
-		initEAttribute(getEdge_Id(), ecorePackage.getEString(), "id", null, 0, 1, Edge.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-		initEReference(getEdge_Start(), this.getNode(), null, "start", null, 1, 1, Edge.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-		initEReference(getEdge_End(), this.getNode(), null, "end", null, 1, 1, Edge.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-		initEAttribute(getEdge_Distance(), ecorePackage.getEInt(), "distance", null, 0, 1, Edge.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-		initEAttribute(getEdge_Time(), ecorePackage.getEInt(), "time", null, 0, 1, Edge.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-		initEAttribute(getEdge_IsUsed(), ecorePackage.getEBoolean(), "isUsed", "false", 0, 1, Edge.class, IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEClass(arcEClass, Arc.class, "Arc", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+		initEAttribute(getArc_Id(), ecorePackage.getEString(), "id", null, 0, 1, Arc.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEReference(getArc_Start(), this.getVertex(), null, "start", null, 1, 1, Arc.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEReference(getArc_End(), this.getVertex(), null, "end", null, 1, 1, Arc.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEAttribute(getArc_Distance(), ecorePackage.getEInt(), "distance", null, 0, 1, Arc.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEAttribute(getArc_Time(), ecorePackage.getEInt(), "time", null, 0, 1, Arc.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEAttribute(getArc_IsUsed(), ecorePackage.getEBoolean(), "isUsed", "false", 0, 1, Arc.class, IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		initEClass(networkEClass, Network.class, "Network", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
-		initEReference(getNetwork_Edges(), this.getEdge(), null, "edges", null, 0, -1, Network.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-		initEReference(getNetwork_Nodes(), this.getNode(), null, "nodes", null, 0, -1, Network.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-		initEReference(getNetwork_Solution(), theSolutionPackage.getSolution(), null, "solution", null, 0, -1, Network.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEReference(getNetwork_Arcs(), this.getArc(), null, "arcs", null, 0, -1, Network.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEReference(getNetwork_Vertices(), this.getVertex(), null, "vertices", null, 0, -1, Network.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEReference(getNetwork_Solution(), this.getSolution(), null, "solution", null, 0, -1, Network.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEReference(getNetwork_Locatables(), this.getLocatable(), null, "locatables", null, 0, -1, Network.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+
+		initEClass(orderEClass, Order.class, "Order", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+		initEAttribute(getOrder_OrderId(), ecorePackage.getEString(), "orderId", null, 0, 1, Order.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEReference(getOrder_Receiver(), this.getCustomer(), null, "receiver", null, 1, 1, Order.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEAttribute(getOrder_Volume(), ecorePackage.getEDouble(), "volume", null, 0, 1, Order.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEAttribute(getOrder_Weight(), ecorePackage.getEDouble(), "weight", null, 0, 1, Order.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEReference(getOrder_TimeWindow(), this.getDuration(), null, "timeWindow", null, 0, 1, Order.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEAttribute(getOrder_StandingTimeInSec(), ecorePackage.getEInt(), "standingTimeInSec", null, 0, 1, Order.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		initEClass(customerEClass, Customer.class, "Customer", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
-		initEReference(getCustomer_HasTranshipmentPoint(), this.getDepot(), null, "hasTranshipmentPoint", null, 0, 1, Customer.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEReference(getCustomer_Orders(), this.getOrder(), null, "orders", null, 0, -1, Customer.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		initEClass(depotEClass, Depot.class, "Depot", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 		initEAttribute(getDepot_FixPlaceTimeIfMultipleOperations(), ecorePackage.getEInt(), "fixPlaceTimeIfMultipleOperations", null, 0, 1, Depot.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-		initEReference(getDepot_PlannedPeriod(), this.getDuration(), null, "plannedPeriod", null, 0, 1, Depot.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEAttribute(getDepot_MaxTourLength(), ecorePackage.getEInt(), "maxTourLength", null, 0, 1, Depot.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEAttribute(getDepot_MaxEmployment(), ecorePackage.getEInt(), "maxEmployment", null, 0, 1, Depot.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-		initEReference(getDepot_TimeWindow(), this.getDuration(), null, "timeWindow", null, 0, 1, Depot.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-		initEReference(getDepot_Deliveries(), this.getOrder(), null, "deliveries", null, 0, -1, Depot.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		initEClass(durationEClass, Duration.class, "Duration", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 		initEAttribute(getDuration_StartInSec(), ecorePackage.getEInt(), "startInSec", null, 0, 1, Duration.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
@@ -839,17 +1203,51 @@ public class NetworkPackageImpl extends EPackageImpl implements NetworkPackage {
 		initEAttribute(getLocatable_Latitude(), ecorePackage.getEDouble(), "latitude", null, 0, 1, Locatable.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEAttribute(getLocatable_Longitude(), ecorePackage.getEDouble(), "longitude", null, 0, 1, Locatable.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEAttribute(getLocatable_ServiceTimeInSec(), ecorePackage.getEInt(), "serviceTimeInSec", null, 0, 1, Locatable.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEReference(getLocatable_TimeWindow(), this.getDuration(), null, "timeWindow", null, 0, 1, Locatable.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
-		initEClass(orderEClass, Order.class, "Order", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
-		initEAttribute(getOrder_Id(), ecorePackage.getEString(), "id", null, 0, 1, Order.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-		initEReference(getOrder_Receiver(), this.getCustomer(), null, "receiver", null, 1, 1, Order.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-		initEAttribute(getOrder_Volume(), ecorePackage.getEDouble(), "volume", null, 0, 1, Order.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-		initEAttribute(getOrder_Weight(), ecorePackage.getEDouble(), "weight", null, 0, 1, Order.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-		initEReference(getOrder_TimeWindow(), this.getDuration(), null, "timeWindow", null, 0, 1, Order.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-		initEAttribute(getOrder_StandingTimeInSec(), ecorePackage.getEInt(), "standingTimeInSec", null, 0, 1, Order.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEClass(routeEClass, Route.class, "Route", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+		initEReference(getRoute_Vehicle(), this.getVehicle(), null, "vehicle", null, 1, 1, Route.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, !IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEAttribute(getRoute_TotalDistanceInM(), ecorePackage.getELong(), "totalDistanceInM", null, 0, 1, Route.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEAttribute(getRoute_TotalTimeInSec(), ecorePackage.getEInt(), "totalTimeInSec", null, 0, 1, Route.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEReference(getRoute_Way(), this.getUsedArc(), null, "way", null, 0, -1, Route.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
-		initEClass(collectiveOrderEClass, CollectiveOrder.class, "CollectiveOrder", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
-		initEReference(getCollectiveOrder_SubOrder(), this.getOrder(), null, "subOrder", null, 1, -1, CollectiveOrder.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEClass(solutionEClass, Solution.class, "Solution", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+		initEReference(getSolution_Routes(), this.getRoute(), null, "routes", null, 0, -1, Solution.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEAttribute(getSolution_Id(), ecorePackage.getEString(), "id", null, 0, 1, Solution.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEAttribute(getSolution_TotalDistance(), ecorePackage.getELong(), "totalDistance", null, 0, 1, Solution.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEAttribute(getSolution_TotalTime(), ecorePackage.getELong(), "totalTime", null, 0, 1, Solution.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEReference(getSolution_Usecase(), this.getUseCase(), null, "usecase", null, 1, 1, Solution.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEReference(getSolution_History(), this.getSearchHistory(), null, "history", null, 0, 1, Solution.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEAttribute(getSolution_AlgorithmName(), ecorePackage.getEString(), "algorithmName", null, 0, 1, Solution.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEAttribute(getSolution_CreationTime(), ecorePackage.getELong(), "creationTime", null, 0, 1, Solution.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEAttribute(getSolution_SolvingTime(), ecorePackage.getELong(), "solvingTime", null, 0, 1, Solution.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+
+		initEClass(usedArcEClass, UsedArc.class, "UsedArc", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+		initEReference(getUsedArc_Arc(), this.getArc(), null, "arc", null, 1, 1, UsedArc.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEAttribute(getUsedArc_CurrentVehicleCargoWeight(), ecorePackage.getEDouble(), "currentVehicleCargoWeight", null, 0, 1, UsedArc.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEReference(getUsedArc_Duration(), this.getDuration(), null, "duration", null, 1, 1, UsedArc.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEAttribute(getUsedArc_RemainingVehicleBatteryCapacityAtEnd(), ecorePackage.getEInt(), "remainingVehicleBatteryCapacityAtEnd", null, 0, 1, UsedArc.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+
+		initEClass(useCaseEClass, UseCase.class, "UseCase", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+		initEAttribute(getUseCase_Id(), ecorePackage.getEInt(), "id", null, 1, 1, UseCase.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEAttribute(getUseCase_Name(), ecorePackage.getEString(), "name", null, 1, 1, UseCase.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEReference(getUseCase_Vehicles(), this.getVehicle(), null, "vehicles", null, 0, -1, UseCase.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEAttribute(getUseCase_MaxTourLengthInSec(), ecorePackage.getEInt(), "maxTourLengthInSec", null, 0, 1, UseCase.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+
+		initEClass(globalSearchEClass, GlobalSearch.class, "GlobalSearch", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+		initEAttribute(getGlobalSearch_Name(), ecorePackage.getEString(), "name", null, 0, 1, GlobalSearch.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEAttribute(getGlobalSearch_Cost(), ecorePackage.getELong(), "cost", null, 0, 1, GlobalSearch.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEAttribute(getGlobalSearch_PrevCost(), ecorePackage.getELong(), "prevCost", null, 0, 1, GlobalSearch.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEReference(getGlobalSearch_LocalSearches(), this.getLocalSearch(), null, "localSearches", null, 0, -1, GlobalSearch.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEAttribute(getGlobalSearch_Operation(), ecorePackage.getEString(), "operation", null, 0, 1, GlobalSearch.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+
+		initEClass(localSearchEClass, LocalSearch.class, "LocalSearch", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+		initEAttribute(getLocalSearch_Operation(), ecorePackage.getEString(), "operation", null, 0, 1, LocalSearch.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEAttribute(getLocalSearch_Cost(), ecorePackage.getELong(), "cost", null, 0, 1, LocalSearch.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEAttribute(getLocalSearch_Time(), ecorePackage.getELong(), "time", null, 0, 1, LocalSearch.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+
+		initEClass(searchHistoryEClass, SearchHistory.class, "SearchHistory", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+		initEReference(getSearchHistory_Searches(), this.getGlobalSearch(), null, "searches", null, 0, -1, SearchHistory.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		// Create resource
 		createResource(eNS_URI);

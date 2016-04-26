@@ -1,12 +1,11 @@
 /**
  */
-package de.fuberlin.winfo.project.model.network.solution.impl;
+package de.fuberlin.winfo.project.model.network.impl;
 
+import de.fuberlin.winfo.project.model.network.Arc;
 import de.fuberlin.winfo.project.model.network.Duration;
-import de.fuberlin.winfo.project.model.network.Edge;
-
-import de.fuberlin.winfo.project.model.network.solution.SolutionPackage;
-import de.fuberlin.winfo.project.model.network.solution.UsedEdge;
+import de.fuberlin.winfo.project.model.network.NetworkPackage;
+import de.fuberlin.winfo.project.model.network.UsedArc;
 
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.notify.NotificationChain;
@@ -19,30 +18,30 @@ import org.eclipse.emf.ecore.impl.MinimalEObjectImpl;
 
 /**
  * <!-- begin-user-doc -->
- * An implementation of the model object '<em><b>Used Edge</b></em>'.
+ * An implementation of the model object '<em><b>Used Arc</b></em>'.
  * <!-- end-user-doc -->
  * <p>
  * The following features are implemented:
  * </p>
  * <ul>
- *   <li>{@link de.fuberlin.winfo.project.model.network.solution.impl.UsedEdgeImpl#getEdge <em>Edge</em>}</li>
- *   <li>{@link de.fuberlin.winfo.project.model.network.solution.impl.UsedEdgeImpl#getCurrentVehicleCargoWeight <em>Current Vehicle Cargo Weight</em>}</li>
- *   <li>{@link de.fuberlin.winfo.project.model.network.solution.impl.UsedEdgeImpl#getDuration <em>Duration</em>}</li>
- *   <li>{@link de.fuberlin.winfo.project.model.network.solution.impl.UsedEdgeImpl#getRemainingVehicleBatteryCapacityAtEnd <em>Remaining Vehicle Battery Capacity At End</em>}</li>
+ *   <li>{@link de.fuberlin.winfo.project.model.network.impl.UsedArcImpl#getArc <em>Arc</em>}</li>
+ *   <li>{@link de.fuberlin.winfo.project.model.network.impl.UsedArcImpl#getCurrentVehicleCargoWeight <em>Current Vehicle Cargo Weight</em>}</li>
+ *   <li>{@link de.fuberlin.winfo.project.model.network.impl.UsedArcImpl#getDuration <em>Duration</em>}</li>
+ *   <li>{@link de.fuberlin.winfo.project.model.network.impl.UsedArcImpl#getRemainingVehicleBatteryCapacityAtEnd <em>Remaining Vehicle Battery Capacity At End</em>}</li>
  * </ul>
  *
  * @generated
  */
-public class UsedEdgeImpl extends MinimalEObjectImpl.Container implements UsedEdge {
+public class UsedArcImpl extends MinimalEObjectImpl.Container implements UsedArc {
 	/**
-	 * The cached value of the '{@link #getEdge() <em>Edge</em>}' reference.
+	 * The cached value of the '{@link #getArc() <em>Arc</em>}' reference.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @see #getEdge()
+	 * @see #getArc()
 	 * @generated
 	 * @ordered
 	 */
-	protected Edge edge;
+	protected Arc arc;
 
 	/**
 	 * The default value of the '{@link #getCurrentVehicleCargoWeight() <em>Current Vehicle Cargo Weight</em>}' attribute.
@@ -99,7 +98,7 @@ public class UsedEdgeImpl extends MinimalEObjectImpl.Container implements UsedEd
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	protected UsedEdgeImpl() {
+	protected UsedArcImpl() {
 		super();
 	}
 
@@ -110,7 +109,7 @@ public class UsedEdgeImpl extends MinimalEObjectImpl.Container implements UsedEd
 	 */
 	@Override
 	protected EClass eStaticClass() {
-		return SolutionPackage.Literals.USED_EDGE;
+		return NetworkPackage.Literals.USED_ARC;
 	}
 
 	/**
@@ -118,16 +117,16 @@ public class UsedEdgeImpl extends MinimalEObjectImpl.Container implements UsedEd
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public Edge getEdge() {
-		if (edge != null && edge.eIsProxy()) {
-			InternalEObject oldEdge = (InternalEObject)edge;
-			edge = (Edge)eResolveProxy(oldEdge);
-			if (edge != oldEdge) {
+	public Arc getArc() {
+		if (arc != null && arc.eIsProxy()) {
+			InternalEObject oldArc = (InternalEObject)arc;
+			arc = (Arc)eResolveProxy(oldArc);
+			if (arc != oldArc) {
 				if (eNotificationRequired())
-					eNotify(new ENotificationImpl(this, Notification.RESOLVE, SolutionPackage.USED_EDGE__EDGE, oldEdge, edge));
+					eNotify(new ENotificationImpl(this, Notification.RESOLVE, NetworkPackage.USED_ARC__ARC, oldArc, arc));
 			}
 		}
-		return edge;
+		return arc;
 	}
 
 	/**
@@ -135,8 +134,8 @@ public class UsedEdgeImpl extends MinimalEObjectImpl.Container implements UsedEd
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public Edge basicGetEdge() {
-		return edge;
+	public Arc basicGetArc() {
+		return arc;
 	}
 
 	/**
@@ -144,11 +143,11 @@ public class UsedEdgeImpl extends MinimalEObjectImpl.Container implements UsedEd
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public void setEdge(Edge newEdge) {
-		Edge oldEdge = edge;
-		edge = newEdge;
+	public void setArc(Arc newArc) {
+		Arc oldArc = arc;
+		arc = newArc;
 		if (eNotificationRequired())
-			eNotify(new ENotificationImpl(this, Notification.SET, SolutionPackage.USED_EDGE__EDGE, oldEdge, edge));
+			eNotify(new ENotificationImpl(this, Notification.SET, NetworkPackage.USED_ARC__ARC, oldArc, arc));
 	}
 
 	/**
@@ -169,7 +168,7 @@ public class UsedEdgeImpl extends MinimalEObjectImpl.Container implements UsedEd
 		double oldCurrentVehicleCargoWeight = currentVehicleCargoWeight;
 		currentVehicleCargoWeight = newCurrentVehicleCargoWeight;
 		if (eNotificationRequired())
-			eNotify(new ENotificationImpl(this, Notification.SET, SolutionPackage.USED_EDGE__CURRENT_VEHICLE_CARGO_WEIGHT, oldCurrentVehicleCargoWeight, currentVehicleCargoWeight));
+			eNotify(new ENotificationImpl(this, Notification.SET, NetworkPackage.USED_ARC__CURRENT_VEHICLE_CARGO_WEIGHT, oldCurrentVehicleCargoWeight, currentVehicleCargoWeight));
 	}
 
 	/**
@@ -190,7 +189,7 @@ public class UsedEdgeImpl extends MinimalEObjectImpl.Container implements UsedEd
 		Duration oldDuration = duration;
 		duration = newDuration;
 		if (eNotificationRequired()) {
-			ENotificationImpl notification = new ENotificationImpl(this, Notification.SET, SolutionPackage.USED_EDGE__DURATION, oldDuration, newDuration);
+			ENotificationImpl notification = new ENotificationImpl(this, Notification.SET, NetworkPackage.USED_ARC__DURATION, oldDuration, newDuration);
 			if (msgs == null) msgs = notification; else msgs.add(notification);
 		}
 		return msgs;
@@ -205,14 +204,14 @@ public class UsedEdgeImpl extends MinimalEObjectImpl.Container implements UsedEd
 		if (newDuration != duration) {
 			NotificationChain msgs = null;
 			if (duration != null)
-				msgs = ((InternalEObject)duration).eInverseRemove(this, EOPPOSITE_FEATURE_BASE - SolutionPackage.USED_EDGE__DURATION, null, msgs);
+				msgs = ((InternalEObject)duration).eInverseRemove(this, EOPPOSITE_FEATURE_BASE - NetworkPackage.USED_ARC__DURATION, null, msgs);
 			if (newDuration != null)
-				msgs = ((InternalEObject)newDuration).eInverseAdd(this, EOPPOSITE_FEATURE_BASE - SolutionPackage.USED_EDGE__DURATION, null, msgs);
+				msgs = ((InternalEObject)newDuration).eInverseAdd(this, EOPPOSITE_FEATURE_BASE - NetworkPackage.USED_ARC__DURATION, null, msgs);
 			msgs = basicSetDuration(newDuration, msgs);
 			if (msgs != null) msgs.dispatch();
 		}
 		else if (eNotificationRequired())
-			eNotify(new ENotificationImpl(this, Notification.SET, SolutionPackage.USED_EDGE__DURATION, newDuration, newDuration));
+			eNotify(new ENotificationImpl(this, Notification.SET, NetworkPackage.USED_ARC__DURATION, newDuration, newDuration));
 	}
 
 	/**
@@ -233,7 +232,7 @@ public class UsedEdgeImpl extends MinimalEObjectImpl.Container implements UsedEd
 		int oldRemainingVehicleBatteryCapacityAtEnd = remainingVehicleBatteryCapacityAtEnd;
 		remainingVehicleBatteryCapacityAtEnd = newRemainingVehicleBatteryCapacityAtEnd;
 		if (eNotificationRequired())
-			eNotify(new ENotificationImpl(this, Notification.SET, SolutionPackage.USED_EDGE__REMAINING_VEHICLE_BATTERY_CAPACITY_AT_END, oldRemainingVehicleBatteryCapacityAtEnd, remainingVehicleBatteryCapacityAtEnd));
+			eNotify(new ENotificationImpl(this, Notification.SET, NetworkPackage.USED_ARC__REMAINING_VEHICLE_BATTERY_CAPACITY_AT_END, oldRemainingVehicleBatteryCapacityAtEnd, remainingVehicleBatteryCapacityAtEnd));
 	}
 
 	/**
@@ -244,7 +243,7 @@ public class UsedEdgeImpl extends MinimalEObjectImpl.Container implements UsedEd
 	@Override
 	public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, NotificationChain msgs) {
 		switch (featureID) {
-			case SolutionPackage.USED_EDGE__DURATION:
+			case NetworkPackage.USED_ARC__DURATION:
 				return basicSetDuration(null, msgs);
 		}
 		return super.eInverseRemove(otherEnd, featureID, msgs);
@@ -258,14 +257,14 @@ public class UsedEdgeImpl extends MinimalEObjectImpl.Container implements UsedEd
 	@Override
 	public Object eGet(int featureID, boolean resolve, boolean coreType) {
 		switch (featureID) {
-			case SolutionPackage.USED_EDGE__EDGE:
-				if (resolve) return getEdge();
-				return basicGetEdge();
-			case SolutionPackage.USED_EDGE__CURRENT_VEHICLE_CARGO_WEIGHT:
+			case NetworkPackage.USED_ARC__ARC:
+				if (resolve) return getArc();
+				return basicGetArc();
+			case NetworkPackage.USED_ARC__CURRENT_VEHICLE_CARGO_WEIGHT:
 				return getCurrentVehicleCargoWeight();
-			case SolutionPackage.USED_EDGE__DURATION:
+			case NetworkPackage.USED_ARC__DURATION:
 				return getDuration();
-			case SolutionPackage.USED_EDGE__REMAINING_VEHICLE_BATTERY_CAPACITY_AT_END:
+			case NetworkPackage.USED_ARC__REMAINING_VEHICLE_BATTERY_CAPACITY_AT_END:
 				return getRemainingVehicleBatteryCapacityAtEnd();
 		}
 		return super.eGet(featureID, resolve, coreType);
@@ -279,16 +278,16 @@ public class UsedEdgeImpl extends MinimalEObjectImpl.Container implements UsedEd
 	@Override
 	public void eSet(int featureID, Object newValue) {
 		switch (featureID) {
-			case SolutionPackage.USED_EDGE__EDGE:
-				setEdge((Edge)newValue);
+			case NetworkPackage.USED_ARC__ARC:
+				setArc((Arc)newValue);
 				return;
-			case SolutionPackage.USED_EDGE__CURRENT_VEHICLE_CARGO_WEIGHT:
+			case NetworkPackage.USED_ARC__CURRENT_VEHICLE_CARGO_WEIGHT:
 				setCurrentVehicleCargoWeight((Double)newValue);
 				return;
-			case SolutionPackage.USED_EDGE__DURATION:
+			case NetworkPackage.USED_ARC__DURATION:
 				setDuration((Duration)newValue);
 				return;
-			case SolutionPackage.USED_EDGE__REMAINING_VEHICLE_BATTERY_CAPACITY_AT_END:
+			case NetworkPackage.USED_ARC__REMAINING_VEHICLE_BATTERY_CAPACITY_AT_END:
 				setRemainingVehicleBatteryCapacityAtEnd((Integer)newValue);
 				return;
 		}
@@ -303,16 +302,16 @@ public class UsedEdgeImpl extends MinimalEObjectImpl.Container implements UsedEd
 	@Override
 	public void eUnset(int featureID) {
 		switch (featureID) {
-			case SolutionPackage.USED_EDGE__EDGE:
-				setEdge((Edge)null);
+			case NetworkPackage.USED_ARC__ARC:
+				setArc((Arc)null);
 				return;
-			case SolutionPackage.USED_EDGE__CURRENT_VEHICLE_CARGO_WEIGHT:
+			case NetworkPackage.USED_ARC__CURRENT_VEHICLE_CARGO_WEIGHT:
 				setCurrentVehicleCargoWeight(CURRENT_VEHICLE_CARGO_WEIGHT_EDEFAULT);
 				return;
-			case SolutionPackage.USED_EDGE__DURATION:
+			case NetworkPackage.USED_ARC__DURATION:
 				setDuration((Duration)null);
 				return;
-			case SolutionPackage.USED_EDGE__REMAINING_VEHICLE_BATTERY_CAPACITY_AT_END:
+			case NetworkPackage.USED_ARC__REMAINING_VEHICLE_BATTERY_CAPACITY_AT_END:
 				setRemainingVehicleBatteryCapacityAtEnd(REMAINING_VEHICLE_BATTERY_CAPACITY_AT_END_EDEFAULT);
 				return;
 		}
@@ -327,13 +326,13 @@ public class UsedEdgeImpl extends MinimalEObjectImpl.Container implements UsedEd
 	@Override
 	public boolean eIsSet(int featureID) {
 		switch (featureID) {
-			case SolutionPackage.USED_EDGE__EDGE:
-				return edge != null;
-			case SolutionPackage.USED_EDGE__CURRENT_VEHICLE_CARGO_WEIGHT:
+			case NetworkPackage.USED_ARC__ARC:
+				return arc != null;
+			case NetworkPackage.USED_ARC__CURRENT_VEHICLE_CARGO_WEIGHT:
 				return currentVehicleCargoWeight != CURRENT_VEHICLE_CARGO_WEIGHT_EDEFAULT;
-			case SolutionPackage.USED_EDGE__DURATION:
+			case NetworkPackage.USED_ARC__DURATION:
 				return duration != null;
-			case SolutionPackage.USED_EDGE__REMAINING_VEHICLE_BATTERY_CAPACITY_AT_END:
+			case NetworkPackage.USED_ARC__REMAINING_VEHICLE_BATTERY_CAPACITY_AT_END:
 				return remainingVehicleBatteryCapacityAtEnd != REMAINING_VEHICLE_BATTERY_CAPACITY_AT_END_EDEFAULT;
 		}
 		return super.eIsSet(featureID);
@@ -357,4 +356,4 @@ public class UsedEdgeImpl extends MinimalEObjectImpl.Container implements UsedEd
 		return result.toString();
 	}
 
-} //UsedEdgeImpl
+} //UsedArcImpl

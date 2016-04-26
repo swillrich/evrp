@@ -4,7 +4,7 @@ import java.util.Random;
 import java.util.Set;
 import java.util.TreeSet;
 
-import de.fuberlin.winfo.project.model.network.solution.Solution;
+import de.fuberlin.winfo.project.model.network.Solution;
 
 public abstract class AbstractStochasticNeighborhoodStructure extends NeighborhoodStructure {
 

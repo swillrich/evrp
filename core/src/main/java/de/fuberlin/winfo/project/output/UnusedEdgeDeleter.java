@@ -5,11 +5,11 @@ import java.util.LinkedList;
 import de.fuberlin.winfo.project.Log;
 import de.fuberlin.winfo.project.Utils;
 import de.fuberlin.winfo.project.Utils.ProgressBar;
-import de.fuberlin.winfo.project.model.network.Edge;
+import de.fuberlin.winfo.project.model.network.Arc;
 import de.fuberlin.winfo.project.model.network.Network;
-import de.fuberlin.winfo.project.model.network.solution.Route;
-import de.fuberlin.winfo.project.model.network.solution.Solution;
-import de.fuberlin.winfo.project.model.network.solution.UsedEdge;
+import de.fuberlin.winfo.project.model.network.Route;
+import de.fuberlin.winfo.project.model.network.Solution;
+import de.fuberlin.winfo.project.model.network.UsedArc;
 
 public class UnusedEdgeDeleter {
 
@@ -21,14 +21,14 @@ public class UnusedEdgeDeleter {
 		for (Solution solution : network.getSolution()) {
 			for (Route route : solution.getRoutes()) {
 				n += route.getWay().size();
-				for (UsedEdge usedEdge : route.getWay()) {
-					usedEdge.getEdge().setIsUsed(true);
+				for (UsedArc usedEdge : route.getWay()) {
+					usedEdge.getArc().setIsUsed(true);
 				}
 			}
 		}
 
-		LinkedList<Edge> tmpLinkedList = new LinkedList<Edge>(network.getEdges());
-		network.getEdges().clear();
+		LinkedList<Arc> tmpLinkedList = new LinkedList<Arc>(network.getArcs());
+		network.getArcs().clear();
 
 		ProgressBar showProgress = Utils.showProgress(tmpLinkedList.size() - n);
 		int removed = 0;
@@ -36,11 +36,11 @@ public class UnusedEdgeDeleter {
 			if (i >= tmpLinkedList.size()) {
 				break;
 			}
-			Edge edge = tmpLinkedList.get(i);
+			Arc edge = tmpLinkedList.get(i);
 			if (!edge.isIsUsed()) {
 				tmpLinkedList.remove(i);
-				edge.getEnd().getEdgeIn().remove(edge);
-				edge.getStart().getEdgeOut().remove(edge);
+				edge.getEnd().getArcIn().remove(edge);
+				edge.getStart().getArcOut().remove(edge);
 				removed++;
 				i--;
 				showProgress.update(removed);
@@ -48,6 +48,6 @@ public class UnusedEdgeDeleter {
 		}
 		showProgress.done();
 
-		network.getEdges().addAll(tmpLinkedList);
+		network.getArcs().addAll(tmpLinkedList);
 	}
 }

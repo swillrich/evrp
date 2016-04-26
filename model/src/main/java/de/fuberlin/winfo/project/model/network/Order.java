@@ -2,7 +2,6 @@
  */
 package de.fuberlin.winfo.project.model.network;
 
-import org.eclipse.emf.ecore.EObject;
 
 /**
  * <!-- begin-user-doc -->
@@ -13,7 +12,7 @@ import org.eclipse.emf.ecore.EObject;
  * The following features are supported:
  * </p>
  * <ul>
- *   <li>{@link de.fuberlin.winfo.project.model.network.Order#getId <em>Id</em>}</li>
+ *   <li>{@link de.fuberlin.winfo.project.model.network.Order#getOrderId <em>Order Id</em>}</li>
  *   <li>{@link de.fuberlin.winfo.project.model.network.Order#getReceiver <em>Receiver</em>}</li>
  *   <li>{@link de.fuberlin.winfo.project.model.network.Order#getVolume <em>Volume</em>}</li>
  *   <li>{@link de.fuberlin.winfo.project.model.network.Order#getWeight <em>Weight</em>}</li>
@@ -25,32 +24,32 @@ import org.eclipse.emf.ecore.EObject;
  * @model
  * @generated
  */
-public interface Order extends EObject {
+public interface Order extends Vertex {
 	/**
-	 * Returns the value of the '<em><b>Id</b></em>' attribute.
+	 * Returns the value of the '<em><b>Order Id</b></em>' attribute.
 	 * <!-- begin-user-doc -->
 	 * <p>
-	 * If the meaning of the '<em>Id</em>' attribute isn't clear,
+	 * If the meaning of the '<em>Order Id</em>' attribute isn't clear,
 	 * there really should be more of a description here...
 	 * </p>
 	 * <!-- end-user-doc -->
-	 * @return the value of the '<em>Id</em>' attribute.
-	 * @see #setId(String)
-	 * @see de.fuberlin.winfo.project.model.network.NetworkPackage#getOrder_Id()
+	 * @return the value of the '<em>Order Id</em>' attribute.
+	 * @see #setOrderId(String)
+	 * @see de.fuberlin.winfo.project.model.network.NetworkPackage#getOrder_OrderId()
 	 * @model
 	 * @generated
 	 */
-	String getId();
+	String getOrderId();
 
 	/**
-	 * Sets the value of the '{@link de.fuberlin.winfo.project.model.network.Order#getId <em>Id</em>}' attribute.
+	 * Sets the value of the '{@link de.fuberlin.winfo.project.model.network.Order#getOrderId <em>Order Id</em>}' attribute.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @param value the new value of the '<em>Id</em>' attribute.
-	 * @see #getId()
+	 * @param value the new value of the '<em>Order Id</em>' attribute.
+	 * @see #getOrderId()
 	 * @generated
 	 */
-	void setId(String value);
+	void setOrderId(String value);
 
 	/**
 	 * Returns the value of the '<em><b>Receiver</b></em>' reference.

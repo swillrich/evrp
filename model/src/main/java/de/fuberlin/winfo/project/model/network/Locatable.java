@@ -16,6 +16,7 @@ import org.eclipse.emf.ecore.EObject;
  *   <li>{@link de.fuberlin.winfo.project.model.network.Locatable#getLatitude <em>Latitude</em>}</li>
  *   <li>{@link de.fuberlin.winfo.project.model.network.Locatable#getLongitude <em>Longitude</em>}</li>
  *   <li>{@link de.fuberlin.winfo.project.model.network.Locatable#getServiceTimeInSec <em>Service Time In Sec</em>}</li>
+ *   <li>{@link de.fuberlin.winfo.project.model.network.Locatable#getTimeWindow <em>Time Window</em>}</li>
  * </ul>
  *
  * @see de.fuberlin.winfo.project.model.network.NetworkPackage#getLocatable()
@@ -100,5 +101,31 @@ public interface Locatable extends EObject {
 	 * @generated
 	 */
 	void setServiceTimeInSec(int value);
+
+	/**
+	 * Returns the value of the '<em><b>Time Window</b></em>' containment reference.
+	 * <!-- begin-user-doc -->
+	 * <p>
+	 * If the meaning of the '<em>Time Window</em>' containment reference isn't clear,
+	 * there really should be more of a description here...
+	 * </p>
+	 * <!-- end-user-doc -->
+	 * @return the value of the '<em>Time Window</em>' containment reference.
+	 * @see #setTimeWindow(Duration)
+	 * @see de.fuberlin.winfo.project.model.network.NetworkPackage#getLocatable_TimeWindow()
+	 * @model containment="true"
+	 * @generated
+	 */
+	Duration getTimeWindow();
+
+	/**
+	 * Sets the value of the '{@link de.fuberlin.winfo.project.model.network.Locatable#getTimeWindow <em>Time Window</em>}' containment reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @param value the new value of the '<em>Time Window</em>' containment reference.
+	 * @see #getTimeWindow()
+	 * @generated
+	 */
+	void setTimeWindow(Duration value);
 
 } // Locatable

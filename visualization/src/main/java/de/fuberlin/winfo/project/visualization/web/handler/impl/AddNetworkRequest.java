@@ -23,7 +23,7 @@ public class AddNetworkRequest extends AbstractRequest {
 			log("Unzip and deserialize incoming network object. This process might take serverial seconds.");
 			Network deserializeFromXMIString = XMIIO.deserialize(gzipInputStream);
 			VisualizationServer.networkCache.add(deserializeFromXMIString);
-			log("New Network and Solution update stored (number of nodes: " + deserializeFromXMIString.getNodes().size()
+			log("New Network and Solution update stored (number of nodes: " + deserializeFromXMIString.getVertices().size()
 					+ ").");
 			log("New total number of networks: " + VisualizationServer.networkCache.size());
 		} catch (Exception e) {

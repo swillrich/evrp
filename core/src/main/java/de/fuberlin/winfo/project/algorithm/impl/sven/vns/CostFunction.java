@@ -2,7 +2,7 @@ package de.fuberlin.winfo.project.algorithm.impl.sven.vns;
 
 import java.util.Comparator;
 
-import de.fuberlin.winfo.project.model.network.solution.Solution;
+import de.fuberlin.winfo.project.model.network.Solution;
 
 public abstract class CostFunction implements Comparator<Solution> {
 

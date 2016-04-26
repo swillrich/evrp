@@ -5,6 +5,11 @@ import java.util.Date;
 
 import org.joda.time.format.DateTimeFormat;
 
+import de.fuberlin.winfo.project.model.network.Depot;
+import de.fuberlin.winfo.project.model.network.Duration;
+import de.fuberlin.winfo.project.model.network.Order;
+import de.fuberlin.winfo.project.model.network.Vertex;
+
 public class Utils {
 	public static class StopWatch {
 		int before;
@@ -17,6 +22,14 @@ public class Utils {
 		public String stop() {
 			after = (int) new Date().getTime();
 			return DateTimeFormat.forPattern("mm:ss.SSS").print(after - before);
+		}
+
+		public int getAfter() {
+			return after;
+		}
+
+		public int getBefore() {
+			return before;
 		}
 	}
 
@@ -56,7 +69,7 @@ public class Utils {
 		}
 
 		public void update(int i) {
-			int prog = (int) ((double) i / n * 100d);
+			int prog = (int) (((double) i * 100d) / (double) n);
 			if (progress >= prog) {
 				return;
 			}
@@ -74,6 +87,16 @@ public class Utils {
 		public void done() {
 			System.out.println();
 			System.out.println("Process finished within ".concat(stapWatchGo.stop()).concat(" m"));
+		}
+	}
+
+	public static Duration getTimeWindow(Vertex v) {
+		if (v instanceof Depot) {
+			return ((Depot) v).getTimeWindow();
+		} else if (v instanceof Order) {
+			return ((Order) v).getTimeWindow();
+		} else {
+			return null;
 		}
 	}
 

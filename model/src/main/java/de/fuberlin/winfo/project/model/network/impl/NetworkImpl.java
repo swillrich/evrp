@@ -2,12 +2,12 @@
  */
 package de.fuberlin.winfo.project.model.network.impl;
 
-import de.fuberlin.winfo.project.model.network.Edge;
+import de.fuberlin.winfo.project.model.network.Arc;
+import de.fuberlin.winfo.project.model.network.Locatable;
 import de.fuberlin.winfo.project.model.network.Network;
 import de.fuberlin.winfo.project.model.network.NetworkPackage;
-import de.fuberlin.winfo.project.model.network.Node;
-
-import de.fuberlin.winfo.project.model.network.solution.Solution;
+import de.fuberlin.winfo.project.model.network.Solution;
+import de.fuberlin.winfo.project.model.network.Vertex;
 
 import java.util.Collection;
 
@@ -31,33 +31,34 @@ import org.eclipse.emf.ecore.util.InternalEList;
  * The following features are implemented:
  * </p>
  * <ul>
- *   <li>{@link de.fuberlin.winfo.project.model.network.impl.NetworkImpl#getEdges <em>Edges</em>}</li>
- *   <li>{@link de.fuberlin.winfo.project.model.network.impl.NetworkImpl#getNodes <em>Nodes</em>}</li>
+ *   <li>{@link de.fuberlin.winfo.project.model.network.impl.NetworkImpl#getArcs <em>Arcs</em>}</li>
+ *   <li>{@link de.fuberlin.winfo.project.model.network.impl.NetworkImpl#getVertices <em>Vertices</em>}</li>
  *   <li>{@link de.fuberlin.winfo.project.model.network.impl.NetworkImpl#getSolution <em>Solution</em>}</li>
+ *   <li>{@link de.fuberlin.winfo.project.model.network.impl.NetworkImpl#getLocatables <em>Locatables</em>}</li>
  * </ul>
  *
  * @generated
  */
 public class NetworkImpl extends MinimalEObjectImpl.Container implements Network {
 	/**
-	 * The cached value of the '{@link #getEdges() <em>Edges</em>}' containment reference list.
+	 * The cached value of the '{@link #getArcs() <em>Arcs</em>}' containment reference list.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @see #getEdges()
+	 * @see #getArcs()
 	 * @generated
 	 * @ordered
 	 */
-	protected EList<Edge> edges;
+	protected EList<Arc> arcs;
 
 	/**
-	 * The cached value of the '{@link #getNodes() <em>Nodes</em>}' containment reference list.
+	 * The cached value of the '{@link #getVertices() <em>Vertices</em>}' containment reference list.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @see #getNodes()
+	 * @see #getVertices()
 	 * @generated
 	 * @ordered
 	 */
-	protected EList<Node> nodes;
+	protected EList<Vertex> vertices;
 
 	/**
 	 * The cached value of the '{@link #getSolution() <em>Solution</em>}' containment reference list.
@@ -68,6 +69,16 @@ public class NetworkImpl extends MinimalEObjectImpl.Container implements Network
 	 * @ordered
 	 */
 	protected EList<Solution> solution;
+
+	/**
+	 * The cached value of the '{@link #getLocatables() <em>Locatables</em>}' containment reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #getLocatables()
+	 * @generated
+	 * @ordered
+	 */
+	protected EList<Locatable> locatables;
 
 	/**
 	 * <!-- begin-user-doc -->
@@ -93,11 +104,11 @@ public class NetworkImpl extends MinimalEObjectImpl.Container implements Network
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EList<Edge> getEdges() {
-		if (edges == null) {
-			edges = new EObjectContainmentEList<Edge>(Edge.class, this, NetworkPackage.NETWORK__EDGES);
+	public EList<Arc> getArcs() {
+		if (arcs == null) {
+			arcs = new EObjectContainmentEList<Arc>(Arc.class, this, NetworkPackage.NETWORK__ARCS);
 		}
-		return edges;
+		return arcs;
 	}
 
 	/**
@@ -105,11 +116,11 @@ public class NetworkImpl extends MinimalEObjectImpl.Container implements Network
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EList<Node> getNodes() {
-		if (nodes == null) {
-			nodes = new EObjectContainmentEList<Node>(Node.class, this, NetworkPackage.NETWORK__NODES);
+	public EList<Vertex> getVertices() {
+		if (vertices == null) {
+			vertices = new EObjectContainmentEList<Vertex>(Vertex.class, this, NetworkPackage.NETWORK__VERTICES);
 		}
-		return nodes;
+		return vertices;
 	}
 
 	/**
@@ -129,15 +140,29 @@ public class NetworkImpl extends MinimalEObjectImpl.Container implements Network
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	public EList<Locatable> getLocatables() {
+		if (locatables == null) {
+			locatables = new EObjectContainmentEList<Locatable>(Locatable.class, this, NetworkPackage.NETWORK__LOCATABLES);
+		}
+		return locatables;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	@Override
 	public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, NotificationChain msgs) {
 		switch (featureID) {
-			case NetworkPackage.NETWORK__EDGES:
-				return ((InternalEList<?>)getEdges()).basicRemove(otherEnd, msgs);
-			case NetworkPackage.NETWORK__NODES:
-				return ((InternalEList<?>)getNodes()).basicRemove(otherEnd, msgs);
+			case NetworkPackage.NETWORK__ARCS:
+				return ((InternalEList<?>)getArcs()).basicRemove(otherEnd, msgs);
+			case NetworkPackage.NETWORK__VERTICES:
+				return ((InternalEList<?>)getVertices()).basicRemove(otherEnd, msgs);
 			case NetworkPackage.NETWORK__SOLUTION:
 				return ((InternalEList<?>)getSolution()).basicRemove(otherEnd, msgs);
+			case NetworkPackage.NETWORK__LOCATABLES:
+				return ((InternalEList<?>)getLocatables()).basicRemove(otherEnd, msgs);
 		}
 		return super.eInverseRemove(otherEnd, featureID, msgs);
 	}
@@ -150,12 +175,14 @@ public class NetworkImpl extends MinimalEObjectImpl.Container implements Network
 	@Override
 	public Object eGet(int featureID, boolean resolve, boolean coreType) {
 		switch (featureID) {
-			case NetworkPackage.NETWORK__EDGES:
-				return getEdges();
-			case NetworkPackage.NETWORK__NODES:
-				return getNodes();
+			case NetworkPackage.NETWORK__ARCS:
+				return getArcs();
+			case NetworkPackage.NETWORK__VERTICES:
+				return getVertices();
 			case NetworkPackage.NETWORK__SOLUTION:
 				return getSolution();
+			case NetworkPackage.NETWORK__LOCATABLES:
+				return getLocatables();
 		}
 		return super.eGet(featureID, resolve, coreType);
 	}
@@ -169,17 +196,21 @@ public class NetworkImpl extends MinimalEObjectImpl.Container implements Network
 	@Override
 	public void eSet(int featureID, Object newValue) {
 		switch (featureID) {
-			case NetworkPackage.NETWORK__EDGES:
-				getEdges().clear();
-				getEdges().addAll((Collection<? extends Edge>)newValue);
+			case NetworkPackage.NETWORK__ARCS:
+				getArcs().clear();
+				getArcs().addAll((Collection<? extends Arc>)newValue);
 				return;
-			case NetworkPackage.NETWORK__NODES:
-				getNodes().clear();
-				getNodes().addAll((Collection<? extends Node>)newValue);
+			case NetworkPackage.NETWORK__VERTICES:
+				getVertices().clear();
+				getVertices().addAll((Collection<? extends Vertex>)newValue);
 				return;
 			case NetworkPackage.NETWORK__SOLUTION:
 				getSolution().clear();
 				getSolution().addAll((Collection<? extends Solution>)newValue);
+				return;
+			case NetworkPackage.NETWORK__LOCATABLES:
+				getLocatables().clear();
+				getLocatables().addAll((Collection<? extends Locatable>)newValue);
 				return;
 		}
 		super.eSet(featureID, newValue);
@@ -193,14 +224,17 @@ public class NetworkImpl extends MinimalEObjectImpl.Container implements Network
 	@Override
 	public void eUnset(int featureID) {
 		switch (featureID) {
-			case NetworkPackage.NETWORK__EDGES:
-				getEdges().clear();
+			case NetworkPackage.NETWORK__ARCS:
+				getArcs().clear();
 				return;
-			case NetworkPackage.NETWORK__NODES:
-				getNodes().clear();
+			case NetworkPackage.NETWORK__VERTICES:
+				getVertices().clear();
 				return;
 			case NetworkPackage.NETWORK__SOLUTION:
 				getSolution().clear();
+				return;
+			case NetworkPackage.NETWORK__LOCATABLES:
+				getLocatables().clear();
 				return;
 		}
 		super.eUnset(featureID);
@@ -214,12 +248,14 @@ public class NetworkImpl extends MinimalEObjectImpl.Container implements Network
 	@Override
 	public boolean eIsSet(int featureID) {
 		switch (featureID) {
-			case NetworkPackage.NETWORK__EDGES:
-				return edges != null && !edges.isEmpty();
-			case NetworkPackage.NETWORK__NODES:
-				return nodes != null && !nodes.isEmpty();
+			case NetworkPackage.NETWORK__ARCS:
+				return arcs != null && !arcs.isEmpty();
+			case NetworkPackage.NETWORK__VERTICES:
+				return vertices != null && !vertices.isEmpty();
 			case NetworkPackage.NETWORK__SOLUTION:
 				return solution != null && !solution.isEmpty();
+			case NetworkPackage.NETWORK__LOCATABLES:
+				return locatables != null && !locatables.isEmpty();
 		}
 		return super.eIsSet(featureID);
 	}

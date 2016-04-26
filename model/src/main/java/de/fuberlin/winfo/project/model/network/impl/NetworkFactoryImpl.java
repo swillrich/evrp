@@ -56,15 +56,21 @@ public class NetworkFactoryImpl extends EFactoryImpl implements NetworkFactory {
 	@Override
 	public EObject create(EClass eClass) {
 		switch (eClass.getClassifierID()) {
-			case NetworkPackage.NODE: return createNode();
-			case NetworkPackage.EDGE: return createEdge();
+			case NetworkPackage.VERTEX: return createVertex();
+			case NetworkPackage.ARC: return createArc();
 			case NetworkPackage.NETWORK: return createNetwork();
+			case NetworkPackage.ORDER: return createOrder();
 			case NetworkPackage.CUSTOMER: return createCustomer();
 			case NetworkPackage.DEPOT: return createDepot();
 			case NetworkPackage.DURATION: return createDuration();
 			case NetworkPackage.VEHICLE: return createVehicle();
-			case NetworkPackage.ORDER: return createOrder();
-			case NetworkPackage.COLLECTIVE_ORDER: return createCollectiveOrder();
+			case NetworkPackage.ROUTE: return createRoute();
+			case NetworkPackage.SOLUTION: return createSolution();
+			case NetworkPackage.USED_ARC: return createUsedArc();
+			case NetworkPackage.USE_CASE: return createUseCase();
+			case NetworkPackage.GLOBAL_SEARCH: return createGlobalSearch();
+			case NetworkPackage.LOCAL_SEARCH: return createLocalSearch();
+			case NetworkPackage.SEARCH_HISTORY: return createSearchHistory();
 			default:
 				throw new IllegalArgumentException("The class '" + eClass.getName() + "' is not a valid classifier");
 		}
@@ -75,9 +81,9 @@ public class NetworkFactoryImpl extends EFactoryImpl implements NetworkFactory {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public Node createNode() {
-		NodeImpl node = new NodeImpl();
-		return node;
+	public Vertex createVertex() {
+		VertexImpl vertex = new VertexImpl();
+		return vertex;
 	}
 
 	/**
@@ -85,9 +91,9 @@ public class NetworkFactoryImpl extends EFactoryImpl implements NetworkFactory {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public Edge createEdge() {
-		EdgeImpl edge = new EdgeImpl();
-		return edge;
+	public Arc createArc() {
+		ArcImpl arc = new ArcImpl();
+		return arc;
 	}
 
 	/**
@@ -98,6 +104,16 @@ public class NetworkFactoryImpl extends EFactoryImpl implements NetworkFactory {
 	public Network createNetwork() {
 		NetworkImpl network = new NetworkImpl();
 		return network;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public Order createOrder() {
+		OrderImpl order = new OrderImpl();
+		return order;
 	}
 
 	/**
@@ -145,9 +161,9 @@ public class NetworkFactoryImpl extends EFactoryImpl implements NetworkFactory {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public Order createOrder() {
-		OrderImpl order = new OrderImpl();
-		return order;
+	public Route createRoute() {
+		RouteImpl route = new RouteImpl();
+		return route;
 	}
 
 	/**
@@ -155,9 +171,59 @@ public class NetworkFactoryImpl extends EFactoryImpl implements NetworkFactory {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public CollectiveOrder createCollectiveOrder() {
-		CollectiveOrderImpl collectiveOrder = new CollectiveOrderImpl();
-		return collectiveOrder;
+	public Solution createSolution() {
+		SolutionImpl solution = new SolutionImpl();
+		return solution;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public UsedArc createUsedArc() {
+		UsedArcImpl usedArc = new UsedArcImpl();
+		return usedArc;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public UseCase createUseCase() {
+		UseCaseImpl useCase = new UseCaseImpl();
+		return useCase;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public GlobalSearch createGlobalSearch() {
+		GlobalSearchImpl globalSearch = new GlobalSearchImpl();
+		return globalSearch;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public LocalSearch createLocalSearch() {
+		LocalSearchImpl localSearch = new LocalSearchImpl();
+		return localSearch;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public SearchHistory createSearchHistory() {
+		SearchHistoryImpl searchHistory = new SearchHistoryImpl();
+		return searchHistory;
 	}
 
 	/**

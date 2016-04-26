@@ -82,7 +82,7 @@ public class VisualizationServer extends Server {
 		Network network = VisualizationServer.networkCache.get(id);
 		Path path = getNwDirectory();
 		File file = Paths
-				.get(path.toString(), network.getNodes().size() + "-" + (new Date().getTime() / 1000) + ".network")
+				.get(path.toString(), network.getVertices().size() + "-" + (new Date().getTime() / 1000) + ".network")
 				.toFile();
 		FileOutputStream stream = new FileOutputStream(file);
 		XMIIO.serialize(network, stream);

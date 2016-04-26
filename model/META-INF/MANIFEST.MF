@@ -9,9 +9,6 @@ Bundle-Localization: plugin
 Bundle-RequiredExecutionEnvironment: JavaSE-1.7
 Export-Package: de.fuberlin.winfo.project.model.network,
  de.fuberlin.winfo.project.model.network.impl,
- de.fuberlin.winfo.project.model.network.solution,
- de.fuberlin.winfo.project.model.network.solution.impl,
- de.fuberlin.winfo.project.model.network.solution.util,
  de.fuberlin.winfo.project.model.network.util
 Require-Bundle: org.eclipse.core.runtime,
  org.eclipse.emf.ecore;visibility:=reexport

@@ -66,21 +66,28 @@ public class NetworkSwitch<T> extends Switch<T> {
 	@Override
 	protected T doSwitch(int classifierID, EObject theEObject) {
 		switch (classifierID) {
-			case NetworkPackage.NODE: {
-				Node node = (Node)theEObject;
-				T result = caseNode(node);
+			case NetworkPackage.VERTEX: {
+				Vertex vertex = (Vertex)theEObject;
+				T result = caseVertex(vertex);
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}
-			case NetworkPackage.EDGE: {
-				Edge edge = (Edge)theEObject;
-				T result = caseEdge(edge);
+			case NetworkPackage.ARC: {
+				Arc arc = (Arc)theEObject;
+				T result = caseArc(arc);
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}
 			case NetworkPackage.NETWORK: {
 				Network network = (Network)theEObject;
 				T result = caseNetwork(network);
+				if (result == null) result = defaultCase(theEObject);
+				return result;
+			}
+			case NetworkPackage.ORDER: {
+				Order order = (Order)theEObject;
+				T result = caseOrder(order);
+				if (result == null) result = caseVertex(order);
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}
@@ -94,6 +101,7 @@ public class NetworkSwitch<T> extends Switch<T> {
 			case NetworkPackage.DEPOT: {
 				Depot depot = (Depot)theEObject;
 				T result = caseDepot(depot);
+				if (result == null) result = caseVertex(depot);
 				if (result == null) result = caseLocatable(depot);
 				if (result == null) result = defaultCase(theEObject);
 				return result;
@@ -116,16 +124,45 @@ public class NetworkSwitch<T> extends Switch<T> {
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}
-			case NetworkPackage.ORDER: {
-				Order order = (Order)theEObject;
-				T result = caseOrder(order);
+			case NetworkPackage.ROUTE: {
+				Route route = (Route)theEObject;
+				T result = caseRoute(route);
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}
-			case NetworkPackage.COLLECTIVE_ORDER: {
-				CollectiveOrder collectiveOrder = (CollectiveOrder)theEObject;
-				T result = caseCollectiveOrder(collectiveOrder);
-				if (result == null) result = caseOrder(collectiveOrder);
+			case NetworkPackage.SOLUTION: {
+				Solution solution = (Solution)theEObject;
+				T result = caseSolution(solution);
+				if (result == null) result = defaultCase(theEObject);
+				return result;
+			}
+			case NetworkPackage.USED_ARC: {
+				UsedArc usedArc = (UsedArc)theEObject;
+				T result = caseUsedArc(usedArc);
+				if (result == null) result = defaultCase(theEObject);
+				return result;
+			}
+			case NetworkPackage.USE_CASE: {
+				UseCase useCase = (UseCase)theEObject;
+				T result = caseUseCase(useCase);
+				if (result == null) result = defaultCase(theEObject);
+				return result;
+			}
+			case NetworkPackage.GLOBAL_SEARCH: {
+				GlobalSearch globalSearch = (GlobalSearch)theEObject;
+				T result = caseGlobalSearch(globalSearch);
+				if (result == null) result = defaultCase(theEObject);
+				return result;
+			}
+			case NetworkPackage.LOCAL_SEARCH: {
+				LocalSearch localSearch = (LocalSearch)theEObject;
+				T result = caseLocalSearch(localSearch);
+				if (result == null) result = defaultCase(theEObject);
+				return result;
+			}
+			case NetworkPackage.SEARCH_HISTORY: {
+				SearchHistory searchHistory = (SearchHistory)theEObject;
+				T result = caseSearchHistory(searchHistory);
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}
@@ -134,32 +171,32 @@ public class NetworkSwitch<T> extends Switch<T> {
 	}
 
 	/**
-	 * Returns the result of interpreting the object as an instance of '<em>Node</em>'.
+	 * Returns the result of interpreting the object as an instance of '<em>Vertex</em>'.
 	 * <!-- begin-user-doc -->
 	 * This implementation returns null;
 	 * returning a non-null result will terminate the switch.
 	 * <!-- end-user-doc -->
 	 * @param object the target of the switch.
-	 * @return the result of interpreting the object as an instance of '<em>Node</em>'.
+	 * @return the result of interpreting the object as an instance of '<em>Vertex</em>'.
 	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
 	 * @generated
 	 */
-	public T caseNode(Node object) {
+	public T caseVertex(Vertex object) {
 		return null;
 	}
 
 	/**
-	 * Returns the result of interpreting the object as an instance of '<em>Edge</em>'.
+	 * Returns the result of interpreting the object as an instance of '<em>Arc</em>'.
 	 * <!-- begin-user-doc -->
 	 * This implementation returns null;
 	 * returning a non-null result will terminate the switch.
 	 * <!-- end-user-doc -->
 	 * @param object the target of the switch.
-	 * @return the result of interpreting the object as an instance of '<em>Edge</em>'.
+	 * @return the result of interpreting the object as an instance of '<em>Arc</em>'.
 	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
 	 * @generated
 	 */
-	public T caseEdge(Edge object) {
+	public T caseArc(Arc object) {
 		return null;
 	}
 
@@ -175,6 +212,21 @@ public class NetworkSwitch<T> extends Switch<T> {
 	 * @generated
 	 */
 	public T caseNetwork(Network object) {
+		return null;
+	}
+
+	/**
+	 * Returns the result of interpreting the object as an instance of '<em>Order</em>'.
+	 * <!-- begin-user-doc -->
+	 * This implementation returns null;
+	 * returning a non-null result will terminate the switch.
+	 * <!-- end-user-doc -->
+	 * @param object the target of the switch.
+	 * @return the result of interpreting the object as an instance of '<em>Order</em>'.
+	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+	 * @generated
+	 */
+	public T caseOrder(Order object) {
 		return null;
 	}
 
@@ -254,32 +306,107 @@ public class NetworkSwitch<T> extends Switch<T> {
 	}
 
 	/**
-	 * Returns the result of interpreting the object as an instance of '<em>Order</em>'.
+	 * Returns the result of interpreting the object as an instance of '<em>Route</em>'.
 	 * <!-- begin-user-doc -->
 	 * This implementation returns null;
 	 * returning a non-null result will terminate the switch.
 	 * <!-- end-user-doc -->
 	 * @param object the target of the switch.
-	 * @return the result of interpreting the object as an instance of '<em>Order</em>'.
+	 * @return the result of interpreting the object as an instance of '<em>Route</em>'.
 	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
 	 * @generated
 	 */
-	public T caseOrder(Order object) {
+	public T caseRoute(Route object) {
 		return null;
 	}
 
 	/**
-	 * Returns the result of interpreting the object as an instance of '<em>Collective Order</em>'.
+	 * Returns the result of interpreting the object as an instance of '<em>Solution</em>'.
 	 * <!-- begin-user-doc -->
 	 * This implementation returns null;
 	 * returning a non-null result will terminate the switch.
 	 * <!-- end-user-doc -->
 	 * @param object the target of the switch.
-	 * @return the result of interpreting the object as an instance of '<em>Collective Order</em>'.
+	 * @return the result of interpreting the object as an instance of '<em>Solution</em>'.
 	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
 	 * @generated
 	 */
-	public T caseCollectiveOrder(CollectiveOrder object) {
+	public T caseSolution(Solution object) {
+		return null;
+	}
+
+	/**
+	 * Returns the result of interpreting the object as an instance of '<em>Used Arc</em>'.
+	 * <!-- begin-user-doc -->
+	 * This implementation returns null;
+	 * returning a non-null result will terminate the switch.
+	 * <!-- end-user-doc -->
+	 * @param object the target of the switch.
+	 * @return the result of interpreting the object as an instance of '<em>Used Arc</em>'.
+	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+	 * @generated
+	 */
+	public T caseUsedArc(UsedArc object) {
+		return null;
+	}
+
+	/**
+	 * Returns the result of interpreting the object as an instance of '<em>Use Case</em>'.
+	 * <!-- begin-user-doc -->
+	 * This implementation returns null;
+	 * returning a non-null result will terminate the switch.
+	 * <!-- end-user-doc -->
+	 * @param object the target of the switch.
+	 * @return the result of interpreting the object as an instance of '<em>Use Case</em>'.
+	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+	 * @generated
+	 */
+	public T caseUseCase(UseCase object) {
+		return null;
+	}
+
+	/**
+	 * Returns the result of interpreting the object as an instance of '<em>Global Search</em>'.
+	 * <!-- begin-user-doc -->
+	 * This implementation returns null;
+	 * returning a non-null result will terminate the switch.
+	 * <!-- end-user-doc -->
+	 * @param object the target of the switch.
+	 * @return the result of interpreting the object as an instance of '<em>Global Search</em>'.
+	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+	 * @generated
+	 */
+	public T caseGlobalSearch(GlobalSearch object) {
+		return null;
+	}
+
+	/**
+	 * Returns the result of interpreting the object as an instance of '<em>Local Search</em>'.
+	 * <!-- begin-user-doc -->
+	 * This implementation returns null;
+	 * returning a non-null result will terminate the switch.
+	 * <!-- end-user-doc -->
+	 * @param object the target of the switch.
+	 * @return the result of interpreting the object as an instance of '<em>Local Search</em>'.
+	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+	 * @generated
+	 */
+	public T caseLocalSearch(LocalSearch object) {
+		return null;
+	}
+
+	/**
+	 * Returns the result of interpreting the object as an instance of '<em>Search History</em>'.
+	 * <!-- begin-user-doc -->
+	 * This implementation returns null;
+	 * returning a non-null result will terminate the switch.
+	 * <!-- end-user-doc -->
+	 * @param object the target of the switch.
+	 * @return the result of interpreting the object as an instance of '<em>Search History</em>'.
+	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+	 * @generated
+	 */
+	public T caseSearchHistory(SearchHistory object) {
 		return null;
 	}
 

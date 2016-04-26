@@ -8,7 +8,7 @@ import javax.servlet.http.HttpServletResponse;
 import org.eclipse.jetty.server.Request;
 
 import de.fuberlin.winfo.project.model.network.Network;
-import de.fuberlin.winfo.project.model.network.solution.Solution;
+import de.fuberlin.winfo.project.model.network.Solution;
 import de.fuberlin.winfo.project.visualization.web.VisualizationServer;
 import de.fuberlin.winfo.project.visualization.web.handler.AbstractRequest;
 import de.fuberlin.winfo.project.visualization.web.logic.HistoryVisualizer;

@@ -2,8 +2,8 @@ package de.fuberlin.winfo.project.algorithm.impl.sven.vns.neighborhoodstructures
 
 import de.fuberlin.winfo.project.algorithm.impl.sven.vns.neighborhoodstructures.NeighborhoodOperation;
 import de.fuberlin.winfo.project.algorithm.impl.sven.vns.neighborhoodstructures.NeighborhoodStructure;
-import de.fuberlin.winfo.project.model.network.Edge;
-import de.fuberlin.winfo.project.model.network.solution.Solution;
+import de.fuberlin.winfo.project.model.network.Arc;
+import de.fuberlin.winfo.project.model.network.Solution;
 
 public class InterRouteSingleNodeRelocationNeighborhoodStructure extends NeighborhoodStructure {
 
@@ -11,11 +11,11 @@ public class InterRouteSingleNodeRelocationNeighborhoodStructure extends Neighbo
 	private int node;
 	private int neighborRoute;
 	private int neighborNode;
-	private Edge[][] E;
+	private Arc[][] A;
 
 	@Override
 	public void initSearch() {
-		E = networkProvider.getEdges();
+		A = networkProvider.getArcs();
 		route = 0;
 		node = 0;
 		neighborRoute = 0;
@@ -52,7 +52,7 @@ public class InterRouteSingleNodeRelocationNeighborhoodStructure extends Neighbo
 	public NeighborhoodOperation generateOperation(Solution solution) throws Exception {
 		NeighborhoodOperation operation;
 		if (initilizeNext() && route != neighborRoute) {
-			operation = new InterRouteSingleNodeRelocationNeighborhoodOperation(route, node, neighborRoute, neighborNode, E);
+			operation = new InterRouteSingleNodeRelocationNeighborhoodOperation(route, node, neighborRoute, neighborNode, A);
 		} else {
 			operation = new NeighborhoodOperation() {
 				@Override

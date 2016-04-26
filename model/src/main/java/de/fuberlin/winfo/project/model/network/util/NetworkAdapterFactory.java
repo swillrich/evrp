@@ -68,16 +68,20 @@ public class NetworkAdapterFactory extends AdapterFactoryImpl {
 	protected NetworkSwitch<Adapter> modelSwitch =
 		new NetworkSwitch<Adapter>() {
 			@Override
-			public Adapter caseNode(Node object) {
-				return createNodeAdapter();
+			public Adapter caseVertex(Vertex object) {
+				return createVertexAdapter();
 			}
 			@Override
-			public Adapter caseEdge(Edge object) {
-				return createEdgeAdapter();
+			public Adapter caseArc(Arc object) {
+				return createArcAdapter();
 			}
 			@Override
 			public Adapter caseNetwork(Network object) {
 				return createNetworkAdapter();
+			}
+			@Override
+			public Adapter caseOrder(Order object) {
+				return createOrderAdapter();
 			}
 			@Override
 			public Adapter caseCustomer(Customer object) {
@@ -100,12 +104,32 @@ public class NetworkAdapterFactory extends AdapterFactoryImpl {
 				return createLocatableAdapter();
 			}
 			@Override
-			public Adapter caseOrder(Order object) {
-				return createOrderAdapter();
+			public Adapter caseRoute(Route object) {
+				return createRouteAdapter();
 			}
 			@Override
-			public Adapter caseCollectiveOrder(CollectiveOrder object) {
-				return createCollectiveOrderAdapter();
+			public Adapter caseSolution(Solution object) {
+				return createSolutionAdapter();
+			}
+			@Override
+			public Adapter caseUsedArc(UsedArc object) {
+				return createUsedArcAdapter();
+			}
+			@Override
+			public Adapter caseUseCase(UseCase object) {
+				return createUseCaseAdapter();
+			}
+			@Override
+			public Adapter caseGlobalSearch(GlobalSearch object) {
+				return createGlobalSearchAdapter();
+			}
+			@Override
+			public Adapter caseLocalSearch(LocalSearch object) {
+				return createLocalSearchAdapter();
+			}
+			@Override
+			public Adapter caseSearchHistory(SearchHistory object) {
+				return createSearchHistoryAdapter();
 			}
 			@Override
 			public Adapter defaultCase(EObject object) {
@@ -128,30 +152,30 @@ public class NetworkAdapterFactory extends AdapterFactoryImpl {
 
 
 	/**
-	 * Creates a new adapter for an object of class '{@link de.fuberlin.winfo.project.model.network.Node <em>Node</em>}'.
+	 * Creates a new adapter for an object of class '{@link de.fuberlin.winfo.project.model.network.Vertex <em>Vertex</em>}'.
 	 * <!-- begin-user-doc -->
 	 * This default implementation returns null so that we can easily ignore cases;
 	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
 	 * <!-- end-user-doc -->
 	 * @return the new adapter.
-	 * @see de.fuberlin.winfo.project.model.network.Node
+	 * @see de.fuberlin.winfo.project.model.network.Vertex
 	 * @generated
 	 */
-	public Adapter createNodeAdapter() {
+	public Adapter createVertexAdapter() {
 		return null;
 	}
 
 	/**
-	 * Creates a new adapter for an object of class '{@link de.fuberlin.winfo.project.model.network.Edge <em>Edge</em>}'.
+	 * Creates a new adapter for an object of class '{@link de.fuberlin.winfo.project.model.network.Arc <em>Arc</em>}'.
 	 * <!-- begin-user-doc -->
 	 * This default implementation returns null so that we can easily ignore cases;
 	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
 	 * <!-- end-user-doc -->
 	 * @return the new adapter.
-	 * @see de.fuberlin.winfo.project.model.network.Edge
+	 * @see de.fuberlin.winfo.project.model.network.Arc
 	 * @generated
 	 */
-	public Adapter createEdgeAdapter() {
+	public Adapter createArcAdapter() {
 		return null;
 	}
 
@@ -166,6 +190,20 @@ public class NetworkAdapterFactory extends AdapterFactoryImpl {
 	 * @generated
 	 */
 	public Adapter createNetworkAdapter() {
+		return null;
+	}
+
+	/**
+	 * Creates a new adapter for an object of class '{@link de.fuberlin.winfo.project.model.network.Order <em>Order</em>}'.
+	 * <!-- begin-user-doc -->
+	 * This default implementation returns null so that we can easily ignore cases;
+	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
+	 * <!-- end-user-doc -->
+	 * @return the new adapter.
+	 * @see de.fuberlin.winfo.project.model.network.Order
+	 * @generated
+	 */
+	public Adapter createOrderAdapter() {
 		return null;
 	}
 
@@ -240,30 +278,100 @@ public class NetworkAdapterFactory extends AdapterFactoryImpl {
 	}
 
 	/**
-	 * Creates a new adapter for an object of class '{@link de.fuberlin.winfo.project.model.network.Order <em>Order</em>}'.
+	 * Creates a new adapter for an object of class '{@link de.fuberlin.winfo.project.model.network.Route <em>Route</em>}'.
 	 * <!-- begin-user-doc -->
 	 * This default implementation returns null so that we can easily ignore cases;
 	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
 	 * <!-- end-user-doc -->
 	 * @return the new adapter.
-	 * @see de.fuberlin.winfo.project.model.network.Order
+	 * @see de.fuberlin.winfo.project.model.network.Route
 	 * @generated
 	 */
-	public Adapter createOrderAdapter() {
+	public Adapter createRouteAdapter() {
 		return null;
 	}
 
 	/**
-	 * Creates a new adapter for an object of class '{@link de.fuberlin.winfo.project.model.network.CollectiveOrder <em>Collective Order</em>}'.
+	 * Creates a new adapter for an object of class '{@link de.fuberlin.winfo.project.model.network.Solution <em>Solution</em>}'.
 	 * <!-- begin-user-doc -->
 	 * This default implementation returns null so that we can easily ignore cases;
 	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
 	 * <!-- end-user-doc -->
 	 * @return the new adapter.
-	 * @see de.fuberlin.winfo.project.model.network.CollectiveOrder
+	 * @see de.fuberlin.winfo.project.model.network.Solution
 	 * @generated
 	 */
-	public Adapter createCollectiveOrderAdapter() {
+	public Adapter createSolutionAdapter() {
+		return null;
+	}
+
+	/**
+	 * Creates a new adapter for an object of class '{@link de.fuberlin.winfo.project.model.network.UsedArc <em>Used Arc</em>}'.
+	 * <!-- begin-user-doc -->
+	 * This default implementation returns null so that we can easily ignore cases;
+	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
+	 * <!-- end-user-doc -->
+	 * @return the new adapter.
+	 * @see de.fuberlin.winfo.project.model.network.UsedArc
+	 * @generated
+	 */
+	public Adapter createUsedArcAdapter() {
+		return null;
+	}
+
+	/**
+	 * Creates a new adapter for an object of class '{@link de.fuberlin.winfo.project.model.network.UseCase <em>Use Case</em>}'.
+	 * <!-- begin-user-doc -->
+	 * This default implementation returns null so that we can easily ignore cases;
+	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
+	 * <!-- end-user-doc -->
+	 * @return the new adapter.
+	 * @see de.fuberlin.winfo.project.model.network.UseCase
+	 * @generated
+	 */
+	public Adapter createUseCaseAdapter() {
+		return null;
+	}
+
+	/**
+	 * Creates a new adapter for an object of class '{@link de.fuberlin.winfo.project.model.network.GlobalSearch <em>Global Search</em>}'.
+	 * <!-- begin-user-doc -->
+	 * This default implementation returns null so that we can easily ignore cases;
+	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
+	 * <!-- end-user-doc -->
+	 * @return the new adapter.
+	 * @see de.fuberlin.winfo.project.model.network.GlobalSearch
+	 * @generated
+	 */
+	public Adapter createGlobalSearchAdapter() {
+		return null;
+	}
+
+	/**
+	 * Creates a new adapter for an object of class '{@link de.fuberlin.winfo.project.model.network.LocalSearch <em>Local Search</em>}'.
+	 * <!-- begin-user-doc -->
+	 * This default implementation returns null so that we can easily ignore cases;
+	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
+	 * <!-- end-user-doc -->
+	 * @return the new adapter.
+	 * @see de.fuberlin.winfo.project.model.network.LocalSearch
+	 * @generated
+	 */
+	public Adapter createLocalSearchAdapter() {
+		return null;
+	}
+
+	/**
+	 * Creates a new adapter for an object of class '{@link de.fuberlin.winfo.project.model.network.SearchHistory <em>Search History</em>}'.
+	 * <!-- begin-user-doc -->
+	 * This default implementation returns null so that we can easily ignore cases;
+	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
+	 * <!-- end-user-doc -->
+	 * @return the new adapter.
+	 * @see de.fuberlin.winfo.project.model.network.SearchHistory
+	 * @generated
+	 */
+	public Adapter createSearchHistoryAdapter() {
 		return null;
 	}
 

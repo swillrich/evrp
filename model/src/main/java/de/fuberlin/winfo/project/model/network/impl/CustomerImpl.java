@@ -3,16 +3,15 @@
 package de.fuberlin.winfo.project.model.network.impl;
 
 import de.fuberlin.winfo.project.model.network.Customer;
-import de.fuberlin.winfo.project.model.network.Depot;
 import de.fuberlin.winfo.project.model.network.NetworkPackage;
 import de.fuberlin.winfo.project.model.network.Order;
-import java.util.Collection;
-import org.eclipse.emf.common.notify.Notification;
-import org.eclipse.emf.common.util.EList;
-import org.eclipse.emf.ecore.EClass;
-import org.eclipse.emf.ecore.InternalEObject;
 
-import org.eclipse.emf.ecore.impl.ENotificationImpl;
+import java.util.Collection;
+
+import org.eclipse.emf.common.util.EList;
+
+import org.eclipse.emf.ecore.EClass;
+
 import org.eclipse.emf.ecore.util.EObjectResolvingEList;
 
 /**
@@ -23,23 +22,12 @@ import org.eclipse.emf.ecore.util.EObjectResolvingEList;
  * The following features are implemented:
  * </p>
  * <ul>
- *   <li>{@link de.fuberlin.winfo.project.model.network.impl.CustomerImpl#getHasTranshipmentPoint <em>Has Transhipment Point</em>}</li>
  *   <li>{@link de.fuberlin.winfo.project.model.network.impl.CustomerImpl#getOrders <em>Orders</em>}</li>
  * </ul>
  *
  * @generated
  */
 public class CustomerImpl extends LocatableImpl implements Customer {
-	/**
-	 * The cached value of the '{@link #getHasTranshipmentPoint() <em>Has Transhipment Point</em>}' reference.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @see #getHasTranshipmentPoint()
-	 * @generated
-	 * @ordered
-	 */
-	protected Depot hasTranshipmentPoint;
-
 	/**
 	 * The cached value of the '{@link #getOrders() <em>Orders</em>}' reference list.
 	 * <!-- begin-user-doc -->
@@ -74,44 +62,6 @@ public class CustomerImpl extends LocatableImpl implements Customer {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public Depot getHasTranshipmentPoint() {
-		if (hasTranshipmentPoint != null && hasTranshipmentPoint.eIsProxy()) {
-			InternalEObject oldHasTranshipmentPoint = (InternalEObject)hasTranshipmentPoint;
-			hasTranshipmentPoint = (Depot)eResolveProxy(oldHasTranshipmentPoint);
-			if (hasTranshipmentPoint != oldHasTranshipmentPoint) {
-				if (eNotificationRequired())
-					eNotify(new ENotificationImpl(this, Notification.RESOLVE, NetworkPackage.CUSTOMER__HAS_TRANSHIPMENT_POINT, oldHasTranshipmentPoint, hasTranshipmentPoint));
-			}
-		}
-		return hasTranshipmentPoint;
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public Depot basicGetHasTranshipmentPoint() {
-		return hasTranshipmentPoint;
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public void setHasTranshipmentPoint(Depot newHasTranshipmentPoint) {
-		Depot oldHasTranshipmentPoint = hasTranshipmentPoint;
-		hasTranshipmentPoint = newHasTranshipmentPoint;
-		if (eNotificationRequired())
-			eNotify(new ENotificationImpl(this, Notification.SET, NetworkPackage.CUSTOMER__HAS_TRANSHIPMENT_POINT, oldHasTranshipmentPoint, hasTranshipmentPoint));
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
 	public EList<Order> getOrders() {
 		if (orders == null) {
 			orders = new EObjectResolvingEList<Order>(Order.class, this, NetworkPackage.CUSTOMER__ORDERS);
@@ -127,9 +77,6 @@ public class CustomerImpl extends LocatableImpl implements Customer {
 	@Override
 	public Object eGet(int featureID, boolean resolve, boolean coreType) {
 		switch (featureID) {
-			case NetworkPackage.CUSTOMER__HAS_TRANSHIPMENT_POINT:
-				if (resolve) return getHasTranshipmentPoint();
-				return basicGetHasTranshipmentPoint();
 			case NetworkPackage.CUSTOMER__ORDERS:
 				return getOrders();
 		}
@@ -145,9 +92,6 @@ public class CustomerImpl extends LocatableImpl implements Customer {
 	@Override
 	public void eSet(int featureID, Object newValue) {
 		switch (featureID) {
-			case NetworkPackage.CUSTOMER__HAS_TRANSHIPMENT_POINT:
-				setHasTranshipmentPoint((Depot)newValue);
-				return;
 			case NetworkPackage.CUSTOMER__ORDERS:
 				getOrders().clear();
 				getOrders().addAll((Collection<? extends Order>)newValue);
@@ -164,9 +108,6 @@ public class CustomerImpl extends LocatableImpl implements Customer {
 	@Override
 	public void eUnset(int featureID) {
 		switch (featureID) {
-			case NetworkPackage.CUSTOMER__HAS_TRANSHIPMENT_POINT:
-				setHasTranshipmentPoint((Depot)null);
-				return;
 			case NetworkPackage.CUSTOMER__ORDERS:
 				getOrders().clear();
 				return;
@@ -182,8 +123,6 @@ public class CustomerImpl extends LocatableImpl implements Customer {
 	@Override
 	public boolean eIsSet(int featureID) {
 		switch (featureID) {
-			case NetworkPackage.CUSTOMER__HAS_TRANSHIPMENT_POINT:
-				return hasTranshipmentPoint != null;
 			case NetworkPackage.CUSTOMER__ORDERS:
 				return orders != null && !orders.isEmpty();
 		}

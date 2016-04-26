@@ -1,13 +1,14 @@
 package de.fuberlin.winfo.project.algorithm.impl.sven.vns.neighborhoodstructures.impl;
 
+import java.util.Collection;
 import java.util.HashSet;
 import java.util.Set;
 
 import de.fuberlin.winfo.project.algorithm.RouteWrapper;
 import de.fuberlin.winfo.project.algorithm.impl.sven.vns.neighborhoodstructures.NeighborhoodOperation;
-import de.fuberlin.winfo.project.model.network.Edge;
-import de.fuberlin.winfo.project.model.network.Order;
-import de.fuberlin.winfo.project.model.network.solution.Solution;
+import de.fuberlin.winfo.project.model.network.Arc;
+import de.fuberlin.winfo.project.model.network.Solution;
+import de.fuberlin.winfo.project.model.network.Vertex;
 
 public class InterRouteSingleNodeRelocationNeighborhoodOperation extends NeighborhoodOperation {
 
@@ -15,29 +16,29 @@ public class InterRouteSingleNodeRelocationNeighborhoodOperation extends Neighbo
 	private int node;
 	private int neighborRoute;
 	private int neighborNode;
-	private Edge[][] E;
+	private Arc[][] A;
 
 	public InterRouteSingleNodeRelocationNeighborhoodOperation(int route, int node, int neighborRoute, int neighborNode,
-			Edge[][] E) {
+			Arc[][] E) {
 		this.route = route;
 		this.node = node;
 		this.neighborNode = neighborNode;
 		this.neighborRoute = neighborRoute;
-		this.E = E;
+		this.A = E;
 	}
 
 	@Override
 	public Solution apply(Solution solution) throws Exception {
-		RouteWrapper wrapper = new RouteWrapper(solution.getRoutes().get(route), null, E);
-		RouteWrapper neighborWrapper = new RouteWrapper(solution.getRoutes().get(neighborRoute), null, E);
-		wrapper.relocateSingleNode(node, neighborWrapper, neighborNode);
+		RouteWrapper wrapper = new RouteWrapper(solution.getRoutes().get(route), null, A);
+		RouteWrapper neighborWrapper = new RouteWrapper(solution.getRoutes().get(neighborRoute), null, A);
+		wrapper.relocateSingleVertex(node, neighborWrapper, neighborNode);
 		return solution;
 	}
 
 	@Override
 	public boolean isPreconditionSatisfied(Solution sol) {
-		RouteWrapper wrapper = new RouteWrapper(sol.getRoutes().get(route), null, E);
-		RouteWrapper neighborWrapper = new RouteWrapper(sol.getRoutes().get(neighborRoute), null, E);
+		RouteWrapper wrapper = new RouteWrapper(sol.getRoutes().get(route), null, A);
+		RouteWrapper neighborWrapper = new RouteWrapper(sol.getRoutes().get(neighborRoute), null, A);
 		if (wrapper.getActualRoute().getWay().size() < node + 2) {
 			return false;
 		}
@@ -45,10 +46,12 @@ public class InterRouteSingleNodeRelocationNeighborhoodOperation extends Neighbo
 			return false;
 		}
 		try {
-			Set<Order> all = new HashSet<Order>();
-			all.addAll(wrapper.getOrders());
-			all.addAll(neighborWrapper.getOrders());
-			if (all.size() < wrapper.getOrders().size() + neighborWrapper.getOrders().size()) {
+			Set<Vertex> all = new HashSet<Vertex>();
+			Collection<? extends Vertex> orders1 = wrapper.getOrders();
+			Collection<? extends Vertex> orders2 = neighborWrapper.getOrders();
+			all.addAll(orders1);
+			all.addAll(orders2);
+			if (all.size() < orders1.size() + orders2.size()) {
 				return false;
 			}
 		} catch (Exception e) {

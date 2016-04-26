@@ -1,10 +1,10 @@
 /**
  */
-package de.fuberlin.winfo.project.model.network.solution.impl;
+package de.fuberlin.winfo.project.model.network.impl;
 
-import de.fuberlin.winfo.project.model.network.solution.NeighborhoodSearch;
-import de.fuberlin.winfo.project.model.network.solution.SolutionPackage;
-import de.fuberlin.winfo.project.model.network.solution.VNSSearch;
+import de.fuberlin.winfo.project.model.network.GlobalSearch;
+import de.fuberlin.winfo.project.model.network.LocalSearch;
+import de.fuberlin.winfo.project.model.network.NetworkPackage;
 
 import java.util.Collection;
 
@@ -24,23 +24,22 @@ import org.eclipse.emf.ecore.util.InternalEList;
 
 /**
  * <!-- begin-user-doc -->
- * An implementation of the model object '<em><b>VNS Search</b></em>'.
+ * An implementation of the model object '<em><b>Global Search</b></em>'.
  * <!-- end-user-doc -->
  * <p>
  * The following features are implemented:
  * </p>
  * <ul>
- *   <li>{@link de.fuberlin.winfo.project.model.network.solution.impl.VNSSearchImpl#getName <em>Name</em>}</li>
- *   <li>{@link de.fuberlin.winfo.project.model.network.solution.impl.VNSSearchImpl#getCost <em>Cost</em>}</li>
- *   <li>{@link de.fuberlin.winfo.project.model.network.solution.impl.VNSSearchImpl#getPrevCost <em>Prev Cost</em>}</li>
- *   <li>{@link de.fuberlin.winfo.project.model.network.solution.impl.VNSSearchImpl#getNeighborhoodSearches <em>Neighborhood Searches</em>}</li>
- *   <li>{@link de.fuberlin.winfo.project.model.network.solution.impl.VNSSearchImpl#getOperation <em>Operation</em>}</li>
- *   <li>{@link de.fuberlin.winfo.project.model.network.solution.impl.VNSSearchImpl#getTime <em>Time</em>}</li>
+ *   <li>{@link de.fuberlin.winfo.project.model.network.impl.GlobalSearchImpl#getName <em>Name</em>}</li>
+ *   <li>{@link de.fuberlin.winfo.project.model.network.impl.GlobalSearchImpl#getCost <em>Cost</em>}</li>
+ *   <li>{@link de.fuberlin.winfo.project.model.network.impl.GlobalSearchImpl#getPrevCost <em>Prev Cost</em>}</li>
+ *   <li>{@link de.fuberlin.winfo.project.model.network.impl.GlobalSearchImpl#getLocalSearches <em>Local Searches</em>}</li>
+ *   <li>{@link de.fuberlin.winfo.project.model.network.impl.GlobalSearchImpl#getOperation <em>Operation</em>}</li>
  * </ul>
  *
  * @generated
  */
-public class VNSSearchImpl extends MinimalEObjectImpl.Container implements VNSSearch {
+public class GlobalSearchImpl extends MinimalEObjectImpl.Container implements GlobalSearch {
 	/**
 	 * The default value of the '{@link #getName() <em>Name</em>}' attribute.
 	 * <!-- begin-user-doc -->
@@ -102,14 +101,14 @@ public class VNSSearchImpl extends MinimalEObjectImpl.Container implements VNSSe
 	protected long prevCost = PREV_COST_EDEFAULT;
 
 	/**
-	 * The cached value of the '{@link #getNeighborhoodSearches() <em>Neighborhood Searches</em>}' containment reference list.
+	 * The cached value of the '{@link #getLocalSearches() <em>Local Searches</em>}' containment reference list.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @see #getNeighborhoodSearches()
+	 * @see #getLocalSearches()
 	 * @generated
 	 * @ordered
 	 */
-	protected EList<NeighborhoodSearch> neighborhoodSearches;
+	protected EList<LocalSearch> localSearches;
 
 	/**
 	 * The default value of the '{@link #getOperation() <em>Operation</em>}' attribute.
@@ -132,31 +131,11 @@ public class VNSSearchImpl extends MinimalEObjectImpl.Container implements VNSSe
 	protected String operation = OPERATION_EDEFAULT;
 
 	/**
-	 * The default value of the '{@link #getTime() <em>Time</em>}' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @see #getTime()
-	 * @generated
-	 * @ordered
-	 */
-	protected static final long TIME_EDEFAULT = 0L;
-
-	/**
-	 * The cached value of the '{@link #getTime() <em>Time</em>}' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @see #getTime()
-	 * @generated
-	 * @ordered
-	 */
-	protected long time = TIME_EDEFAULT;
-
-	/**
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	protected VNSSearchImpl() {
+	protected GlobalSearchImpl() {
 		super();
 	}
 
@@ -167,7 +146,7 @@ public class VNSSearchImpl extends MinimalEObjectImpl.Container implements VNSSe
 	 */
 	@Override
 	protected EClass eStaticClass() {
-		return SolutionPackage.Literals.VNS_SEARCH;
+		return NetworkPackage.Literals.GLOBAL_SEARCH;
 	}
 
 	/**
@@ -188,7 +167,7 @@ public class VNSSearchImpl extends MinimalEObjectImpl.Container implements VNSSe
 		String oldName = name;
 		name = newName;
 		if (eNotificationRequired())
-			eNotify(new ENotificationImpl(this, Notification.SET, SolutionPackage.VNS_SEARCH__NAME, oldName, name));
+			eNotify(new ENotificationImpl(this, Notification.SET, NetworkPackage.GLOBAL_SEARCH__NAME, oldName, name));
 	}
 
 	/**
@@ -209,7 +188,7 @@ public class VNSSearchImpl extends MinimalEObjectImpl.Container implements VNSSe
 		long oldCost = cost;
 		cost = newCost;
 		if (eNotificationRequired())
-			eNotify(new ENotificationImpl(this, Notification.SET, SolutionPackage.VNS_SEARCH__COST, oldCost, cost));
+			eNotify(new ENotificationImpl(this, Notification.SET, NetworkPackage.GLOBAL_SEARCH__COST, oldCost, cost));
 	}
 
 	/**
@@ -230,7 +209,7 @@ public class VNSSearchImpl extends MinimalEObjectImpl.Container implements VNSSe
 		long oldPrevCost = prevCost;
 		prevCost = newPrevCost;
 		if (eNotificationRequired())
-			eNotify(new ENotificationImpl(this, Notification.SET, SolutionPackage.VNS_SEARCH__PREV_COST, oldPrevCost, prevCost));
+			eNotify(new ENotificationImpl(this, Notification.SET, NetworkPackage.GLOBAL_SEARCH__PREV_COST, oldPrevCost, prevCost));
 	}
 
 	/**
@@ -238,11 +217,11 @@ public class VNSSearchImpl extends MinimalEObjectImpl.Container implements VNSSe
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EList<NeighborhoodSearch> getNeighborhoodSearches() {
-		if (neighborhoodSearches == null) {
-			neighborhoodSearches = new EObjectContainmentEList<NeighborhoodSearch>(NeighborhoodSearch.class, this, SolutionPackage.VNS_SEARCH__NEIGHBORHOOD_SEARCHES);
+	public EList<LocalSearch> getLocalSearches() {
+		if (localSearches == null) {
+			localSearches = new EObjectContainmentEList<LocalSearch>(LocalSearch.class, this, NetworkPackage.GLOBAL_SEARCH__LOCAL_SEARCHES);
 		}
-		return neighborhoodSearches;
+		return localSearches;
 	}
 
 	/**
@@ -263,28 +242,7 @@ public class VNSSearchImpl extends MinimalEObjectImpl.Container implements VNSSe
 		String oldOperation = operation;
 		operation = newOperation;
 		if (eNotificationRequired())
-			eNotify(new ENotificationImpl(this, Notification.SET, SolutionPackage.VNS_SEARCH__OPERATION, oldOperation, operation));
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public long getTime() {
-		return time;
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public void setTime(long newTime) {
-		long oldTime = time;
-		time = newTime;
-		if (eNotificationRequired())
-			eNotify(new ENotificationImpl(this, Notification.SET, SolutionPackage.VNS_SEARCH__TIME, oldTime, time));
+			eNotify(new ENotificationImpl(this, Notification.SET, NetworkPackage.GLOBAL_SEARCH__OPERATION, oldOperation, operation));
 	}
 
 	/**
@@ -295,8 +253,8 @@ public class VNSSearchImpl extends MinimalEObjectImpl.Container implements VNSSe
 	@Override
 	public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, NotificationChain msgs) {
 		switch (featureID) {
-			case SolutionPackage.VNS_SEARCH__NEIGHBORHOOD_SEARCHES:
-				return ((InternalEList<?>)getNeighborhoodSearches()).basicRemove(otherEnd, msgs);
+			case NetworkPackage.GLOBAL_SEARCH__LOCAL_SEARCHES:
+				return ((InternalEList<?>)getLocalSearches()).basicRemove(otherEnd, msgs);
 		}
 		return super.eInverseRemove(otherEnd, featureID, msgs);
 	}
@@ -309,18 +267,16 @@ public class VNSSearchImpl extends MinimalEObjectImpl.Container implements VNSSe
 	@Override
 	public Object eGet(int featureID, boolean resolve, boolean coreType) {
 		switch (featureID) {
-			case SolutionPackage.VNS_SEARCH__NAME:
+			case NetworkPackage.GLOBAL_SEARCH__NAME:
 				return getName();
-			case SolutionPackage.VNS_SEARCH__COST:
+			case NetworkPackage.GLOBAL_SEARCH__COST:
 				return getCost();
-			case SolutionPackage.VNS_SEARCH__PREV_COST:
+			case NetworkPackage.GLOBAL_SEARCH__PREV_COST:
 				return getPrevCost();
-			case SolutionPackage.VNS_SEARCH__NEIGHBORHOOD_SEARCHES:
-				return getNeighborhoodSearches();
-			case SolutionPackage.VNS_SEARCH__OPERATION:
+			case NetworkPackage.GLOBAL_SEARCH__LOCAL_SEARCHES:
+				return getLocalSearches();
+			case NetworkPackage.GLOBAL_SEARCH__OPERATION:
 				return getOperation();
-			case SolutionPackage.VNS_SEARCH__TIME:
-				return getTime();
 		}
 		return super.eGet(featureID, resolve, coreType);
 	}
@@ -334,24 +290,21 @@ public class VNSSearchImpl extends MinimalEObjectImpl.Container implements VNSSe
 	@Override
 	public void eSet(int featureID, Object newValue) {
 		switch (featureID) {
-			case SolutionPackage.VNS_SEARCH__NAME:
+			case NetworkPackage.GLOBAL_SEARCH__NAME:
 				setName((String)newValue);
 				return;
-			case SolutionPackage.VNS_SEARCH__COST:
+			case NetworkPackage.GLOBAL_SEARCH__COST:
 				setCost((Long)newValue);
 				return;
-			case SolutionPackage.VNS_SEARCH__PREV_COST:
+			case NetworkPackage.GLOBAL_SEARCH__PREV_COST:
 				setPrevCost((Long)newValue);
 				return;
-			case SolutionPackage.VNS_SEARCH__NEIGHBORHOOD_SEARCHES:
-				getNeighborhoodSearches().clear();
-				getNeighborhoodSearches().addAll((Collection<? extends NeighborhoodSearch>)newValue);
+			case NetworkPackage.GLOBAL_SEARCH__LOCAL_SEARCHES:
+				getLocalSearches().clear();
+				getLocalSearches().addAll((Collection<? extends LocalSearch>)newValue);
 				return;
-			case SolutionPackage.VNS_SEARCH__OPERATION:
+			case NetworkPackage.GLOBAL_SEARCH__OPERATION:
 				setOperation((String)newValue);
-				return;
-			case SolutionPackage.VNS_SEARCH__TIME:
-				setTime((Long)newValue);
 				return;
 		}
 		super.eSet(featureID, newValue);
@@ -365,23 +318,20 @@ public class VNSSearchImpl extends MinimalEObjectImpl.Container implements VNSSe
 	@Override
 	public void eUnset(int featureID) {
 		switch (featureID) {
-			case SolutionPackage.VNS_SEARCH__NAME:
+			case NetworkPackage.GLOBAL_SEARCH__NAME:
 				setName(NAME_EDEFAULT);
 				return;
-			case SolutionPackage.VNS_SEARCH__COST:
+			case NetworkPackage.GLOBAL_SEARCH__COST:
 				setCost(COST_EDEFAULT);
 				return;
-			case SolutionPackage.VNS_SEARCH__PREV_COST:
+			case NetworkPackage.GLOBAL_SEARCH__PREV_COST:
 				setPrevCost(PREV_COST_EDEFAULT);
 				return;
-			case SolutionPackage.VNS_SEARCH__NEIGHBORHOOD_SEARCHES:
-				getNeighborhoodSearches().clear();
+			case NetworkPackage.GLOBAL_SEARCH__LOCAL_SEARCHES:
+				getLocalSearches().clear();
 				return;
-			case SolutionPackage.VNS_SEARCH__OPERATION:
+			case NetworkPackage.GLOBAL_SEARCH__OPERATION:
 				setOperation(OPERATION_EDEFAULT);
-				return;
-			case SolutionPackage.VNS_SEARCH__TIME:
-				setTime(TIME_EDEFAULT);
 				return;
 		}
 		super.eUnset(featureID);
@@ -395,18 +345,16 @@ public class VNSSearchImpl extends MinimalEObjectImpl.Container implements VNSSe
 	@Override
 	public boolean eIsSet(int featureID) {
 		switch (featureID) {
-			case SolutionPackage.VNS_SEARCH__NAME:
+			case NetworkPackage.GLOBAL_SEARCH__NAME:
 				return NAME_EDEFAULT == null ? name != null : !NAME_EDEFAULT.equals(name);
-			case SolutionPackage.VNS_SEARCH__COST:
+			case NetworkPackage.GLOBAL_SEARCH__COST:
 				return cost != COST_EDEFAULT;
-			case SolutionPackage.VNS_SEARCH__PREV_COST:
+			case NetworkPackage.GLOBAL_SEARCH__PREV_COST:
 				return prevCost != PREV_COST_EDEFAULT;
-			case SolutionPackage.VNS_SEARCH__NEIGHBORHOOD_SEARCHES:
-				return neighborhoodSearches != null && !neighborhoodSearches.isEmpty();
-			case SolutionPackage.VNS_SEARCH__OPERATION:
+			case NetworkPackage.GLOBAL_SEARCH__LOCAL_SEARCHES:
+				return localSearches != null && !localSearches.isEmpty();
+			case NetworkPackage.GLOBAL_SEARCH__OPERATION:
 				return OPERATION_EDEFAULT == null ? operation != null : !OPERATION_EDEFAULT.equals(operation);
-			case SolutionPackage.VNS_SEARCH__TIME:
-				return time != TIME_EDEFAULT;
 		}
 		return super.eIsSet(featureID);
 	}
@@ -429,10 +377,8 @@ public class VNSSearchImpl extends MinimalEObjectImpl.Container implements VNSSe
 		result.append(prevCost);
 		result.append(", operation: ");
 		result.append(operation);
-		result.append(", time: ");
-		result.append(time);
 		result.append(')');
 		return result.toString();
 	}
 
-} //VNSSearchImpl
+} //GlobalSearchImpl

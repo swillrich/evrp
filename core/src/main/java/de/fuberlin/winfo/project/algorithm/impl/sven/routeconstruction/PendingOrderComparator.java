@@ -3,26 +3,25 @@ package de.fuberlin.winfo.project.algorithm.impl.sven.routeconstruction;
 import java.util.Collections;
 import java.util.Comparator;
 
-import de.fuberlin.winfo.project.algorithm.AlgHelper;
 import de.fuberlin.winfo.project.algorithm.NetworkProvider;
 import de.fuberlin.winfo.project.algorithm.RouteWrapper;
-import de.fuberlin.winfo.project.model.network.Edge;
-import de.fuberlin.winfo.project.model.network.Node;
-import de.fuberlin.winfo.project.model.network.solution.UsedEdge;
+import de.fuberlin.winfo.project.model.network.Arc;
+import de.fuberlin.winfo.project.model.network.UsedArc;
+import de.fuberlin.winfo.project.model.network.Vertex;
 
 public class PendingOrderComparator implements Comparator<PendingOrder> {
 	private RouteWrapper route;
-	private Edge[][] E;
+	private Arc[][] E;
 
 	public PendingOrderComparator(RouteWrapper route, NetworkProvider np) {
 		this.route = route;
-		this.E = np.getEdges();
+		this.E = np.getArcs();
 	}
 
 	@Override
 	public int compare(PendingOrder o1, PendingOrder o2) {
-		Node n1 = AlgHelper.getNodeByOrder(o1.getOrder());
-		Node n2 = AlgHelper.getNodeByOrder(o2.getOrder());
+		Vertex n1 = o1.getOrder();
+		Vertex n2 = o2.getOrder();
 
 		if (o1.getOrder().getTimeWindow() != null && o2.getOrder().getTimeWindow() == null) {
 			return -1;
@@ -35,38 +34,38 @@ public class PendingOrderComparator implements Comparator<PendingOrder> {
 			return Integer.compare(distance(route.getDepot(), n1), distance(route.getDepot(), n2));
 		}
 
-		UsedEdge n1UsedEdge = returnMin(n1);
-		o1.setPos(route.getActualRoute().getWay().indexOf(n1UsedEdge));
+		UsedArc n1UsedArc = returnMin(n1);
+		o1.setPos(route.getActualRoute().getWay().indexOf(n1UsedArc));
 
-		UsedEdge n2UsedEdge = returnMin(n2);
-		o2.setPos(route.getActualRoute().getWay().indexOf(n2UsedEdge));
+		UsedArc n2UsedArc = returnMin(n2);
+		o2.setPos(route.getActualRoute().getWay().indexOf(n2UsedArc));
 
-		int costs1 = calculateByInsertionHeuristics(n1UsedEdge, n1);
-		int costs2 = calculateByInsertionHeuristics(n2UsedEdge, n2);
+		int costs1 = calculateByInsertionHeuristics(n1UsedArc, n1);
+		int costs2 = calculateByInsertionHeuristics(n2UsedArc, n2);
 
 		return Integer.compare(costs1, costs2);
 	}
 
-	private UsedEdge returnMin(Node node) {
-		return Collections.min(route.getActualRoute().getWay(), new Comparator<UsedEdge>() {
+	private UsedArc returnMin(Vertex vertex) {
+		return Collections.min(route.getActualRoute().getWay(), new Comparator<UsedArc>() {
 			@Override
-			public int compare(UsedEdge o1, UsedEdge o2) {
-				int a = calculateByInsertionHeuristics(o1, node);
-				int b = calculateByInsertionHeuristics(o2, node);
+			public int compare(UsedArc o1, UsedArc o2) {
+				int a = calculateByInsertionHeuristics(o1, vertex);
+				int b = calculateByInsertionHeuristics(o2, vertex);
 				return Integer.compare(a, b);
 			}
 		});
 	}
 
-	private int calculateByInsertionHeuristics(UsedEdge usedEdge, Node newNode) {
+	private int calculateByInsertionHeuristics(UsedArc usedArc, Vertex newVertex) {
 		// Insertion Heuristics
-		int Dik = E[usedEdge.getEdge().getStart().getId()][newNode.getId()].getDistance();
-		int Dkj = E[newNode.getId()][usedEdge.getEdge().getEnd().getId()].getDistance();
-		int Dij = usedEdge.getEdge().getDistance();
+		int Dik = E[usedArc.getArc().getStart().getId()][newVertex.getId()].getDistance();
+		int Dkj = E[newVertex.getId()][usedArc.getArc().getEnd().getId()].getDistance();
+		int Dij = usedArc.getArc().getDistance();
 		return Dik + Dkj - Dij;
 	}
 
-	private int distance(Node a, Node b) {
+	private int distance(Vertex a, Vertex b) {
 		return E[a.getId()][b.getId()].getDistance();
 	}
 };

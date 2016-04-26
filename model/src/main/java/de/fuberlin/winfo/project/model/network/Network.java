@@ -2,8 +2,6 @@
  */
 package de.fuberlin.winfo.project.model.network;
 
-import de.fuberlin.winfo.project.model.network.solution.Solution;
-
 import org.eclipse.emf.common.util.EList;
 
 import org.eclipse.emf.ecore.EObject;
@@ -17,9 +15,10 @@ import org.eclipse.emf.ecore.EObject;
  * The following features are supported:
  * </p>
  * <ul>
- *   <li>{@link de.fuberlin.winfo.project.model.network.Network#getEdges <em>Edges</em>}</li>
- *   <li>{@link de.fuberlin.winfo.project.model.network.Network#getNodes <em>Nodes</em>}</li>
+ *   <li>{@link de.fuberlin.winfo.project.model.network.Network#getArcs <em>Arcs</em>}</li>
+ *   <li>{@link de.fuberlin.winfo.project.model.network.Network#getVertices <em>Vertices</em>}</li>
  *   <li>{@link de.fuberlin.winfo.project.model.network.Network#getSolution <em>Solution</em>}</li>
+ *   <li>{@link de.fuberlin.winfo.project.model.network.Network#getLocatables <em>Locatables</em>}</li>
  * </ul>
  *
  * @see de.fuberlin.winfo.project.model.network.NetworkPackage#getNetwork()
@@ -28,40 +27,40 @@ import org.eclipse.emf.ecore.EObject;
  */
 public interface Network extends EObject {
 	/**
-	 * Returns the value of the '<em><b>Edges</b></em>' containment reference list.
-	 * The list contents are of type {@link de.fuberlin.winfo.project.model.network.Edge}.
+	 * Returns the value of the '<em><b>Arcs</b></em>' containment reference list.
+	 * The list contents are of type {@link de.fuberlin.winfo.project.model.network.Arc}.
 	 * <!-- begin-user-doc -->
 	 * <p>
-	 * If the meaning of the '<em>Edges</em>' containment reference list isn't clear,
+	 * If the meaning of the '<em>Arcs</em>' containment reference list isn't clear,
 	 * there really should be more of a description here...
 	 * </p>
 	 * <!-- end-user-doc -->
-	 * @return the value of the '<em>Edges</em>' containment reference list.
-	 * @see de.fuberlin.winfo.project.model.network.NetworkPackage#getNetwork_Edges()
+	 * @return the value of the '<em>Arcs</em>' containment reference list.
+	 * @see de.fuberlin.winfo.project.model.network.NetworkPackage#getNetwork_Arcs()
 	 * @model containment="true"
 	 * @generated
 	 */
-	EList<Edge> getEdges();
+	EList<Arc> getArcs();
 
 	/**
-	 * Returns the value of the '<em><b>Nodes</b></em>' containment reference list.
-	 * The list contents are of type {@link de.fuberlin.winfo.project.model.network.Node}.
+	 * Returns the value of the '<em><b>Vertices</b></em>' containment reference list.
+	 * The list contents are of type {@link de.fuberlin.winfo.project.model.network.Vertex}.
 	 * <!-- begin-user-doc -->
 	 * <p>
-	 * If the meaning of the '<em>Nodes</em>' containment reference list isn't clear,
+	 * If the meaning of the '<em>Vertices</em>' containment reference list isn't clear,
 	 * there really should be more of a description here...
 	 * </p>
 	 * <!-- end-user-doc -->
-	 * @return the value of the '<em>Nodes</em>' containment reference list.
-	 * @see de.fuberlin.winfo.project.model.network.NetworkPackage#getNetwork_Nodes()
+	 * @return the value of the '<em>Vertices</em>' containment reference list.
+	 * @see de.fuberlin.winfo.project.model.network.NetworkPackage#getNetwork_Vertices()
 	 * @model containment="true"
 	 * @generated
 	 */
-	EList<Node> getNodes();
+	EList<Vertex> getVertices();
 
 	/**
 	 * Returns the value of the '<em><b>Solution</b></em>' containment reference list.
-	 * The list contents are of type {@link de.fuberlin.winfo.project.model.network.solution.Solution}.
+	 * The list contents are of type {@link de.fuberlin.winfo.project.model.network.Solution}.
 	 * <!-- begin-user-doc -->
 	 * <p>
 	 * If the meaning of the '<em>Solution</em>' containment reference list isn't clear,
@@ -74,5 +73,21 @@ public interface Network extends EObject {
 	 * @generated
 	 */
 	EList<Solution> getSolution();
+
+	/**
+	 * Returns the value of the '<em><b>Locatables</b></em>' containment reference list.
+	 * The list contents are of type {@link de.fuberlin.winfo.project.model.network.Locatable}.
+	 * <!-- begin-user-doc -->
+	 * <p>
+	 * If the meaning of the '<em>Locatables</em>' containment reference list isn't clear,
+	 * there really should be more of a description here...
+	 * </p>
+	 * <!-- end-user-doc -->
+	 * @return the value of the '<em>Locatables</em>' containment reference list.
+	 * @see de.fuberlin.winfo.project.model.network.NetworkPackage#getNetwork_Locatables()
+	 * @model containment="true"
+	 * @generated
+	 */
+	EList<Locatable> getLocatables();
 
 } // Network

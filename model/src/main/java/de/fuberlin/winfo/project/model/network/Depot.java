@@ -2,7 +2,6 @@
  */
 package de.fuberlin.winfo.project.model.network;
 
-import org.eclipse.emf.common.util.EList;
 
 /**
  * <!-- begin-user-doc -->
@@ -14,18 +13,15 @@ import org.eclipse.emf.common.util.EList;
  * </p>
  * <ul>
  *   <li>{@link de.fuberlin.winfo.project.model.network.Depot#getFixPlaceTimeIfMultipleOperations <em>Fix Place Time If Multiple Operations</em>}</li>
- *   <li>{@link de.fuberlin.winfo.project.model.network.Depot#getPlannedPeriod <em>Planned Period</em>}</li>
  *   <li>{@link de.fuberlin.winfo.project.model.network.Depot#getMaxTourLength <em>Max Tour Length</em>}</li>
  *   <li>{@link de.fuberlin.winfo.project.model.network.Depot#getMaxEmployment <em>Max Employment</em>}</li>
- *   <li>{@link de.fuberlin.winfo.project.model.network.Depot#getTimeWindow <em>Time Window</em>}</li>
- *   <li>{@link de.fuberlin.winfo.project.model.network.Depot#getDeliveries <em>Deliveries</em>}</li>
  * </ul>
  *
  * @see de.fuberlin.winfo.project.model.network.NetworkPackage#getDepot()
  * @model
  * @generated
  */
-public interface Depot extends Locatable {
+public interface Depot extends Vertex, Locatable {
 	/**
 	 * Returns the value of the '<em><b>Fix Place Time If Multiple Operations</b></em>' attribute.
 	 * <!-- begin-user-doc -->
@@ -51,32 +47,6 @@ public interface Depot extends Locatable {
 	 * @generated
 	 */
 	void setFixPlaceTimeIfMultipleOperations(int value);
-
-	/**
-	 * Returns the value of the '<em><b>Planned Period</b></em>' containment reference.
-	 * <!-- begin-user-doc -->
-	 * <p>
-	 * If the meaning of the '<em>Planned Period</em>' containment reference isn't clear,
-	 * there really should be more of a description here...
-	 * </p>
-	 * <!-- end-user-doc -->
-	 * @return the value of the '<em>Planned Period</em>' containment reference.
-	 * @see #setPlannedPeriod(Duration)
-	 * @see de.fuberlin.winfo.project.model.network.NetworkPackage#getDepot_PlannedPeriod()
-	 * @model containment="true"
-	 * @generated
-	 */
-	Duration getPlannedPeriod();
-
-	/**
-	 * Sets the value of the '{@link de.fuberlin.winfo.project.model.network.Depot#getPlannedPeriod <em>Planned Period</em>}' containment reference.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @param value the new value of the '<em>Planned Period</em>' containment reference.
-	 * @see #getPlannedPeriod()
-	 * @generated
-	 */
-	void setPlannedPeriod(Duration value);
 
 	/**
 	 * Returns the value of the '<em><b>Max Tour Length</b></em>' attribute.
@@ -129,47 +99,5 @@ public interface Depot extends Locatable {
 	 * @generated
 	 */
 	void setMaxEmployment(int value);
-
-	/**
-	 * Returns the value of the '<em><b>Time Window</b></em>' containment reference.
-	 * <!-- begin-user-doc -->
-	 * <p>
-	 * If the meaning of the '<em>Time Window</em>' containment reference isn't clear,
-	 * there really should be more of a description here...
-	 * </p>
-	 * <!-- end-user-doc -->
-	 * @return the value of the '<em>Time Window</em>' containment reference.
-	 * @see #setTimeWindow(Duration)
-	 * @see de.fuberlin.winfo.project.model.network.NetworkPackage#getDepot_TimeWindow()
-	 * @model containment="true"
-	 * @generated
-	 */
-	Duration getTimeWindow();
-
-	/**
-	 * Sets the value of the '{@link de.fuberlin.winfo.project.model.network.Depot#getTimeWindow <em>Time Window</em>}' containment reference.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @param value the new value of the '<em>Time Window</em>' containment reference.
-	 * @see #getTimeWindow()
-	 * @generated
-	 */
-	void setTimeWindow(Duration value);
-
-	/**
-	 * Returns the value of the '<em><b>Deliveries</b></em>' containment reference list.
-	 * The list contents are of type {@link de.fuberlin.winfo.project.model.network.Order}.
-	 * <!-- begin-user-doc -->
-	 * <p>
-	 * If the meaning of the '<em>Deliveries</em>' containment reference list isn't clear,
-	 * there really should be more of a description here...
-	 * </p>
-	 * <!-- end-user-doc -->
-	 * @return the value of the '<em>Deliveries</em>' containment reference list.
-	 * @see de.fuberlin.winfo.project.model.network.NetworkPackage#getDepot_Deliveries()
-	 * @model containment="true"
-	 * @generated
-	 */
-	EList<Order> getDeliveries();
 
 } // Depot

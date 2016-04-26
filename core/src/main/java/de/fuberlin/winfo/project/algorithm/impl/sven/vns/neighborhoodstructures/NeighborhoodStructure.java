@@ -12,8 +12,8 @@ import de.fuberlin.winfo.project.algorithm.impl.sven.vns.SortedOperationList;
 import de.fuberlin.winfo.project.algorithm.impl.sven.vns.logging.VNSMonitor;
 import de.fuberlin.winfo.project.algorithm.restriction.RestrictionException;
 import de.fuberlin.winfo.project.algorithm.restriction.Restrictions;
-import de.fuberlin.winfo.project.model.network.solution.Route;
-import de.fuberlin.winfo.project.model.network.solution.Solution;
+import de.fuberlin.winfo.project.model.network.Route;
+import de.fuberlin.winfo.project.model.network.Solution;
 
 public abstract class NeighborhoodStructure implements Iterator<Solution> {
 
@@ -94,7 +94,7 @@ public abstract class NeighborhoodStructure implements Iterator<Solution> {
 
 	boolean checkRestrictions(Solution sol) {
 		for (Route route : sol.getRoutes()) {
-			RouteWrapper routeWrapper = new RouteWrapper(route, null, networkProvider.getEdges());
+			RouteWrapper routeWrapper = new RouteWrapper(route, null, networkProvider.getArcs());
 			try {
 				restrictions.checkCompleteRoute(routeWrapper);
 				return true;

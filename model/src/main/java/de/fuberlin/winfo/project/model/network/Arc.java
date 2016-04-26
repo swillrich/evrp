@@ -6,26 +6,26 @@ import org.eclipse.emf.ecore.EObject;
 
 /**
  * <!-- begin-user-doc -->
- * A representation of the model object '<em><b>Edge</b></em>'.
+ * A representation of the model object '<em><b>Arc</b></em>'.
  * <!-- end-user-doc -->
  *
  * <p>
  * The following features are supported:
  * </p>
  * <ul>
- *   <li>{@link de.fuberlin.winfo.project.model.network.Edge#getId <em>Id</em>}</li>
- *   <li>{@link de.fuberlin.winfo.project.model.network.Edge#getStart <em>Start</em>}</li>
- *   <li>{@link de.fuberlin.winfo.project.model.network.Edge#getEnd <em>End</em>}</li>
- *   <li>{@link de.fuberlin.winfo.project.model.network.Edge#getDistance <em>Distance</em>}</li>
- *   <li>{@link de.fuberlin.winfo.project.model.network.Edge#getTime <em>Time</em>}</li>
- *   <li>{@link de.fuberlin.winfo.project.model.network.Edge#isIsUsed <em>Is Used</em>}</li>
+ *   <li>{@link de.fuberlin.winfo.project.model.network.Arc#getId <em>Id</em>}</li>
+ *   <li>{@link de.fuberlin.winfo.project.model.network.Arc#getStart <em>Start</em>}</li>
+ *   <li>{@link de.fuberlin.winfo.project.model.network.Arc#getEnd <em>End</em>}</li>
+ *   <li>{@link de.fuberlin.winfo.project.model.network.Arc#getDistance <em>Distance</em>}</li>
+ *   <li>{@link de.fuberlin.winfo.project.model.network.Arc#getTime <em>Time</em>}</li>
+ *   <li>{@link de.fuberlin.winfo.project.model.network.Arc#isIsUsed <em>Is Used</em>}</li>
  * </ul>
  *
- * @see de.fuberlin.winfo.project.model.network.NetworkPackage#getEdge()
+ * @see de.fuberlin.winfo.project.model.network.NetworkPackage#getArc()
  * @model
  * @generated
  */
-public interface Edge extends EObject {
+public interface Arc extends EObject {
 	/**
 	 * Returns the value of the '<em><b>Id</b></em>' attribute.
 	 * <!-- begin-user-doc -->
@@ -36,14 +36,14 @@ public interface Edge extends EObject {
 	 * <!-- end-user-doc -->
 	 * @return the value of the '<em>Id</em>' attribute.
 	 * @see #setId(String)
-	 * @see de.fuberlin.winfo.project.model.network.NetworkPackage#getEdge_Id()
+	 * @see de.fuberlin.winfo.project.model.network.NetworkPackage#getArc_Id()
 	 * @model
 	 * @generated
 	 */
 	String getId();
 
 	/**
-	 * Sets the value of the '{@link de.fuberlin.winfo.project.model.network.Edge#getId <em>Id</em>}' attribute.
+	 * Sets the value of the '{@link de.fuberlin.winfo.project.model.network.Arc#getId <em>Id</em>}' attribute.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @param value the new value of the '<em>Id</em>' attribute.
@@ -61,22 +61,22 @@ public interface Edge extends EObject {
 	 * </p>
 	 * <!-- end-user-doc -->
 	 * @return the value of the '<em>Start</em>' reference.
-	 * @see #setStart(Node)
-	 * @see de.fuberlin.winfo.project.model.network.NetworkPackage#getEdge_Start()
+	 * @see #setStart(Vertex)
+	 * @see de.fuberlin.winfo.project.model.network.NetworkPackage#getArc_Start()
 	 * @model required="true"
 	 * @generated
 	 */
-	Node getStart();
+	Vertex getStart();
 
 	/**
-	 * Sets the value of the '{@link de.fuberlin.winfo.project.model.network.Edge#getStart <em>Start</em>}' reference.
+	 * Sets the value of the '{@link de.fuberlin.winfo.project.model.network.Arc#getStart <em>Start</em>}' reference.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @param value the new value of the '<em>Start</em>' reference.
 	 * @see #getStart()
 	 * @generated
 	 */
-	void setStart(Node value);
+	void setStart(Vertex value);
 
 	/**
 	 * Returns the value of the '<em><b>End</b></em>' reference.
@@ -87,22 +87,22 @@ public interface Edge extends EObject {
 	 * </p>
 	 * <!-- end-user-doc -->
 	 * @return the value of the '<em>End</em>' reference.
-	 * @see #setEnd(Node)
-	 * @see de.fuberlin.winfo.project.model.network.NetworkPackage#getEdge_End()
+	 * @see #setEnd(Vertex)
+	 * @see de.fuberlin.winfo.project.model.network.NetworkPackage#getArc_End()
 	 * @model required="true"
 	 * @generated
 	 */
-	Node getEnd();
+	Vertex getEnd();
 
 	/**
-	 * Sets the value of the '{@link de.fuberlin.winfo.project.model.network.Edge#getEnd <em>End</em>}' reference.
+	 * Sets the value of the '{@link de.fuberlin.winfo.project.model.network.Arc#getEnd <em>End</em>}' reference.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @param value the new value of the '<em>End</em>' reference.
 	 * @see #getEnd()
 	 * @generated
 	 */
-	void setEnd(Node value);
+	void setEnd(Vertex value);
 
 	/**
 	 * Returns the value of the '<em><b>Distance</b></em>' attribute.
@@ -114,14 +114,14 @@ public interface Edge extends EObject {
 	 * <!-- end-user-doc -->
 	 * @return the value of the '<em>Distance</em>' attribute.
 	 * @see #setDistance(int)
-	 * @see de.fuberlin.winfo.project.model.network.NetworkPackage#getEdge_Distance()
+	 * @see de.fuberlin.winfo.project.model.network.NetworkPackage#getArc_Distance()
 	 * @model
 	 * @generated
 	 */
 	int getDistance();
 
 	/**
-	 * Sets the value of the '{@link de.fuberlin.winfo.project.model.network.Edge#getDistance <em>Distance</em>}' attribute.
+	 * Sets the value of the '{@link de.fuberlin.winfo.project.model.network.Arc#getDistance <em>Distance</em>}' attribute.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @param value the new value of the '<em>Distance</em>' attribute.
@@ -140,14 +140,14 @@ public interface Edge extends EObject {
 	 * <!-- end-user-doc -->
 	 * @return the value of the '<em>Time</em>' attribute.
 	 * @see #setTime(int)
-	 * @see de.fuberlin.winfo.project.model.network.NetworkPackage#getEdge_Time()
+	 * @see de.fuberlin.winfo.project.model.network.NetworkPackage#getArc_Time()
 	 * @model
 	 * @generated
 	 */
 	int getTime();
 
 	/**
-	 * Sets the value of the '{@link de.fuberlin.winfo.project.model.network.Edge#getTime <em>Time</em>}' attribute.
+	 * Sets the value of the '{@link de.fuberlin.winfo.project.model.network.Arc#getTime <em>Time</em>}' attribute.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @param value the new value of the '<em>Time</em>' attribute.
@@ -167,14 +167,14 @@ public interface Edge extends EObject {
 	 * <!-- end-user-doc -->
 	 * @return the value of the '<em>Is Used</em>' attribute.
 	 * @see #setIsUsed(boolean)
-	 * @see de.fuberlin.winfo.project.model.network.NetworkPackage#getEdge_IsUsed()
+	 * @see de.fuberlin.winfo.project.model.network.NetworkPackage#getArc_IsUsed()
 	 * @model default="false" transient="true"
 	 * @generated
 	 */
 	boolean isIsUsed();
 
 	/**
-	 * Sets the value of the '{@link de.fuberlin.winfo.project.model.network.Edge#isIsUsed <em>Is Used</em>}' attribute.
+	 * Sets the value of the '{@link de.fuberlin.winfo.project.model.network.Arc#isIsUsed <em>Is Used</em>}' attribute.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @param value the new value of the '<em>Is Used</em>' attribute.
@@ -183,4 +183,4 @@ public interface Edge extends EObject {
 	 */
 	void setIsUsed(boolean value);
 
-} // Edge
+} // Arc

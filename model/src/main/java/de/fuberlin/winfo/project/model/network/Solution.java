@@ -1,6 +1,6 @@
 /**
  */
-package de.fuberlin.winfo.project.model.network.solution;
+package de.fuberlin.winfo.project.model.network;
 
 import org.eclipse.emf.common.util.EList;
 
@@ -15,24 +15,25 @@ import org.eclipse.emf.ecore.EObject;
  * The following features are supported:
  * </p>
  * <ul>
- *   <li>{@link de.fuberlin.winfo.project.model.network.solution.Solution#getRoutes <em>Routes</em>}</li>
- *   <li>{@link de.fuberlin.winfo.project.model.network.solution.Solution#getId <em>Id</em>}</li>
- *   <li>{@link de.fuberlin.winfo.project.model.network.solution.Solution#getTotalDistance <em>Total Distance</em>}</li>
- *   <li>{@link de.fuberlin.winfo.project.model.network.solution.Solution#getTotalTime <em>Total Time</em>}</li>
- *   <li>{@link de.fuberlin.winfo.project.model.network.solution.Solution#getProcedure <em>Procedure</em>}</li>
- *   <li>{@link de.fuberlin.winfo.project.model.network.solution.Solution#getUsecase <em>Usecase</em>}</li>
- *   <li>{@link de.fuberlin.winfo.project.model.network.solution.Solution#getHistory <em>History</em>}</li>
- *   <li>{@link de.fuberlin.winfo.project.model.network.solution.Solution#getAlgorithmName <em>Algorithm Name</em>}</li>
+ *   <li>{@link de.fuberlin.winfo.project.model.network.Solution#getRoutes <em>Routes</em>}</li>
+ *   <li>{@link de.fuberlin.winfo.project.model.network.Solution#getId <em>Id</em>}</li>
+ *   <li>{@link de.fuberlin.winfo.project.model.network.Solution#getTotalDistance <em>Total Distance</em>}</li>
+ *   <li>{@link de.fuberlin.winfo.project.model.network.Solution#getTotalTime <em>Total Time</em>}</li>
+ *   <li>{@link de.fuberlin.winfo.project.model.network.Solution#getUsecase <em>Usecase</em>}</li>
+ *   <li>{@link de.fuberlin.winfo.project.model.network.Solution#getHistory <em>History</em>}</li>
+ *   <li>{@link de.fuberlin.winfo.project.model.network.Solution#getAlgorithmName <em>Algorithm Name</em>}</li>
+ *   <li>{@link de.fuberlin.winfo.project.model.network.Solution#getCreationTime <em>Creation Time</em>}</li>
+ *   <li>{@link de.fuberlin.winfo.project.model.network.Solution#getSolvingTime <em>Solving Time</em>}</li>
  * </ul>
  *
- * @see de.fuberlin.winfo.project.model.network.solution.SolutionPackage#getSolution()
+ * @see de.fuberlin.winfo.project.model.network.NetworkPackage#getSolution()
  * @model
  * @generated
  */
 public interface Solution extends EObject {
 	/**
 	 * Returns the value of the '<em><b>Routes</b></em>' containment reference list.
-	 * The list contents are of type {@link de.fuberlin.winfo.project.model.network.solution.Route}.
+	 * The list contents are of type {@link de.fuberlin.winfo.project.model.network.Route}.
 	 * <!-- begin-user-doc -->
 	 * <p>
 	 * If the meaning of the '<em>Routes</em>' containment reference list isn't clear,
@@ -40,7 +41,7 @@ public interface Solution extends EObject {
 	 * </p>
 	 * <!-- end-user-doc -->
 	 * @return the value of the '<em>Routes</em>' containment reference list.
-	 * @see de.fuberlin.winfo.project.model.network.solution.SolutionPackage#getSolution_Routes()
+	 * @see de.fuberlin.winfo.project.model.network.NetworkPackage#getSolution_Routes()
 	 * @model containment="true"
 	 * @generated
 	 */
@@ -56,14 +57,14 @@ public interface Solution extends EObject {
 	 * <!-- end-user-doc -->
 	 * @return the value of the '<em>Id</em>' attribute.
 	 * @see #setId(String)
-	 * @see de.fuberlin.winfo.project.model.network.solution.SolutionPackage#getSolution_Id()
+	 * @see de.fuberlin.winfo.project.model.network.NetworkPackage#getSolution_Id()
 	 * @model
 	 * @generated
 	 */
 	String getId();
 
 	/**
-	 * Sets the value of the '{@link de.fuberlin.winfo.project.model.network.solution.Solution#getId <em>Id</em>}' attribute.
+	 * Sets the value of the '{@link de.fuberlin.winfo.project.model.network.Solution#getId <em>Id</em>}' attribute.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @param value the new value of the '<em>Id</em>' attribute.
@@ -82,14 +83,14 @@ public interface Solution extends EObject {
 	 * <!-- end-user-doc -->
 	 * @return the value of the '<em>Total Distance</em>' attribute.
 	 * @see #setTotalDistance(long)
-	 * @see de.fuberlin.winfo.project.model.network.solution.SolutionPackage#getSolution_TotalDistance()
+	 * @see de.fuberlin.winfo.project.model.network.NetworkPackage#getSolution_TotalDistance()
 	 * @model
 	 * @generated
 	 */
 	long getTotalDistance();
 
 	/**
-	 * Sets the value of the '{@link de.fuberlin.winfo.project.model.network.solution.Solution#getTotalDistance <em>Total Distance</em>}' attribute.
+	 * Sets the value of the '{@link de.fuberlin.winfo.project.model.network.Solution#getTotalDistance <em>Total Distance</em>}' attribute.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @param value the new value of the '<em>Total Distance</em>' attribute.
@@ -108,14 +109,14 @@ public interface Solution extends EObject {
 	 * <!-- end-user-doc -->
 	 * @return the value of the '<em>Total Time</em>' attribute.
 	 * @see #setTotalTime(long)
-	 * @see de.fuberlin.winfo.project.model.network.solution.SolutionPackage#getSolution_TotalTime()
+	 * @see de.fuberlin.winfo.project.model.network.NetworkPackage#getSolution_TotalTime()
 	 * @model
 	 * @generated
 	 */
 	long getTotalTime();
 
 	/**
-	 * Sets the value of the '{@link de.fuberlin.winfo.project.model.network.solution.Solution#getTotalTime <em>Total Time</em>}' attribute.
+	 * Sets the value of the '{@link de.fuberlin.winfo.project.model.network.Solution#getTotalTime <em>Total Time</em>}' attribute.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @param value the new value of the '<em>Total Time</em>' attribute.
@@ -123,32 +124,6 @@ public interface Solution extends EObject {
 	 * @generated
 	 */
 	void setTotalTime(long value);
-
-	/**
-	 * Returns the value of the '<em><b>Procedure</b></em>' attribute.
-	 * <!-- begin-user-doc -->
-	 * <p>
-	 * If the meaning of the '<em>Procedure</em>' attribute isn't clear,
-	 * there really should be more of a description here...
-	 * </p>
-	 * <!-- end-user-doc -->
-	 * @return the value of the '<em>Procedure</em>' attribute.
-	 * @see #setProcedure(String)
-	 * @see de.fuberlin.winfo.project.model.network.solution.SolutionPackage#getSolution_Procedure()
-	 * @model
-	 * @generated
-	 */
-	String getProcedure();
-
-	/**
-	 * Sets the value of the '{@link de.fuberlin.winfo.project.model.network.solution.Solution#getProcedure <em>Procedure</em>}' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @param value the new value of the '<em>Procedure</em>' attribute.
-	 * @see #getProcedure()
-	 * @generated
-	 */
-	void setProcedure(String value);
 
 	/**
 	 * Returns the value of the '<em><b>Usecase</b></em>' containment reference.
@@ -160,14 +135,14 @@ public interface Solution extends EObject {
 	 * <!-- end-user-doc -->
 	 * @return the value of the '<em>Usecase</em>' containment reference.
 	 * @see #setUsecase(UseCase)
-	 * @see de.fuberlin.winfo.project.model.network.solution.SolutionPackage#getSolution_Usecase()
+	 * @see de.fuberlin.winfo.project.model.network.NetworkPackage#getSolution_Usecase()
 	 * @model containment="true" required="true"
 	 * @generated
 	 */
 	UseCase getUsecase();
 
 	/**
-	 * Sets the value of the '{@link de.fuberlin.winfo.project.model.network.solution.Solution#getUsecase <em>Usecase</em>}' containment reference.
+	 * Sets the value of the '{@link de.fuberlin.winfo.project.model.network.Solution#getUsecase <em>Usecase</em>}' containment reference.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @param value the new value of the '<em>Usecase</em>' containment reference.
@@ -186,14 +161,14 @@ public interface Solution extends EObject {
 	 * <!-- end-user-doc -->
 	 * @return the value of the '<em>History</em>' containment reference.
 	 * @see #setHistory(SearchHistory)
-	 * @see de.fuberlin.winfo.project.model.network.solution.SolutionPackage#getSolution_History()
+	 * @see de.fuberlin.winfo.project.model.network.NetworkPackage#getSolution_History()
 	 * @model containment="true"
 	 * @generated
 	 */
 	SearchHistory getHistory();
 
 	/**
-	 * Sets the value of the '{@link de.fuberlin.winfo.project.model.network.solution.Solution#getHistory <em>History</em>}' containment reference.
+	 * Sets the value of the '{@link de.fuberlin.winfo.project.model.network.Solution#getHistory <em>History</em>}' containment reference.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @param value the new value of the '<em>History</em>' containment reference.
@@ -212,14 +187,14 @@ public interface Solution extends EObject {
 	 * <!-- end-user-doc -->
 	 * @return the value of the '<em>Algorithm Name</em>' attribute.
 	 * @see #setAlgorithmName(String)
-	 * @see de.fuberlin.winfo.project.model.network.solution.SolutionPackage#getSolution_AlgorithmName()
+	 * @see de.fuberlin.winfo.project.model.network.NetworkPackage#getSolution_AlgorithmName()
 	 * @model
 	 * @generated
 	 */
 	String getAlgorithmName();
 
 	/**
-	 * Sets the value of the '{@link de.fuberlin.winfo.project.model.network.solution.Solution#getAlgorithmName <em>Algorithm Name</em>}' attribute.
+	 * Sets the value of the '{@link de.fuberlin.winfo.project.model.network.Solution#getAlgorithmName <em>Algorithm Name</em>}' attribute.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @param value the new value of the '<em>Algorithm Name</em>' attribute.
@@ -227,5 +202,57 @@ public interface Solution extends EObject {
 	 * @generated
 	 */
 	void setAlgorithmName(String value);
+
+	/**
+	 * Returns the value of the '<em><b>Creation Time</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <p>
+	 * If the meaning of the '<em>Creation Time</em>' attribute isn't clear,
+	 * there really should be more of a description here...
+	 * </p>
+	 * <!-- end-user-doc -->
+	 * @return the value of the '<em>Creation Time</em>' attribute.
+	 * @see #setCreationTime(long)
+	 * @see de.fuberlin.winfo.project.model.network.NetworkPackage#getSolution_CreationTime()
+	 * @model
+	 * @generated
+	 */
+	long getCreationTime();
+
+	/**
+	 * Sets the value of the '{@link de.fuberlin.winfo.project.model.network.Solution#getCreationTime <em>Creation Time</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @param value the new value of the '<em>Creation Time</em>' attribute.
+	 * @see #getCreationTime()
+	 * @generated
+	 */
+	void setCreationTime(long value);
+
+	/**
+	 * Returns the value of the '<em><b>Solving Time</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <p>
+	 * If the meaning of the '<em>Solving Time</em>' attribute isn't clear,
+	 * there really should be more of a description here...
+	 * </p>
+	 * <!-- end-user-doc -->
+	 * @return the value of the '<em>Solving Time</em>' attribute.
+	 * @see #setSolvingTime(long)
+	 * @see de.fuberlin.winfo.project.model.network.NetworkPackage#getSolution_SolvingTime()
+	 * @model
+	 * @generated
+	 */
+	long getSolvingTime();
+
+	/**
+	 * Sets the value of the '{@link de.fuberlin.winfo.project.model.network.Solution#getSolvingTime <em>Solving Time</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @param value the new value of the '<em>Solving Time</em>' attribute.
+	 * @see #getSolvingTime()
+	 * @generated
+	 */
+	void setSolvingTime(long value);
 
 } // Solution

@@ -14,7 +14,6 @@ import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.InternalEObject;
 
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
-import org.eclipse.emf.ecore.impl.MinimalEObjectImpl;
 
 /**
  * <!-- begin-user-doc -->
@@ -24,7 +23,7 @@ import org.eclipse.emf.ecore.impl.MinimalEObjectImpl;
  * The following features are implemented:
  * </p>
  * <ul>
- *   <li>{@link de.fuberlin.winfo.project.model.network.impl.OrderImpl#getId <em>Id</em>}</li>
+ *   <li>{@link de.fuberlin.winfo.project.model.network.impl.OrderImpl#getOrderId <em>Order Id</em>}</li>
  *   <li>{@link de.fuberlin.winfo.project.model.network.impl.OrderImpl#getReceiver <em>Receiver</em>}</li>
  *   <li>{@link de.fuberlin.winfo.project.model.network.impl.OrderImpl#getVolume <em>Volume</em>}</li>
  *   <li>{@link de.fuberlin.winfo.project.model.network.impl.OrderImpl#getWeight <em>Weight</em>}</li>
@@ -34,26 +33,26 @@ import org.eclipse.emf.ecore.impl.MinimalEObjectImpl;
  *
  * @generated
  */
-public class OrderImpl extends MinimalEObjectImpl.Container implements Order {
+public class OrderImpl extends VertexImpl implements Order {
 	/**
-	 * The default value of the '{@link #getId() <em>Id</em>}' attribute.
+	 * The default value of the '{@link #getOrderId() <em>Order Id</em>}' attribute.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @see #getId()
+	 * @see #getOrderId()
 	 * @generated
 	 * @ordered
 	 */
-	protected static final String ID_EDEFAULT = null;
+	protected static final String ORDER_ID_EDEFAULT = null;
 
 	/**
-	 * The cached value of the '{@link #getId() <em>Id</em>}' attribute.
+	 * The cached value of the '{@link #getOrderId() <em>Order Id</em>}' attribute.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @see #getId()
+	 * @see #getOrderId()
 	 * @generated
 	 * @ordered
 	 */
-	protected String id = ID_EDEFAULT;
+	protected String orderId = ORDER_ID_EDEFAULT;
 
 	/**
 	 * The cached value of the '{@link #getReceiver() <em>Receiver</em>}' reference.
@@ -159,8 +158,8 @@ public class OrderImpl extends MinimalEObjectImpl.Container implements Order {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public String getId() {
-		return id;
+	public String getOrderId() {
+		return orderId;
 	}
 
 	/**
@@ -168,11 +167,11 @@ public class OrderImpl extends MinimalEObjectImpl.Container implements Order {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public void setId(String newId) {
-		String oldId = id;
-		id = newId;
+	public void setOrderId(String newOrderId) {
+		String oldOrderId = orderId;
+		orderId = newOrderId;
 		if (eNotificationRequired())
-			eNotify(new ENotificationImpl(this, Notification.SET, NetworkPackage.ORDER__ID, oldId, id));
+			eNotify(new ENotificationImpl(this, Notification.SET, NetworkPackage.ORDER__ORDER_ID, oldOrderId, orderId));
 	}
 
 	/**
@@ -341,8 +340,8 @@ public class OrderImpl extends MinimalEObjectImpl.Container implements Order {
 	@Override
 	public Object eGet(int featureID, boolean resolve, boolean coreType) {
 		switch (featureID) {
-			case NetworkPackage.ORDER__ID:
-				return getId();
+			case NetworkPackage.ORDER__ORDER_ID:
+				return getOrderId();
 			case NetworkPackage.ORDER__RECEIVER:
 				if (resolve) return getReceiver();
 				return basicGetReceiver();
@@ -366,8 +365,8 @@ public class OrderImpl extends MinimalEObjectImpl.Container implements Order {
 	@Override
 	public void eSet(int featureID, Object newValue) {
 		switch (featureID) {
-			case NetworkPackage.ORDER__ID:
-				setId((String)newValue);
+			case NetworkPackage.ORDER__ORDER_ID:
+				setOrderId((String)newValue);
 				return;
 			case NetworkPackage.ORDER__RECEIVER:
 				setReceiver((Customer)newValue);
@@ -396,8 +395,8 @@ public class OrderImpl extends MinimalEObjectImpl.Container implements Order {
 	@Override
 	public void eUnset(int featureID) {
 		switch (featureID) {
-			case NetworkPackage.ORDER__ID:
-				setId(ID_EDEFAULT);
+			case NetworkPackage.ORDER__ORDER_ID:
+				setOrderId(ORDER_ID_EDEFAULT);
 				return;
 			case NetworkPackage.ORDER__RECEIVER:
 				setReceiver((Customer)null);
@@ -426,8 +425,8 @@ public class OrderImpl extends MinimalEObjectImpl.Container implements Order {
 	@Override
 	public boolean eIsSet(int featureID) {
 		switch (featureID) {
-			case NetworkPackage.ORDER__ID:
-				return ID_EDEFAULT == null ? id != null : !ID_EDEFAULT.equals(id);
+			case NetworkPackage.ORDER__ORDER_ID:
+				return ORDER_ID_EDEFAULT == null ? orderId != null : !ORDER_ID_EDEFAULT.equals(orderId);
 			case NetworkPackage.ORDER__RECEIVER:
 				return receiver != null;
 			case NetworkPackage.ORDER__VOLUME:
@@ -452,8 +451,8 @@ public class OrderImpl extends MinimalEObjectImpl.Container implements Order {
 		if (eIsProxy()) return super.toString();
 
 		StringBuffer result = new StringBuffer(super.toString());
-		result.append(" (id: ");
-		result.append(id);
+		result.append(" (orderId: ");
+		result.append(orderId);
 		result.append(", volume: ");
 		result.append(volume);
 		result.append(", weight: ");

@@ -31,9 +31,9 @@ public class FormatConv {
 	}
 
 	public static String asDuration(long time, String appender) {
-		DateTime timeObj = new DateTime(time * 1000);
+		DateTime timeObj = new DateTime(time);
 
-		String result = new SimpleDateFormat("mm:ss").format(new Date(time * 1000));
+		String result = new SimpleDateFormat("mm:ss").format(new Date(time));
 
 		PeriodFormatter pf = new PeriodFormatterBuilder().printZeroAlways().appendHours().toFormatter();
 		String hours = pf.print(new Period(new DateTime(0), timeObj, PeriodType.time()));
@@ -61,7 +61,7 @@ public class FormatConv {
 		SimpleDateFormat sdf = new SimpleDateFormat("yy-MM-dd HH:mm:ss");
 		return sdf.format(new Date(dateTime));
 	}
-	
+
 	public static String getDateTimeUntilHours(long dateTime) {
 		SimpleDateFormat sdf = new SimpleDateFormat("HH:mm:ss");
 		return sdf.format(new Date(dateTime));

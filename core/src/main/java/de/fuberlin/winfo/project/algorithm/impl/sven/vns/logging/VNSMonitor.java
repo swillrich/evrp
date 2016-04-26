@@ -4,21 +4,21 @@ import java.util.Date;
 
 import de.fuberlin.winfo.project.algorithm.impl.sven.vns.CostFunction;
 import de.fuberlin.winfo.project.algorithm.impl.sven.vns.neighborhoodstructures.NeighborhoodStructure;
-import de.fuberlin.winfo.project.model.network.solution.NeighborhoodSearch;
-import de.fuberlin.winfo.project.model.network.solution.SearchHistory;
-import de.fuberlin.winfo.project.model.network.solution.Solution;
-import de.fuberlin.winfo.project.model.network.solution.SolutionFactory;
-import de.fuberlin.winfo.project.model.network.solution.VNSSearch;
-import de.fuberlin.winfo.project.model.network.solution.impl.SolutionFactoryImpl;
+import de.fuberlin.winfo.project.model.network.GlobalSearch;
+import de.fuberlin.winfo.project.model.network.LocalSearch;
+import de.fuberlin.winfo.project.model.network.NetworkFactory;
+import de.fuberlin.winfo.project.model.network.SearchHistory;
+import de.fuberlin.winfo.project.model.network.Solution;
+import de.fuberlin.winfo.project.model.network.impl.NetworkFactoryImpl;
 
 public class VNSMonitor {
 
 	private CostFunction costFunction;
-	private VNSSearch vnsSearch;
-	private SolutionFactory factory = new SolutionFactoryImpl();
+	private GlobalSearch globalSearch;
+	private NetworkFactory factory = new NetworkFactoryImpl();
 	private SearchHistory history = factory.createSearchHistory();
 	private VNSConsoleOutput output = new VNSConsoleOutput();
-	private long start = new Date().getTime() / 1000;
+	private long start = new Date().getTime();
 
 	public VNSMonitor(CostFunction f) {
 		this.costFunction = f;
@@ -30,38 +30,38 @@ public class VNSMonitor {
 
 	public void startLocalSearch(NeighborhoodStructure nb, Solution initialSol) {
 		initVNSSearch(nb);
-		vnsSearch.setPrevCost(costFunction.compute(initialSol));
-		vnsSearch.setName(nb.getName());
-		vnsSearch.setTime(new Date().getTime() / 1000 - start);
+		globalSearch.setPrevCost(costFunction.compute(initialSol));
+		globalSearch.setName(nb.getName());
 
-		output.vnsStart(history);
+		output.startLocalSearch(history);
 	}
 
 	public void neighborChange(NeighborhoodStructure nb, Solution better, String string) {
-		NeighborhoodSearch change = factory.createNeighborhoodSearch();
-		change.setTime(new Date().getTime() / 1000 - start);
-		change.setOperation(string);
-		change.setCost(costFunction.compute(better));
-		vnsSearch.getNeighborhoodSearches().add(change);
+		LocalSearch ls = factory.createLocalSearch();
+		ls.setTime(new Date().getTime() - start);
+		ls.setOperation(string);
+		ls.setCost(costFunction.compute(better));
+		globalSearch.getLocalSearches().add(ls);
+
 		output.neighborChange(history);
 	}
 
 	public void finishedLocalSearch(NeighborhoodStructure neighborhoodStructure, Solution initialSol,
 			Solution incumbentSol, int iterations) {
-		vnsSearch.setCost(costFunction.compute(incumbentSol));
-
-		long diff = vnsSearch.getPrevCost() - vnsSearch.getCost();
+		globalSearch.setCost(costFunction.compute(incumbentSol));
+		long diff = globalSearch.getPrevCost() - globalSearch.getCost();
 		String operation = "VNS reset";
 		if (diff <= 0) {
 			operation = "VNS change";
 		}
-		vnsSearch.setOperation(operation);
-		output.vnsFinished(history, iterations);
+		globalSearch.setOperation(operation);
+
+		output.finishedLocalSearch(history, iterations);
 	}
 
 	private void initVNSSearch(NeighborhoodStructure nb) {
-		vnsSearch = factory.createVNSSearch();
-		history.getVnsSearches().add(vnsSearch);
-		vnsSearch.setName(nb.getName());
+		globalSearch = factory.createGlobalSearch();
+		history.getSearches().add(globalSearch);
+		globalSearch.setName(nb.getName());
 	}
 }

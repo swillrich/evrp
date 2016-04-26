@@ -4,10 +4,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 import de.fuberlin.winfo.project.FormatConv;
-import de.fuberlin.winfo.project.algorithm.AlgHelper;
+import de.fuberlin.winfo.project.Locatables;
 import de.fuberlin.winfo.project.algorithm.Algorithm;
 import de.fuberlin.winfo.project.algorithm.RouteWrapper;
-import de.fuberlin.winfo.project.algorithm.impl.Commissioning;
 import de.fuberlin.winfo.project.algorithm.impl.sven.routeconstruction.OrderPriorityQueue;
 import de.fuberlin.winfo.project.algorithm.impl.sven.routeconstruction.PendingOrder;
 import de.fuberlin.winfo.project.algorithm.impl.sven.vns.CostFunction;
@@ -20,11 +19,10 @@ import de.fuberlin.winfo.project.algorithm.restriction.RestrictionException;
 import de.fuberlin.winfo.project.algorithm.restriction.impl.CargoCapacityRestriction;
 import de.fuberlin.winfo.project.algorithm.restriction.impl.TimeWindowRestriction;
 import de.fuberlin.winfo.project.algorithm.restriction.impl.VehicleRangeRestriction;
-import de.fuberlin.winfo.project.model.network.Depot;
-import de.fuberlin.winfo.project.model.network.Edge;
+import de.fuberlin.winfo.project.model.network.Arc;
 import de.fuberlin.winfo.project.model.network.Order;
+import de.fuberlin.winfo.project.model.network.Solution;
 import de.fuberlin.winfo.project.model.network.Vehicle;
-import de.fuberlin.winfo.project.model.network.solution.Solution;
 
 public class SvensAlg extends Algorithm {
 
@@ -33,19 +31,16 @@ public class SvensAlg extends Algorithm {
 		return "Svens Insertion Heuristic with VNS (2/3-opt)";
 	}
 
-	Edge[][] E = null;
+	Arc[][] A = null;
 
 	@Override
 	public void run(Solution solution) throws Exception {
-		E = networkProvider.getEdges();
-
+		A = networkProvider.getArcs();
 		restrictions.add(new CargoCapacityRestriction());
 		restrictions.add(new VehicleRangeRestriction());
 		restrictions.add(new TimeWindowRestriction());
 
-		Commissioning.pickCustomerOrder(networkProvider.getLocatables().getMainDepot(),
-				networkProvider.getLocatables().getCustomer());
-		constructProcedure(solution, networkProvider.getLocatables().getMainDepot());
+		constructProcedure(solution, networkProvider.getLocatables());
 		improvementProcedure(solution);
 	}
 
@@ -76,12 +71,12 @@ public class SvensAlg extends Algorithm {
 		updateSolution(optSolution);
 	}
 
-	private void constructProcedure(Solution solution, Depot depot) throws Exception {
-		List<Order> remainingOrders = new ArrayList<Order>(depot.getDeliveries());
+	private void constructProcedure(Solution solution, Locatables locatables) throws Exception {
+		List<Order> remainingOrders = new ArrayList<Order>(locatables.getAllOrders());
 
 		while (!remainingOrders.isEmpty()) {
 			Vehicle vehicle = solution.getUsecase().getVehicles().get(0);
-			RouteWrapper route = buildRoute(vehicle, AlgHelper.getNodeByLocatable(networkProvider, depot));
+			RouteWrapper route = buildRoute(vehicle, locatables.getDepot());
 			OrderPriorityQueue priorityQueue = new OrderPriorityQueue(networkProvider, route, remainingOrders);
 			RestrictionException exception = null;
 			while (!priorityQueue.isEmpty()) {
@@ -89,9 +84,9 @@ public class SvensAlg extends Algorithm {
 				try {
 					restrictions.check(route, nextPendingOrder.getOrder(), nextPendingOrder.getPos());
 					if (route.getActualRoute().getWay().isEmpty()) {
-						route.addDelivery(nextPendingOrder.getOrder());
+						route.useArc(nextPendingOrder.getOrder());
 					} else {
-						route.addDeliveryAtIndex(nextPendingOrder.getOrder(), nextPendingOrder.getPos());
+						route.useArcAtIndex(nextPendingOrder.getOrder(), nextPendingOrder.getPos());
 					}
 					remainingOrders.remove(nextPendingOrder.getOrder());
 				} catch (RestrictionException e) {

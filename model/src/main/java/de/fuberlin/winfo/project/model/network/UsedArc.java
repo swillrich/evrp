@@ -1,57 +1,54 @@
 /**
  */
-package de.fuberlin.winfo.project.model.network.solution;
-
-import de.fuberlin.winfo.project.model.network.Duration;
-import de.fuberlin.winfo.project.model.network.Edge;
+package de.fuberlin.winfo.project.model.network;
 
 import org.eclipse.emf.ecore.EObject;
 
 /**
  * <!-- begin-user-doc -->
- * A representation of the model object '<em><b>Used Edge</b></em>'.
+ * A representation of the model object '<em><b>Used Arc</b></em>'.
  * <!-- end-user-doc -->
  *
  * <p>
  * The following features are supported:
  * </p>
  * <ul>
- *   <li>{@link de.fuberlin.winfo.project.model.network.solution.UsedEdge#getEdge <em>Edge</em>}</li>
- *   <li>{@link de.fuberlin.winfo.project.model.network.solution.UsedEdge#getCurrentVehicleCargoWeight <em>Current Vehicle Cargo Weight</em>}</li>
- *   <li>{@link de.fuberlin.winfo.project.model.network.solution.UsedEdge#getDuration <em>Duration</em>}</li>
- *   <li>{@link de.fuberlin.winfo.project.model.network.solution.UsedEdge#getRemainingVehicleBatteryCapacityAtEnd <em>Remaining Vehicle Battery Capacity At End</em>}</li>
+ *   <li>{@link de.fuberlin.winfo.project.model.network.UsedArc#getArc <em>Arc</em>}</li>
+ *   <li>{@link de.fuberlin.winfo.project.model.network.UsedArc#getCurrentVehicleCargoWeight <em>Current Vehicle Cargo Weight</em>}</li>
+ *   <li>{@link de.fuberlin.winfo.project.model.network.UsedArc#getDuration <em>Duration</em>}</li>
+ *   <li>{@link de.fuberlin.winfo.project.model.network.UsedArc#getRemainingVehicleBatteryCapacityAtEnd <em>Remaining Vehicle Battery Capacity At End</em>}</li>
  * </ul>
  *
- * @see de.fuberlin.winfo.project.model.network.solution.SolutionPackage#getUsedEdge()
+ * @see de.fuberlin.winfo.project.model.network.NetworkPackage#getUsedArc()
  * @model
  * @generated
  */
-public interface UsedEdge extends EObject {
+public interface UsedArc extends EObject {
 	/**
-	 * Returns the value of the '<em><b>Edge</b></em>' reference.
+	 * Returns the value of the '<em><b>Arc</b></em>' reference.
 	 * <!-- begin-user-doc -->
 	 * <p>
-	 * If the meaning of the '<em>Edge</em>' reference isn't clear,
+	 * If the meaning of the '<em>Arc</em>' reference isn't clear,
 	 * there really should be more of a description here...
 	 * </p>
 	 * <!-- end-user-doc -->
-	 * @return the value of the '<em>Edge</em>' reference.
-	 * @see #setEdge(Edge)
-	 * @see de.fuberlin.winfo.project.model.network.solution.SolutionPackage#getUsedEdge_Edge()
+	 * @return the value of the '<em>Arc</em>' reference.
+	 * @see #setArc(Arc)
+	 * @see de.fuberlin.winfo.project.model.network.NetworkPackage#getUsedArc_Arc()
 	 * @model required="true"
 	 * @generated
 	 */
-	Edge getEdge();
+	Arc getArc();
 
 	/**
-	 * Sets the value of the '{@link de.fuberlin.winfo.project.model.network.solution.UsedEdge#getEdge <em>Edge</em>}' reference.
+	 * Sets the value of the '{@link de.fuberlin.winfo.project.model.network.UsedArc#getArc <em>Arc</em>}' reference.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @param value the new value of the '<em>Edge</em>' reference.
-	 * @see #getEdge()
+	 * @param value the new value of the '<em>Arc</em>' reference.
+	 * @see #getArc()
 	 * @generated
 	 */
-	void setEdge(Edge value);
+	void setArc(Arc value);
 
 	/**
 	 * Returns the value of the '<em><b>Current Vehicle Cargo Weight</b></em>' attribute.
@@ -63,14 +60,14 @@ public interface UsedEdge extends EObject {
 	 * <!-- end-user-doc -->
 	 * @return the value of the '<em>Current Vehicle Cargo Weight</em>' attribute.
 	 * @see #setCurrentVehicleCargoWeight(double)
-	 * @see de.fuberlin.winfo.project.model.network.solution.SolutionPackage#getUsedEdge_CurrentVehicleCargoWeight()
+	 * @see de.fuberlin.winfo.project.model.network.NetworkPackage#getUsedArc_CurrentVehicleCargoWeight()
 	 * @model
 	 * @generated
 	 */
 	double getCurrentVehicleCargoWeight();
 
 	/**
-	 * Sets the value of the '{@link de.fuberlin.winfo.project.model.network.solution.UsedEdge#getCurrentVehicleCargoWeight <em>Current Vehicle Cargo Weight</em>}' attribute.
+	 * Sets the value of the '{@link de.fuberlin.winfo.project.model.network.UsedArc#getCurrentVehicleCargoWeight <em>Current Vehicle Cargo Weight</em>}' attribute.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @param value the new value of the '<em>Current Vehicle Cargo Weight</em>' attribute.
@@ -89,14 +86,14 @@ public interface UsedEdge extends EObject {
 	 * <!-- end-user-doc -->
 	 * @return the value of the '<em>Duration</em>' containment reference.
 	 * @see #setDuration(Duration)
-	 * @see de.fuberlin.winfo.project.model.network.solution.SolutionPackage#getUsedEdge_Duration()
+	 * @see de.fuberlin.winfo.project.model.network.NetworkPackage#getUsedArc_Duration()
 	 * @model containment="true" required="true"
 	 * @generated
 	 */
 	Duration getDuration();
 
 	/**
-	 * Sets the value of the '{@link de.fuberlin.winfo.project.model.network.solution.UsedEdge#getDuration <em>Duration</em>}' containment reference.
+	 * Sets the value of the '{@link de.fuberlin.winfo.project.model.network.UsedArc#getDuration <em>Duration</em>}' containment reference.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @param value the new value of the '<em>Duration</em>' containment reference.
@@ -115,14 +112,14 @@ public interface UsedEdge extends EObject {
 	 * <!-- end-user-doc -->
 	 * @return the value of the '<em>Remaining Vehicle Battery Capacity At End</em>' attribute.
 	 * @see #setRemainingVehicleBatteryCapacityAtEnd(int)
-	 * @see de.fuberlin.winfo.project.model.network.solution.SolutionPackage#getUsedEdge_RemainingVehicleBatteryCapacityAtEnd()
+	 * @see de.fuberlin.winfo.project.model.network.NetworkPackage#getUsedArc_RemainingVehicleBatteryCapacityAtEnd()
 	 * @model
 	 * @generated
 	 */
 	int getRemainingVehicleBatteryCapacityAtEnd();
 
 	/**
-	 * Sets the value of the '{@link de.fuberlin.winfo.project.model.network.solution.UsedEdge#getRemainingVehicleBatteryCapacityAtEnd <em>Remaining Vehicle Battery Capacity At End</em>}' attribute.
+	 * Sets the value of the '{@link de.fuberlin.winfo.project.model.network.UsedArc#getRemainingVehicleBatteryCapacityAtEnd <em>Remaining Vehicle Battery Capacity At End</em>}' attribute.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @param value the new value of the '<em>Remaining Vehicle Battery Capacity At End</em>' attribute.
@@ -131,4 +128,4 @@ public interface UsedEdge extends EObject {
 	 */
 	void setRemainingVehicleBatteryCapacityAtEnd(int value);
 
-} // UsedEdge
+} // UsedArc

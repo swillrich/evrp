@@ -2,13 +2,13 @@ package de.fuberlin.winfo.project.algorithm.impl.sven.vns.neighborhoodstructures
 
 import de.fuberlin.winfo.project.algorithm.impl.sven.vns.neighborhoodstructures.AbstractStochasticNeighborhoodStructure;
 import de.fuberlin.winfo.project.algorithm.impl.sven.vns.neighborhoodstructures.NeighborhoodOperation;
-import de.fuberlin.winfo.project.model.network.solution.Solution;
+import de.fuberlin.winfo.project.model.network.Solution;
 
 public class StochasticInterRouteSingleNodeRelocationNeighborhoodStructure
 		extends AbstractStochasticNeighborhoodStructure {
 
 	public StochasticInterRouteSingleNodeRelocationNeighborhoodStructure() {
-		super(1500);
+		super(10000);
 	}
 
 	@Override
@@ -26,7 +26,7 @@ public class StochasticInterRouteSingleNodeRelocationNeighborhoodStructure
 		int rndNeighborNode = random.nextInt(solution.getRoutes().get(rndNeighborRoute).getWay().size() - 1);
 
 		return new InterRouteSingleNodeRelocationNeighborhoodOperation(rndRoute, rndNode, rndNeighborRoute,
-				rndNeighborNode, networkProvider.getEdges());
+				rndNeighborNode, networkProvider.getArcs());
 	}
 
 	@Override

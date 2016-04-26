@@ -1,12 +1,11 @@
 /**
  */
-package de.fuberlin.winfo.project.model.network.solution.impl;
+package de.fuberlin.winfo.project.model.network.impl;
 
+import de.fuberlin.winfo.project.model.network.NetworkPackage;
+import de.fuberlin.winfo.project.model.network.Route;
+import de.fuberlin.winfo.project.model.network.UsedArc;
 import de.fuberlin.winfo.project.model.network.Vehicle;
-
-import de.fuberlin.winfo.project.model.network.solution.Route;
-import de.fuberlin.winfo.project.model.network.solution.SolutionPackage;
-import de.fuberlin.winfo.project.model.network.solution.UsedEdge;
 
 import java.util.Collection;
 
@@ -32,10 +31,10 @@ import org.eclipse.emf.ecore.util.InternalEList;
  * The following features are implemented:
  * </p>
  * <ul>
- *   <li>{@link de.fuberlin.winfo.project.model.network.solution.impl.RouteImpl#getVehicle <em>Vehicle</em>}</li>
- *   <li>{@link de.fuberlin.winfo.project.model.network.solution.impl.RouteImpl#getTotalDistanceInM <em>Total Distance In M</em>}</li>
- *   <li>{@link de.fuberlin.winfo.project.model.network.solution.impl.RouteImpl#getTotalTimeInSec <em>Total Time In Sec</em>}</li>
- *   <li>{@link de.fuberlin.winfo.project.model.network.solution.impl.RouteImpl#getWay <em>Way</em>}</li>
+ *   <li>{@link de.fuberlin.winfo.project.model.network.impl.RouteImpl#getVehicle <em>Vehicle</em>}</li>
+ *   <li>{@link de.fuberlin.winfo.project.model.network.impl.RouteImpl#getTotalDistanceInM <em>Total Distance In M</em>}</li>
+ *   <li>{@link de.fuberlin.winfo.project.model.network.impl.RouteImpl#getTotalTimeInSec <em>Total Time In Sec</em>}</li>
+ *   <li>{@link de.fuberlin.winfo.project.model.network.impl.RouteImpl#getWay <em>Way</em>}</li>
  * </ul>
  *
  * @generated
@@ -99,7 +98,7 @@ public class RouteImpl extends MinimalEObjectImpl.Container implements Route {
 	 * @generated
 	 * @ordered
 	 */
-	protected EList<UsedEdge> way;
+	protected EList<UsedArc> way;
 
 	/**
 	 * <!-- begin-user-doc -->
@@ -117,7 +116,7 @@ public class RouteImpl extends MinimalEObjectImpl.Container implements Route {
 	 */
 	@Override
 	protected EClass eStaticClass() {
-		return SolutionPackage.Literals.ROUTE;
+		return NetworkPackage.Literals.ROUTE;
 	}
 
 	/**
@@ -131,7 +130,7 @@ public class RouteImpl extends MinimalEObjectImpl.Container implements Route {
 			vehicle = (Vehicle)eResolveProxy(oldVehicle);
 			if (vehicle != oldVehicle) {
 				if (eNotificationRequired())
-					eNotify(new ENotificationImpl(this, Notification.RESOLVE, SolutionPackage.ROUTE__VEHICLE, oldVehicle, vehicle));
+					eNotify(new ENotificationImpl(this, Notification.RESOLVE, NetworkPackage.ROUTE__VEHICLE, oldVehicle, vehicle));
 			}
 		}
 		return vehicle;
@@ -155,7 +154,7 @@ public class RouteImpl extends MinimalEObjectImpl.Container implements Route {
 		Vehicle oldVehicle = vehicle;
 		vehicle = newVehicle;
 		if (eNotificationRequired())
-			eNotify(new ENotificationImpl(this, Notification.SET, SolutionPackage.ROUTE__VEHICLE, oldVehicle, vehicle));
+			eNotify(new ENotificationImpl(this, Notification.SET, NetworkPackage.ROUTE__VEHICLE, oldVehicle, vehicle));
 	}
 
 	/**
@@ -176,7 +175,7 @@ public class RouteImpl extends MinimalEObjectImpl.Container implements Route {
 		long oldTotalDistanceInM = totalDistanceInM;
 		totalDistanceInM = newTotalDistanceInM;
 		if (eNotificationRequired())
-			eNotify(new ENotificationImpl(this, Notification.SET, SolutionPackage.ROUTE__TOTAL_DISTANCE_IN_M, oldTotalDistanceInM, totalDistanceInM));
+			eNotify(new ENotificationImpl(this, Notification.SET, NetworkPackage.ROUTE__TOTAL_DISTANCE_IN_M, oldTotalDistanceInM, totalDistanceInM));
 	}
 
 	/**
@@ -197,7 +196,7 @@ public class RouteImpl extends MinimalEObjectImpl.Container implements Route {
 		int oldTotalTimeInSec = totalTimeInSec;
 		totalTimeInSec = newTotalTimeInSec;
 		if (eNotificationRequired())
-			eNotify(new ENotificationImpl(this, Notification.SET, SolutionPackage.ROUTE__TOTAL_TIME_IN_SEC, oldTotalTimeInSec, totalTimeInSec));
+			eNotify(new ENotificationImpl(this, Notification.SET, NetworkPackage.ROUTE__TOTAL_TIME_IN_SEC, oldTotalTimeInSec, totalTimeInSec));
 	}
 
 	/**
@@ -205,9 +204,9 @@ public class RouteImpl extends MinimalEObjectImpl.Container implements Route {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EList<UsedEdge> getWay() {
+	public EList<UsedArc> getWay() {
 		if (way == null) {
-			way = new EObjectContainmentEList<UsedEdge>(UsedEdge.class, this, SolutionPackage.ROUTE__WAY);
+			way = new EObjectContainmentEList<UsedArc>(UsedArc.class, this, NetworkPackage.ROUTE__WAY);
 		}
 		return way;
 	}
@@ -220,7 +219,7 @@ public class RouteImpl extends MinimalEObjectImpl.Container implements Route {
 	@Override
 	public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, NotificationChain msgs) {
 		switch (featureID) {
-			case SolutionPackage.ROUTE__WAY:
+			case NetworkPackage.ROUTE__WAY:
 				return ((InternalEList<?>)getWay()).basicRemove(otherEnd, msgs);
 		}
 		return super.eInverseRemove(otherEnd, featureID, msgs);
@@ -234,14 +233,14 @@ public class RouteImpl extends MinimalEObjectImpl.Container implements Route {
 	@Override
 	public Object eGet(int featureID, boolean resolve, boolean coreType) {
 		switch (featureID) {
-			case SolutionPackage.ROUTE__VEHICLE:
+			case NetworkPackage.ROUTE__VEHICLE:
 				if (resolve) return getVehicle();
 				return basicGetVehicle();
-			case SolutionPackage.ROUTE__TOTAL_DISTANCE_IN_M:
+			case NetworkPackage.ROUTE__TOTAL_DISTANCE_IN_M:
 				return getTotalDistanceInM();
-			case SolutionPackage.ROUTE__TOTAL_TIME_IN_SEC:
+			case NetworkPackage.ROUTE__TOTAL_TIME_IN_SEC:
 				return getTotalTimeInSec();
-			case SolutionPackage.ROUTE__WAY:
+			case NetworkPackage.ROUTE__WAY:
 				return getWay();
 		}
 		return super.eGet(featureID, resolve, coreType);
@@ -256,18 +255,18 @@ public class RouteImpl extends MinimalEObjectImpl.Container implements Route {
 	@Override
 	public void eSet(int featureID, Object newValue) {
 		switch (featureID) {
-			case SolutionPackage.ROUTE__VEHICLE:
+			case NetworkPackage.ROUTE__VEHICLE:
 				setVehicle((Vehicle)newValue);
 				return;
-			case SolutionPackage.ROUTE__TOTAL_DISTANCE_IN_M:
+			case NetworkPackage.ROUTE__TOTAL_DISTANCE_IN_M:
 				setTotalDistanceInM((Long)newValue);
 				return;
-			case SolutionPackage.ROUTE__TOTAL_TIME_IN_SEC:
+			case NetworkPackage.ROUTE__TOTAL_TIME_IN_SEC:
 				setTotalTimeInSec((Integer)newValue);
 				return;
-			case SolutionPackage.ROUTE__WAY:
+			case NetworkPackage.ROUTE__WAY:
 				getWay().clear();
-				getWay().addAll((Collection<? extends UsedEdge>)newValue);
+				getWay().addAll((Collection<? extends UsedArc>)newValue);
 				return;
 		}
 		super.eSet(featureID, newValue);
@@ -281,16 +280,16 @@ public class RouteImpl extends MinimalEObjectImpl.Container implements Route {
 	@Override
 	public void eUnset(int featureID) {
 		switch (featureID) {
-			case SolutionPackage.ROUTE__VEHICLE:
+			case NetworkPackage.ROUTE__VEHICLE:
 				setVehicle((Vehicle)null);
 				return;
-			case SolutionPackage.ROUTE__TOTAL_DISTANCE_IN_M:
+			case NetworkPackage.ROUTE__TOTAL_DISTANCE_IN_M:
 				setTotalDistanceInM(TOTAL_DISTANCE_IN_M_EDEFAULT);
 				return;
-			case SolutionPackage.ROUTE__TOTAL_TIME_IN_SEC:
+			case NetworkPackage.ROUTE__TOTAL_TIME_IN_SEC:
 				setTotalTimeInSec(TOTAL_TIME_IN_SEC_EDEFAULT);
 				return;
-			case SolutionPackage.ROUTE__WAY:
+			case NetworkPackage.ROUTE__WAY:
 				getWay().clear();
 				return;
 		}
@@ -305,13 +304,13 @@ public class RouteImpl extends MinimalEObjectImpl.Container implements Route {
 	@Override
 	public boolean eIsSet(int featureID) {
 		switch (featureID) {
-			case SolutionPackage.ROUTE__VEHICLE:
+			case NetworkPackage.ROUTE__VEHICLE:
 				return vehicle != null;
-			case SolutionPackage.ROUTE__TOTAL_DISTANCE_IN_M:
+			case NetworkPackage.ROUTE__TOTAL_DISTANCE_IN_M:
 				return totalDistanceInM != TOTAL_DISTANCE_IN_M_EDEFAULT;
-			case SolutionPackage.ROUTE__TOTAL_TIME_IN_SEC:
+			case NetworkPackage.ROUTE__TOTAL_TIME_IN_SEC:
 				return totalTimeInSec != TOTAL_TIME_IN_SEC_EDEFAULT;
-			case SolutionPackage.ROUTE__WAY:
+			case NetworkPackage.ROUTE__WAY:
 				return way != null && !way.isEmpty();
 		}
 		return super.eIsSet(featureID);
