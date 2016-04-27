@@ -51,7 +51,8 @@ public class VNSConsoleOutput {
 		LocalSearch search = lastLS(gS, 0);
 		String operation = search.getOperation();
 		String newCost = withSeparator(search.getCost(), "");
-		newCost = "(" + (round((gS.getPrevCost() - search.getCost()) / (double) gS.getPrevCost(), 4)) + "%) " + newCost;
+		newCost = "(" + (round((gS.getPrevCost() - search.getCost()) / (double) gS.getPrevCost() * 100d, 4)) + "%) "
+				+ newCost;
 		String costDiff = withSeparator(search.getCost() - gS.getPrevCost(), "");
 
 		String dur = asDuration(search.getTime(), "");
@@ -69,9 +70,9 @@ public class VNSConsoleOutput {
 
 		String nhName = gs.getName();
 		String dur = asDuration(ls.getTime(), "");
-		String absImprovement = "(" + round(absDiff / (double) history.getSearches().get(0).getPrevCost(), 4) + "%) "
-				+ withSeparator(gs.getCost(), "");
-		String relImprovement = "(" + round(diffPrev / (double) gs.getPrevCost(), 4) + "%) "
+		String absImprovement = "(" + round(absDiff / (double) history.getSearches().get(0).getPrevCost() * 100, 4)
+				+ "%) " + withSeparator(gs.getCost(), "");
+		String relImprovement = "(" + round(diffPrev / (double) gs.getPrevCost() * 100, 4) + "%) "
 				+ withSeparator(diffPrev, "");
 		String it = withSeparator(iterations, "");
 

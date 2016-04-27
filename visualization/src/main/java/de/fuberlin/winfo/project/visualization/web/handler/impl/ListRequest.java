@@ -7,9 +7,11 @@ import java.util.List;
 import javax.servlet.http.HttpServletResponse;
 
 import org.apache.commons.lang.ArrayUtils;
+import org.eclipse.emf.common.util.EList;
 import org.eclipse.jetty.server.Request;
 
 import de.fuberlin.winfo.project.FormatConv;
+import de.fuberlin.winfo.project.model.network.GlobalSearch;
 import de.fuberlin.winfo.project.model.network.Network;
 import de.fuberlin.winfo.project.model.network.Solution;
 import de.fuberlin.winfo.project.visualization.web.VisualizationServer;
@@ -61,7 +63,8 @@ public class ListRequest extends AbstractRequest {
 		add("<Table id=\"t01\">");
 
 		String[] columns = new String[] { "Id", "NW Nodes", "save / remove", "Creation Time", "Algorithm",
-				"Solving time", "Routes", "Total Time", "Total Distance", "Details", "Map", "GeoJson", "VNS History" };
+				"Solving time", "Routes", "Improvment Ratio", "Total Time", "Total Distance", "Details", "Map",
+				"GeoJson", "VNS History" };
 		addRow(columns, true, 1, -1);
 
 		for (int i = 0; i < networks.size(); i++) {
@@ -81,7 +84,7 @@ public class ListRequest extends AbstractRequest {
 
 				Object[] solutionLinePart = new Object[] { FormatConv.asDateTime(s.getCreationTime()),
 						s.getAlgorithmName(), FormatConv.asDuration(s.getSolvingTime(), ""), s.getRoutes().size(),
-						FormatConv.asDuration(s.getTotalTime() * 1000, "h"),
+						getImprovementRatio(s), FormatConv.asDuration(s.getTotalTime() * 1000, "h"),
 						FormatConv.numberWithSeparatorAndMeter(s.getTotalDistance()), detailLink, mapLink, geoJsonLink,
 						vnsHistory };
 
@@ -98,6 +101,19 @@ public class ListRequest extends AbstractRequest {
 			}
 		}
 		add("</table>");
+	}
+
+	private Object getImprovementRatio(Solution s) {
+		if (s.getHistory() != null) {
+			EList<GlobalSearch> searches = s.getHistory().getSearches();
+			if (searches.size() > 0) {
+				long prevCost = searches.get(0).getPrevCost();
+				long cost = searches.get(searches.size() - 1).getCost();
+				long diff = prevCost - cost;
+				return FormatConv.round((double) diff / (double) prevCost * 100d, 4) + " %";
+			}
+		}
+		return "-";
 	}
 
 	private String getSaveLink(int i) {

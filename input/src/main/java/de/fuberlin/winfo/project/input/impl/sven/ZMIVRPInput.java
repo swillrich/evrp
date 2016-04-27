@@ -9,10 +9,10 @@ import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Random;
+import java.util.Set;
 import java.util.TreeMap;
+import java.util.TreeSet;
 import java.util.stream.IntStream;
-
-import org.eclipse.emf.common.util.EList;
 
 import de.fuberlin.winfo.project.Locatables;
 import de.fuberlin.winfo.project.Log;
@@ -53,7 +53,7 @@ public class ZMIVRPInput implements VRPInput {
 
 	@Override
 	public int getVerticesMaximum() {
-		return 300;
+		return 500;
 	}
 
 	@Override
@@ -81,11 +81,18 @@ public class ZMIVRPInput implements VRPInput {
 			Arc[][] multidimensionalEdgeArray = getDistanceMatrixAsArray(pojos, getLocatables().size());
 			multidimensionalEdgeArray = increaseArcsToFitAllOrders(network, multidimensionalEdgeArray, vertices);
 
-			EList<Vertex> verticesList = network.getVertices();
-
-			getLocatables().removeIf(l -> l instanceof Customer
-					&& ((Customer) l).getOrders().stream().filter(o -> verticesList.contains(o)).count() == 0);
-			getLocatables().getCustomer().forEach(c -> c.getOrders().removeIf(o -> !verticesList.contains(o)));
+			if (getVerticesMaximum() > 0) {
+				Set<Vertex> verticesSet = new TreeSet<Vertex>(new Comparator<Vertex>() {
+					@Override
+					public int compare(Vertex arg0, Vertex arg1) {
+						return Integer.compare(arg0.getId(), arg1.getId());
+					}
+				});
+				verticesSet.addAll(network.getVertices());
+				getLocatables().removeIf(l -> l instanceof Customer
+						&& ((Customer) l).getOrders().stream().filter(o -> verticesSet.contains(o)).count() == 0);
+				getLocatables().getCustomer().forEach(c -> c.getOrders().removeIf(o -> !verticesSet.contains(o)));
+			}
 
 			Log.info(Log.DATA_IMPORT,
 					network.getVertices().size() + " vertices generated (" + getLocatables().size() + " customer)");
@@ -160,7 +167,10 @@ public class ZMIVRPInput implements VRPInput {
 				vertexMap.get(vertices[j])[1].addLast(copy);
 			}
 		}
-
+		showProgress.update(vertices.length);
+		showProgress.done();
+		
+		System.out.println(1);
 		for (Vertex v : vertexMap.keySet()) {
 			LinkedList<Arc>[] lists = vertexMap.get(v);
 			v.getArcOut().addAll(lists[0]);
@@ -168,9 +178,7 @@ public class ZMIVRPInput implements VRPInput {
 			network.getArcs().addAll(lists[0]);
 			network.getArcs().addAll(lists[1]);
 		}
-
-		showProgress.update(vertices.length);
-		showProgress.done();
+		System.out.println(2);
 		return newArcArr;
 	}
 
