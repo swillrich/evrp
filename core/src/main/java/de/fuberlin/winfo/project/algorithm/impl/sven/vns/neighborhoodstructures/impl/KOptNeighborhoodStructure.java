@@ -1,19 +1,17 @@
 package de.fuberlin.winfo.project.algorithm.impl.sven.vns.neighborhoodstructures.impl;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import de.fuberlin.winfo.project.algorithm.RouteWrapper;
 import de.fuberlin.winfo.project.algorithm.impl.sven.vns.kopt.KOptHeuristic;
+import de.fuberlin.winfo.project.algorithm.impl.sven.vns.kopt.KOptHeuristicRouteAdapter;
 import de.fuberlin.winfo.project.algorithm.impl.sven.vns.kopt.KOptOptions;
 import de.fuberlin.winfo.project.algorithm.impl.sven.vns.kopt.Pair;
 import de.fuberlin.winfo.project.algorithm.impl.sven.vns.neighborhoodstructures.NeighborhoodOperation;
 import de.fuberlin.winfo.project.algorithm.impl.sven.vns.neighborhoodstructures.NeighborhoodStructure;
-import de.fuberlin.winfo.project.model.network.Arc;
 import de.fuberlin.winfo.project.model.network.Route;
 import de.fuberlin.winfo.project.model.network.Solution;
 import de.fuberlin.winfo.project.model.network.UsedArc;
-import de.fuberlin.winfo.project.model.network.Vertex;
 
 public class KOptNeighborhoodStructure extends NeighborhoodStructure {
 
@@ -45,7 +43,6 @@ public class KOptNeighborhoodStructure extends NeighborhoodStructure {
 		} else {
 			return this.incumbentSol;
 		}
-
 	}
 
 	@Override
@@ -95,7 +92,7 @@ public class KOptNeighborhoodStructure extends NeighborhoodStructure {
 		} else if (hasNextRoute()) {
 			current++;
 			try {
-				List<Pair> pairs = getPairs(initialSol.getRoutes().get(current));
+				List<Pair> pairs = KOptHeuristicRouteAdapter.getPairs(initialSol.getRoutes().get(current));
 				kOptHeuristic = new KOptHeuristic(k, pairs);
 				return initNext();
 			} catch (Exception e) {
@@ -106,48 +103,12 @@ public class KOptNeighborhoodStructure extends NeighborhoodStructure {
 		}
 	}
 
-	private KoptNeighborhoodOperation actualMove(Solution solution) throws Exception {
-		Vertex[] V = networkProvider.getVertices();
+	private KOptNeighborhoodOperation actualMove(Solution solution) throws Exception {
 		Route route = solution.getRoutes().get(current);
 		RouteWrapper wrapper = new RouteWrapper(route, null, networkProvider.getArcs());
-		int[] toReplace = this.options.getToReplace();
-		List<UsedArc> newUsedArcList = new ArrayList<UsedArc>();
-		for (int i = 0; i < pairs.size(); i++) {
-			Pair pair = pairs.get(i);
-			Vertex startOrder = V[pair.getStart()];
-			Vertex endOrder = V[pair.getEnd()];
-			Arc arc = networkProvider.getArcs()[startOrder.getId()][endOrder.getId()];
-			UsedArc newArc = wrapper.initializeUsedArc(arc);
-			newUsedArcList.add(newArc);
-			if (i < pairs.size() - 1) {
-				Vertex startV = V[pair.getEnd()];
-				Vertex endV = V[pairs.get(i + 1).getStart()];
-				List<UsedArc> usedArcsBetween = wrapper.getUsedArcsBetween(startV, endV);
-				newUsedArcList.addAll(usedArcsBetween);
-			}
-		}
+		List<UsedArc> newUsedArcList = KOptHeuristicRouteAdapter.getRoute(networkProvider, wrapper, pairs);
 		pairs = null;
-		return new KoptNeighborhoodOperation(current, newUsedArcList, toReplace, networkProvider.getArcs());
+		return new KOptNeighborhoodOperation(current, newUsedArcList, options.getToReplace(),
+				networkProvider.getArcs());
 	}
-
-	private List<Pair> getPairs(Route route) {
-		List<Pair> l = new ArrayList<Pair>();
-		for (UsedArc usedArc : route.getWay()) {
-			final Arc arc = usedArc.getArc();
-			l.add(new Pair() {
-
-				@Override
-				public int getStart() {
-					return arc.getStart().getId();
-				}
-
-				@Override
-				public int getEnd() {
-					return arc.getEnd().getId();
-				}
-			});
-		}
-		return l;
-	}
-
 }

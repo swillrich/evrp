@@ -1,5 +1,6 @@
 package de.fuberlin.winfo.project.algorithm.impl.sven.vns.neighborhoodstructures.impl;
 
+import java.util.Arrays;
 import java.util.List;
 
 import de.fuberlin.winfo.project.algorithm.RouteWrapper;
@@ -9,13 +10,13 @@ import de.fuberlin.winfo.project.model.network.Arc;
 import de.fuberlin.winfo.project.model.network.Solution;
 import de.fuberlin.winfo.project.model.network.UsedArc;
 
-public class KoptNeighborhoodOperation extends NeighborhoodOperation {
+public class KOptNeighborhoodOperation extends NeighborhoodOperation {
 	private int currentRoute;
 	private List<UsedArc> newUsedArcList;
 	private int[] toReplace;
 	private Arc[][] A;
 
-	public KoptNeighborhoodOperation(int current, List<UsedArc> newUsedArcList, int[] toReplace, Arc[][] A) {
+	public KOptNeighborhoodOperation(int current, List<UsedArc> newUsedArcList, int[] toReplace, Arc[][] A) {
 		this.currentRoute = current;
 		this.newUsedArcList = newUsedArcList;
 		this.toReplace = toReplace;
@@ -49,6 +50,6 @@ public class KoptNeighborhoodOperation extends NeighborhoodOperation {
 
 	@Override
 	public int operationHash() {
-		return 0;
+		return "kopt".concat(currentRoute + Arrays.toString(toReplace)).hashCode();
 	}
 }

@@ -53,7 +53,7 @@ public class ZMIVRPInput implements VRPInput {
 
 	@Override
 	public int getVerticesMaximum() {
-		return 500;
+		return 300;
 	}
 
 	@Override
@@ -85,7 +85,7 @@ public class ZMIVRPInput implements VRPInput {
 				Set<Vertex> verticesSet = new TreeSet<Vertex>(new Comparator<Vertex>() {
 					@Override
 					public int compare(Vertex arg0, Vertex arg1) {
-						return Integer.compare(arg0.getId(), arg1.getId());
+						return Integer.compare(arg0.hashCode(), arg1.hashCode());
 					}
 				});
 				verticesSet.addAll(network.getVertices());
@@ -169,8 +169,7 @@ public class ZMIVRPInput implements VRPInput {
 		}
 		showProgress.update(vertices.length);
 		showProgress.done();
-		
-		System.out.println(1);
+
 		for (Vertex v : vertexMap.keySet()) {
 			LinkedList<Arc>[] lists = vertexMap.get(v);
 			v.getArcOut().addAll(lists[0]);
@@ -178,7 +177,6 @@ public class ZMIVRPInput implements VRPInput {
 			network.getArcs().addAll(lists[0]);
 			network.getArcs().addAll(lists[1]);
 		}
-		System.out.println(2);
 		return newArcArr;
 	}
 
@@ -222,7 +220,7 @@ public class ZMIVRPInput implements VRPInput {
 
 	private List<Order> randomizeByPreselectedRandomSequence(List<Order> orders) {
 		ArrayList<Order> newList = new ArrayList<Order>();
-		while (newList.size() <= getVerticesMaximum()) {
+		while (newList.size() < getVerticesMaximum()) {
 			newList.add(orders.get(randomOrderIds[newList.size()]));
 		}
 		return newList;

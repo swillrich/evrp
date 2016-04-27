@@ -24,7 +24,7 @@ import de.fuberlin.winfo.project.model.network.impl.NetworkFactoryImpl;
 
 public class RouteWrapper {
 	private Route route;
-	private NetworkFactory networkFactory = new NetworkFactoryImpl();
+	private static NetworkFactory networkFactory = new NetworkFactoryImpl();
 	private Vertex depot;
 	private Arc[][] E;
 	private Set<Vertex> routeVertices;
@@ -213,7 +213,12 @@ public class RouteWrapper {
 
 			Vertex end = usedArc.getArc().getEnd();
 
-			Duration targetTimeWindow = ((Order) end).getTimeWindow();
+			Duration targetTimeWindow;
+			if (end instanceof Order) {
+				targetTimeWindow = ((Order) end).getTimeWindow();
+			} else {
+				targetTimeWindow = null;
+			}
 
 			if (targetTimeWindow != null) {
 				int startInSec = targetTimeWindow.getStartInSec();
@@ -234,16 +239,6 @@ public class RouteWrapper {
 		} else {
 			return Integer.MAX_VALUE;
 		}
-	}
-
-	public UsedArc initializeUsedArc(Arc arc) {
-		if (arc == null) {
-			throw new NullPointerException("Arc must not be null");
-		}
-		UsedArc usedArc = networkFactory.createUsedArc();
-		usedArc.setArc(arc);
-		usedArc.setDuration(networkFactory.createDuration());
-		return usedArc;
 	}
 
 	public void useArc(Order order) throws Exception {
@@ -305,31 +300,8 @@ public class RouteWrapper {
 		return "vehicle id: " + route.getVehicle().getId() + ", way: " + way;
 	}
 
-	public static RouteWrapper instantiateByVehicle(Vehicle vehicle, Vertex depot, Arc[][] arcs) {
-		Route route = new NetworkFactoryImpl().createRoute();
-		route.setVehicle(vehicle);
-		return new RouteWrapper(route, depot, arcs);
-	}
-
 	public void print() {
 		print(route.getWay());
-	}
-
-	public static void print(List<UsedArc> way) {
-		System.out.print("Arcs = " + way.size() + "\t");
-		for (int i = 0; i < way.size(); i++) {
-			UsedArc usedArc = way.get(i);
-			printArc(usedArc);
-			if (i + 1 < way.size()) {
-				System.out.print(" ; ");
-			}
-		}
-		System.out.println();
-	}
-
-	private static void printArc(UsedArc usedArc) {
-		Arc arc = usedArc.getArc();
-		System.out.print(arc.getStart().getId() + "->" + arc.getEnd().getId());
 	}
 
 	public List<UsedArc> getUsedArcsBetween(Vertex start, Vertex end) {
@@ -384,6 +356,16 @@ public class RouteWrapper {
 		return usedArcToRemove;
 	}
 
+	/*
+	 * static functions
+	 */
+
+	public static RouteWrapper instantiateByVehicle(Vehicle vehicle, Vertex depot, Arc[][] arcs) {
+		Route route = new NetworkFactoryImpl().createRoute();
+		route.setVehicle(vehicle);
+		return new RouteWrapper(route, depot, arcs);
+	}
+
 	public static double computeEnergyConsumptionOfArc(Vehicle vehicle, double cargoWeightInKg, double distance) {
 		double payLoadInPercentage = cargoWeightInKg / (double) vehicle.getMaxCapacatyPayLoadInKg();
 		double optimalConsumptionInKWPerKM = (double) vehicle.getBatteryCapacityInWh()
@@ -397,5 +379,32 @@ public class RouteWrapper {
 	public List<Order> getOrders() {
 		return route.getWay().stream().filter(w -> !(w.getArc().getStart() instanceof Depot))
 				.map(w -> w.getArc().getStart()).map(v -> (Order) v).collect(Collectors.toList());
+	}
+
+	public static UsedArc initializeUsedArc(Arc arc) {
+		if (arc == null) {
+			throw new NullPointerException("Arc must not be null");
+		}
+		UsedArc usedArc = networkFactory.createUsedArc();
+		usedArc.setArc(arc);
+		usedArc.setDuration(networkFactory.createDuration());
+		return usedArc;
+	}
+
+	public static void print(List<UsedArc> way) {
+		System.out.print("Arcs = " + way.size() + "\t");
+		for (int i = 0; i < way.size(); i++) {
+			UsedArc usedArc = way.get(i);
+			printArc(usedArc);
+			if (i + 1 < way.size()) {
+				System.out.print(" ; ");
+			}
+		}
+		System.out.println();
+	}
+
+	private static void printArc(UsedArc usedArc) {
+		Arc arc = usedArc.getArc();
+		System.out.print(arc.getStart().getId() + "->" + arc.getEnd().getId());
 	}
 }

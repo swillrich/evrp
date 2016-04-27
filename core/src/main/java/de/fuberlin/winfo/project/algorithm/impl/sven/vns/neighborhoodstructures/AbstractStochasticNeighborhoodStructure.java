@@ -4,6 +4,9 @@ import java.util.Random;
 import java.util.Set;
 import java.util.TreeSet;
 
+import de.fuberlin.winfo.project.algorithm.NetworkProvider;
+import de.fuberlin.winfo.project.algorithm.impl.sven.vns.CostFunction;
+import de.fuberlin.winfo.project.algorithm.impl.sven.vns.logging.VNSMonitor;
 import de.fuberlin.winfo.project.model.network.Solution;
 
 public abstract class AbstractStochasticNeighborhoodStructure extends NeighborhoodStructure {
@@ -36,5 +39,6 @@ public abstract class AbstractStochasticNeighborhoodStructure extends Neighborho
 	@Override
 	public void initSearch() {
 		randomlyUsedOperations = new TreeSet<Integer>();
+		randomlyUsedOperations.add(0);
 	}
 }
