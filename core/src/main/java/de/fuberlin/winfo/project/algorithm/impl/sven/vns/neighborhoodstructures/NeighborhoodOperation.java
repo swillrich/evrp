@@ -8,7 +8,7 @@ public abstract class NeighborhoodOperation {
 	public abstract Solution apply(Solution solution) throws Exception;
 
 	public abstract boolean isPreconditionSatisfied(Solution solution);
-	
+
 	public abstract int operationHash();
 
 	public Solution getResult() {
@@ -21,6 +21,26 @@ public abstract class NeighborhoodOperation {
 		} else {
 			result = apply(solution);
 		}
+	}
+
+	public static NeighborhoodOperation getBlank() {
+		return new NeighborhoodOperation() {
+
+			@Override
+			public int operationHash() {
+				return 0;
+			}
+
+			@Override
+			public boolean isPreconditionSatisfied(Solution solution) {
+				return false;
+			}
+
+			@Override
+			public Solution apply(Solution solution) throws Exception {
+				return solution;
+			}
+		};
 	}
 
 }

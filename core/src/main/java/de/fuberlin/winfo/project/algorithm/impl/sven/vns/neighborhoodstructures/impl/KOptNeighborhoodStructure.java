@@ -21,7 +21,6 @@ public class KOptNeighborhoodStructure extends NeighborhoodStructure {
 	private KOptHeuristic kOptHeuristic;
 	private KOptOptions options;
 	private List<Pair> pairs;
-	private Arc[][] E;
 	protected int k;
 
 	public KOptNeighborhoodStructure(int k) {
@@ -30,7 +29,6 @@ public class KOptNeighborhoodStructure extends NeighborhoodStructure {
 
 	@Override
 	public void initSearch() {
-		E = networkProvider.getArcs();
 		kOptHeuristic = null;
 		options = null;
 		pairs = null;
@@ -81,22 +79,7 @@ public class KOptNeighborhoodStructure extends NeighborhoodStructure {
 		if (initNext()) {
 			return actualMove(solution);
 		} else {
-			return new NeighborhoodOperation() {
-				@Override
-				public boolean isPreconditionSatisfied(Solution solution) {
-					return false;
-				}
-
-				@Override
-				public Solution apply(Solution solution) throws Exception {
-					return solution;
-				}
-
-				@Override
-				public int operationHash() {
-					return 0;
-				}
-			};
+			return NeighborhoodOperation.getBlank();
 		}
 	}
 
@@ -123,7 +106,7 @@ public class KOptNeighborhoodStructure extends NeighborhoodStructure {
 		}
 	}
 
-	private KoptOperation actualMove(Solution solution) throws Exception {
+	private KoptNeighborhoodOperation actualMove(Solution solution) throws Exception {
 		Vertex[] V = networkProvider.getVertices();
 		Route route = solution.getRoutes().get(current);
 		RouteWrapper wrapper = new RouteWrapper(route, null, networkProvider.getArcs());
@@ -144,7 +127,7 @@ public class KOptNeighborhoodStructure extends NeighborhoodStructure {
 			}
 		}
 		pairs = null;
-		return new KoptOperation(current, newUsedArcList, toReplace);
+		return new KoptNeighborhoodOperation(current, newUsedArcList, toReplace, networkProvider.getArcs());
 	}
 
 	private List<Pair> getPairs(Route route) {
@@ -167,45 +150,4 @@ public class KOptNeighborhoodStructure extends NeighborhoodStructure {
 		return l;
 	}
 
-	private class KoptOperation extends NeighborhoodOperation {
-		private int currentRoute;
-		private List<UsedArc> newUsedArcList;
-		private int[] toReplace;
-
-		public KoptOperation(int current, List<UsedArc> newUsedArcList, int[] toReplace) {
-			this.currentRoute = current;
-			this.newUsedArcList = newUsedArcList;
-			this.toReplace = toReplace;
-		}
-
-		@Override
-		public Solution apply(Solution solution) throws Exception {
-			RouteWrapper wrapper = new RouteWrapper(solution.getRoutes().get(currentRoute), null, E);
-			wrapper.replaceSubRoute(newUsedArcList, toReplace[0], toReplace[toReplace.length - 1]);
-			return solution;
-		}
-
-		@Override
-		public boolean isPreconditionSatisfied(Solution solution) {
-			RouteWrapper wrapper = new RouteWrapper(solution.getRoutes().get(currentRoute), null, E);
-			for (int i : toReplace) {
-				if (wrapper.getActualRoute().getWay().size() <= i) {
-					return false;
-				}
-			}
-
-			Solution copy = getCopy(solution);
-			try {
-				apply(copy);
-				return true;
-			} catch (Exception e) {
-				return false;
-			}
-		}
-
-		@Override
-		public int operationHash() {
-			return 0;
-		}
-	}
 }

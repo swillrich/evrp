@@ -85,7 +85,7 @@ public abstract class NeighborhoodStructure implements Iterator<Solution> {
 		}
 	}
 
-	protected Solution getCopy(Solution original) {
+	public static Solution getCopy(Solution original) {
 		EcoreUtil.Copier c = new Copier();
 		Solution copy = (Solution) c.copy(original);
 		c.copyReferences();
