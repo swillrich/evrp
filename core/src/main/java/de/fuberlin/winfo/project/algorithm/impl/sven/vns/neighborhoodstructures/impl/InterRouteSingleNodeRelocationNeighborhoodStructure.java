@@ -1,5 +1,8 @@
 package de.fuberlin.winfo.project.algorithm.impl.sven.vns.neighborhoodstructures.impl;
 
+import de.fuberlin.winfo.project.algorithm.NetworkProvider;
+import de.fuberlin.winfo.project.algorithm.impl.sven.vns.CostFunction;
+import de.fuberlin.winfo.project.algorithm.impl.sven.vns.logging.VNSMonitor;
 import de.fuberlin.winfo.project.algorithm.impl.sven.vns.neighborhoodstructures.NeighborhoodOperation;
 import de.fuberlin.winfo.project.algorithm.impl.sven.vns.neighborhoodstructures.NeighborhoodStructure;
 import de.fuberlin.winfo.project.model.network.Arc;
@@ -20,6 +23,12 @@ public class InterRouteSingleNodeRelocationNeighborhoodStructure extends Neighbo
 		node = 0;
 		neighborRoute = 0;
 		neighborNode = 0;
+	}
+
+	@Override
+	public void setUp(NetworkProvider np, VNSMonitor history, CostFunction f) {
+		super.setUp(np, history, f);
+		isApplyOperationList = true;
 	}
 
 	@Override
@@ -44,15 +53,11 @@ public class InterRouteSingleNodeRelocationNeighborhoodStructure extends Neighbo
 	}
 
 	@Override
-	public String getName() {
-		return "Inter-route single node relocation";
-	}
-
-	@Override
 	public NeighborhoodOperation generateOperation(Solution solution) throws Exception {
 		NeighborhoodOperation operation;
 		if (initilizeNext() && route != neighborRoute) {
-			operation = new InterRouteSingleNodeRelocationNeighborhoodOperation(route, node, neighborRoute, neighborNode, A);
+			operation = new InterRouteSingleNodeRelocationNeighborhoodOperation(route, node, neighborRoute,
+					neighborNode, A);
 		} else {
 			operation = new NeighborhoodOperation() {
 				@Override
@@ -99,14 +104,7 @@ public class InterRouteSingleNodeRelocationNeighborhoodStructure extends Neighbo
 	}
 
 	@Override
-	protected Solution returnBestNeighbor(Solution initialSol, Solution incumbentSol) {
-		applyOperationList();
-		double diff = costFunction.getImprovementRatio(initialSol, this.incumbentSol);
-		if (diff < 0.01) {
-			return initialSol;
-		} else {
-			return this.incumbentSol;
-		}
+	public String getName() {
+		return "IRSNR";
 	}
-
 }

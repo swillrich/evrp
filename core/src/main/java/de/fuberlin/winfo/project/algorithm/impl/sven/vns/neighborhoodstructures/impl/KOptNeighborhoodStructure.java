@@ -2,11 +2,14 @@ package de.fuberlin.winfo.project.algorithm.impl.sven.vns.neighborhoodstructures
 
 import java.util.List;
 
+import de.fuberlin.winfo.project.algorithm.NetworkProvider;
 import de.fuberlin.winfo.project.algorithm.RouteWrapper;
+import de.fuberlin.winfo.project.algorithm.impl.sven.vns.CostFunction;
 import de.fuberlin.winfo.project.algorithm.impl.sven.vns.kopt.KOptHeuristic;
 import de.fuberlin.winfo.project.algorithm.impl.sven.vns.kopt.KOptHeuristicRouteAdapter;
 import de.fuberlin.winfo.project.algorithm.impl.sven.vns.kopt.KOptOptions;
 import de.fuberlin.winfo.project.algorithm.impl.sven.vns.kopt.Pair;
+import de.fuberlin.winfo.project.algorithm.impl.sven.vns.logging.VNSMonitor;
 import de.fuberlin.winfo.project.algorithm.impl.sven.vns.neighborhoodstructures.NeighborhoodOperation;
 import de.fuberlin.winfo.project.algorithm.impl.sven.vns.neighborhoodstructures.NeighborhoodStructure;
 import de.fuberlin.winfo.project.model.network.Route;
@@ -26,23 +29,18 @@ public class KOptNeighborhoodStructure extends NeighborhoodStructure {
 	}
 
 	@Override
+	public void setUp(NetworkProvider np, VNSMonitor history, CostFunction f) {
+		super.setUp(np, history, f);
+		isApplyOperationList = true;
+	}
+
+	@Override
 	public void initSearch() {
 		kOptHeuristic = null;
 		options = null;
 		pairs = null;
 		current = -1;
 		initNext();
-	}
-
-	@Override
-	protected Solution returnBestNeighbor(Solution initialSol, Solution incumbentSol) {
-		applyOperationList();
-		double ratio = costFunction.getImprovementRatio(initialSol, this.incumbentSol);
-		if (ratio < 0.01) {
-			return initialSol;
-		} else {
-			return this.incumbentSol;
-		}
 	}
 
 	@Override

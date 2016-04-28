@@ -1,7 +1,9 @@
 package de.fuberlin.winfo.project.algorithm.impl.sven;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import de.fuberlin.winfo.project.FormatConv;
 import de.fuberlin.winfo.project.Locatables;
@@ -25,13 +27,19 @@ import de.fuberlin.winfo.project.model.network.Solution;
 import de.fuberlin.winfo.project.model.network.Vehicle;
 
 public class SvensAlg extends Algorithm {
+	Arc[][] A = null;
+	NeighborhoodStructure[] neighborhoodStructures = new NeighborhoodStructure[] {
+			new StochasticInterRouteSingleNodeRelocationNeighborhoodStructure(7000),
+			new StochasticKOptNeighborhoodStructure(3, 7000), new StochasticKOptNeighborhoodStructure(2, 7000) };
 
 	@Override
 	public String getName() {
-		return "Svens Insertion Heuristic with VNS (2/3-opt)";
+		return "VNS (" + getNeighborhoodStructureNames() + ")";
 	}
 
-	Arc[][] A = null;
+	private String getNeighborhoodStructureNames() {
+		return Arrays.stream(neighborhoodStructures).map(n -> n.getName()).collect(Collectors.joining(", "));
+	}
 
 	@Override
 	public void run(Solution solution) throws Exception {
@@ -57,16 +65,16 @@ public class SvensAlg extends Algorithm {
 				long distance = s.getTotalDistance();
 				return (int) (distance);
 			}
+
+			@Override
+			public double acceptanceThresold() {
+				return 0.01;
+			}
 		};
 		System.out.println("VNS starts with " + FormatConv.withSeparator(f.compute(solution), ""));
 
 		VNSMonitor historyMonitor = new VNSMonitor(f);
-		Solution optSolution = VNS
-				.vns(networkProvider, f, solution,
-						new NeighborhoodStructure[] {
-//								new StochasticInterRouteSingleNodeRelocationNeighborhoodStructure(),
-								new StochasticKOptNeighborhoodStructure(2) },
-						historyMonitor);
+		Solution optSolution = VNS.vns(networkProvider, f, solution, neighborhoodStructures, historyMonitor);
 		optSolution.setHistory(historyMonitor.getHistory());
 		updateSolution(optSolution);
 	}

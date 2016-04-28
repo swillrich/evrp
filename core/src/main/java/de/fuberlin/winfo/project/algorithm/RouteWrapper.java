@@ -338,6 +338,14 @@ public class RouteWrapper {
 		Vertex end = usedArc.getArc().getEnd();
 		neighborWrapper.useArcAtIndex((Order) end, insertionPos);
 		reinitializeRoute();
+		removeIfInsufficientVerticesContained();
+	}
+
+	private void removeIfInsufficientVerticesContained() {
+		if (route.getWay().size() <= 1) {
+			Solution sol = (Solution) route.eContainer();
+			sol.getRoutes().remove(route);
+		}
 	}
 
 	private UsedArc remove(int toRemove) throws Exception {

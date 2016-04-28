@@ -1,5 +1,8 @@
 package de.fuberlin.winfo.project.algorithm.impl.sven.vns.neighborhoodstructures.impl;
 
+import de.fuberlin.winfo.project.algorithm.NetworkProvider;
+import de.fuberlin.winfo.project.algorithm.impl.sven.vns.CostFunction;
+import de.fuberlin.winfo.project.algorithm.impl.sven.vns.logging.VNSMonitor;
 import de.fuberlin.winfo.project.algorithm.impl.sven.vns.neighborhoodstructures.AbstractStochasticNeighborhoodStructure;
 import de.fuberlin.winfo.project.algorithm.impl.sven.vns.neighborhoodstructures.NeighborhoodOperation;
 import de.fuberlin.winfo.project.model.network.Solution;
@@ -7,8 +10,14 @@ import de.fuberlin.winfo.project.model.network.Solution;
 public class StochasticInterRouteSingleNodeRelocationNeighborhoodStructure
 		extends AbstractStochasticNeighborhoodStructure {
 
-	public StochasticInterRouteSingleNodeRelocationNeighborhoodStructure() {
-		super(10000);
+	public StochasticInterRouteSingleNodeRelocationNeighborhoodStructure(int iterations) {
+		super(iterations);
+	}
+
+	@Override
+	public void setUp(NetworkProvider np, VNSMonitor history, CostFunction f) {
+		super.setUp(np, history, f);
+		isApplyOperationList = true;
 	}
 
 	@Override
@@ -31,17 +40,6 @@ public class StochasticInterRouteSingleNodeRelocationNeighborhoodStructure
 
 	@Override
 	public String getName() {
-		return "Stoch. inter-route single node rel";
-	}
-
-	@Override
-	protected Solution returnBestNeighbor(Solution initialSol, Solution incumbentSol) {
-		applyOperationList();
-		double diff = costFunction.getImprovementRatio(initialSol, this.incumbentSol);
-		if (diff < 0.01) {
-			return initialSol;
-		} else {
-			return this.incumbentSol;
-		}
+		return "S-IRSNR";
 	}
 }

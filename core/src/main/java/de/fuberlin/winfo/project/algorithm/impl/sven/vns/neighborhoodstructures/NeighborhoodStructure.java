@@ -25,6 +25,7 @@ public abstract class NeighborhoodStructure implements Iterator<Solution> {
 	protected CostFunction costFunction;
 	protected SortedOperationList operationList;
 	protected int iterations;
+	protected boolean isApplyOperationList = false;
 
 	public abstract String getName();
 
@@ -68,7 +69,10 @@ public abstract class NeighborhoodStructure implements Iterator<Solution> {
 	}
 
 	protected Solution returnBestNeighbor(Solution initialSol, Solution incumbentSol) {
-		return incumbentSol;
+		if (isApplyOperationList) {
+			applyOperationList();
+		}
+		return this.incumbentSol;
 	}
 
 	@Override

@@ -12,7 +12,7 @@ public class VNS {
 		do {
 			neighborhoodStructures[k].setUp(np, history, f);
 			Solution bestNeighbor = neighborhoodStructures[k].search(bestSolution);
-			if (f.compare(bestSolution, bestNeighbor) > 0) {
+			if (f.getImprovementRatio(bestSolution, bestNeighbor) >= f.acceptanceThresold()) {
 				k = 0;
 				bestSolution = bestNeighbor;
 			} else {

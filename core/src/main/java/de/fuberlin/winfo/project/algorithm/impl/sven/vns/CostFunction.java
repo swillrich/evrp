@@ -7,16 +7,18 @@ import de.fuberlin.winfo.project.model.network.Solution;
 public abstract class CostFunction implements Comparator<Solution> {
 
 	@Override
-	public int compare(Solution sol1, Solution sol2) {
-		return Long.compare(compute(sol1), compute(sol2));
+	public int compare(Solution previous, Solution candidate) {
+		return Long.compare(compute(previous), compute(candidate));
 	}
 
 	public abstract int compute(Solution s);
 
-	public double getImprovementRatio(Solution initial, Solution incumbent) {
+	public double getImprovementRatio(Solution incumbent, Solution candidate) {
+		int can = compute(candidate);
 		int inc = compute(incumbent);
-		int ini = compute(initial);
-		int diff = ini - inc;
-		return (double) diff / (double) ini;
+		int diff = inc - can;
+		return (double) diff / (double) inc;
 	}
+
+	public abstract double acceptanceThresold();
 }

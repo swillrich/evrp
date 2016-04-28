@@ -22,7 +22,7 @@ public class VNSConsoleOutput {
 	public VNSConsoleOutput() {
 		tablePrinter = new TablePrinter(System.out, titles);
 		int i = 0;
-		tablePrinter.setParam(i++, 40);
+		tablePrinter.setParam(i++, 25);
 		tablePrinter.setParam(i++, 23);
 		tablePrinter.setParam(i++, true, 10);
 		tablePrinter.setParam(i++, true, 10);

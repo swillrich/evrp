@@ -26,8 +26,8 @@ public class StochasticKOptNeighborhoodStructure extends AbstractStochasticNeigh
 	private int k;
 	private Map<Integer, KOptHeuristic> routeKOptMap;
 
-	public StochasticKOptNeighborhoodStructure(int k) {
-		super(5000);
+	public StochasticKOptNeighborhoodStructure(int k, int interations) {
+		super(interations);
 		this.k = k;
 	}
 
@@ -35,6 +35,7 @@ public class StochasticKOptNeighborhoodStructure extends AbstractStochasticNeigh
 	public void setUp(NetworkProvider np, VNSMonitor history, CostFunction f) {
 		super.setUp(np, history, f);
 		this.routeKOptMap = new HashMap<Integer, KOptHeuristic>();
+		isApplyOperationList = true;
 	}
 
 	@Override
