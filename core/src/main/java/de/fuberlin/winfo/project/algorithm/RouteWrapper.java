@@ -136,6 +136,9 @@ public class RouteWrapper {
 				- route.getWay().get(0).getDuration().getStartInSec();
 		route.setTotalTimeInSec(totalRouteTime);
 
+		route.setTotalVehicleBatteryConsumption(route.getVehicle().getBatteryCapacityInWh()
+				- route.getWay().get(route.getWay().size() - 1).getRemainingVehicleBatteryCapacityAtEnd());
+
 		takeCareOfSolutionValues();
 	}
 
@@ -168,6 +171,9 @@ public class RouteWrapper {
 
 			long time = solution.getRoutes().stream().mapToLong(r -> r.getTotalTimeInSec()).sum();
 			solution.setTotalTime(time);
+
+			long con = solution.getRoutes().stream().mapToLong(r -> r.getTotalVehicleBatteryConsumption()).sum();
+			solution.setTotalVehicleBatteryConsumption(con);
 		}
 	}
 

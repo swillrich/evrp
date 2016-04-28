@@ -1,6 +1,5 @@
 package de.fuberlin.winfo.project.visualization.web.logic;
 
-import de.fuberlin.winfo.project.Locatables;
 import de.fuberlin.winfo.project.model.network.Network;
 import de.fuberlin.winfo.project.model.network.Route;
 import de.fuberlin.winfo.project.model.network.Solution;
@@ -8,11 +7,8 @@ import de.fuberlin.winfo.project.model.network.Solution;
 public class Statistics {
 	private Network network;
 
-	private Locatables sL = null;
-
 	public Statistics(Network network) {
 		this.network = network;
-		sL = Locatables.inflateBy(network);
 	}
 
 	public double getAverageDistance(Solution sol) {

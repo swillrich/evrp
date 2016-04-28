@@ -81,6 +81,8 @@
         lowerBound="1" eType="#//Vehicle"/>
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="totalDistanceInM" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//ELong"/>
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="totalTimeInSec" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="totalVehicleBatteryConsumption"
+        eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//ELong"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="way" upperBound="-1" eType="#//UsedArc"
         containment="true"/>
   </eClassifiers>
@@ -90,6 +92,8 @@
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="id" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="totalDistance" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//ELong"/>
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="totalTime" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//ELong"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="totalVehicleBatteryConsumption"
+        eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//ELong"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="usecase" lowerBound="1"
         eType="#//UseCase" containment="true"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="history" eType="#//SearchHistory"

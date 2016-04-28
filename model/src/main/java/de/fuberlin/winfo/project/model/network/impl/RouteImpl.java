@@ -34,6 +34,7 @@ import org.eclipse.emf.ecore.util.InternalEList;
  *   <li>{@link de.fuberlin.winfo.project.model.network.impl.RouteImpl#getVehicle <em>Vehicle</em>}</li>
  *   <li>{@link de.fuberlin.winfo.project.model.network.impl.RouteImpl#getTotalDistanceInM <em>Total Distance In M</em>}</li>
  *   <li>{@link de.fuberlin.winfo.project.model.network.impl.RouteImpl#getTotalTimeInSec <em>Total Time In Sec</em>}</li>
+ *   <li>{@link de.fuberlin.winfo.project.model.network.impl.RouteImpl#getTotalVehicleBatteryConsumption <em>Total Vehicle Battery Consumption</em>}</li>
  *   <li>{@link de.fuberlin.winfo.project.model.network.impl.RouteImpl#getWay <em>Way</em>}</li>
  * </ul>
  *
@@ -89,6 +90,26 @@ public class RouteImpl extends MinimalEObjectImpl.Container implements Route {
 	 * @ordered
 	 */
 	protected int totalTimeInSec = TOTAL_TIME_IN_SEC_EDEFAULT;
+
+	/**
+	 * The default value of the '{@link #getTotalVehicleBatteryConsumption() <em>Total Vehicle Battery Consumption</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #getTotalVehicleBatteryConsumption()
+	 * @generated
+	 * @ordered
+	 */
+	protected static final long TOTAL_VEHICLE_BATTERY_CONSUMPTION_EDEFAULT = 0L;
+
+	/**
+	 * The cached value of the '{@link #getTotalVehicleBatteryConsumption() <em>Total Vehicle Battery Consumption</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #getTotalVehicleBatteryConsumption()
+	 * @generated
+	 * @ordered
+	 */
+	protected long totalVehicleBatteryConsumption = TOTAL_VEHICLE_BATTERY_CONSUMPTION_EDEFAULT;
 
 	/**
 	 * The cached value of the '{@link #getWay() <em>Way</em>}' containment reference list.
@@ -204,6 +225,27 @@ public class RouteImpl extends MinimalEObjectImpl.Container implements Route {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	public long getTotalVehicleBatteryConsumption() {
+		return totalVehicleBatteryConsumption;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public void setTotalVehicleBatteryConsumption(long newTotalVehicleBatteryConsumption) {
+		long oldTotalVehicleBatteryConsumption = totalVehicleBatteryConsumption;
+		totalVehicleBatteryConsumption = newTotalVehicleBatteryConsumption;
+		if (eNotificationRequired())
+			eNotify(new ENotificationImpl(this, Notification.SET, NetworkPackage.ROUTE__TOTAL_VEHICLE_BATTERY_CONSUMPTION, oldTotalVehicleBatteryConsumption, totalVehicleBatteryConsumption));
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	public EList<UsedArc> getWay() {
 		if (way == null) {
 			way = new EObjectContainmentEList<UsedArc>(UsedArc.class, this, NetworkPackage.ROUTE__WAY);
@@ -240,6 +282,8 @@ public class RouteImpl extends MinimalEObjectImpl.Container implements Route {
 				return getTotalDistanceInM();
 			case NetworkPackage.ROUTE__TOTAL_TIME_IN_SEC:
 				return getTotalTimeInSec();
+			case NetworkPackage.ROUTE__TOTAL_VEHICLE_BATTERY_CONSUMPTION:
+				return getTotalVehicleBatteryConsumption();
 			case NetworkPackage.ROUTE__WAY:
 				return getWay();
 		}
@@ -263,6 +307,9 @@ public class RouteImpl extends MinimalEObjectImpl.Container implements Route {
 				return;
 			case NetworkPackage.ROUTE__TOTAL_TIME_IN_SEC:
 				setTotalTimeInSec((Integer)newValue);
+				return;
+			case NetworkPackage.ROUTE__TOTAL_VEHICLE_BATTERY_CONSUMPTION:
+				setTotalVehicleBatteryConsumption((Long)newValue);
 				return;
 			case NetworkPackage.ROUTE__WAY:
 				getWay().clear();
@@ -289,6 +336,9 @@ public class RouteImpl extends MinimalEObjectImpl.Container implements Route {
 			case NetworkPackage.ROUTE__TOTAL_TIME_IN_SEC:
 				setTotalTimeInSec(TOTAL_TIME_IN_SEC_EDEFAULT);
 				return;
+			case NetworkPackage.ROUTE__TOTAL_VEHICLE_BATTERY_CONSUMPTION:
+				setTotalVehicleBatteryConsumption(TOTAL_VEHICLE_BATTERY_CONSUMPTION_EDEFAULT);
+				return;
 			case NetworkPackage.ROUTE__WAY:
 				getWay().clear();
 				return;
@@ -310,6 +360,8 @@ public class RouteImpl extends MinimalEObjectImpl.Container implements Route {
 				return totalDistanceInM != TOTAL_DISTANCE_IN_M_EDEFAULT;
 			case NetworkPackage.ROUTE__TOTAL_TIME_IN_SEC:
 				return totalTimeInSec != TOTAL_TIME_IN_SEC_EDEFAULT;
+			case NetworkPackage.ROUTE__TOTAL_VEHICLE_BATTERY_CONSUMPTION:
+				return totalVehicleBatteryConsumption != TOTAL_VEHICLE_BATTERY_CONSUMPTION_EDEFAULT;
 			case NetworkPackage.ROUTE__WAY:
 				return way != null && !way.isEmpty();
 		}
@@ -330,6 +382,8 @@ public class RouteImpl extends MinimalEObjectImpl.Container implements Route {
 		result.append(totalDistanceInM);
 		result.append(", totalTimeInSec: ");
 		result.append(totalTimeInSec);
+		result.append(", totalVehicleBatteryConsumption: ");
+		result.append(totalVehicleBatteryConsumption);
 		result.append(')');
 		return result.toString();
 	}

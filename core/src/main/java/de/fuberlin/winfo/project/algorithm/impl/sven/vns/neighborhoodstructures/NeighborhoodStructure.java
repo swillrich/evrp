@@ -109,7 +109,7 @@ public abstract class NeighborhoodStructure implements Iterator<Solution> {
 		return true;
 	}
 
-	protected int f(Solution s) {
+	protected long f(Solution s) {
 		return costFunction.compute(s);
 	}
 

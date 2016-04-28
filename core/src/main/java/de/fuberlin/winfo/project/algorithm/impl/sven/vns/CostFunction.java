@@ -11,12 +11,12 @@ public abstract class CostFunction implements Comparator<Solution> {
 		return Long.compare(compute(previous), compute(candidate));
 	}
 
-	public abstract int compute(Solution s);
+	public abstract long compute(Solution s);
 
 	public double getImprovementRatio(Solution incumbent, Solution candidate) {
-		int can = compute(candidate);
-		int inc = compute(incumbent);
-		int diff = inc - can;
+		long can = compute(candidate);
+		long inc = compute(incumbent);
+		long diff = inc - can;
 		return (double) diff / (double) inc;
 	}
 

@@ -690,8 +690,17 @@ public class NetworkPackageImpl extends EPackageImpl implements NetworkPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	public EAttribute getRoute_TotalVehicleBatteryConsumption() {
+		return (EAttribute)routeEClass.getEStructuralFeatures().get(3);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	public EReference getRoute_Way() {
-		return (EReference)routeEClass.getEStructuralFeatures().get(3);
+		return (EReference)routeEClass.getEStructuralFeatures().get(4);
 	}
 
 	/**
@@ -744,8 +753,8 @@ public class NetworkPackageImpl extends EPackageImpl implements NetworkPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EReference getSolution_Usecase() {
-		return (EReference)solutionEClass.getEStructuralFeatures().get(4);
+	public EAttribute getSolution_TotalVehicleBatteryConsumption() {
+		return (EAttribute)solutionEClass.getEStructuralFeatures().get(4);
 	}
 
 	/**
@@ -753,7 +762,7 @@ public class NetworkPackageImpl extends EPackageImpl implements NetworkPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EReference getSolution_History() {
+	public EReference getSolution_Usecase() {
 		return (EReference)solutionEClass.getEStructuralFeatures().get(5);
 	}
 
@@ -762,8 +771,8 @@ public class NetworkPackageImpl extends EPackageImpl implements NetworkPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EAttribute getSolution_AlgorithmName() {
-		return (EAttribute)solutionEClass.getEStructuralFeatures().get(6);
+	public EReference getSolution_History() {
+		return (EReference)solutionEClass.getEStructuralFeatures().get(6);
 	}
 
 	/**
@@ -771,7 +780,7 @@ public class NetworkPackageImpl extends EPackageImpl implements NetworkPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EAttribute getSolution_CreationTime() {
+	public EAttribute getSolution_AlgorithmName() {
 		return (EAttribute)solutionEClass.getEStructuralFeatures().get(7);
 	}
 
@@ -780,8 +789,17 @@ public class NetworkPackageImpl extends EPackageImpl implements NetworkPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EAttribute getSolution_SolvingTime() {
+	public EAttribute getSolution_CreationTime() {
 		return (EAttribute)solutionEClass.getEStructuralFeatures().get(8);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EAttribute getSolution_SolvingTime() {
+		return (EAttribute)solutionEClass.getEStructuralFeatures().get(9);
 	}
 
 	/**
@@ -1072,6 +1090,7 @@ public class NetworkPackageImpl extends EPackageImpl implements NetworkPackage {
 		createEReference(routeEClass, ROUTE__VEHICLE);
 		createEAttribute(routeEClass, ROUTE__TOTAL_DISTANCE_IN_M);
 		createEAttribute(routeEClass, ROUTE__TOTAL_TIME_IN_SEC);
+		createEAttribute(routeEClass, ROUTE__TOTAL_VEHICLE_BATTERY_CONSUMPTION);
 		createEReference(routeEClass, ROUTE__WAY);
 
 		solutionEClass = createEClass(SOLUTION);
@@ -1079,6 +1098,7 @@ public class NetworkPackageImpl extends EPackageImpl implements NetworkPackage {
 		createEAttribute(solutionEClass, SOLUTION__ID);
 		createEAttribute(solutionEClass, SOLUTION__TOTAL_DISTANCE);
 		createEAttribute(solutionEClass, SOLUTION__TOTAL_TIME);
+		createEAttribute(solutionEClass, SOLUTION__TOTAL_VEHICLE_BATTERY_CONSUMPTION);
 		createEReference(solutionEClass, SOLUTION__USECASE);
 		createEReference(solutionEClass, SOLUTION__HISTORY);
 		createEAttribute(solutionEClass, SOLUTION__ALGORITHM_NAME);
@@ -1209,6 +1229,7 @@ public class NetworkPackageImpl extends EPackageImpl implements NetworkPackage {
 		initEReference(getRoute_Vehicle(), this.getVehicle(), null, "vehicle", null, 1, 1, Route.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, !IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEAttribute(getRoute_TotalDistanceInM(), ecorePackage.getELong(), "totalDistanceInM", null, 0, 1, Route.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEAttribute(getRoute_TotalTimeInSec(), ecorePackage.getEInt(), "totalTimeInSec", null, 0, 1, Route.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEAttribute(getRoute_TotalVehicleBatteryConsumption(), ecorePackage.getELong(), "totalVehicleBatteryConsumption", null, 0, 1, Route.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEReference(getRoute_Way(), this.getUsedArc(), null, "way", null, 0, -1, Route.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		initEClass(solutionEClass, Solution.class, "Solution", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
@@ -1216,6 +1237,7 @@ public class NetworkPackageImpl extends EPackageImpl implements NetworkPackage {
 		initEAttribute(getSolution_Id(), ecorePackage.getEString(), "id", null, 0, 1, Solution.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEAttribute(getSolution_TotalDistance(), ecorePackage.getELong(), "totalDistance", null, 0, 1, Solution.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEAttribute(getSolution_TotalTime(), ecorePackage.getELong(), "totalTime", null, 0, 1, Solution.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEAttribute(getSolution_TotalVehicleBatteryConsumption(), ecorePackage.getELong(), "totalVehicleBatteryConsumption", null, 0, 1, Solution.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEReference(getSolution_Usecase(), this.getUseCase(), null, "usecase", null, 1, 1, Solution.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEReference(getSolution_History(), this.getSearchHistory(), null, "history", null, 0, 1, Solution.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEAttribute(getSolution_AlgorithmName(), ecorePackage.getEString(), "algorithmName", null, 0, 1, Solution.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);

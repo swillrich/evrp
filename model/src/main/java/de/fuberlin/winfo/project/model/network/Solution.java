@@ -19,6 +19,7 @@ import org.eclipse.emf.ecore.EObject;
  *   <li>{@link de.fuberlin.winfo.project.model.network.Solution#getId <em>Id</em>}</li>
  *   <li>{@link de.fuberlin.winfo.project.model.network.Solution#getTotalDistance <em>Total Distance</em>}</li>
  *   <li>{@link de.fuberlin.winfo.project.model.network.Solution#getTotalTime <em>Total Time</em>}</li>
+ *   <li>{@link de.fuberlin.winfo.project.model.network.Solution#getTotalVehicleBatteryConsumption <em>Total Vehicle Battery Consumption</em>}</li>
  *   <li>{@link de.fuberlin.winfo.project.model.network.Solution#getUsecase <em>Usecase</em>}</li>
  *   <li>{@link de.fuberlin.winfo.project.model.network.Solution#getHistory <em>History</em>}</li>
  *   <li>{@link de.fuberlin.winfo.project.model.network.Solution#getAlgorithmName <em>Algorithm Name</em>}</li>
@@ -124,6 +125,32 @@ public interface Solution extends EObject {
 	 * @generated
 	 */
 	void setTotalTime(long value);
+
+	/**
+	 * Returns the value of the '<em><b>Total Vehicle Battery Consumption</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <p>
+	 * If the meaning of the '<em>Total Vehicle Battery Consumption</em>' attribute isn't clear,
+	 * there really should be more of a description here...
+	 * </p>
+	 * <!-- end-user-doc -->
+	 * @return the value of the '<em>Total Vehicle Battery Consumption</em>' attribute.
+	 * @see #setTotalVehicleBatteryConsumption(long)
+	 * @see de.fuberlin.winfo.project.model.network.NetworkPackage#getSolution_TotalVehicleBatteryConsumption()
+	 * @model
+	 * @generated
+	 */
+	long getTotalVehicleBatteryConsumption();
+
+	/**
+	 * Sets the value of the '{@link de.fuberlin.winfo.project.model.network.Solution#getTotalVehicleBatteryConsumption <em>Total Vehicle Battery Consumption</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @param value the new value of the '<em>Total Vehicle Battery Consumption</em>' attribute.
+	 * @see #getTotalVehicleBatteryConsumption()
+	 * @generated
+	 */
+	void setTotalVehicleBatteryConsumption(long value);
 
 	/**
 	 * Returns the value of the '<em><b>Usecase</b></em>' containment reference.

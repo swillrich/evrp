@@ -18,6 +18,7 @@ import org.eclipse.emf.ecore.EObject;
  *   <li>{@link de.fuberlin.winfo.project.model.network.Route#getVehicle <em>Vehicle</em>}</li>
  *   <li>{@link de.fuberlin.winfo.project.model.network.Route#getTotalDistanceInM <em>Total Distance In M</em>}</li>
  *   <li>{@link de.fuberlin.winfo.project.model.network.Route#getTotalTimeInSec <em>Total Time In Sec</em>}</li>
+ *   <li>{@link de.fuberlin.winfo.project.model.network.Route#getTotalVehicleBatteryConsumption <em>Total Vehicle Battery Consumption</em>}</li>
  *   <li>{@link de.fuberlin.winfo.project.model.network.Route#getWay <em>Way</em>}</li>
  * </ul>
  *
@@ -103,6 +104,32 @@ public interface Route extends EObject {
 	 * @generated
 	 */
 	void setTotalTimeInSec(int value);
+
+	/**
+	 * Returns the value of the '<em><b>Total Vehicle Battery Consumption</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <p>
+	 * If the meaning of the '<em>Total Vehicle Battery Consumption</em>' attribute isn't clear,
+	 * there really should be more of a description here...
+	 * </p>
+	 * <!-- end-user-doc -->
+	 * @return the value of the '<em>Total Vehicle Battery Consumption</em>' attribute.
+	 * @see #setTotalVehicleBatteryConsumption(long)
+	 * @see de.fuberlin.winfo.project.model.network.NetworkPackage#getRoute_TotalVehicleBatteryConsumption()
+	 * @model
+	 * @generated
+	 */
+	long getTotalVehicleBatteryConsumption();
+
+	/**
+	 * Sets the value of the '{@link de.fuberlin.winfo.project.model.network.Route#getTotalVehicleBatteryConsumption <em>Total Vehicle Battery Consumption</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @param value the new value of the '<em>Total Vehicle Battery Consumption</em>' attribute.
+	 * @see #getTotalVehicleBatteryConsumption()
+	 * @generated
+	 */
+	void setTotalVehicleBatteryConsumption(long value);
 
 	/**
 	 * Returns the value of the '<em><b>Way</b></em>' containment reference list.

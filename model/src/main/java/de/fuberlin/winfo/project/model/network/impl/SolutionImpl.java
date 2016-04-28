@@ -36,6 +36,7 @@ import org.eclipse.emf.ecore.util.InternalEList;
  *   <li>{@link de.fuberlin.winfo.project.model.network.impl.SolutionImpl#getId <em>Id</em>}</li>
  *   <li>{@link de.fuberlin.winfo.project.model.network.impl.SolutionImpl#getTotalDistance <em>Total Distance</em>}</li>
  *   <li>{@link de.fuberlin.winfo.project.model.network.impl.SolutionImpl#getTotalTime <em>Total Time</em>}</li>
+ *   <li>{@link de.fuberlin.winfo.project.model.network.impl.SolutionImpl#getTotalVehicleBatteryConsumption <em>Total Vehicle Battery Consumption</em>}</li>
  *   <li>{@link de.fuberlin.winfo.project.model.network.impl.SolutionImpl#getUsecase <em>Usecase</em>}</li>
  *   <li>{@link de.fuberlin.winfo.project.model.network.impl.SolutionImpl#getHistory <em>History</em>}</li>
  *   <li>{@link de.fuberlin.winfo.project.model.network.impl.SolutionImpl#getAlgorithmName <em>Algorithm Name</em>}</li>
@@ -115,6 +116,26 @@ public class SolutionImpl extends MinimalEObjectImpl.Container implements Soluti
 	 * @ordered
 	 */
 	protected long totalTime = TOTAL_TIME_EDEFAULT;
+
+	/**
+	 * The default value of the '{@link #getTotalVehicleBatteryConsumption() <em>Total Vehicle Battery Consumption</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #getTotalVehicleBatteryConsumption()
+	 * @generated
+	 * @ordered
+	 */
+	protected static final long TOTAL_VEHICLE_BATTERY_CONSUMPTION_EDEFAULT = 0L;
+
+	/**
+	 * The cached value of the '{@link #getTotalVehicleBatteryConsumption() <em>Total Vehicle Battery Consumption</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #getTotalVehicleBatteryConsumption()
+	 * @generated
+	 * @ordered
+	 */
+	protected long totalVehicleBatteryConsumption = TOTAL_VEHICLE_BATTERY_CONSUMPTION_EDEFAULT;
 
 	/**
 	 * The cached value of the '{@link #getUsecase() <em>Usecase</em>}' containment reference.
@@ -288,6 +309,27 @@ public class SolutionImpl extends MinimalEObjectImpl.Container implements Soluti
 		totalTime = newTotalTime;
 		if (eNotificationRequired())
 			eNotify(new ENotificationImpl(this, Notification.SET, NetworkPackage.SOLUTION__TOTAL_TIME, oldTotalTime, totalTime));
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public long getTotalVehicleBatteryConsumption() {
+		return totalVehicleBatteryConsumption;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public void setTotalVehicleBatteryConsumption(long newTotalVehicleBatteryConsumption) {
+		long oldTotalVehicleBatteryConsumption = totalVehicleBatteryConsumption;
+		totalVehicleBatteryConsumption = newTotalVehicleBatteryConsumption;
+		if (eNotificationRequired())
+			eNotify(new ENotificationImpl(this, Notification.SET, NetworkPackage.SOLUTION__TOTAL_VEHICLE_BATTERY_CONSUMPTION, oldTotalVehicleBatteryConsumption, totalVehicleBatteryConsumption));
 	}
 
 	/**
@@ -473,6 +515,8 @@ public class SolutionImpl extends MinimalEObjectImpl.Container implements Soluti
 				return getTotalDistance();
 			case NetworkPackage.SOLUTION__TOTAL_TIME:
 				return getTotalTime();
+			case NetworkPackage.SOLUTION__TOTAL_VEHICLE_BATTERY_CONSUMPTION:
+				return getTotalVehicleBatteryConsumption();
 			case NetworkPackage.SOLUTION__USECASE:
 				return getUsecase();
 			case NetworkPackage.SOLUTION__HISTORY:
@@ -508,6 +552,9 @@ public class SolutionImpl extends MinimalEObjectImpl.Container implements Soluti
 				return;
 			case NetworkPackage.SOLUTION__TOTAL_TIME:
 				setTotalTime((Long)newValue);
+				return;
+			case NetworkPackage.SOLUTION__TOTAL_VEHICLE_BATTERY_CONSUMPTION:
+				setTotalVehicleBatteryConsumption((Long)newValue);
 				return;
 			case NetworkPackage.SOLUTION__USECASE:
 				setUsecase((UseCase)newValue);
@@ -548,6 +595,9 @@ public class SolutionImpl extends MinimalEObjectImpl.Container implements Soluti
 			case NetworkPackage.SOLUTION__TOTAL_TIME:
 				setTotalTime(TOTAL_TIME_EDEFAULT);
 				return;
+			case NetworkPackage.SOLUTION__TOTAL_VEHICLE_BATTERY_CONSUMPTION:
+				setTotalVehicleBatteryConsumption(TOTAL_VEHICLE_BATTERY_CONSUMPTION_EDEFAULT);
+				return;
 			case NetworkPackage.SOLUTION__USECASE:
 				setUsecase((UseCase)null);
 				return;
@@ -583,6 +633,8 @@ public class SolutionImpl extends MinimalEObjectImpl.Container implements Soluti
 				return totalDistance != TOTAL_DISTANCE_EDEFAULT;
 			case NetworkPackage.SOLUTION__TOTAL_TIME:
 				return totalTime != TOTAL_TIME_EDEFAULT;
+			case NetworkPackage.SOLUTION__TOTAL_VEHICLE_BATTERY_CONSUMPTION:
+				return totalVehicleBatteryConsumption != TOTAL_VEHICLE_BATTERY_CONSUMPTION_EDEFAULT;
 			case NetworkPackage.SOLUTION__USECASE:
 				return usecase != null;
 			case NetworkPackage.SOLUTION__HISTORY:
@@ -613,6 +665,8 @@ public class SolutionImpl extends MinimalEObjectImpl.Container implements Soluti
 		result.append(totalDistance);
 		result.append(", totalTime: ");
 		result.append(totalTime);
+		result.append(", totalVehicleBatteryConsumption: ");
+		result.append(totalVehicleBatteryConsumption);
 		result.append(", algorithmName: ");
 		result.append(algorithmName);
 		result.append(", creationTime: ");

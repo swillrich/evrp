@@ -832,13 +832,22 @@ public interface NetworkPackage extends EPackage {
 	int ROUTE__TOTAL_TIME_IN_SEC = 2;
 
 	/**
+	 * The feature id for the '<em><b>Total Vehicle Battery Consumption</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int ROUTE__TOTAL_VEHICLE_BATTERY_CONSUMPTION = 3;
+
+	/**
 	 * The feature id for the '<em><b>Way</b></em>' containment reference list.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int ROUTE__WAY = 3;
+	int ROUTE__WAY = 4;
 
 	/**
 	 * The number of structural features of the '<em>Route</em>' class.
@@ -847,7 +856,7 @@ public interface NetworkPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int ROUTE_FEATURE_COUNT = 4;
+	int ROUTE_FEATURE_COUNT = 5;
 
 	/**
 	 * The number of operations of the '<em>Route</em>' class.
@@ -905,13 +914,22 @@ public interface NetworkPackage extends EPackage {
 	int SOLUTION__TOTAL_TIME = 3;
 
 	/**
+	 * The feature id for the '<em><b>Total Vehicle Battery Consumption</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int SOLUTION__TOTAL_VEHICLE_BATTERY_CONSUMPTION = 4;
+
+	/**
 	 * The feature id for the '<em><b>Usecase</b></em>' containment reference.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int SOLUTION__USECASE = 4;
+	int SOLUTION__USECASE = 5;
 
 	/**
 	 * The feature id for the '<em><b>History</b></em>' containment reference.
@@ -920,7 +938,7 @@ public interface NetworkPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int SOLUTION__HISTORY = 5;
+	int SOLUTION__HISTORY = 6;
 
 	/**
 	 * The feature id for the '<em><b>Algorithm Name</b></em>' attribute.
@@ -929,7 +947,7 @@ public interface NetworkPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int SOLUTION__ALGORITHM_NAME = 6;
+	int SOLUTION__ALGORITHM_NAME = 7;
 
 	/**
 	 * The feature id for the '<em><b>Creation Time</b></em>' attribute.
@@ -938,7 +956,7 @@ public interface NetworkPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int SOLUTION__CREATION_TIME = 7;
+	int SOLUTION__CREATION_TIME = 8;
 
 	/**
 	 * The feature id for the '<em><b>Solving Time</b></em>' attribute.
@@ -947,7 +965,7 @@ public interface NetworkPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int SOLUTION__SOLVING_TIME = 8;
+	int SOLUTION__SOLVING_TIME = 9;
 
 	/**
 	 * The number of structural features of the '<em>Solution</em>' class.
@@ -956,7 +974,7 @@ public interface NetworkPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int SOLUTION_FEATURE_COUNT = 9;
+	int SOLUTION_FEATURE_COUNT = 10;
 
 	/**
 	 * The number of operations of the '<em>Solution</em>' class.
@@ -1835,6 +1853,17 @@ public interface NetworkPackage extends EPackage {
 	EAttribute getRoute_TotalTimeInSec();
 
 	/**
+	 * Returns the meta object for the attribute '{@link de.fuberlin.winfo.project.model.network.Route#getTotalVehicleBatteryConsumption <em>Total Vehicle Battery Consumption</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the attribute '<em>Total Vehicle Battery Consumption</em>'.
+	 * @see de.fuberlin.winfo.project.model.network.Route#getTotalVehicleBatteryConsumption()
+	 * @see #getRoute()
+	 * @generated
+	 */
+	EAttribute getRoute_TotalVehicleBatteryConsumption();
+
+	/**
 	 * Returns the meta object for the containment reference list '{@link de.fuberlin.winfo.project.model.network.Route#getWay <em>Way</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -1898,6 +1927,17 @@ public interface NetworkPackage extends EPackage {
 	 * @generated
 	 */
 	EAttribute getSolution_TotalTime();
+
+	/**
+	 * Returns the meta object for the attribute '{@link de.fuberlin.winfo.project.model.network.Solution#getTotalVehicleBatteryConsumption <em>Total Vehicle Battery Consumption</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the attribute '<em>Total Vehicle Battery Consumption</em>'.
+	 * @see de.fuberlin.winfo.project.model.network.Solution#getTotalVehicleBatteryConsumption()
+	 * @see #getSolution()
+	 * @generated
+	 */
+	EAttribute getSolution_TotalVehicleBatteryConsumption();
 
 	/**
 	 * Returns the meta object for the containment reference '{@link de.fuberlin.winfo.project.model.network.Solution#getUsecase <em>Usecase</em>}'.
@@ -2659,6 +2699,14 @@ public interface NetworkPackage extends EPackage {
 		EAttribute ROUTE__TOTAL_TIME_IN_SEC = eINSTANCE.getRoute_TotalTimeInSec();
 
 		/**
+		 * The meta object literal for the '<em><b>Total Vehicle Battery Consumption</b></em>' attribute feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute ROUTE__TOTAL_VEHICLE_BATTERY_CONSUMPTION = eINSTANCE.getRoute_TotalVehicleBatteryConsumption();
+
+		/**
 		 * The meta object literal for the '<em><b>Way</b></em>' containment reference list feature.
 		 * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
@@ -2707,6 +2755,14 @@ public interface NetworkPackage extends EPackage {
 		 * @generated
 		 */
 		EAttribute SOLUTION__TOTAL_TIME = eINSTANCE.getSolution_TotalTime();
+
+		/**
+		 * The meta object literal for the '<em><b>Total Vehicle Battery Consumption</b></em>' attribute feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute SOLUTION__TOTAL_VEHICLE_BATTERY_CONSUMPTION = eINSTANCE.getSolution_TotalVehicleBatteryConsumption();
 
 		/**
 		 * The meta object literal for the '<em><b>Usecase</b></em>' containment reference feature.
