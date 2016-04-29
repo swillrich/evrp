@@ -39,6 +39,7 @@ public abstract class AbstractStochasticNeighborhoodStructure extends Neighborho
 		randomlyUsedOperations = new TreeSet<Integer>();
 		randomlyUsedOperations.add(0);
 		isDone = false;
+		setApplyOperationList();
 	}
 
 	public void isDone() {

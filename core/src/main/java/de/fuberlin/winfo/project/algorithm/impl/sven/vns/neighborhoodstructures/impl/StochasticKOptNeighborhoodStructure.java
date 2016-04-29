@@ -6,14 +6,11 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.IntStream;
 
-import de.fuberlin.winfo.project.algorithm.NetworkProvider;
 import de.fuberlin.winfo.project.algorithm.RouteWrapper;
-import de.fuberlin.winfo.project.algorithm.impl.sven.vns.CostFunction;
 import de.fuberlin.winfo.project.algorithm.impl.sven.vns.kopt.KOptHeuristic;
 import de.fuberlin.winfo.project.algorithm.impl.sven.vns.kopt.KOptHeuristicRouteAdapter;
 import de.fuberlin.winfo.project.algorithm.impl.sven.vns.kopt.KOptOptions;
 import de.fuberlin.winfo.project.algorithm.impl.sven.vns.kopt.Pair;
-import de.fuberlin.winfo.project.algorithm.impl.sven.vns.logging.VNSMonitor;
 import de.fuberlin.winfo.project.algorithm.impl.sven.vns.neighborhoodstructures.AbstractStochasticNeighborhoodStructure;
 import de.fuberlin.winfo.project.algorithm.impl.sven.vns.neighborhoodstructures.NeighborhoodOperation;
 import de.fuberlin.winfo.project.model.network.Arc;
@@ -34,17 +31,11 @@ public class StochasticKOptNeighborhoodStructure extends AbstractStochasticNeigh
 	}
 
 	@Override
-	public void setUp(NetworkProvider np, VNSMonitor history, CostFunction f) {
-		super.setUp(np, history, f);
-		this.routeKOptMap = new HashMap<Integer, KOptHeuristic>();
-		this.routeOptions = new HashMap<Integer, List<KOptOptions>>();
-		setApplyOperationList();
-		this.routesLeft = new ArrayList<Integer>();
-	}
-
-	@Override
 	public void initSearch() {
 		super.initSearch();
+		this.routeKOptMap = new HashMap<Integer, KOptHeuristic>();
+		this.routeOptions = new HashMap<Integer, List<KOptOptions>>();
+		this.routesLeft = new ArrayList<Integer>();
 		this.A = networkProvider.getArcs();
 		IntStream.range(0, initialSol.getRoutes().size()).forEach(i -> routeKOptMap.put((Integer) i, null));
 		IntStream.range(0, initialSol.getRoutes().size()).forEach(i -> routesLeft.add(i));
