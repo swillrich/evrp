@@ -1,10 +1,10 @@
 package de.fuberlin.winfo.project.algorithm.impl.sven.vns.neighborhoodstructures.impl;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-
-import org.eclipse.emf.common.util.EList;
+import java.util.stream.IntStream;
 
 import de.fuberlin.winfo.project.algorithm.NetworkProvider;
 import de.fuberlin.winfo.project.algorithm.RouteWrapper;
@@ -17,7 +17,6 @@ import de.fuberlin.winfo.project.algorithm.impl.sven.vns.logging.VNSMonitor;
 import de.fuberlin.winfo.project.algorithm.impl.sven.vns.neighborhoodstructures.AbstractStochasticNeighborhoodStructure;
 import de.fuberlin.winfo.project.algorithm.impl.sven.vns.neighborhoodstructures.NeighborhoodOperation;
 import de.fuberlin.winfo.project.model.network.Arc;
-import de.fuberlin.winfo.project.model.network.Route;
 import de.fuberlin.winfo.project.model.network.Solution;
 import de.fuberlin.winfo.project.model.network.UsedArc;
 
@@ -25,9 +24,12 @@ public class StochasticKOptNeighborhoodStructure extends AbstractStochasticNeigh
 
 	private int k;
 	private Map<Integer, KOptHeuristic> routeKOptMap;
+	private Map<Integer, List<KOptOptions>> routeOptions;
+	private List<Integer> routesLeft;
+	private Arc[][] A;
 
-	public StochasticKOptNeighborhoodStructure(int k, int interations) {
-		super(interations);
+	public StochasticKOptNeighborhoodStructure(int k, int iterations) {
+		super(iterations);
 		this.k = k;
 	}
 
@@ -35,39 +37,83 @@ public class StochasticKOptNeighborhoodStructure extends AbstractStochasticNeigh
 	public void setUp(NetworkProvider np, VNSMonitor history, CostFunction f) {
 		super.setUp(np, history, f);
 		this.routeKOptMap = new HashMap<Integer, KOptHeuristic>();
-		isApplyOperationList = true;
+		this.routeOptions = new HashMap<Integer, List<KOptOptions>>();
+		setApplyOperationList();
+		this.routesLeft = new ArrayList<Integer>();
+	}
+
+	@Override
+	public void initSearch() {
+		super.initSearch();
+		this.A = networkProvider.getArcs();
+		IntStream.range(0, initialSol.getRoutes().size()).forEach(i -> routeKOptMap.put((Integer) i, null));
+		IntStream.range(0, initialSol.getRoutes().size()).forEach(i -> routesLeft.add(i));
 	}
 
 	@Override
 	protected NeighborhoodOperation generateRandomOperation(Solution solution) {
-		Arc[][] A = networkProvider.getArcs();
-		EList<Route> routes = solution.getRoutes();
-		int routeIndex = random.nextInt(routes.size());
-		KOptHeuristic heuristic = getHeuristic(routes, routeIndex);
-		if (heuristic != null && heuristic.hasNext()) {
-			KOptOptions next = heuristic.next();
-			List<Pair> sequence = next.remove(0);
-			RouteWrapper wrapper = new RouteWrapper(routes.get(routeIndex), null, A);
-			List<UsedArc> subWay = KOptHeuristicRouteAdapter.getRoute(networkProvider, wrapper, sequence);
-			return new KOptNeighborhoodOperation(routeIndex, subWay, next.getToReplace(), A);
-		} else {
+		if (routesLeft.isEmpty()) {
+			isDone();
 			return NeighborhoodOperation.getBlank();
+		}
+		int routeRouteIndex = random.nextInt(routesLeft.size());
+		Integer routeIndex = this.routesLeft.get(routeRouteIndex);
+		KOptOptions options = getOptions(solution, routeIndex);
+
+		if (options == null) {
+			routeKOptMap.remove((Integer) routeIndex);
+			routesLeft.remove(routeRouteIndex);
+			return NeighborhoodOperation.getBlank();
+		} else {
+			int nextInt = random.nextInt(options.size());
+			List<Pair> pairs = options.remove(nextInt);
+			RouteWrapper wrapper = new RouteWrapper(solution.getRoutes().get(routeIndex), null, A);
+			List<UsedArc> subWay = KOptHeuristicRouteAdapter.getRoute(networkProvider, wrapper, pairs);
+			return new KOptNeighborhoodOperation(routeIndex, subWay, options.getToReplace(), A);
 		}
 	}
 
-	private KOptHeuristic getHeuristic(EList<Route> routes, int nextInt) {
-		Route route = routes.get(nextInt);
-		KOptHeuristic heuristic = routeKOptMap.get((Integer) nextInt);
+	private KOptOptions getOptions(Solution solution, int routeIndex) {
+		KOptHeuristic heuristic = routeKOptMap.get(routeIndex);
 		if (heuristic == null) {
+			List<Pair> pairs = KOptHeuristicRouteAdapter.getPairs(solution.getRoutes().get(routeIndex));
 			try {
-				List<Pair> pairs = KOptHeuristicRouteAdapter.getPairs(route);
 				heuristic = new KOptHeuristic(k, pairs);
-				routeKOptMap.put(nextInt, heuristic);
 			} catch (Exception e) {
 				return null;
 			}
+			routeKOptMap.put(routeIndex, heuristic);
+			routeOptions.put(routeIndex, new ArrayList<KOptOptions>());
 		}
-		return heuristic;
+		List<KOptOptions> list = routeOptions.get(routeIndex);
+		return nextRandom(heuristic, list);
+	}
+
+	private KOptOptions nextRandom(KOptHeuristic heuristic, List<KOptOptions> list) {
+		if (list.isEmpty()) {
+			for (int i = 0; i < 3000 && heuristic.hasNext(); i++) {
+				list.add(heuristic.next());
+			}
+			if (list.isEmpty()) {
+				return null;
+			} else {
+				return nextRandom(heuristic, list);
+			}
+		} else {
+			while (true) {
+				int rndInt = random.nextInt(list.size());
+				KOptOptions options = list.get(random.nextInt(list.size()));
+				if (!options.isEmpty()) {
+					return options;
+				} else {
+					list.remove(rndInt);
+				}
+				if (list.isEmpty()) {
+					break;
+				}
+			}
+			return nextRandom(heuristic, list);
+		}
 	}
 
 	@Override

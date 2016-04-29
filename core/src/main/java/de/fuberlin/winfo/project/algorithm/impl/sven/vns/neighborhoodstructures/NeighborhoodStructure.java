@@ -20,12 +20,12 @@ public abstract class NeighborhoodStructure implements Iterator<Solution> {
 	protected Solution initialSol;
 	protected Solution incumbentSol;
 	protected NetworkProvider networkProvider;
-	protected Restrictions restrictions;
-	protected VNSMonitor history;
-	protected CostFunction costFunction;
-	protected SortedOperationList operationList;
-	protected int iterations;
-	protected boolean isApplyOperationList = false;
+	private Restrictions restrictions;
+	private VNSMonitor history;
+	private CostFunction costFunction;
+	private SortedOperationList operationList;
+	private int iterations;
+	private boolean isApplyOperationList = false;
 
 	public abstract String getName();
 
@@ -130,5 +130,9 @@ public abstract class NeighborhoodStructure implements Iterator<Solution> {
 		}
 		history.neighborChange(this, incumbentSol, "OpList applied (" + counter + ")");
 		operationList.clear();
+	}
+
+	public void setApplyOperationList() {
+		this.isApplyOperationList = true;
 	}
 }

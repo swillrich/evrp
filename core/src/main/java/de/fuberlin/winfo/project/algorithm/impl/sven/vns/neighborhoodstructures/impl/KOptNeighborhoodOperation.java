@@ -2,6 +2,7 @@ package de.fuberlin.winfo.project.algorithm.impl.sven.vns.neighborhoodstructures
 
 import java.util.Arrays;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import de.fuberlin.winfo.project.algorithm.RouteWrapper;
 import de.fuberlin.winfo.project.algorithm.impl.sven.vns.neighborhoodstructures.NeighborhoodOperation;
@@ -50,6 +51,8 @@ public class KOptNeighborhoodOperation extends NeighborhoodOperation {
 
 	@Override
 	public int operationHash() {
-		return "kopt".concat(currentRoute + Arrays.toString(toReplace)).hashCode();
+		String collect = newUsedArcList.stream().map(u -> u.getArc().getEnd().getId() + "")
+				.collect(Collectors.joining("-"));
+		return "kopt".concat(currentRoute + Arrays.toString(toReplace) + collect).hashCode();
 	}
 }

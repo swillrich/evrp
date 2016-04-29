@@ -4,16 +4,14 @@ import java.util.Random;
 import java.util.Set;
 import java.util.TreeSet;
 
-import de.fuberlin.winfo.project.algorithm.NetworkProvider;
-import de.fuberlin.winfo.project.algorithm.impl.sven.vns.CostFunction;
-import de.fuberlin.winfo.project.algorithm.impl.sven.vns.logging.VNSMonitor;
 import de.fuberlin.winfo.project.model.network.Solution;
 
 public abstract class AbstractStochasticNeighborhoodStructure extends NeighborhoodStructure {
 
-	protected int maxIterations;
+	private int maxIterations;
 	protected Random random = new Random();
-	protected Set<Integer> randomlyUsedOperations;
+	private Set<Integer> randomlyUsedOperations;
+	private boolean isDone = false;
 
 	protected abstract NeighborhoodOperation generateRandomOperation(Solution solution);
 
@@ -23,7 +21,7 @@ public abstract class AbstractStochasticNeighborhoodStructure extends Neighborho
 
 	@Override
 	public boolean hasNext() {
-		return randomlyUsedOperations.size() < maxIterations;
+		return randomlyUsedOperations.size() < maxIterations && !isDone;
 	}
 
 	@Override
@@ -31,7 +29,7 @@ public abstract class AbstractStochasticNeighborhoodStructure extends Neighborho
 		NeighborhoodOperation generateRandomOperation;
 		do {
 			generateRandomOperation = generateRandomOperation(solution);
-		} while (randomlyUsedOperations.contains(generateRandomOperation.operationHash()));
+		} while (hasNext() && randomlyUsedOperations.contains(generateRandomOperation.operationHash()));
 		randomlyUsedOperations.add(generateRandomOperation.operationHash());
 		return generateRandomOperation;
 	}
@@ -40,5 +38,10 @@ public abstract class AbstractStochasticNeighborhoodStructure extends Neighborho
 	public void initSearch() {
 		randomlyUsedOperations = new TreeSet<Integer>();
 		randomlyUsedOperations.add(0);
+		isDone = false;
+	}
+
+	public void isDone() {
+		this.isDone = true;
 	}
 }

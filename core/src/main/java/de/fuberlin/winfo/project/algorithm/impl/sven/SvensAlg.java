@@ -30,7 +30,7 @@ public class SvensAlg extends Algorithm {
 	Arc[][] A = null;
 	NeighborhoodStructure[] neighborhoodStructures = new NeighborhoodStructure[] {
 			new StochasticInterRouteSingleNodeRelocationNeighborhoodStructure(7000),
-			new StochasticKOptNeighborhoodStructure(3, 15000), new StochasticKOptNeighborhoodStructure(2, 15000) };
+			new StochasticKOptNeighborhoodStructure(3, 7000), new StochasticKOptNeighborhoodStructure(2, 7000) };
 
 	@Override
 	public String getName() {
