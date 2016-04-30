@@ -20,5 +20,5 @@ public abstract class CostFunction implements Comparator<Solution> {
 		return (double) diff / (double) inc;
 	}
 
-	public abstract double acceptanceThresold();
+	public abstract double acceptanceThreshold();
 }
