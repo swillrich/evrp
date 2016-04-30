@@ -49,7 +49,7 @@ public abstract class NeighborhoodStructure implements Iterator<Solution> {
 		initSearch();
 		if (this instanceof AbstractStochasticNeighborhoodStructure) {
 			AbstractStochasticNeighborhoodStructure nhs = (AbstractStochasticNeighborhoodStructure) this;
-			for (int i = 0; i < 10; i++) {
+			for (int i = 0; i < 20; i++) {
 				Solution next = nhs.next();
 				initialSol = next;
 			}

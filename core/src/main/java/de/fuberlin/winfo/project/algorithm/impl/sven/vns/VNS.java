@@ -22,7 +22,7 @@ public class VNS {
 	public Solution run(Solution bestSolution) {
 		tabus.add(bestSolution);
 		while (tabus.size() <= 10) {
-			Solution initialSol = neighborhoodStructures[0].shake(bestSolution);
+			Solution initialSol = neighborhoodStructures[0].shake(tabus.getBest());
 			bestSolution = descend(initialSol, 0);
 			tabus.add(bestSolution);
 		}
