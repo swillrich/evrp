@@ -1,4 +1,4 @@
-package de.fuberlin.winfo.project.algorithm.impl.sven.vns.neighborhoodstructures.impl;
+package de.fuberlin.winfo.project.algorithm.impl.sven.vns.neighborhoodstructures.impl.interroute;
 
 import java.util.Collection;
 import java.util.HashSet;

@@ -1,4 +1,4 @@
-package de.fuberlin.winfo.project.algorithm.impl.sven.vns.neighborhoodstructures.impl;
+package de.fuberlin.winfo.project.algorithm.impl.sven.vns.neighborhoodstructures.impl.singleroute;
 
 import java.util.List;
 
@@ -36,6 +36,7 @@ public class KOptNeighborhoodStructure extends NeighborhoodStructure {
 
 	@Override
 	public void initSearch() {
+		super.initSearch();
 		kOptHeuristic = null;
 		options = null;
 		pairs = null;

@@ -15,8 +15,8 @@ import de.fuberlin.winfo.project.algorithm.impl.sven.vns.CostFunction;
 import de.fuberlin.winfo.project.algorithm.impl.sven.vns.VNS;
 import de.fuberlin.winfo.project.algorithm.impl.sven.vns.logging.VNSMonitor;
 import de.fuberlin.winfo.project.algorithm.impl.sven.vns.neighborhoodstructures.NeighborhoodStructure;
-import de.fuberlin.winfo.project.algorithm.impl.sven.vns.neighborhoodstructures.impl.StochasticInterRouteSingleNodeRelocationNeighborhoodStructure;
-import de.fuberlin.winfo.project.algorithm.impl.sven.vns.neighborhoodstructures.impl.StochasticKOptNeighborhoodStructure;
+import de.fuberlin.winfo.project.algorithm.impl.sven.vns.neighborhoodstructures.impl.interroute.StochasticInterRouteSingleNodeRelocationNeighborhoodStructure;
+import de.fuberlin.winfo.project.algorithm.impl.sven.vns.neighborhoodstructures.impl.singleroute.StochasticKOptNeighborhoodStructure;
 import de.fuberlin.winfo.project.algorithm.restriction.RestrictionException;
 import de.fuberlin.winfo.project.algorithm.restriction.impl.CargoCapacityRestriction;
 import de.fuberlin.winfo.project.algorithm.restriction.impl.TimeWindowRestriction;
@@ -29,16 +29,12 @@ import de.fuberlin.winfo.project.model.network.Vehicle;
 public class SvensAlg extends Algorithm {
 	Arc[][] A = null;
 	NeighborhoodStructure[] neighborhoodStructures = new NeighborhoodStructure[] {
-			new StochasticInterRouteSingleNodeRelocationNeighborhoodStructure(7000),
-			new StochasticKOptNeighborhoodStructure(3, 7000), new StochasticKOptNeighborhoodStructure(2, 7000) };
+			new StochasticInterRouteSingleNodeRelocationNeighborhoodStructure(10000),
+			new StochasticKOptNeighborhoodStructure(3, 10000), new StochasticKOptNeighborhoodStructure(2, 10000) };
 
 	@Override
 	public String getName() {
 		return "VNS (" + getNeighborhoodStructureNames() + ")";
-	}
-
-	private String getNeighborhoodStructureNames() {
-		return Arrays.stream(neighborhoodStructures).map(n -> n.getName()).collect(Collectors.joining(", "));
 	}
 
 	@Override
@@ -53,28 +49,12 @@ public class SvensAlg extends Algorithm {
 	}
 
 	private void improvementProcedure(Solution solution) {
-
-		CostFunction f = new CostFunction() {
-
-			@Override
-			public long compute(Solution s) {
-				if (s == null) {
-					return Integer.MAX_VALUE;
-				}
-				return s.getTotalVehicleBatteryConsumption();
-			}
-
-			@Override
-			public double acceptanceThreshold() {
-				return 0.01;
-			}
-		};
 		System.out.println("VNS starts with " + FormatConv.withSeparator(f.compute(solution), ""));
-
 		VNSMonitor historyMonitor = new VNSMonitor(f);
-		Solution optSolution = VNS.vns(networkProvider, f, solution, neighborhoodStructures, historyMonitor);
+		VNS vns = new VNS(networkProvider, f, neighborhoodStructures, historyMonitor);
+		Solution optSolution = vns.run(solution);
 		optSolution.setHistory(historyMonitor.getHistory());
-		updateSolution(optSolution);
+		setSolution(optSolution);
 	}
 
 	private void constructProcedure(Solution solution, Locatables locatables) throws Exception {
@@ -105,5 +85,25 @@ public class SvensAlg extends Algorithm {
 			solution.getRoutes().add(route.getActualRoute());
 			route.takeCareOfSolutionValues();
 		}
+	}
+
+	private String getNeighborhoodStructureNames() {
+		return Arrays.stream(neighborhoodStructures).map(n -> n.getName()).collect(Collectors.joining(", "));
+	}
+
+	@Override
+	public CostFunction getCostFunction() {
+		return new CostFunction() {
+
+			@Override
+			public double compute(Solution s) {
+				return s.getRoutes().size() * 0.5 + s.getTotalVehicleBatteryConsumption() * 0.5;
+			}
+
+			@Override
+			public double acceptanceThreshold() {
+				return 0.01;
+			}
+		};
 	}
 }

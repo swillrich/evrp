@@ -5,14 +5,12 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import org.eclipse.emf.common.util.EList;
-
+import de.fuberlin.winfo.project.FormatConv;
 import de.fuberlin.winfo.project.Log;
 import de.fuberlin.winfo.project.Utils;
 import de.fuberlin.winfo.project.Utils.StopWatch;
+import de.fuberlin.winfo.project.algorithm.impl.sven.vns.CostFunction;
 import de.fuberlin.winfo.project.algorithm.restriction.Restrictions;
-import de.fuberlin.winfo.project.model.network.GlobalSearch;
-import de.fuberlin.winfo.project.model.network.LocalSearch;
 import de.fuberlin.winfo.project.model.network.Route;
 import de.fuberlin.winfo.project.model.network.Solution;
 import de.fuberlin.winfo.project.model.network.Vehicle;
@@ -28,74 +26,46 @@ import de.fuberlin.winfo.project.model.network.Vertex;
  */
 public abstract class Algorithm {
 
-	/**
-	 * Provides the name of the algorithm
-	 */
+	protected NetworkProvider networkProvider;
+	protected Solution solution;
+	protected Restrictions restrictions;
+	protected CostFunction f;
+
 	public abstract String getName();
 
-	protected NetworkProvider networkProvider;
+	public abstract CostFunction getCostFunction();
 
-	/**
-	 * The solution on which this algorithm operates.
-	 */
-	private Solution solution;
-	protected Restrictions restrictions;
-
-	/**
-	 * The run method performs the algorithm being implemented.
-	 * 
-	 * @return
-	 * 
-	 */
 	public abstract void run(Solution solution) throws Exception;
 
-	public void updateSolution(Solution update) {
-		int indexOf = networkProvider.getNetwork().getSolution().indexOf(this.solution);
-		long creationTime = 0;
-		long solvingTime = creationTime;
-		if (indexOf > -1) {
-			creationTime = networkProvider.getNetwork().getSolution().get(indexOf).getCreationTime();
-			solvingTime = networkProvider.getNetwork().getSolution().get(indexOf).getSolvingTime();
-			networkProvider.getNetwork().getSolution().remove(indexOf);
-			networkProvider.getNetwork().getSolution().add(indexOf, update);
-		} else {
-			networkProvider.getNetwork().getSolution().add(update);
-		}
-		if (update.getHistory() != null) {
-			EList<GlobalSearch> searches = update.getHistory().getSearches();
-			if (!searches.isEmpty()) {
-				EList<LocalSearch> lastLS = searches.get(searches.size() - 1).getLocalSearches();
-				if (!lastLS.isEmpty()) {
-					solvingTime += lastLS.get(lastLS.size() - 1).getTime();
-				}
-			}
-		}
-		update.setCreationTime(creationTime);
-		update.setSolvingTime(solvingTime + creationTime);
-		this.solution = update;
+	private void replaceSolution(Solution update) {
+		int indexOf = networkProvider.getNetwork().getSolution().indexOf(update);
+		networkProvider.getNetwork().getSolution().remove(indexOf);
+		networkProvider.getNetwork().getSolution().add(indexOf, this.solution);
 	}
 
 	public void prepareAndRun(NetworkProvider networkProvider, Solution solution) throws Exception {
 		Log.info(Log.ALGORITHM,
 				"*" + this.getName() + "* is selected and will run for UseCase " + solution.getUsecase().getName());
 		this.networkProvider = networkProvider;
+		this.solution = solution;
 		restrictions = new Restrictions(this.networkProvider);
-		updateSolution(solution);
-		runAlgorithm();
-	}
-
-	private void runAlgorithm() throws Exception {
-		solution.setAlgorithmName(getName());
+		f = getCostFunction();
 		StopWatch sw = Utils.stopWatchGo();
-		solution.setCreationTime(new Date().getTime());
-		run(solution);
+		run(this.solution);
 		Log.info(Log.ALGORITHM, "Finished within " + sw.stop() + " min");
-		solution.setSolvingTime(sw.getAfter() - sw.getBefore());
+		this.solution.setSolvingTime(sw.getAfter() - sw.getBefore());
+		this.solution.setCreationTime(sw.getBefore());
+		this.solution.setAlgorithmName(getName());
+		replaceSolution(solution);
 		printResult();
 	}
 
 	public Solution getSolution() {
 		return solution;
+	}
+
+	public void setSolution(Solution solution) {
+		this.solution = solution;
 	}
 
 	public RouteWrapper buildRoute(Vehicle vehicle, Vertex depot) {
@@ -126,6 +96,7 @@ public abstract class Algorithm {
 			}
 		}
 		System.out.println();
-		System.out.println(set.size() + " nodes serviced");
+		System.out.println(
+				set.size() + " nodes serviced with cost: " + FormatConv.withSeparator(f.compute(solution), ""));
 	}
 }

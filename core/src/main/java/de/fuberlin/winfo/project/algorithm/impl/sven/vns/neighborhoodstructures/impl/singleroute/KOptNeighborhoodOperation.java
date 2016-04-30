@@ -1,4 +1,4 @@
-package de.fuberlin.winfo.project.algorithm.impl.sven.vns.neighborhoodstructures.impl;
+package de.fuberlin.winfo.project.algorithm.impl.sven.vns.neighborhoodstructures.impl.singleroute;
 
 import java.util.Arrays;
 import java.util.List;

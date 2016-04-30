@@ -1,4 +1,4 @@
-package de.fuberlin.winfo.project.algorithm.impl.sven.vns.neighborhoodstructures.impl;
+package de.fuberlin.winfo.project.algorithm.impl.sven.vns.neighborhoodstructures.impl.interroute;
 
 import de.fuberlin.winfo.project.algorithm.NetworkProvider;
 import de.fuberlin.winfo.project.algorithm.impl.sven.vns.CostFunction;
@@ -18,6 +18,7 @@ public class InterRouteSingleNodeRelocationNeighborhoodStructure extends Neighbo
 
 	@Override
 	public void initSearch() {
+		super.initSearch();
 		A = networkProvider.getArcs();
 		route = 0;
 		node = 0;

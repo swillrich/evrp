@@ -108,10 +108,10 @@ public class ListRequest extends AbstractRequest {
 		if (s.getHistory() != null) {
 			EList<GlobalSearch> searches = s.getHistory().getSearches();
 			if (searches.size() > 0) {
-				long prevCost = searches.get(0).getPrevCost();
-				long cost = searches.get(searches.size() - 1).getCost();
-				long diff = prevCost - cost;
-				return FormatConv.round((double) diff / (double) prevCost * 100d, 4) + " %";
+				double prevCost = searches.get(0).getPrevCost();
+				double cost = searches.get(searches.size() - 1).getCost();
+				double diff = prevCost - cost;
+				return FormatConv.round(diff / prevCost * 100d, 4) + " %";
 			}
 		}
 		return "-";

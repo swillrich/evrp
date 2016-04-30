@@ -65,7 +65,7 @@ public class VNSConsoleOutput {
 	public void finishedLocalSearch(SearchHistory history, int iterations) {
 		GlobalSearch gs = lastGS(history, 0);
 		LocalSearch ls = lastLS(gs, 0);
-		long absDiff = history.getSearches().get(0).getPrevCost() - gs.getCost();
+		double absDiff = history.getSearches().get(0).getPrevCost() - gs.getCost();
 		double diffPrev = gs.getPrevCost() - gs.getCost();
 
 		String nhName = gs.getName();

@@ -56,7 +56,7 @@ public class LocalSearchImpl extends MinimalEObjectImpl.Container implements Loc
 	 * @generated
 	 * @ordered
 	 */
-	protected static final long COST_EDEFAULT = 0L;
+	protected static final double COST_EDEFAULT = 0.0;
 
 	/**
 	 * The cached value of the '{@link #getCost() <em>Cost</em>}' attribute.
@@ -66,7 +66,7 @@ public class LocalSearchImpl extends MinimalEObjectImpl.Container implements Loc
 	 * @generated
 	 * @ordered
 	 */
-	protected long cost = COST_EDEFAULT;
+	protected double cost = COST_EDEFAULT;
 
 	/**
 	 * The default value of the '{@link #getTime() <em>Time</em>}' attribute.
@@ -133,7 +133,7 @@ public class LocalSearchImpl extends MinimalEObjectImpl.Container implements Loc
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public long getCost() {
+	public double getCost() {
 		return cost;
 	}
 
@@ -142,8 +142,8 @@ public class LocalSearchImpl extends MinimalEObjectImpl.Container implements Loc
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public void setCost(long newCost) {
-		long oldCost = cost;
+	public void setCost(double newCost) {
+		double oldCost = cost;
 		cost = newCost;
 		if (eNotificationRequired())
 			eNotify(new ENotificationImpl(this, Notification.SET, NetworkPackage.LOCAL_SEARCH__COST, oldCost, cost));
@@ -200,7 +200,7 @@ public class LocalSearchImpl extends MinimalEObjectImpl.Container implements Loc
 				setOperation((String)newValue);
 				return;
 			case NetworkPackage.LOCAL_SEARCH__COST:
-				setCost((Long)newValue);
+				setCost((Double)newValue);
 				return;
 			case NetworkPackage.LOCAL_SEARCH__TIME:
 				setTime((Long)newValue);

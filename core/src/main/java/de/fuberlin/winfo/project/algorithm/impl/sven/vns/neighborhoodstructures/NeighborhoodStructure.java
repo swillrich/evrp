@@ -31,29 +31,38 @@ public abstract class NeighborhoodStructure implements Iterator<Solution> {
 
 	public abstract NeighborhoodOperation generateOperation(Solution solution) throws Exception;
 
-	public abstract void initSearch();
-
 	public void setUp(NetworkProvider np, VNSMonitor history, CostFunction f) {
-		networkProvider = np;
-		restrictions = new Restrictions(networkProvider);
-		restrictions.addAll();
+		this.networkProvider = np;
+		this.restrictions = new Restrictions(networkProvider);
+		this.restrictions.addAll();
 		this.history = history;
-		costFunction = f;
-		operationList = new SortedOperationList(200, f);
-		iterations = 0;
+		this.costFunction = f;
+	}
+
+	public void initSearch() {
+		operationList = new SortedOperationList(200, costFunction);
+		this.iterations = 0;
 	}
 
 	public Solution shake(Solution solution) {
 		this.initialSol = solution;
 		initSearch();
+		if (this instanceof AbstractStochasticNeighborhoodStructure) {
+			AbstractStochasticNeighborhoodStructure nhs = (AbstractStochasticNeighborhoodStructure) this;
+			for (int i = 0; i < 10; i++) {
+				Solution next = nhs.next();
+				initialSol = next;
+			}
+			return initialSol;
+		}
 		return incumbentSol;
 	}
 
 	public Solution search(Solution solution) {
 		this.initialSol = solution;
 		this.incumbentSol = solution;
-		operationList.setLimit(solution);
 		initSearch();
+		operationList.setLimit(solution);
 		history.startLocalSearch(this, initialSol);
 		while (hasNext()) {
 			iterations++;
@@ -109,7 +118,7 @@ public abstract class NeighborhoodStructure implements Iterator<Solution> {
 		return true;
 	}
 
-	protected long f(Solution s) {
+	protected double f(Solution s) {
 		return costFunction.compute(s);
 	}
 

@@ -58,12 +58,12 @@ public interface LocalSearch extends EObject {
 	 * </p>
 	 * <!-- end-user-doc -->
 	 * @return the value of the '<em>Cost</em>' attribute.
-	 * @see #setCost(long)
+	 * @see #setCost(double)
 	 * @see de.fuberlin.winfo.project.model.network.NetworkPackage#getLocalSearch_Cost()
 	 * @model
 	 * @generated
 	 */
-	long getCost();
+	double getCost();
 
 	/**
 	 * Sets the value of the '{@link de.fuberlin.winfo.project.model.network.LocalSearch#getCost <em>Cost</em>}' attribute.
@@ -73,7 +73,7 @@ public interface LocalSearch extends EObject {
 	 * @see #getCost()
 	 * @generated
 	 */
-	void setCost(long value);
+	void setCost(double value);
 
 	/**
 	 * Returns the value of the '<em><b>Time</b></em>' attribute.

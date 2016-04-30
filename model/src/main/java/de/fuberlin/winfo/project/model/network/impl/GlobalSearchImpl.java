@@ -68,7 +68,7 @@ public class GlobalSearchImpl extends MinimalEObjectImpl.Container implements Gl
 	 * @generated
 	 * @ordered
 	 */
-	protected static final long COST_EDEFAULT = 0L;
+	protected static final double COST_EDEFAULT = 0.0;
 
 	/**
 	 * The cached value of the '{@link #getCost() <em>Cost</em>}' attribute.
@@ -78,7 +78,7 @@ public class GlobalSearchImpl extends MinimalEObjectImpl.Container implements Gl
 	 * @generated
 	 * @ordered
 	 */
-	protected long cost = COST_EDEFAULT;
+	protected double cost = COST_EDEFAULT;
 
 	/**
 	 * The default value of the '{@link #getPrevCost() <em>Prev Cost</em>}' attribute.
@@ -88,7 +88,7 @@ public class GlobalSearchImpl extends MinimalEObjectImpl.Container implements Gl
 	 * @generated
 	 * @ordered
 	 */
-	protected static final long PREV_COST_EDEFAULT = 0L;
+	protected static final double PREV_COST_EDEFAULT = 0.0;
 
 	/**
 	 * The cached value of the '{@link #getPrevCost() <em>Prev Cost</em>}' attribute.
@@ -98,7 +98,7 @@ public class GlobalSearchImpl extends MinimalEObjectImpl.Container implements Gl
 	 * @generated
 	 * @ordered
 	 */
-	protected long prevCost = PREV_COST_EDEFAULT;
+	protected double prevCost = PREV_COST_EDEFAULT;
 
 	/**
 	 * The cached value of the '{@link #getLocalSearches() <em>Local Searches</em>}' containment reference list.
@@ -175,7 +175,7 @@ public class GlobalSearchImpl extends MinimalEObjectImpl.Container implements Gl
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public long getCost() {
+	public double getCost() {
 		return cost;
 	}
 
@@ -184,8 +184,8 @@ public class GlobalSearchImpl extends MinimalEObjectImpl.Container implements Gl
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public void setCost(long newCost) {
-		long oldCost = cost;
+	public void setCost(double newCost) {
+		double oldCost = cost;
 		cost = newCost;
 		if (eNotificationRequired())
 			eNotify(new ENotificationImpl(this, Notification.SET, NetworkPackage.GLOBAL_SEARCH__COST, oldCost, cost));
@@ -196,7 +196,7 @@ public class GlobalSearchImpl extends MinimalEObjectImpl.Container implements Gl
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public long getPrevCost() {
+	public double getPrevCost() {
 		return prevCost;
 	}
 
@@ -205,8 +205,8 @@ public class GlobalSearchImpl extends MinimalEObjectImpl.Container implements Gl
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public void setPrevCost(long newPrevCost) {
-		long oldPrevCost = prevCost;
+	public void setPrevCost(double newPrevCost) {
+		double oldPrevCost = prevCost;
 		prevCost = newPrevCost;
 		if (eNotificationRequired())
 			eNotify(new ENotificationImpl(this, Notification.SET, NetworkPackage.GLOBAL_SEARCH__PREV_COST, oldPrevCost, prevCost));
@@ -294,10 +294,10 @@ public class GlobalSearchImpl extends MinimalEObjectImpl.Container implements Gl
 				setName((String)newValue);
 				return;
 			case NetworkPackage.GLOBAL_SEARCH__COST:
-				setCost((Long)newValue);
+				setCost((Double)newValue);
 				return;
 			case NetworkPackage.GLOBAL_SEARCH__PREV_COST:
-				setPrevCost((Long)newValue);
+				setPrevCost((Double)newValue);
 				return;
 			case NetworkPackage.GLOBAL_SEARCH__LOCAL_SEARCHES:
 				getLocalSearches().clear();

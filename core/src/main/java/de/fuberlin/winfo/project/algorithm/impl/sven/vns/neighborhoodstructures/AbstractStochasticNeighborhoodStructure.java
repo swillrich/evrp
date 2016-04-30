@@ -36,6 +36,7 @@ public abstract class AbstractStochasticNeighborhoodStructure extends Neighborho
 
 	@Override
 	public void initSearch() {
+		super.initSearch();
 		randomlyUsedOperations = new TreeSet<Integer>();
 		randomlyUsedOperations.add(0);
 		isDone = false;

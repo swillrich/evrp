@@ -49,7 +49,7 @@ public class VNSMonitor {
 	public void finishedLocalSearch(NeighborhoodStructure neighborhoodStructure, Solution initialSol,
 			Solution incumbentSol, int iterations) {
 		globalSearch.setCost(costFunction.compute(incumbentSol));
-		long diff = globalSearch.getPrevCost() - globalSearch.getCost();
+		double diff = globalSearch.getPrevCost() - globalSearch.getCost();
 		String operation = "VNS reset";
 		if (diff <= 0) {
 			operation = "VNS change";

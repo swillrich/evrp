@@ -62,12 +62,12 @@ public interface GlobalSearch extends EObject {
 	 * </p>
 	 * <!-- end-user-doc -->
 	 * @return the value of the '<em>Cost</em>' attribute.
-	 * @see #setCost(long)
+	 * @see #setCost(double)
 	 * @see de.fuberlin.winfo.project.model.network.NetworkPackage#getGlobalSearch_Cost()
 	 * @model
 	 * @generated
 	 */
-	long getCost();
+	double getCost();
 
 	/**
 	 * Sets the value of the '{@link de.fuberlin.winfo.project.model.network.GlobalSearch#getCost <em>Cost</em>}' attribute.
@@ -77,7 +77,7 @@ public interface GlobalSearch extends EObject {
 	 * @see #getCost()
 	 * @generated
 	 */
-	void setCost(long value);
+	void setCost(double value);
 
 	/**
 	 * Returns the value of the '<em><b>Prev Cost</b></em>' attribute.
@@ -88,12 +88,12 @@ public interface GlobalSearch extends EObject {
 	 * </p>
 	 * <!-- end-user-doc -->
 	 * @return the value of the '<em>Prev Cost</em>' attribute.
-	 * @see #setPrevCost(long)
+	 * @see #setPrevCost(double)
 	 * @see de.fuberlin.winfo.project.model.network.NetworkPackage#getGlobalSearch_PrevCost()
 	 * @model
 	 * @generated
 	 */
-	long getPrevCost();
+	double getPrevCost();
 
 	/**
 	 * Sets the value of the '{@link de.fuberlin.winfo.project.model.network.GlobalSearch#getPrevCost <em>Prev Cost</em>}' attribute.
@@ -103,7 +103,7 @@ public interface GlobalSearch extends EObject {
 	 * @see #getPrevCost()
 	 * @generated
 	 */
-	void setPrevCost(long value);
+	void setPrevCost(double value);
 
 	/**
 	 * Returns the value of the '<em><b>Local Searches</b></em>' containment reference list.
