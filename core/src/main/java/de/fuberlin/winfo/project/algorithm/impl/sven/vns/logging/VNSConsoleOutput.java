@@ -28,7 +28,7 @@ public class VNSConsoleOutput {
 		tablePrinter.setParam(i++, true, 10);
 		tablePrinter.setParam(i++, true, 23);
 		tablePrinter.setParam(i++, true, 20);
-		tablePrinter.setParam(i++, true, 20);
+		tablePrinter.setParam(i++, true, 25);
 	}
 
 	public void startLocalSearch(SearchHistory history) {

@@ -47,11 +47,14 @@ public class VNSMonitor {
 	}
 
 	public void finishedLocalSearch(NeighborhoodStructure neighborhoodStructure, Solution initialSol,
-			Solution incumbentSol, int iterations) {
+			Solution incumbentSol, int iterations, boolean isShaking) {
 		globalSearch.setCost(costFunction.compute(incumbentSol));
 		double diff = globalSearch.getPrevCost() - globalSearch.getCost();
+
 		String operation = "VNS reset";
-		if (diff <= 0) {
+		if (isShaking) {
+			operation = "shaked";
+		} else if (diff <= 0) {
 			operation = "VNS change";
 		}
 		globalSearch.setOperation(operation);

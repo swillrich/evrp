@@ -111,7 +111,7 @@ public class ListRequest extends AbstractRequest {
 				double prevCost = searches.get(0).getPrevCost();
 				double cost = searches.get(searches.size() - 1).getCost();
 				double diff = prevCost - cost;
-				return FormatConv.round(diff / prevCost * 100d, 4) + " %";
+				return FormatConv.round(diff / prevCost * 100d, 2) + " %";
 			}
 		}
 		return "-";

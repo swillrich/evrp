@@ -31,8 +31,8 @@ import de.fuberlin.winfo.project.model.network.Vehicle;
 public class SvensAlg extends Algorithm {
 	Arc[][] A = null;
 	NeighborhoodStructure[] neighborhoodStructures = new NeighborhoodStructure[] {
-			new StochasticCyclingExchangeNeighborhoodStructure(3, 8000),
-			new StochasticInterRouteSingleNodeRelocationNeighborhoodStructure(8000),
+			new StochasticCyclingExchangeNeighborhoodStructure(3, 10000),
+			new StochasticInterRouteSingleNodeRelocationNeighborhoodStructure(10000),
 			new StochasticKOptNeighborhoodStructure(3, 15000), new KOptNeighborhoodStructure(2) };
 
 	@Override

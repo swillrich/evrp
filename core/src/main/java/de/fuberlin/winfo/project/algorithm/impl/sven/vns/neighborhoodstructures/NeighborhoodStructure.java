@@ -49,11 +49,14 @@ public abstract class NeighborhoodStructure implements Iterator<Solution> {
 		this.initialSol = solution;
 		initSearch();
 		if (this instanceof AbstractStochasticNeighborhoodStructure) {
+			history.startLocalSearch(this, initialSol);
 			AbstractStochasticNeighborhoodStructure nhs = (AbstractStochasticNeighborhoodStructure) this;
-			for (int i = 0; i < 10; i++) {
+			for (int i = 0; i < 2; i++) {
 				Solution next = nhs.next();
+				history.neighborChange(this, next, "shaked");
 				initialSol = next;
 			}
+			history.finishedLocalSearch(this, solution, initialSol, iterations, true);
 			return initialSol;
 		}
 		return initialSol;
@@ -73,7 +76,7 @@ public abstract class NeighborhoodStructure implements Iterator<Solution> {
 			}
 		}
 		incumbentSol = returnBestNeighbor(initialSol, incumbentSol);
-		history.finishedLocalSearch(this, initialSol, incumbentSol, iterations);
+		history.finishedLocalSearch(this, initialSol, incumbentSol, iterations, false);
 		return incumbentSol;
 	}
 
