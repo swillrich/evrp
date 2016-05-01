@@ -37,6 +37,9 @@ public class InterRouteSingleNodeRelocationNeighborhoodOperation extends Neighbo
 
 	@Override
 	public boolean isPreconditionSatisfied(Solution sol) {
+		if (sol.getRoutes().size() <= route || sol.getRoutes().size() <= neighborRoute) {
+			return false;
+		}
 		RouteWrapper wrapper = new RouteWrapper(sol.getRoutes().get(route), null, A);
 		RouteWrapper neighborWrapper = new RouteWrapper(sol.getRoutes().get(neighborRoute), null, A);
 		if (wrapper.getActualRoute().getWay().size() < node + 2) {

@@ -15,7 +15,9 @@ import de.fuberlin.winfo.project.algorithm.impl.sven.vns.CostFunction;
 import de.fuberlin.winfo.project.algorithm.impl.sven.vns.VNS;
 import de.fuberlin.winfo.project.algorithm.impl.sven.vns.logging.VNSMonitor;
 import de.fuberlin.winfo.project.algorithm.impl.sven.vns.neighborhoodstructures.NeighborhoodStructure;
+import de.fuberlin.winfo.project.algorithm.impl.sven.vns.neighborhoodstructures.impl.interroute.StochasticCyclingExchangeNeighborhoodStructure;
 import de.fuberlin.winfo.project.algorithm.impl.sven.vns.neighborhoodstructures.impl.interroute.StochasticInterRouteSingleNodeRelocationNeighborhoodStructure;
+import de.fuberlin.winfo.project.algorithm.impl.sven.vns.neighborhoodstructures.impl.singleroute.KOptNeighborhoodStructure;
 import de.fuberlin.winfo.project.algorithm.impl.sven.vns.neighborhoodstructures.impl.singleroute.StochasticKOptNeighborhoodStructure;
 import de.fuberlin.winfo.project.algorithm.restriction.RestrictionException;
 import de.fuberlin.winfo.project.algorithm.restriction.impl.CargoCapacityRestriction;
@@ -29,8 +31,9 @@ import de.fuberlin.winfo.project.model.network.Vehicle;
 public class SvensAlg extends Algorithm {
 	Arc[][] A = null;
 	NeighborhoodStructure[] neighborhoodStructures = new NeighborhoodStructure[] {
-			new StochasticInterRouteSingleNodeRelocationNeighborhoodStructure(10000),
-			new StochasticKOptNeighborhoodStructure(3, 10000), new StochasticKOptNeighborhoodStructure(2, 10000) };
+			new StochasticCyclingExchangeNeighborhoodStructure(3, 8000),
+			new StochasticInterRouteSingleNodeRelocationNeighborhoodStructure(8000),
+			new StochasticKOptNeighborhoodStructure(3, 15000), new KOptNeighborhoodStructure(2) };
 
 	@Override
 	public String getName() {
@@ -97,7 +100,7 @@ public class SvensAlg extends Algorithm {
 
 			@Override
 			public double compute(Solution s) {
-				return s.getRoutes().size() * 0.5 + s.getTotalVehicleBatteryConsumption() * 0.5;
+				return s.getRoutes().size() * 50000 + s.getTotalVehicleBatteryConsumption() * 0.30;
 			}
 
 			@Override

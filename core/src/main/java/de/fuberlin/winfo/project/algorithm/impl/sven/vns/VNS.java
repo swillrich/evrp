@@ -21,8 +21,8 @@ public class VNS {
 
 	public Solution run(Solution bestSolution) {
 		tabus.add(bestSolution);
-		while (tabus.size() <= 10) {
-			Solution initialSol = neighborhoodStructures[0].shake(tabus.getBest());
+		for (int i = 0; i < 2; i++) {
+			Solution initialSol = neighborhoodStructures[0].shake(bestSolution);
 			bestSolution = descend(initialSol, 0);
 			tabus.add(bestSolution);
 		}

@@ -421,4 +421,16 @@ public class RouteWrapper {
 		Arc arc = usedArc.getArc();
 		System.out.print(arc.getStart().getId() + "->" + arc.getEnd().getId());
 	}
+
+	public static List<UsedArc> buildPath(Vertex[] V, Arc[][] A) {
+		List<UsedArc> list = new ArrayList<UsedArc>();
+		for (int i = 0; i < V.length; i++) {
+			int startId = V[i].getId();
+			int endId = V[i + 1].getId();
+			Arc arc = A[startId][endId];
+			UsedArc usedArc = initializeUsedArc(arc);
+			list.add(usedArc);
+		}
+		return list;
+	}
 }

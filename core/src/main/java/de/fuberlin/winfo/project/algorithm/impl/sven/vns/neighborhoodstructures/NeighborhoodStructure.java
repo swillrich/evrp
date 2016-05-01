@@ -42,6 +42,7 @@ public abstract class NeighborhoodStructure implements Iterator<Solution> {
 	public void initSearch() {
 		operationList = new SortedOperationList(200, costFunction);
 		this.iterations = 0;
+		this.incumbentSol = initialSol;
 	}
 
 	public Solution shake(Solution solution) {
@@ -49,18 +50,17 @@ public abstract class NeighborhoodStructure implements Iterator<Solution> {
 		initSearch();
 		if (this instanceof AbstractStochasticNeighborhoodStructure) {
 			AbstractStochasticNeighborhoodStructure nhs = (AbstractStochasticNeighborhoodStructure) this;
-			for (int i = 0; i < 20; i++) {
+			for (int i = 0; i < 10; i++) {
 				Solution next = nhs.next();
 				initialSol = next;
 			}
 			return initialSol;
 		}
-		return incumbentSol;
+		return initialSol;
 	}
 
 	public Solution search(Solution solution) {
 		this.initialSol = solution;
-		this.incumbentSol = solution;
 		initSearch();
 		operationList.setLimit(solution);
 		history.startLocalSearch(this, initialSol);
