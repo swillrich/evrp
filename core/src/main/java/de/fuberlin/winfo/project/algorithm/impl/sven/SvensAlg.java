@@ -105,7 +105,7 @@ public class SvensAlg extends Algorithm {
 
 			@Override
 			public double acceptanceThreshold() {
-				return 0.01;
+				return 0.005;
 			}
 		};
 	}
