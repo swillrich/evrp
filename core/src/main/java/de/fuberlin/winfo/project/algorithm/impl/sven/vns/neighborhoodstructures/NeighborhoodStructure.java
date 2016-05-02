@@ -51,7 +51,7 @@ public abstract class NeighborhoodStructure implements Iterator<Solution> {
 		if (this instanceof AbstractStochasticNeighborhoodStructure) {
 			history.startLocalSearch(this, initialSol);
 			AbstractStochasticNeighborhoodStructure nhs = (AbstractStochasticNeighborhoodStructure) this;
-			for (int i = 0; i < 2; i++) {
+			for (int i = 0; i < 3; i++) {
 				Solution next = nhs.next();
 				history.neighborChange(this, next, "shaked");
 				initialSol = next;
@@ -144,7 +144,7 @@ public abstract class NeighborhoodStructure implements Iterator<Solution> {
 		operationList.clear();
 	}
 
-	public void setApplyOperationList() {
+	public void useApplyOperationList() {
 		this.isApplyOperationList = true;
 	}
 }

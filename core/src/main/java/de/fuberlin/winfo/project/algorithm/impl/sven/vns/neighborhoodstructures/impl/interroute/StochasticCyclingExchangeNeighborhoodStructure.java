@@ -55,10 +55,10 @@ public class StochasticCyclingExchangeNeighborhoodStructure extends AbstractStoc
 
 	@Override
 	public String getName() {
-		return "S-Cycling Exchange";
+		return "S-" + cycleSize + "-Cycling Exchange";
 	}
 
-	private class CyclingExchangeNeighborhoodOpereration extends NeighborhoodOperation {
+	public class CyclingExchangeNeighborhoodOpereration extends NeighborhoodOperation {
 
 		private int[] routes;
 		private int[] nodes;
@@ -127,7 +127,7 @@ public class StochasticCyclingExchangeNeighborhoodStructure extends AbstractStoc
 		public int operationHash() {
 			StringBuilder b = new StringBuilder();
 			for (int i = 0; i < routes.length; i++) {
-				b.append(routes[i] + nodes[i] + pathLengths[i]);
+				b.append("r" + routes[i] + "n" + nodes[i] + "p" + pathLengths[i] + "+");
 			}
 			return b.toString().hashCode();
 		}

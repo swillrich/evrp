@@ -31,7 +31,7 @@ public class KOptNeighborhoodStructure extends NeighborhoodStructure {
 	@Override
 	public void setUp(NetworkProvider np, VNSMonitor history, CostFunction f) {
 		super.setUp(np, history, f);
-		setApplyOperationList();
+		useApplyOperationList();
 	}
 
 	@Override

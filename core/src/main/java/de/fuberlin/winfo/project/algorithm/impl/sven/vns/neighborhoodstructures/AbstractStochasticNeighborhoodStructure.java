@@ -11,7 +11,7 @@ public abstract class AbstractStochasticNeighborhoodStructure extends Neighborho
 	private int maxIterations;
 	protected Random random = new Random();
 	private Set<Integer> randomlyUsedOperations;
-	private boolean isDone = false;
+	private int couter;
 
 	protected abstract NeighborhoodOperation generateRandomOperation(Solution solution);
 
@@ -21,7 +21,7 @@ public abstract class AbstractStochasticNeighborhoodStructure extends Neighborho
 
 	@Override
 	public boolean hasNext() {
-		return randomlyUsedOperations.size() < maxIterations && !isDone;
+		return couter >= 0;
 	}
 
 	@Override
@@ -29,6 +29,7 @@ public abstract class AbstractStochasticNeighborhoodStructure extends Neighborho
 		NeighborhoodOperation generateRandomOperation;
 		do {
 			generateRandomOperation = generateRandomOperation(solution);
+			couter--;
 		} while (hasNext() && randomlyUsedOperations.contains(generateRandomOperation.operationHash()));
 		randomlyUsedOperations.add(generateRandomOperation.operationHash());
 		return generateRandomOperation;
@@ -39,11 +40,7 @@ public abstract class AbstractStochasticNeighborhoodStructure extends Neighborho
 		super.initSearch();
 		randomlyUsedOperations = new TreeSet<Integer>();
 		randomlyUsedOperations.add(0);
-		isDone = false;
-		setApplyOperationList();
-	}
-
-	public void isDone() {
-		this.isDone = true;
+		useApplyOperationList();
+		couter = maxIterations;
 	}
 }

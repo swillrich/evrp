@@ -123,9 +123,10 @@ public class TimeWindowRestriction implements Restriction {
 				Order del = (Order) usedArc.getArc().getEnd();
 				Duration orderTW = del.getTimeWindow();
 				if (orderTW == null) {
-					return true;
+					continue;
+				} else if (usedArc.getDuration().getEndInSec() > orderTW.getEndInSec()) {
+					return false;
 				}
-				return usedArc.getDuration().getEndInSec() <= orderTW.getEndInSec();
 			}
 		}
 		return true;

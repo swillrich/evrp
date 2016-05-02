@@ -12,6 +12,7 @@ import de.fuberlin.winfo.project.model.network.Solution;
 public class Tabus extends TreeSet<Tabu> {
 	private CostFunction f;
 	private int maxSizeOfSolution;
+	private int notAdded;
 
 	public Tabus(CostFunction function, int size) {
 		super(getComparator(function));
@@ -38,8 +39,13 @@ public class Tabus extends TreeSet<Tabu> {
 			removeSolutionsIfBelowMaxSize();
 			return true;
 		} else {
+			notAdded++;
 			return false;
 		}
+	}
+	
+	public int getNotAdded() {
+		return notAdded;
 	}
 
 	private Tabu getTabuInstance(Solution solution) {

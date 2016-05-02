@@ -44,7 +44,6 @@ public class StochasticKOptNeighborhoodStructure extends AbstractStochasticNeigh
 	@Override
 	protected NeighborhoodOperation generateRandomOperation(Solution solution) {
 		if (routesLeft.isEmpty()) {
-			isDone();
 			return NeighborhoodOperation.getBlank();
 		}
 		int routeRouteIndex = random.nextInt(routesLeft.size());
