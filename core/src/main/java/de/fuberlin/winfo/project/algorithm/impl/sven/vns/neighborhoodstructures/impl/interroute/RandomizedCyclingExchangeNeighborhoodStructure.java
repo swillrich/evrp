@@ -5,16 +5,16 @@ import java.util.List;
 import org.eclipse.emf.ecore.util.EcoreUtil;
 
 import de.fuberlin.winfo.project.algorithm.RouteWrapper;
-import de.fuberlin.winfo.project.algorithm.impl.sven.vns.neighborhoodstructures.AbstractStochasticNeighborhoodStructure;
+import de.fuberlin.winfo.project.algorithm.impl.sven.vns.neighborhoodstructures.AbstractRandomizedNeighborhoodStructure;
 import de.fuberlin.winfo.project.algorithm.impl.sven.vns.neighborhoodstructures.NeighborhoodOperation;
 import de.fuberlin.winfo.project.model.network.Arc;
 import de.fuberlin.winfo.project.model.network.Solution;
 import de.fuberlin.winfo.project.model.network.UsedArc;
 
-public class StochasticCyclingExchangeNeighborhoodStructure extends AbstractStochasticNeighborhoodStructure {
+public class RandomizedCyclingExchangeNeighborhoodStructure extends AbstractRandomizedNeighborhoodStructure {
 	private int cycleSize;
 
-	public StochasticCyclingExchangeNeighborhoodStructure(int cycleSize, int iterations) {
+	public RandomizedCyclingExchangeNeighborhoodStructure(int cycleSize, int iterations) {
 		super(iterations);
 		this.cycleSize = cycleSize;
 	}
@@ -55,7 +55,7 @@ public class StochasticCyclingExchangeNeighborhoodStructure extends AbstractStoc
 
 	@Override
 	public String getName() {
-		return "S-" + cycleSize + "-Cycling Exchange";
+		return "R-" + cycleSize + "-Cycling Exchange";
 	}
 
 	public class CyclingExchangeNeighborhoodOpereration extends NeighborhoodOperation {

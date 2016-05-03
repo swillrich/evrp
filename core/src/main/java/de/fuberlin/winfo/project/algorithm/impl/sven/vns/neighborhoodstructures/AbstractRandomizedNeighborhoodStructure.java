@@ -6,30 +6,30 @@ import java.util.TreeSet;
 
 import de.fuberlin.winfo.project.model.network.Solution;
 
-public abstract class AbstractStochasticNeighborhoodStructure extends NeighborhoodStructure {
+public abstract class AbstractRandomizedNeighborhoodStructure extends NeighborhoodStructure {
 
 	private int maxIterations;
 	protected Random random = new Random();
 	private Set<Integer> randomlyUsedOperations;
-	private int couter;
 
 	protected abstract NeighborhoodOperation generateRandomOperation(Solution solution);
 
-	public AbstractStochasticNeighborhoodStructure(int maxIterations) {
+	public AbstractRandomizedNeighborhoodStructure(int maxIterations) {
 		this.maxIterations = maxIterations;
 	}
 
 	@Override
 	public boolean hasNext() {
-		return couter >= 0;
+		return iterations < maxIterations;
 	}
 
 	@Override
 	public NeighborhoodOperation generateOperation(Solution solution) throws Exception {
+		iterations--;
 		NeighborhoodOperation generateRandomOperation;
 		do {
 			generateRandomOperation = generateRandomOperation(solution);
-			couter--;
+			iterations++;
 		} while (hasNext() && randomlyUsedOperations.contains(generateRandomOperation.operationHash()));
 		randomlyUsedOperations.add(generateRandomOperation.operationHash());
 		return generateRandomOperation;
@@ -41,6 +41,5 @@ public abstract class AbstractStochasticNeighborhoodStructure extends Neighborho
 		randomlyUsedOperations = new TreeSet<Integer>();
 		randomlyUsedOperations.add(0);
 		useApplyOperationList();
-		couter = maxIterations;
 	}
 }

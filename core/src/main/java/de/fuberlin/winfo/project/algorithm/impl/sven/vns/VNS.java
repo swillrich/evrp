@@ -19,9 +19,10 @@ public class VNS {
 
 	public Solution run(Solution bestSolution) {
 		int k = 0;
+		neighborhoodStructures[0].shake(bestSolution);
 		do {
 			Solution bestNeighbor = neighborhoodStructures[k].search(bestSolution);
-			if (f.getImprovementRatio(bestSolution, bestNeighbor) >= f.acceptanceThreshold()) {
+			if (f.getImprovementRatio(bestSolution, bestNeighbor) > f.acceptanceThreshold()) {
 				k = 0;
 				bestSolution = bestNeighbor;
 			} else {

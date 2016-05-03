@@ -20,11 +20,11 @@ public abstract class NeighborhoodStructure implements Iterator<Solution> {
 	protected Solution initialSol;
 	protected Solution incumbentSol;
 	protected NetworkProvider networkProvider;
+	protected int iterations;
 	private Restrictions restrictions;
 	private VNSMonitor history;
 	private CostFunction costFunction;
 	private SortedOperationList operationList;
-	private int iterations;
 	private boolean isApplyOperationList = false;
 
 	public abstract String getName();
@@ -48,11 +48,16 @@ public abstract class NeighborhoodStructure implements Iterator<Solution> {
 	public Solution shake(Solution solution) {
 		this.initialSol = solution;
 		initSearch();
-		if (this instanceof AbstractStochasticNeighborhoodStructure) {
+		if (this instanceof AbstractRandomizedNeighborhoodStructure) {
 			history.startLocalSearch(this, initialSol);
-			AbstractStochasticNeighborhoodStructure nhs = (AbstractStochasticNeighborhoodStructure) this;
-			for (int i = 0; i < 3; i++) {
+			AbstractRandomizedNeighborhoodStructure nhs = (AbstractRandomizedNeighborhoodStructure) this;
+			for (int i = 0; i < 2;) {
 				Solution next = nhs.next();
+				if (!checkRestrictions(next)) {
+					continue;
+				} else {
+					i++;
+				}
 				history.neighborChange(this, next, "shaked");
 				initialSol = next;
 			}
@@ -80,13 +85,6 @@ public abstract class NeighborhoodStructure implements Iterator<Solution> {
 		return incumbentSol;
 	}
 
-	protected Solution returnBestNeighbor(Solution initialSol, Solution incumbentSol) {
-		if (isApplyOperationList) {
-			applyOperationList();
-		}
-		return this.incumbentSol;
-	}
-
 	@Override
 	public Solution next() {
 		Solution copy = getCopy(initialSol);
@@ -99,6 +97,13 @@ public abstract class NeighborhoodStructure implements Iterator<Solution> {
 			e.printStackTrace();
 			return initialSol;
 		}
+	}
+
+	protected Solution returnBestNeighbor(Solution initialSol, Solution incumbentSol) {
+		if (isApplyOperationList) {
+			applyOperationList();
+		}
+		return this.incumbentSol;
 	}
 
 	public static Solution getCopy(Solution original) {

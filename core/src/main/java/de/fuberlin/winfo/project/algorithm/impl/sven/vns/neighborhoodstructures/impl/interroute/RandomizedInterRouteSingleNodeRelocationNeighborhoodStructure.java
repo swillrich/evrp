@@ -1,13 +1,13 @@
 package de.fuberlin.winfo.project.algorithm.impl.sven.vns.neighborhoodstructures.impl.interroute;
 
-import de.fuberlin.winfo.project.algorithm.impl.sven.vns.neighborhoodstructures.AbstractStochasticNeighborhoodStructure;
+import de.fuberlin.winfo.project.algorithm.impl.sven.vns.neighborhoodstructures.AbstractRandomizedNeighborhoodStructure;
 import de.fuberlin.winfo.project.algorithm.impl.sven.vns.neighborhoodstructures.NeighborhoodOperation;
 import de.fuberlin.winfo.project.model.network.Solution;
 
-public class StochasticInterRouteSingleNodeRelocationNeighborhoodStructure
-		extends AbstractStochasticNeighborhoodStructure {
+public class RandomizedInterRouteSingleNodeRelocationNeighborhoodStructure
+		extends AbstractRandomizedNeighborhoodStructure {
 
-	public StochasticInterRouteSingleNodeRelocationNeighborhoodStructure(int iterations) {
+	public RandomizedInterRouteSingleNodeRelocationNeighborhoodStructure(int iterations) {
 		super(iterations);
 	}
 
@@ -31,6 +31,6 @@ public class StochasticInterRouteSingleNodeRelocationNeighborhoodStructure
 
 	@Override
 	public String getName() {
-		return "S-IRSNR";
+		return "R-IRSNR";
 	}
 }

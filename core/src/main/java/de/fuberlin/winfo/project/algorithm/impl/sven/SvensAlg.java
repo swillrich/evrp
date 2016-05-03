@@ -15,10 +15,10 @@ import de.fuberlin.winfo.project.algorithm.impl.sven.vns.CostFunction;
 import de.fuberlin.winfo.project.algorithm.impl.sven.vns.VNS;
 import de.fuberlin.winfo.project.algorithm.impl.sven.vns.logging.VNSMonitor;
 import de.fuberlin.winfo.project.algorithm.impl.sven.vns.neighborhoodstructures.NeighborhoodStructure;
-import de.fuberlin.winfo.project.algorithm.impl.sven.vns.neighborhoodstructures.impl.interroute.StochasticCyclingExchangeNeighborhoodStructure;
-import de.fuberlin.winfo.project.algorithm.impl.sven.vns.neighborhoodstructures.impl.interroute.StochasticInterRouteSingleNodeRelocationNeighborhoodStructure;
+import de.fuberlin.winfo.project.algorithm.impl.sven.vns.neighborhoodstructures.impl.interroute.InterRouteSingleNodeRelocationNeighborhoodStructure;
+import de.fuberlin.winfo.project.algorithm.impl.sven.vns.neighborhoodstructures.impl.interroute.RandomizedCyclingExchangeNeighborhoodStructure;
 import de.fuberlin.winfo.project.algorithm.impl.sven.vns.neighborhoodstructures.impl.singleroute.KOptNeighborhoodStructure;
-import de.fuberlin.winfo.project.algorithm.impl.sven.vns.neighborhoodstructures.impl.singleroute.StochasticKOptNeighborhoodStructure;
+import de.fuberlin.winfo.project.algorithm.impl.sven.vns.neighborhoodstructures.impl.singleroute.RandomizedKOptNeighborhoodStructure;
 import de.fuberlin.winfo.project.algorithm.restriction.RestrictionException;
 import de.fuberlin.winfo.project.algorithm.restriction.impl.CargoCapacityRestriction;
 import de.fuberlin.winfo.project.algorithm.restriction.impl.TimeWindowRestriction;
@@ -31,14 +31,32 @@ import de.fuberlin.winfo.project.model.network.Vehicle;
 public class SvensAlg extends Algorithm {
 	Arc[][] A = null;
 	NeighborhoodStructure[] neighborhoodStructures = new NeighborhoodStructure[] {
-			new StochasticCyclingExchangeNeighborhoodStructure(2, 5000),
-			new StochasticCyclingExchangeNeighborhoodStructure(3, 5000),
-			new StochasticInterRouteSingleNodeRelocationNeighborhoodStructure(5000),
-			new StochasticKOptNeighborhoodStructure(3, 5000), new KOptNeighborhoodStructure(2) };
+			new RandomizedCyclingExchangeNeighborhoodStructure(3, 10000),
+			new RandomizedCyclingExchangeNeighborhoodStructure(2, 8000),
+			// new
+			// RandomizedInterRouteSingleNodeRelocationNeighborhoodStructure(8000),
+			new InterRouteSingleNodeRelocationNeighborhoodStructure(),
+			new RandomizedKOptNeighborhoodStructure(3, 15000), new KOptNeighborhoodStructure(2) };
 
 	@Override
 	public String getName() {
 		return "VNS (" + getNeighborhoodStructureNames() + ")";
+	}
+
+	@Override
+	public CostFunction getCostFunction() {
+		return new CostFunction() {
+
+			@Override
+			public double compute(Solution s) {
+				return s.getRoutes().size() * 50000 + s.getTotalVehicleBatteryConsumption() * 0.30;
+			}
+
+			@Override
+			public double acceptanceThreshold() {
+				return 0.01;
+			}
+		};
 	}
 
 	@Override
@@ -93,21 +111,5 @@ public class SvensAlg extends Algorithm {
 
 	private String getNeighborhoodStructureNames() {
 		return Arrays.stream(neighborhoodStructures).map(n -> n.getName()).collect(Collectors.joining(", "));
-	}
-
-	@Override
-	public CostFunction getCostFunction() {
-		return new CostFunction() {
-
-			@Override
-			public double compute(Solution s) {
-				return s.getRoutes().size() * 50000 + s.getTotalVehicleBatteryConsumption() * 0.30;
-			}
-
-			@Override
-			public double acceptanceThreshold() {
-				return 0.005;
-			}
-		};
 	}
 }

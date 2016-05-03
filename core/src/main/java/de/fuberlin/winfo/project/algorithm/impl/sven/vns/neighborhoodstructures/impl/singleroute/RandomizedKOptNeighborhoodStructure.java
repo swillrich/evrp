@@ -11,13 +11,13 @@ import de.fuberlin.winfo.project.algorithm.impl.sven.vns.kopt.KOptHeuristic;
 import de.fuberlin.winfo.project.algorithm.impl.sven.vns.kopt.KOptHeuristicRouteAdapter;
 import de.fuberlin.winfo.project.algorithm.impl.sven.vns.kopt.KOptOptions;
 import de.fuberlin.winfo.project.algorithm.impl.sven.vns.kopt.Pair;
-import de.fuberlin.winfo.project.algorithm.impl.sven.vns.neighborhoodstructures.AbstractStochasticNeighborhoodStructure;
+import de.fuberlin.winfo.project.algorithm.impl.sven.vns.neighborhoodstructures.AbstractRandomizedNeighborhoodStructure;
 import de.fuberlin.winfo.project.algorithm.impl.sven.vns.neighborhoodstructures.NeighborhoodOperation;
 import de.fuberlin.winfo.project.model.network.Arc;
 import de.fuberlin.winfo.project.model.network.Solution;
 import de.fuberlin.winfo.project.model.network.UsedArc;
 
-public class StochasticKOptNeighborhoodStructure extends AbstractStochasticNeighborhoodStructure {
+public class RandomizedKOptNeighborhoodStructure extends AbstractRandomizedNeighborhoodStructure {
 
 	private int k;
 	private Map<Integer, KOptHeuristic> routeKOptMap;
@@ -25,7 +25,7 @@ public class StochasticKOptNeighborhoodStructure extends AbstractStochasticNeigh
 	private List<Integer> routesLeft;
 	private Arc[][] A;
 
-	public StochasticKOptNeighborhoodStructure(int k, int iterations) {
+	public RandomizedKOptNeighborhoodStructure(int k, int iterations) {
 		super(iterations);
 		this.k = k;
 	}
@@ -108,7 +108,7 @@ public class StochasticKOptNeighborhoodStructure extends AbstractStochasticNeigh
 
 	@Override
 	public String getName() {
-		return k + "-Opt";
+		return "R-" + k + "-Opt";
 	}
 
 }
