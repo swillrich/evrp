@@ -28,4 +28,8 @@ public abstract class CostFunction implements Comparator<Solution> {
 	}
 
 	public abstract double acceptanceThreshold();
+
+	public boolean isImprovement(Solution incumbent, Solution candidate) {
+		return getImprovementRatio(incumbent, candidate) > acceptanceThreshold();
+	}
 }

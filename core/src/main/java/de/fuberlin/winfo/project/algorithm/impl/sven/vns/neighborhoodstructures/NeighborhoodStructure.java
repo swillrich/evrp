@@ -9,6 +9,7 @@ import de.fuberlin.winfo.project.algorithm.NetworkProvider;
 import de.fuberlin.winfo.project.algorithm.RouteWrapper;
 import de.fuberlin.winfo.project.algorithm.impl.sven.vns.CostFunction;
 import de.fuberlin.winfo.project.algorithm.impl.sven.vns.SortedOperationList;
+import de.fuberlin.winfo.project.algorithm.impl.sven.vns.TabuSearch;
 import de.fuberlin.winfo.project.algorithm.impl.sven.vns.logging.VNSMonitor;
 import de.fuberlin.winfo.project.algorithm.restriction.RestrictionException;
 import de.fuberlin.winfo.project.algorithm.restriction.Restrictions;
@@ -26,6 +27,7 @@ public abstract class NeighborhoodStructure implements Iterator<Solution> {
 	private CostFunction costFunction;
 	private SortedOperationList operationList;
 	private boolean isApplyOperationList = false;
+	private TabuSearch tabuSearch;
 
 	public abstract String getName();
 
@@ -43,6 +45,7 @@ public abstract class NeighborhoodStructure implements Iterator<Solution> {
 		operationList = new SortedOperationList(200, costFunction);
 		this.iterations = 0;
 		this.incumbentSol = initialSol;
+		this.tabuSearch = new TabuSearch(5000, 1000);
 	}
 
 	public Solution shake(Solution solution) {
@@ -59,12 +62,17 @@ public abstract class NeighborhoodStructure implements Iterator<Solution> {
 					i++;
 				}
 				history.neighborChange(this, next, "shaked");
-				initialSol = next;
+				updateIncumbentSolution(next);
 			}
 			history.finishedLocalSearch(this, solution, initialSol, iterations, true);
 			return initialSol;
 		}
 		return initialSol;
+	}
+	
+	public void updateIncumbentSolution(Solution incumbentSol) {
+		this.incumbentSol = incumbentSol;
+//		this.tabuSearch.
 	}
 
 	public Solution search(Solution solution) {
@@ -77,10 +85,10 @@ public abstract class NeighborhoodStructure implements Iterator<Solution> {
 			Solution candidate = next();
 			if (costFunction.compare(incumbentSol, candidate) > 0 && checkRestrictions(candidate)) {
 				history.neighborChange(this, candidate, "improved");
-				incumbentSol = candidate;
+				 updateIncumbentSolution(candidate);
 			}
 		}
-		incumbentSol = returnBestNeighbor(initialSol, incumbentSol);
+		updateIncumbentSolution(returnBestNeighbor(initialSol, incumbentSol));
 		history.finishedLocalSearch(this, initialSol, incumbentSol, iterations, false);
 		return incumbentSol;
 	}
@@ -99,9 +107,12 @@ public abstract class NeighborhoodStructure implements Iterator<Solution> {
 		}
 	}
 
-	protected Solution returnBestNeighbor(Solution initialSol, Solution incumbentSol) {
+	private Solution returnBestNeighbor(Solution initialSol, Solution incumbentSol) {
 		if (isApplyOperationList) {
 			applyOperationList();
+		}
+		if (!costFunction.isImprovement(initialSol, incumbentSol)) {
+			
 		}
 		return this.incumbentSol;
 	}
@@ -138,7 +149,7 @@ public abstract class NeighborhoodStructure implements Iterator<Solution> {
 				Solution copy = getCopy(incumbentSol);
 				o.execute(copy, true);
 				if (costFunction.compare(incumbentSol, o.getResult()) > 0 && checkRestrictions(o.getResult())) {
-					incumbentSol = o.getResult();
+					updateIncumbentSolution(o.getResult());
 					counter++;
 				}
 			} catch (Exception e) {

@@ -22,7 +22,7 @@ public class VNS {
 		neighborhoodStructures[0].shake(bestSolution);
 		do {
 			Solution bestNeighbor = neighborhoodStructures[k].search(bestSolution);
-			if (f.getImprovementRatio(bestSolution, bestNeighbor) > f.acceptanceThreshold()) {
+			if (f.isImprovement(bestSolution, bestNeighbor)) {
 				k = 0;
 				bestSolution = bestNeighbor;
 			} else {
