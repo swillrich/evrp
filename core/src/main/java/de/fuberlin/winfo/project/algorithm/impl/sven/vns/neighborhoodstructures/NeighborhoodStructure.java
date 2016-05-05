@@ -27,7 +27,6 @@ public abstract class NeighborhoodStructure implements Iterator<Solution> {
 	private CostFunction costFunction;
 	private SortedOperationList operationList;
 	private boolean isApplyOperationList = false;
-	private TabuSearch tabuSearch;
 
 	public abstract String getName();
 
@@ -45,7 +44,6 @@ public abstract class NeighborhoodStructure implements Iterator<Solution> {
 		operationList = new SortedOperationList(200, costFunction);
 		this.iterations = 0;
 		this.incumbentSol = initialSol;
-		this.tabuSearch = new TabuSearch(5000, 1000);
 	}
 
 	public Solution shake(Solution solution) {
@@ -69,10 +67,9 @@ public abstract class NeighborhoodStructure implements Iterator<Solution> {
 		}
 		return initialSol;
 	}
-	
+
 	public void updateIncumbentSolution(Solution incumbentSol) {
 		this.incumbentSol = incumbentSol;
-//		this.tabuSearch.
 	}
 
 	public Solution search(Solution solution) {
@@ -85,7 +82,7 @@ public abstract class NeighborhoodStructure implements Iterator<Solution> {
 			Solution candidate = next();
 			if (costFunction.compare(incumbentSol, candidate) > 0 && checkRestrictions(candidate)) {
 				history.neighborChange(this, candidate, "improved");
-				 updateIncumbentSolution(candidate);
+				updateIncumbentSolution(candidate);
 			}
 		}
 		updateIncumbentSolution(returnBestNeighbor(initialSol, incumbentSol));
@@ -112,7 +109,7 @@ public abstract class NeighborhoodStructure implements Iterator<Solution> {
 			applyOperationList();
 		}
 		if (!costFunction.isImprovement(initialSol, incumbentSol)) {
-			
+
 		}
 		return this.incumbentSol;
 	}
