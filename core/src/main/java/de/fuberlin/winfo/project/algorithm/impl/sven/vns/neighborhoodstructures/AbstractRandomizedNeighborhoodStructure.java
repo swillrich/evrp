@@ -3,6 +3,7 @@ package de.fuberlin.winfo.project.algorithm.impl.sven.vns.neighborhoodstructures
 import java.util.Random;
 import java.util.Set;
 import java.util.TreeSet;
+import java.util.stream.IntStream;
 
 import de.fuberlin.winfo.project.model.network.Solution;
 
@@ -38,6 +39,7 @@ public abstract class AbstractRandomizedNeighborhoodStructure extends Neighborho
 	@Override
 	public void initSearch() {
 		super.initSearch();
+		random.setSeed(0);
 		randomlyUsedOperations = new TreeSet<Integer>();
 		randomlyUsedOperations.add(0);
 		useApplyOperationList();

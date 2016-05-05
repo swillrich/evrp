@@ -15,8 +15,8 @@ import de.fuberlin.winfo.project.algorithm.impl.sven.vns.CostFunction;
 import de.fuberlin.winfo.project.algorithm.impl.sven.vns.VNS;
 import de.fuberlin.winfo.project.algorithm.impl.sven.vns.logging.VNSMonitor;
 import de.fuberlin.winfo.project.algorithm.impl.sven.vns.neighborhoodstructures.NeighborhoodStructure;
-import de.fuberlin.winfo.project.algorithm.impl.sven.vns.neighborhoodstructures.impl.interroute.InterRouteSingleNodeRelocationNeighborhoodStructure;
 import de.fuberlin.winfo.project.algorithm.impl.sven.vns.neighborhoodstructures.impl.interroute.RandomizedCyclingExchangeNeighborhoodStructure;
+import de.fuberlin.winfo.project.algorithm.impl.sven.vns.neighborhoodstructures.impl.interroute.RandomizedInterRouteSingleNodeRelocationNeighborhoodStructure;
 import de.fuberlin.winfo.project.algorithm.impl.sven.vns.neighborhoodstructures.impl.singleroute.KOptNeighborhoodStructure;
 import de.fuberlin.winfo.project.algorithm.impl.sven.vns.neighborhoodstructures.impl.singleroute.RandomizedKOptNeighborhoodStructure;
 import de.fuberlin.winfo.project.algorithm.restriction.RestrictionException;
@@ -31,12 +31,10 @@ import de.fuberlin.winfo.project.model.network.Vehicle;
 public class SvensAlg extends Algorithm {
 	Arc[][] A = null;
 	NeighborhoodStructure[] neighborhoodStructures = new NeighborhoodStructure[] {
-			new RandomizedCyclingExchangeNeighborhoodStructure(3, 10000),
-			new RandomizedCyclingExchangeNeighborhoodStructure(2, 8000),
-			// new
-			// RandomizedInterRouteSingleNodeRelocationNeighborhoodStructure(8000),
-			new InterRouteSingleNodeRelocationNeighborhoodStructure(),
-			new RandomizedKOptNeighborhoodStructure(3, 15000), new KOptNeighborhoodStructure(2) };
+			new RandomizedCyclingExchangeNeighborhoodStructure(3, 5000),
+			new RandomizedCyclingExchangeNeighborhoodStructure(2, 5000),
+			new RandomizedInterRouteSingleNodeRelocationNeighborhoodStructure(5000),
+			new RandomizedKOptNeighborhoodStructure(3, 5000), new KOptNeighborhoodStructure(2) };
 
 	@Override
 	public String getName() {
