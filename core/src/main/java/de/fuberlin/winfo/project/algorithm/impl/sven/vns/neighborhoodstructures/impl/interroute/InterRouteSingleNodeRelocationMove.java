@@ -5,12 +5,12 @@ import java.util.HashSet;
 import java.util.Set;
 
 import de.fuberlin.winfo.project.algorithm.RouteWrapper;
-import de.fuberlin.winfo.project.algorithm.impl.sven.vns.neighborhoodstructures.NeighborhoodOperation;
+import de.fuberlin.winfo.project.algorithm.impl.sven.vns.neighborhoodstructures.Move;
 import de.fuberlin.winfo.project.model.network.Arc;
 import de.fuberlin.winfo.project.model.network.Solution;
 import de.fuberlin.winfo.project.model.network.Vertex;
 
-public class InterRouteSingleNodeRelocationNeighborhoodOperation extends NeighborhoodOperation {
+public class InterRouteSingleNodeRelocationMove extends Move {
 
 	private int route;
 	private int node;
@@ -18,7 +18,7 @@ public class InterRouteSingleNodeRelocationNeighborhoodOperation extends Neighbo
 	private int neighborNode;
 	private Arc[][] A;
 
-	public InterRouteSingleNodeRelocationNeighborhoodOperation(int route, int node, int neighborRoute, int neighborNode,
+	public InterRouteSingleNodeRelocationMove(int route, int node, int neighborRoute, int neighborNode,
 			Arc[][] E) {
 		this.route = route;
 		this.node = node;

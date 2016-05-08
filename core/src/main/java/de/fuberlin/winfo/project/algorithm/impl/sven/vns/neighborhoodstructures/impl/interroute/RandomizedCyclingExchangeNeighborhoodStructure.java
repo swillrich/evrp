@@ -6,7 +6,7 @@ import org.eclipse.emf.ecore.util.EcoreUtil;
 
 import de.fuberlin.winfo.project.algorithm.RouteWrapper;
 import de.fuberlin.winfo.project.algorithm.impl.sven.vns.neighborhoodstructures.AbstractRandomizedNeighborhoodStructure;
-import de.fuberlin.winfo.project.algorithm.impl.sven.vns.neighborhoodstructures.NeighborhoodOperation;
+import de.fuberlin.winfo.project.algorithm.impl.sven.vns.neighborhoodstructures.Move;
 import de.fuberlin.winfo.project.model.network.Arc;
 import de.fuberlin.winfo.project.model.network.Solution;
 import de.fuberlin.winfo.project.model.network.UsedArc;
@@ -20,7 +20,7 @@ public class RandomizedCyclingExchangeNeighborhoodStructure extends AbstractRand
 	}
 
 	@Override
-	protected NeighborhoodOperation generateRandomOperation(Solution solution) {
+	protected Move generateRandomOperation(Solution solution) {
 		int[] routes = new int[cycleSize];
 		int[] nodes = new int[cycleSize];
 		int[] pathLengths = new int[cycleSize];
@@ -58,7 +58,7 @@ public class RandomizedCyclingExchangeNeighborhoodStructure extends AbstractRand
 		return "R-" + cycleSize + "-Cycling Exchange";
 	}
 
-	public class CyclingExchangeNeighborhoodOpereration extends NeighborhoodOperation {
+	public class CyclingExchangeNeighborhoodOpereration extends Move {
 
 		private int[] routes;
 		private int[] nodes;

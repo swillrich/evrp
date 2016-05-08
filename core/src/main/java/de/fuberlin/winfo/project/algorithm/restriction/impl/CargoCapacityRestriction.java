@@ -7,6 +7,7 @@ import de.fuberlin.winfo.project.algorithm.RouteWrapper;
 import de.fuberlin.winfo.project.algorithm.restriction.Restriction;
 import de.fuberlin.winfo.project.algorithm.restriction.RestrictionException;
 import de.fuberlin.winfo.project.model.network.Order;
+import de.fuberlin.winfo.project.model.network.Solution;
 import de.fuberlin.winfo.project.model.network.UsedArc;
 
 public class CargoCapacityRestriction implements Restriction {
@@ -33,6 +34,12 @@ public class CargoCapacityRestriction implements Restriction {
 	public boolean checkCompleteRoute(NetworkProvider np, RouteWrapper route) throws RestrictionException {
 		EList<UsedArc> list = route.getActualRoute().getWay();
 		return list.get(list.size() - 1).getCurrentVehicleCargoWeight() >= 0;
+	}
+
+	@Override
+	public boolean checkSolution(NetworkProvider np, Solution solution) {
+		// TODO Auto-generated method stub
+		return true;
 	}
 
 }

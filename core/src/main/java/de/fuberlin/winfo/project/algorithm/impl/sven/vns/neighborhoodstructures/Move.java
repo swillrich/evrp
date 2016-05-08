@@ -3,7 +3,7 @@ package de.fuberlin.winfo.project.algorithm.impl.sven.vns.neighborhoodstructures
 import de.fuberlin.winfo.project.algorithm.Algorithm;
 import de.fuberlin.winfo.project.model.network.Solution;
 
-public abstract class NeighborhoodOperation {
+public abstract class Move {
 	private Solution result;
 
 	public abstract Solution apply(Solution solution) throws Exception;
@@ -26,8 +26,8 @@ public abstract class NeighborhoodOperation {
 		return result;
 	}
 
-	public static NeighborhoodOperation getBlank() {
-		return new NeighborhoodOperation() {
+	public static Move getBlank() {
+		return new Move() {
 
 			@Override
 			public int operationHash() {

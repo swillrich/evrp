@@ -1,6 +1,6 @@
 package de.fuberlin.winfo.project.algorithm.impl.sven.vns.neighborhoodstructures.impl.interroute;
 
-import de.fuberlin.winfo.project.algorithm.impl.sven.vns.neighborhoodstructures.NeighborhoodOperation;
+import de.fuberlin.winfo.project.algorithm.impl.sven.vns.neighborhoodstructures.Move;
 import de.fuberlin.winfo.project.algorithm.impl.sven.vns.neighborhoodstructures.NeighborhoodStructure;
 import de.fuberlin.winfo.project.model.network.Arc;
 import de.fuberlin.winfo.project.model.network.Solution;
@@ -45,13 +45,13 @@ public class InterRouteSingleNodeRelocationNeighborhoodStructure extends Neighbo
 	}
 
 	@Override
-	public NeighborhoodOperation generateOperation(Solution solution) throws Exception {
-		NeighborhoodOperation operation;
+	public Move generateOperation(Solution solution) throws Exception {
+		Move operation;
 		if (initilizeNext() && route != neighborRoute) {
-			operation = new InterRouteSingleNodeRelocationNeighborhoodOperation(route, node, neighborRoute,
+			operation = new InterRouteSingleNodeRelocationMove(route, node, neighborRoute,
 					neighborNode, A);
 		} else {
-			operation = new NeighborhoodOperation() {
+			operation = new Move() {
 				@Override
 				public Solution apply(Solution solution) throws Exception {
 					return solution;

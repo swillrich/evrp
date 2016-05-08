@@ -21,7 +21,10 @@ public class Restrictions extends ArrayList<Restriction> {
 		this.np = np;
 	}
 
-	public boolean isAllRight(Solution solution) {
+	public boolean checkWholeSolution(Solution solution) {
+		if (stream().filter(r -> r.checkSolution(np, solution)).count() < size()) {
+			return false;
+		}
 		for (Route route : solution.getRoutes()) {
 			try {
 				checkCompleteRoute(route);

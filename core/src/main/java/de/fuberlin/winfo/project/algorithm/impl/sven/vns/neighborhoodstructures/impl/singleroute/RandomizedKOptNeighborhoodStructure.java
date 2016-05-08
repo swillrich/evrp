@@ -12,7 +12,7 @@ import de.fuberlin.winfo.project.algorithm.impl.sven.vns.kopt.KOptHeuristicRoute
 import de.fuberlin.winfo.project.algorithm.impl.sven.vns.kopt.KOptOptions;
 import de.fuberlin.winfo.project.algorithm.impl.sven.vns.kopt.Pair;
 import de.fuberlin.winfo.project.algorithm.impl.sven.vns.neighborhoodstructures.AbstractRandomizedNeighborhoodStructure;
-import de.fuberlin.winfo.project.algorithm.impl.sven.vns.neighborhoodstructures.NeighborhoodOperation;
+import de.fuberlin.winfo.project.algorithm.impl.sven.vns.neighborhoodstructures.Move;
 import de.fuberlin.winfo.project.model.network.Arc;
 import de.fuberlin.winfo.project.model.network.Solution;
 import de.fuberlin.winfo.project.model.network.UsedArc;
@@ -42,9 +42,9 @@ public class RandomizedKOptNeighborhoodStructure extends AbstractRandomizedNeigh
 	}
 
 	@Override
-	protected NeighborhoodOperation generateRandomOperation(Solution solution) {
+	protected Move generateRandomOperation(Solution solution) {
 		if (routesLeft.isEmpty()) {
-			return NeighborhoodOperation.getBlank();
+			return Move.getBlank();
 		}
 		int routeRouteIndex = random.nextInt(routesLeft.size());
 		Integer routeIndex = this.routesLeft.get(routeRouteIndex);
@@ -53,13 +53,13 @@ public class RandomizedKOptNeighborhoodStructure extends AbstractRandomizedNeigh
 		if (options == null) {
 			routeKOptMap.remove((Integer) routeIndex);
 			routesLeft.remove(routeRouteIndex);
-			return NeighborhoodOperation.getBlank();
+			return Move.getBlank();
 		} else {
 			int nextInt = random.nextInt(options.size());
 			List<Pair> pairs = options.remove(nextInt);
 			RouteWrapper wrapper = new RouteWrapper(solution.getRoutes().get(routeIndex), null, A);
 			List<UsedArc> subWay = KOptHeuristicRouteAdapter.getRoute(networkProvider, wrapper, pairs);
-			return new KOptNeighborhoodOperation(routeIndex, subWay, options.getToReplace(), A);
+			return new KOptMove(routeIndex, subWay, options.getToReplace(), A);
 		}
 	}
 

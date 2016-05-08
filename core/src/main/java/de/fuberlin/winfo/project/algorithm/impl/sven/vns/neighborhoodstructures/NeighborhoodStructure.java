@@ -1,16 +1,19 @@
 package de.fuberlin.winfo.project.algorithm.impl.sven.vns.neighborhoodstructures;
 
+import java.util.Collections;
 import java.util.Iterator;
+import java.util.Random;
 
 import de.fuberlin.winfo.project.algorithm.NetworkProvider;
 import de.fuberlin.winfo.project.algorithm.impl.sven.vns.CostFunction;
-import de.fuberlin.winfo.project.algorithm.impl.sven.vns.NeighborhoodOperationList;
+import de.fuberlin.winfo.project.algorithm.impl.sven.vns.Moves;
 import de.fuberlin.winfo.project.algorithm.impl.sven.vns.TabuSearch;
 import de.fuberlin.winfo.project.algorithm.impl.sven.vns.logging.VNSMonitor;
 import de.fuberlin.winfo.project.algorithm.restriction.Restrictions;
+import de.fuberlin.winfo.project.algorithm.restriction.impl.SolutionCostRangeRestriction;
 import de.fuberlin.winfo.project.model.network.Solution;
 
-public abstract class NeighborhoodStructure implements Iterator<NeighborhoodOperation> {
+public abstract class NeighborhoodStructure implements Iterator<Move> {
 
 	protected Solution initialSol;
 	protected Solution incumbentSol;
@@ -19,11 +22,11 @@ public abstract class NeighborhoodStructure implements Iterator<NeighborhoodOper
 	private Restrictions restrictions;
 	private VNSMonitor history;
 	private CostFunction f;
-	private NeighborhoodOperationList operationList;
+	private Moves operationList;
 
 	public abstract String getName();
 
-	public abstract NeighborhoodOperation generateOperation(Solution solution) throws Exception;
+	public abstract Move generateOperation(Solution solution) throws Exception;
 
 	public void setUp(NetworkProvider np, VNSMonitor history, CostFunction f) {
 		this.networkProvider = np;
@@ -35,16 +38,21 @@ public abstract class NeighborhoodStructure implements Iterator<NeighborhoodOper
 
 	public void initNewSearch(Solution initialSolution) {
 		this.initialSol = initialSolution;
-		operationList = new NeighborhoodOperationList(200, f, history);
+		operationList = new Moves(200, f, initialSolution);
+		operationList.setHistory(history);
 		this.iterations = 0;
 		this.incumbentSol = initialSol;
 	}
 
-	public Solution shake(Solution solution) {
+	public Solution shake(Solution solution) throws Exception {
 		initNewSearch(solution);
-		Diversifier diversifier = new Diversifier(this, this.initialSol, f);
-		diversifier.setRange(-0.10d, 0.10d);
-		return initialSol;
+		SolutionCostRangeRestriction restriction = new SolutionCostRangeRestriction(this.initialSol, -0.10, 0.10, f);
+		restrictions.add(restriction);
+		Diversifier diversifier = new Diversifier(this, this.initialSol, f, restrictions);
+		Solution diversifiedSolution = diversifier.diversify(500);
+		incumbentSol = diversifiedSolution;
+		restrictions.remove(restriction);
+		return incumbentSol;
 	}
 
 	public Solution tabuSearch(Solution initialSolution) throws Exception {
@@ -64,25 +72,35 @@ public abstract class NeighborhoodStructure implements Iterator<NeighborhoodOper
 		history.startLocalSearch(this, initialSol);
 		while (hasNext()) {
 			iterations++;
-			NeighborhoodOperation operation = next();
+			Move operation = next();
 			Solution candidate = operation.execute(initialSol, false);
 			operationList.add(operation);
-			if (f.compare(incumbentSol, candidate) > 0 && restrictions.isAllRight(candidate)) {
+			if (f.compare(incumbentSol, candidate) > 0 && restrictions.checkWholeSolution(candidate)) {
 				history.neighborChange(this, candidate, "improved");
 				this.incumbentSol = candidate;
 			}
 		}
+		incumbentSol = operationList.applySequentially(restrictions, true);
 		history.finishedLocalSearch(this, initialSol, incumbentSol, iterations, false);
 		return incumbentSol;
 	}
 
 	@Override
-	public NeighborhoodOperation next() {
+	public Move next() {
 		try {
 			return generateOperation(initialSol);
 		} catch (Exception e) {
 			e.printStackTrace();
 			return null;
 		}
+	}
+
+	public Moves toShuffledList(Solution initialSolution, int size) {
+		Moves m = new Moves(initialSolution);
+		m.changeComparator(null);
+		initNewSearch(initialSolution);
+		this.forEachRemaining(m::add);
+		Collections.shuffle(m, new Random(0));
+		return m.reduce(size);
 	}
 }

@@ -7,6 +7,7 @@ import de.fuberlin.winfo.project.algorithm.restriction.Restriction;
 import de.fuberlin.winfo.project.algorithm.restriction.RestrictionException;
 import de.fuberlin.winfo.project.model.network.Duration;
 import de.fuberlin.winfo.project.model.network.Order;
+import de.fuberlin.winfo.project.model.network.Solution;
 import de.fuberlin.winfo.project.model.network.UsedArc;
 
 public class TimeWindowRestriction implements Restriction {
@@ -129,6 +130,12 @@ public class TimeWindowRestriction implements Restriction {
 				}
 			}
 		}
+		return true;
+	}
+
+	@Override
+	public boolean checkSolution(NetworkProvider np, Solution solution) {
+		// TODO Auto-generated method stub
 		return true;
 	}
 

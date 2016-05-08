@@ -1,7 +1,7 @@
 package de.fuberlin.winfo.project.algorithm.impl.sven.vns.neighborhoodstructures.impl.interroute;
 
 import de.fuberlin.winfo.project.algorithm.impl.sven.vns.neighborhoodstructures.AbstractRandomizedNeighborhoodStructure;
-import de.fuberlin.winfo.project.algorithm.impl.sven.vns.neighborhoodstructures.NeighborhoodOperation;
+import de.fuberlin.winfo.project.algorithm.impl.sven.vns.neighborhoodstructures.Move;
 import de.fuberlin.winfo.project.model.network.Solution;
 
 public class RandomizedInterRouteSingleNodeRelocationNeighborhoodStructure
@@ -12,7 +12,7 @@ public class RandomizedInterRouteSingleNodeRelocationNeighborhoodStructure
 	}
 
 	@Override
-	protected NeighborhoodOperation generateRandomOperation(Solution solution) {
+	protected Move generateRandomOperation(Solution solution) {
 		int routesN = solution.getRoutes().size();
 
 		int rndRoute = random.nextInt(routesN);
@@ -25,7 +25,7 @@ public class RandomizedInterRouteSingleNodeRelocationNeighborhoodStructure
 
 		int rndNeighborNode = random.nextInt(solution.getRoutes().get(rndNeighborRoute).getWay().size() - 1);
 
-		return new InterRouteSingleNodeRelocationNeighborhoodOperation(rndRoute, rndNode, rndNeighborRoute,
+		return new InterRouteSingleNodeRelocationMove(rndRoute, rndNode, rndNeighborRoute,
 				rndNeighborNode, networkProvider.getArcs());
 	}
 

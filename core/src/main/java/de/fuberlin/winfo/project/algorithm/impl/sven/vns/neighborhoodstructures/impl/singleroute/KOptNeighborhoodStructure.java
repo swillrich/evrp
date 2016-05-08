@@ -10,7 +10,7 @@ import de.fuberlin.winfo.project.algorithm.impl.sven.vns.kopt.KOptHeuristicRoute
 import de.fuberlin.winfo.project.algorithm.impl.sven.vns.kopt.KOptOptions;
 import de.fuberlin.winfo.project.algorithm.impl.sven.vns.kopt.Pair;
 import de.fuberlin.winfo.project.algorithm.impl.sven.vns.logging.VNSMonitor;
-import de.fuberlin.winfo.project.algorithm.impl.sven.vns.neighborhoodstructures.NeighborhoodOperation;
+import de.fuberlin.winfo.project.algorithm.impl.sven.vns.neighborhoodstructures.Move;
 import de.fuberlin.winfo.project.algorithm.impl.sven.vns.neighborhoodstructures.NeighborhoodStructure;
 import de.fuberlin.winfo.project.model.network.Route;
 import de.fuberlin.winfo.project.model.network.Solution;
@@ -65,11 +65,11 @@ public class KOptNeighborhoodStructure extends NeighborhoodStructure {
 	}
 
 	@Override
-	public NeighborhoodOperation generateOperation(Solution solution) throws Exception {
+	public Move generateOperation(Solution solution) throws Exception {
 		if (initNext()) {
 			return actualMove(solution);
 		} else {
-			return NeighborhoodOperation.getBlank();
+			return Move.getBlank();
 		}
 	}
 
@@ -96,12 +96,12 @@ public class KOptNeighborhoodStructure extends NeighborhoodStructure {
 		}
 	}
 
-	private KOptNeighborhoodOperation actualMove(Solution solution) throws Exception {
+	private KOptMove actualMove(Solution solution) throws Exception {
 		Route route = solution.getRoutes().get(current);
 		RouteWrapper wrapper = new RouteWrapper(route, null, networkProvider.getArcs());
 		List<UsedArc> newUsedArcList = KOptHeuristicRouteAdapter.getRoute(networkProvider, wrapper, pairs);
 		pairs = null;
-		return new KOptNeighborhoodOperation(current, newUsedArcList, options.getToReplace(),
+		return new KOptMove(current, newUsedArcList, options.getToReplace(),
 				networkProvider.getArcs());
 	}
 }
