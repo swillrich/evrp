@@ -5,7 +5,10 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.Comparator;
 
+import de.fuberlin.winfo.project.algorithm.Algorithm;
+import de.fuberlin.winfo.project.algorithm.impl.sven.vns.logging.VNSMonitor;
 import de.fuberlin.winfo.project.algorithm.impl.sven.vns.neighborhoodstructures.NeighborhoodOperation;
+import de.fuberlin.winfo.project.algorithm.restriction.Restrictions;
 import de.fuberlin.winfo.project.model.network.Solution;
 
 @SuppressWarnings("serial")
@@ -19,15 +22,12 @@ public class SortedOperationList extends ArrayList<NeighborhoodOperation> {
 		}
 	};
 	private Solution initialSolution;
+	private VNSMonitor history;
 
-	public SortedOperationList(int size, CostFunction f) {
+	public SortedOperationList(int size, CostFunction f, VNSMonitor history) {
 		this.maxSize = size;
 		this.f = f;
-	}
-
-	public SortedOperationList(CostFunction f) {
-		this.maxSize = -1;
-		this.f = f;
+		this.history = history;
 	}
 
 	@Override
@@ -51,7 +51,21 @@ public class SortedOperationList extends ArrayList<NeighborhoodOperation> {
 		return true;
 	}
 
-	public void setLimit(Solution solution) {
+	public void setInitialSolution(Solution solution) {
 		this.initialSolution = solution;
+	}
+
+	public Solution apply(Restrictions restrictions) throws Exception {
+		int counter = 0;
+		Solution incumbent = null;
+		for (NeighborhoodOperation operation : this) {
+			Solution candidate = operation.execute(initialSolution, true);
+			if (f.compare(initialSolution, candidate) > 0 && restrictions.isAllRight(candidate)) {
+				incumbent = candidate;
+				counter++;
+			}
+		}
+		history.operationListApplied(incumbent, "OpList applied (" + counter + ")");
+		return incumbent;
 	}
 }

@@ -3,12 +3,14 @@ package de.fuberlin.winfo.project.algorithm.restriction;
 import java.util.ArrayList;
 import java.util.Arrays;
 
-import de.fuberlin.winfo.project.algorithm.RouteWrapper;
 import de.fuberlin.winfo.project.algorithm.NetworkProvider;
+import de.fuberlin.winfo.project.algorithm.RouteWrapper;
 import de.fuberlin.winfo.project.algorithm.restriction.impl.CargoCapacityRestriction;
 import de.fuberlin.winfo.project.algorithm.restriction.impl.TimeWindowRestriction;
 import de.fuberlin.winfo.project.algorithm.restriction.impl.VehicleRangeRestriction;
 import de.fuberlin.winfo.project.model.network.Order;
+import de.fuberlin.winfo.project.model.network.Route;
+import de.fuberlin.winfo.project.model.network.Solution;
 
 @SuppressWarnings("serial")
 public class Restrictions extends ArrayList<Restriction> {
@@ -19,15 +21,33 @@ public class Restrictions extends ArrayList<Restriction> {
 		this.np = np;
 	}
 
-	public void check(RouteWrapper route, Order newOrder, int index) throws RestrictionException {
-		if (route.getActualRoute().getWay().size() == 0) {
+	public boolean isAllRight(Solution solution) {
+		for (Route route : solution.getRoutes()) {
+			try {
+				checkCompleteRoute(route);
+				return true;
+			} catch (RestrictionException e) {
+				return false;
+			}
+		}
+		return true;
+	}
+
+	public void check(Route route, Order newOrder, int index) throws RestrictionException {
+		if (route.getWay().size() == 0) {
 			return;
 		}
+		RouteWrapper routeWrapper = wrap(route);
 		for (Restriction r : this) {
-			if (!r.preliminaryCheck(np, route, newOrder, index)) {
+			if (!r.preliminaryCheck(np, routeWrapper, newOrder, index)) {
 				throw new RestrictionException(r.getClass(), r.getFailureMessage());
 			}
 		}
+	}
+
+	private RouteWrapper wrap(Route route) {
+		RouteWrapper routeWrapper = new RouteWrapper(route, null, np.getArcs());
+		return routeWrapper;
 	}
 
 	public void addAll() {
@@ -36,12 +56,13 @@ public class Restrictions extends ArrayList<Restriction> {
 		addAll(Arrays.asList(restrictions));
 	}
 
-	public void checkCompleteRoute(RouteWrapper route) throws RestrictionException {
-		if (route.getActualRoute().getWay().size() == 0) {
+	public void checkCompleteRoute(Route route) throws RestrictionException {
+		RouteWrapper routeWrapper = wrap(route);
+		if (routeWrapper.getActualRoute().getWay().size() == 0) {
 			return;
 		}
 		for (Restriction r : this) {
-			if (!r.checkCompleteRoute(np, route)) {
+			if (!r.checkCompleteRoute(np, routeWrapper)) {
 				throw new RestrictionException(r.getClass(), r.getFailureMessage());
 			}
 		}

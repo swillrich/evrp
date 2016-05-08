@@ -5,6 +5,9 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import org.eclipse.emf.ecore.util.EcoreUtil;
+import org.eclipse.emf.ecore.util.EcoreUtil.Copier;
+
 import de.fuberlin.winfo.project.FormatConv;
 import de.fuberlin.winfo.project.Log;
 import de.fuberlin.winfo.project.Utils;
@@ -98,5 +101,12 @@ public abstract class Algorithm {
 		System.out.println();
 		System.out.println(
 				set.size() + " nodes serviced with cost: " + FormatConv.withSeparator(f.compute(solution), ""));
+	}
+
+	public static Solution getCopy(Solution original) {
+		EcoreUtil.Copier c = new Copier();
+		Solution copy = (Solution) c.copy(original);
+		c.copyReferences();
+		return copy;
 	}
 }

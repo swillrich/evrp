@@ -68,7 +68,7 @@ public class SvensAlg extends Algorithm {
 		improvementProcedure(solution);
 	}
 
-	private void improvementProcedure(Solution solution) {
+	private void improvementProcedure(Solution solution) throws Exception {
 		System.out.println("VNS starts with " + FormatConv.withSeparator(f.compute(solution), ""));
 		VNSMonitor historyMonitor = new VNSMonitor(f);
 		VNS vns = new VNS(networkProvider, f, neighborhoodStructures, historyMonitor);
@@ -88,7 +88,7 @@ public class SvensAlg extends Algorithm {
 			while (!priorityQueue.isEmpty()) {
 				PendingOrder nextPendingOrder = priorityQueue.poll();
 				try {
-					restrictions.check(route, nextPendingOrder.getOrder(), nextPendingOrder.getPos());
+					restrictions.check(route.getActualRoute(), nextPendingOrder.getOrder(), nextPendingOrder.getPos());
 					if (route.getActualRoute().getWay().isEmpty()) {
 						route.useArc(nextPendingOrder.getOrder());
 					} else {

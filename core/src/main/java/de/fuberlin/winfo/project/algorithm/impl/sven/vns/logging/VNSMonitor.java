@@ -37,13 +37,16 @@ public class VNSMonitor {
 	}
 
 	public void neighborChange(NeighborhoodStructure nb, Solution better, String string) {
+		localChange(better, string);
+		output.neighborChange(history);
+	}
+
+	private void localChange(Solution better, String string) {
 		LocalSearch ls = factory.createLocalSearch();
 		ls.setTime(new Date().getTime() - start);
 		ls.setOperation(string);
 		ls.setCost(costFunction.compute(better));
 		globalSearch.getLocalSearches().add(ls);
-
-		output.neighborChange(history);
 	}
 
 	public void finishedLocalSearch(NeighborhoodStructure neighborhoodStructure, Solution initialSol,
@@ -66,5 +69,10 @@ public class VNSMonitor {
 		globalSearch = factory.createGlobalSearch();
 		history.getSearches().add(globalSearch);
 		globalSearch.setName(nb.getName());
+	}
+
+	public void operationListApplied(Solution incumbent, String string) {
+		localChange(incumbent, string);
+		output.neighborChange(history);
 	}
 }

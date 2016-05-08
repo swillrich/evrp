@@ -42,6 +42,5 @@ public abstract class AbstractRandomizedNeighborhoodStructure extends Neighborho
 		random.setSeed(0);
 		randomlyUsedOperations = new TreeSet<Integer>();
 		randomlyUsedOperations.add(0);
-		useApplyOperationList();
 	}
 }

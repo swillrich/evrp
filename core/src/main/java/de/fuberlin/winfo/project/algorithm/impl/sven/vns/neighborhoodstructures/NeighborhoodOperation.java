@@ -1,5 +1,6 @@
 package de.fuberlin.winfo.project.algorithm.impl.sven.vns.neighborhoodstructures;
 
+import de.fuberlin.winfo.project.algorithm.Algorithm;
 import de.fuberlin.winfo.project.model.network.Solution;
 
 public abstract class NeighborhoodOperation {
@@ -15,12 +16,14 @@ public abstract class NeighborhoodOperation {
 		return result;
 	}
 
-	public void execute(Solution solution, boolean checkPrecondition) throws Exception {
-		if (checkPrecondition && !isPreconditionSatisfied(solution)) {
-			result = solution;
+	public Solution execute(Solution solution, boolean checkPrecondition) throws Exception {
+		Solution copy = Algorithm.getCopy(solution);
+		if (checkPrecondition && !isPreconditionSatisfied(copy)) {
+			result = copy;
 		} else {
-			result = apply(solution);
+			result = apply(copy);
 		}
+		return result;
 	}
 
 	public static NeighborhoodOperation getBlank() {
@@ -42,5 +45,4 @@ public abstract class NeighborhoodOperation {
 			}
 		};
 	}
-
 }

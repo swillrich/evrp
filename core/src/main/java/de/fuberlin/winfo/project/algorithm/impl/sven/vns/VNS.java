@@ -17,11 +17,10 @@ public class VNS {
 		Arrays.stream(neighborhoodStructures).forEach(n -> n.setUp(np, history, f));
 	}
 
-	public Solution run(Solution bestSolution) {
+	public Solution run(Solution bestSolution) throws Exception {
 		int k = 0;
-		neighborhoodStructures[0].shake(bestSolution);
 		do {
-			Solution bestNeighbor = neighborhoodStructures[k].search(bestSolution);
+			Solution bestNeighbor = neighborhoodStructures[k].tabuSearch(bestSolution);
 			if (f.isImprovement(bestSolution, bestNeighbor)) {
 				k = 0;
 				bestSolution = bestNeighbor;

@@ -1,8 +1,5 @@
 package de.fuberlin.winfo.project.algorithm.impl.sven.vns.neighborhoodstructures.impl.interroute;
 
-import de.fuberlin.winfo.project.algorithm.NetworkProvider;
-import de.fuberlin.winfo.project.algorithm.impl.sven.vns.CostFunction;
-import de.fuberlin.winfo.project.algorithm.impl.sven.vns.logging.VNSMonitor;
 import de.fuberlin.winfo.project.algorithm.impl.sven.vns.neighborhoodstructures.NeighborhoodOperation;
 import de.fuberlin.winfo.project.algorithm.impl.sven.vns.neighborhoodstructures.NeighborhoodStructure;
 import de.fuberlin.winfo.project.model.network.Arc;
@@ -24,12 +21,6 @@ public class InterRouteSingleNodeRelocationNeighborhoodStructure extends Neighbo
 		node = 0;
 		neighborRoute = 0;
 		neighborNode = 0;
-	}
-
-	@Override
-	public void setUp(NetworkProvider np, VNSMonitor history, CostFunction f) {
-		super.setUp(np, history, f);
-		useApplyOperationList();
 	}
 
 	@Override

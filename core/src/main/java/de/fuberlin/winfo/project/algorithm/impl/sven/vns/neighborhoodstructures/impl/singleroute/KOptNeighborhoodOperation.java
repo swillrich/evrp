@@ -4,9 +4,9 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import de.fuberlin.winfo.project.algorithm.Algorithm;
 import de.fuberlin.winfo.project.algorithm.RouteWrapper;
 import de.fuberlin.winfo.project.algorithm.impl.sven.vns.neighborhoodstructures.NeighborhoodOperation;
-import de.fuberlin.winfo.project.algorithm.impl.sven.vns.neighborhoodstructures.NeighborhoodStructure;
 import de.fuberlin.winfo.project.model.network.Arc;
 import de.fuberlin.winfo.project.model.network.Solution;
 import de.fuberlin.winfo.project.model.network.UsedArc;
@@ -40,7 +40,7 @@ public class KOptNeighborhoodOperation extends NeighborhoodOperation {
 			}
 		}
 
-		Solution copy = NeighborhoodStructure.getCopy(solution);
+		Solution copy = Algorithm.getCopy(solution);
 		try {
 			apply(copy);
 			return true;
