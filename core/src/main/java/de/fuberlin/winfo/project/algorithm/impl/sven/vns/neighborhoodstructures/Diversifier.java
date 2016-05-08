@@ -17,8 +17,8 @@ public class Diversifier {
 		this.f = f;
 	}
 
-	public Solution diversify(int iterations, boolean takeOutputAsInitial) {
-		
+	public Solution diversify(int iterations, boolean continueWithLastSolution) {
+		neighborhoodStructure.initNewSearch(initialSolution);
 		return null;
 	}
 

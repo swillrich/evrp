@@ -31,8 +31,8 @@ public class RandomizedKOptNeighborhoodStructure extends AbstractRandomizedNeigh
 	}
 
 	@Override
-	public void initSearch() {
-		super.initSearch();
+	public void initNewSearch(Solution solution) {
+		super.initNewSearch(solution);
 		this.routeKOptMap = new HashMap<Integer, KOptHeuristic>();
 		this.routeOptions = new HashMap<Integer, List<KOptOptions>>();
 		this.routesLeft = new ArrayList<Integer>();

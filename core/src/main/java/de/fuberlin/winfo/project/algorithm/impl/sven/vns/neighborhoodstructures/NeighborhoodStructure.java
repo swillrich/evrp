@@ -4,7 +4,7 @@ import java.util.Iterator;
 
 import de.fuberlin.winfo.project.algorithm.NetworkProvider;
 import de.fuberlin.winfo.project.algorithm.impl.sven.vns.CostFunction;
-import de.fuberlin.winfo.project.algorithm.impl.sven.vns.SortedOperationList;
+import de.fuberlin.winfo.project.algorithm.impl.sven.vns.NeighborhoodOperationList;
 import de.fuberlin.winfo.project.algorithm.impl.sven.vns.TabuSearch;
 import de.fuberlin.winfo.project.algorithm.impl.sven.vns.logging.VNSMonitor;
 import de.fuberlin.winfo.project.algorithm.restriction.Restrictions;
@@ -19,7 +19,7 @@ public abstract class NeighborhoodStructure implements Iterator<NeighborhoodOper
 	private Restrictions restrictions;
 	private VNSMonitor history;
 	private CostFunction f;
-	private SortedOperationList operationList;
+	private NeighborhoodOperationList operationList;
 
 	public abstract String getName();
 
@@ -33,15 +33,15 @@ public abstract class NeighborhoodStructure implements Iterator<NeighborhoodOper
 		this.f = f;
 	}
 
-	public void initSearch() {
-		operationList = new SortedOperationList(200, f, history);
+	public void initNewSearch(Solution initialSolution) {
+		this.initialSol = initialSolution;
+		operationList = new NeighborhoodOperationList(200, f, history);
 		this.iterations = 0;
 		this.incumbentSol = initialSol;
 	}
 
 	public Solution shake(Solution solution) {
-		this.initialSol = solution;
-		initSearch();
+		initNewSearch(solution);
 		Diversifier diversifier = new Diversifier(this, this.initialSol, f);
 		diversifier.setRange(-0.10d, 0.10d);
 		return initialSol;
@@ -59,8 +59,7 @@ public abstract class NeighborhoodStructure implements Iterator<NeighborhoodOper
 	}
 
 	public Solution search(Solution solution) throws Exception {
-		this.initialSol = solution;
-		initSearch();
+		initNewSearch(solution);
 		operationList.setInitialSolution(solution);
 		history.startLocalSearch(this, initialSol);
 		while (hasNext()) {

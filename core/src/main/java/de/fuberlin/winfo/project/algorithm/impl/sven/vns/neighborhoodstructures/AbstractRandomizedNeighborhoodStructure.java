@@ -37,8 +37,8 @@ public abstract class AbstractRandomizedNeighborhoodStructure extends Neighborho
 	}
 
 	@Override
-	public void initSearch() {
-		super.initSearch();
+	public void initNewSearch(Solution solution) {
+		super.initNewSearch(solution);
 		random.setSeed(0);
 		randomlyUsedOperations = new TreeSet<Integer>();
 		randomlyUsedOperations.add(0);

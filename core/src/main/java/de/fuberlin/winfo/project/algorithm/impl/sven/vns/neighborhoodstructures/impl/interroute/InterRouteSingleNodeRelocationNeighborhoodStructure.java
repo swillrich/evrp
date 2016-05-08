@@ -14,8 +14,8 @@ public class InterRouteSingleNodeRelocationNeighborhoodStructure extends Neighbo
 	private Arc[][] A;
 
 	@Override
-	public void initSearch() {
-		super.initSearch();
+	public void initNewSearch(Solution solution) {
+		super.initNewSearch(solution);
 		A = networkProvider.getArcs();
 		route = 0;
 		node = 0;

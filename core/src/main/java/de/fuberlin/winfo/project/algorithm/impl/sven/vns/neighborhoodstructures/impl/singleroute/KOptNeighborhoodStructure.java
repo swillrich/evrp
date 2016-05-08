@@ -29,8 +29,8 @@ public class KOptNeighborhoodStructure extends NeighborhoodStructure {
 	}
 
 	@Override
-	public void initSearch() {
-		super.initSearch();
+	public void initNewSearch(Solution solution) {
+		super.initNewSearch(solution);
 		kOptHeuristic = null;
 		options = null;
 		pairs = null;

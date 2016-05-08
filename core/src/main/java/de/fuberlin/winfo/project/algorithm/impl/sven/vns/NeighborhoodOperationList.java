@@ -5,14 +5,13 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.Comparator;
 
-import de.fuberlin.winfo.project.algorithm.Algorithm;
 import de.fuberlin.winfo.project.algorithm.impl.sven.vns.logging.VNSMonitor;
 import de.fuberlin.winfo.project.algorithm.impl.sven.vns.neighborhoodstructures.NeighborhoodOperation;
 import de.fuberlin.winfo.project.algorithm.restriction.Restrictions;
 import de.fuberlin.winfo.project.model.network.Solution;
 
 @SuppressWarnings("serial")
-public class SortedOperationList extends ArrayList<NeighborhoodOperation> {
+public class NeighborhoodOperationList extends ArrayList<NeighborhoodOperation> {
 	private int maxSize;
 	private CostFunction f;
 	private Comparator<NeighborhoodOperation> comparator = new Comparator<NeighborhoodOperation>() {
@@ -24,7 +23,7 @@ public class SortedOperationList extends ArrayList<NeighborhoodOperation> {
 	private Solution initialSolution;
 	private VNSMonitor history;
 
-	public SortedOperationList(int size, CostFunction f, VNSMonitor history) {
+	public NeighborhoodOperationList(int size, CostFunction f, VNSMonitor history) {
 		this.maxSize = size;
 		this.f = f;
 		this.history = history;
