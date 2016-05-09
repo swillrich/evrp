@@ -3,6 +3,7 @@ package de.fuberlin.winfo.project.algorithm.impl.sven.vns;
 import java.util.Arrays;
 
 import de.fuberlin.winfo.project.algorithm.NetworkProvider;
+import de.fuberlin.winfo.project.algorithm.impl.sven.tabusearch.TabuSearch;
 import de.fuberlin.winfo.project.algorithm.impl.sven.vns.logging.VNSMonitor;
 import de.fuberlin.winfo.project.algorithm.impl.sven.vns.neighborhoodstructures.NeighborhoodStructure;
 import de.fuberlin.winfo.project.model.network.Solution;
@@ -34,6 +35,7 @@ public class VNS {
 				}
 			} while (k < neighborhoodStructures.length);
 			if (f.isImprovement(globalOptima, localOptima)) {
+				tabuSearch.taboo(localOptima);
 				globalOptima = localOptima;
 			}
 		} while (u++ < 5);

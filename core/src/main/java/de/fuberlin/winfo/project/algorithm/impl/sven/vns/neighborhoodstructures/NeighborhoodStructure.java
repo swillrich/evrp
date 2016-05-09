@@ -5,7 +5,6 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.Iterator;
 import java.util.List;
-import java.util.stream.StreamSupport;
 
 import de.fuberlin.winfo.project.Random;
 import de.fuberlin.winfo.project.algorithm.NetworkProvider;
@@ -62,15 +61,14 @@ public abstract class NeighborhoodStructure implements Iterator<Move> {
 		history.startLocalSearch(this, initialSol);
 		while (hasNext()) {
 			iterations++;
-			Move operation = next();
-			Solution candidate = operation.execute(initialSol, false);
-			operationList.add(operation);
+			Move move = next();
+			Solution candidate = move.execute(initialSol, false);
+			if (!improvementListener.stream().filter(i -> !i.acceptImprovement(move)).findFirst().isPresent()) {
+				operationList.add(move);
+			}
 			if (f.compare(incumbentSol, candidate) > 0 && restrictions.checkWholeSolution(candidate)) {
-				if (!improvementListener.stream().filter(i -> !i.acceptImprovement(candidate)).findFirst()
-						.isPresent()) {
-					history.neighborChange(this, candidate, "improved");
-					this.incumbentSol = candidate;
-				}
+				history.neighborChange(this, candidate, "improved");
+				this.incumbentSol = candidate;
 			}
 		}
 
@@ -119,6 +117,6 @@ public abstract class NeighborhoodStructure implements Iterator<Move> {
 	}
 
 	public static interface ImprovementListener {
-		public boolean acceptImprovement(Solution solution) throws RuntimeException;
+		public boolean acceptImprovement(Move move) throws RuntimeException;
 	}
 }
