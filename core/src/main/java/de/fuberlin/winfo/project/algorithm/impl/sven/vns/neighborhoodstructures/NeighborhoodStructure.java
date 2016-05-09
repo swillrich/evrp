@@ -1,16 +1,15 @@
 package de.fuberlin.winfo.project.algorithm.impl.sven.vns.neighborhoodstructures;
 
 import java.util.Collections;
+import java.util.Comparator;
 import java.util.Iterator;
-import java.util.Random;
 
+import de.fuberlin.winfo.project.Random;
 import de.fuberlin.winfo.project.algorithm.NetworkProvider;
 import de.fuberlin.winfo.project.algorithm.impl.sven.vns.CostFunction;
 import de.fuberlin.winfo.project.algorithm.impl.sven.vns.Moves;
-import de.fuberlin.winfo.project.algorithm.impl.sven.vns.TabuSearch;
 import de.fuberlin.winfo.project.algorithm.impl.sven.vns.logging.VNSMonitor;
 import de.fuberlin.winfo.project.algorithm.restriction.Restrictions;
-import de.fuberlin.winfo.project.algorithm.restriction.impl.SolutionCostRangeRestriction;
 import de.fuberlin.winfo.project.model.network.Solution;
 
 public abstract class NeighborhoodStructure implements Iterator<Move> {
@@ -38,37 +37,24 @@ public abstract class NeighborhoodStructure implements Iterator<Move> {
 
 	public void initNewSearch(Solution initialSolution) {
 		this.initialSol = initialSolution;
-		operationList = new Moves(200, f, initialSolution);
-		operationList.setHistory(history);
+		operationList = new Moves(initialSolution, f, 200);
+		operationList.setComparator(new Comparator<Move>() {
+			@Override
+			public int compare(Move o1, Move o2) {
+				return f.compare(o1.getResult(), o2.getResult());
+			}
+		});
 		this.iterations = 0;
 		this.incumbentSol = initialSol;
 	}
 
 	public Solution shake(Solution solution) throws Exception {
 		initNewSearch(solution);
-		SolutionCostRangeRestriction restriction = new SolutionCostRangeRestriction(this.initialSol, -0.10, 0.10, f);
-		restrictions.add(restriction);
-		Diversifier diversifier = new Diversifier(this, this.initialSol, f, restrictions);
-		Solution diversifiedSolution = diversifier.diversify(500);
-		incumbentSol = diversifiedSolution;
-		restrictions.remove(restriction);
 		return incumbentSol;
-	}
-
-	public Solution tabuSearch(Solution initialSolution) throws Exception {
-		Solution candidate = search(initialSolution);
-		if (f.isImprovement(initialSolution, candidate)) {
-			return candidate;
-		} else {
-			TabuSearch ts = new TabuSearch(this, f);
-			Solution tsCandidate = ts.apply(candidate);
-			return tsCandidate;
-		}
 	}
 
 	public Solution search(Solution solution) throws Exception {
 		initNewSearch(solution);
-		operationList.setInitialSolution(solution);
 		history.startLocalSearch(this, initialSol);
 		while (hasNext()) {
 			iterations++;
@@ -80,7 +66,11 @@ public abstract class NeighborhoodStructure implements Iterator<Move> {
 				this.incumbentSol = candidate;
 			}
 		}
-		incumbentSol = operationList.applySequentially(restrictions, true);
+
+		int prevSize = operationList.size();
+		incumbentSol = operationList.applySequentially(initialSol, restrictions, true);
+		int postSize = operationList.size();
+		history.neighborChange(this, incumbentSol, "Moves applied (" + (prevSize - postSize) + "/" + prevSize + ")");
 		history.finishedLocalSearch(this, initialSol, incumbentSol, iterations, false);
 		return incumbentSol;
 	}
@@ -96,11 +86,22 @@ public abstract class NeighborhoodStructure implements Iterator<Move> {
 	}
 
 	public Moves toShuffledList(Solution initialSolution, int size) {
-		Moves m = new Moves(initialSolution);
-		m.changeComparator(null);
+		Moves m = new Moves(null, f, 0);
 		initNewSearch(initialSolution);
 		this.forEachRemaining(m::add);
-		Collections.shuffle(m, new Random(0));
+		Collections.shuffle(m, Random.get());
 		return m.reduce(size);
+	}
+
+	public CostFunction getF() {
+		return f;
+	}
+
+	public VNSMonitor getHistory() {
+		return history;
+	}
+
+	public Restrictions getRestrictions() {
+		return restrictions;
 	}
 }

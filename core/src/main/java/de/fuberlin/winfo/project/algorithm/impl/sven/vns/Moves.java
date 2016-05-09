@@ -6,49 +6,20 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 
-import de.fuberlin.winfo.project.algorithm.impl.sven.vns.logging.VNSMonitor;
 import de.fuberlin.winfo.project.algorithm.impl.sven.vns.neighborhoodstructures.Move;
 import de.fuberlin.winfo.project.algorithm.restriction.Restrictions;
 import de.fuberlin.winfo.project.model.network.Solution;
 
 @SuppressWarnings("serial")
 public class Moves extends ArrayList<Move> {
-	private int maxSize;
+	private Comparator<Move> comparator;
+	private Solution lowerBound;
 	private CostFunction f;
-	private Comparator<Move> comparator = new Comparator<Move>() {
-		@Override
-		public int compare(Move o1, Move o2) {
-			return f.compare(o1.getResult(), o2.getResult());
-		}
-	};
-	private Solution initialSolution;
-	private VNSMonitor history;
-
-	public Moves(int size, CostFunction f, Solution initialSolution) {
-		this.maxSize = size;
-		this.f = f;
-		this.initialSolution = initialSolution;
-	}
-
-	public Moves(Solution initialSolution) {
-		this.initialSolution = initialSolution;
-	}
-
-	public void setHistory(VNSMonitor history) {
-		this.history = history;
-	}
-
-	public void changeComparator(Comparator<Move> comparator) {
-		this.comparator = comparator;
-	}
-
-	public void setInitialSolution(Solution solution) {
-		this.initialSolution = solution;
-	}
+	private int maxSize;
 
 	@Override
 	public boolean add(Move e) {
-		if (initialSolution != null && f != null && f.compare(initialSolution, e.getResult()) <= 0) {
+		if (lowerBound != null && f != null && f.compare(lowerBound, e.getResult()) <= 0) {
 			return false;
 		}
 		boolean add = super.add(e);
@@ -61,6 +32,20 @@ public class Moves extends ArrayList<Move> {
 		return add;
 	}
 
+	public Moves() {
+
+	}
+
+	public Moves(Solution lowerBound, CostFunction f, int maxSize) {
+		this.lowerBound = lowerBound;
+		this.f = f;
+		this.maxSize = maxSize;
+	}
+
+	public void setComparator(Comparator<Move> comparator) {
+		this.comparator = comparator;
+	}
+
 	@Override
 	public boolean addAll(Collection<? extends Move> c) {
 		for (Move p : c) {
@@ -69,19 +54,18 @@ public class Moves extends ArrayList<Move> {
 		return true;
 	}
 
-	public Solution applySequentially(Restrictions restrictions, boolean improvementsOnly) throws Exception {
-		int counter = 0;
+	public Solution applySequentially(Solution initialSolution, Restrictions restrictions, boolean improvementsOnly)
+			throws Exception {
 		Solution incumbent = initialSolution;
-		for (Move operation : this) {
-			Solution candidate = operation.execute(incumbent, true);
-			if ((!improvementsOnly || f.compare(initialSolution, candidate) > 0)
+		for (int i = 0; i < size();) {
+			Solution candidate = get(i).execute(incumbent, true);
+			if ((!improvementsOnly || f.compare(incumbent, candidate) > 0)
 					&& restrictions.checkWholeSolution(candidate)) {
 				incumbent = candidate;
-				counter++;
+				remove(i);
+			} else {
+				i++;
 			}
-		}
-		if (history != null) {
-			history.operationListApplied(incumbent, "OpList applied (" + counter + ")");
 		}
 		return incumbent;
 	}
@@ -91,8 +75,7 @@ public class Moves extends ArrayList<Move> {
 			toIndex = size();
 		}
 		List<Move> list = subList(0, toIndex);
-		Moves moves = new Moves(initialSolution);
-		moves.changeComparator(null);
+		Moves moves = new Moves(lowerBound, f, maxSize);
 		moves.addAll(list);
 		return moves;
 	}

@@ -31,10 +31,9 @@ import de.fuberlin.winfo.project.model.network.Vehicle;
 public class SvensAlg extends Algorithm {
 	Arc[][] A = null;
 	NeighborhoodStructure[] neighborhoodStructures = new NeighborhoodStructure[] {
-			new RandomizedCyclingExchangeNeighborhoodStructure(3, 5000),
-			new RandomizedCyclingExchangeNeighborhoodStructure(2, 5000),
-			new RandomizedInterRouteSingleNodeRelocationNeighborhoodStructure(5000),
-			new RandomizedKOptNeighborhoodStructure(3, 5000), new KOptNeighborhoodStructure(2) };
+			new RandomizedCyclingExchangeNeighborhoodStructure(2, 10000),
+			new RandomizedInterRouteSingleNodeRelocationNeighborhoodStructure(10000),
+			new RandomizedKOptNeighborhoodStructure(3, 10000), new KOptNeighborhoodStructure(2) };
 
 	@Override
 	public String getName() {

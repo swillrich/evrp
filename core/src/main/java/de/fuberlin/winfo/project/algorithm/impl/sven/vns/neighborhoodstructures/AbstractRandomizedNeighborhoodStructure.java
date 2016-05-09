@@ -1,15 +1,15 @@
 package de.fuberlin.winfo.project.algorithm.impl.sven.vns.neighborhoodstructures;
 
-import java.util.Random;
 import java.util.Set;
 import java.util.TreeSet;
 
+import de.fuberlin.winfo.project.Random;
 import de.fuberlin.winfo.project.model.network.Solution;
 
 public abstract class AbstractRandomizedNeighborhoodStructure extends NeighborhoodStructure {
 
 	private int maxIterations;
-	protected Random random = new Random();
+	protected Random random = Random.get();
 	private Set<Integer> randomlyUsedOperations;
 
 	protected abstract Move generateRandomOperation(Solution solution);
@@ -38,7 +38,6 @@ public abstract class AbstractRandomizedNeighborhoodStructure extends Neighborho
 	@Override
 	public void initNewSearch(Solution solution) {
 		super.initNewSearch(solution);
-		random.setSeed(0);
 		randomlyUsedOperations = new TreeSet<Integer>();
 		randomlyUsedOperations.add(0);
 	}
