@@ -65,10 +65,10 @@ public abstract class NeighborhoodStructure implements Iterator<Move> {
 			Solution candidate = move.execute(initialSol, false);
 			if (!improvementListener.stream().filter(i -> !i.acceptImprovement(move)).findFirst().isPresent()) {
 				operationList.add(move);
-			}
-			if (f.compare(incumbentSol, candidate) > 0 && restrictions.checkWholeSolution(candidate)) {
-				history.neighborChange(this, candidate, "improved");
-				this.incumbentSol = candidate;
+				if (f.compare(incumbentSol, candidate) > 0 && restrictions.checkWholeSolution(candidate)) {
+					history.neighborChange(this, candidate, "improved");
+					this.incumbentSol = candidate;
+				}
 			}
 		}
 
