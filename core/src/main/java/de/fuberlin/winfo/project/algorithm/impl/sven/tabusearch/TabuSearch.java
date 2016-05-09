@@ -46,7 +46,8 @@ public class TabuSearch extends ArrayList<Tabu> {
 	private ImprovementListener improvementListener = new ImprovementListener() {
 		@Override
 		public boolean acceptImprovement(Move move) throws RuntimeException {
-			return !TabuSearch.this.isTabu(move.getResult());
+			boolean b = !TabuSearch.this.isTabu(move.getResult());
+			return b;
 		}
 	};
 
@@ -84,7 +85,7 @@ public class TabuSearch extends ArrayList<Tabu> {
 				}
 			});
 		}
-		return computeSimilarity(max, solution) > 0.25;
+		return computeSimilarity(max, solution) > 0.6;
 	}
 
 	public void taboo(Solution solution) {
