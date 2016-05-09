@@ -1,42 +1,42 @@
 package de.fuberlin.winfo.project.algorithm.impl.sven.vns;
 
 import java.util.Arrays;
-import java.util.stream.IntStream;
 
 import de.fuberlin.winfo.project.algorithm.NetworkProvider;
 import de.fuberlin.winfo.project.algorithm.impl.sven.vns.logging.VNSMonitor;
 import de.fuberlin.winfo.project.algorithm.impl.sven.vns.neighborhoodstructures.NeighborhoodStructure;
 import de.fuberlin.winfo.project.model.network.Solution;
 
+@SuppressWarnings("unused")
 public class VNS {
 	private CostFunction f;
-	private TabuSearch[] tabuSearch;
+	private NeighborhoodStructure[] neighborhoodStructures;
 
 	public VNS(NetworkProvider np, CostFunction f, NeighborhoodStructure[] neighborhoodStructures, VNSMonitor history) {
 		this.f = f;
-		tabuSearch = new TabuSearch[neighborhoodStructures.length];
+		this.neighborhoodStructures = neighborhoodStructures;
 		Arrays.stream(neighborhoodStructures).forEach(n -> n.setUp(np, history, f));
-		IntStream.range(0, tabuSearch.length).forEach(i -> tabuSearch[i] = new TabuSearch(neighborhoodStructures[i]));
 	}
 
-	public Solution run(Solution bestSolution) throws Exception {
-		int k = 0;
-		VNS: do {
-			Solution initialSolution = bestSolution;
-			int u = 0;
-			do {
-				Solution bestNeighbor = tabuSearch[k].search(initialSolution);
-				if (f.isImprovement(bestSolution, bestNeighbor)) {
+	public Solution run(Solution globalOptima) throws Exception {
+		int u = 0;
+		TabuSearch tabuSearch = new TabuSearch();
+		TS: do {
+			Solution localOptima = tabuSearch.perturb(neighborhoodStructures[0], globalOptima, 500);
+			int k = 0;
+			VNS: do {
+				Solution bestNeighbor = tabuSearch.searchForBestNonTabuMove(neighborhoodStructures[k], localOptima);
+				if (f.isImprovement(localOptima, bestNeighbor)) {
+					localOptima = bestNeighbor;
 					k = 0;
-					bestSolution = bestNeighbor;
-					continue VNS;
 				} else {
-					initialSolution = tabuSearch[k].perturb(bestSolution, 500);
-					u++;
+					k++;
 				}
-			} while (u < 10);
-			k++;
-		} while (k < tabuSearch.length);
-		return bestSolution;
+			} while (k < neighborhoodStructures.length);
+			if (f.isImprovement(globalOptima, localOptima)) {
+				globalOptima = localOptima;
+			}
+		} while (u++ < 5);
+		return globalOptima;
 	}
 }
