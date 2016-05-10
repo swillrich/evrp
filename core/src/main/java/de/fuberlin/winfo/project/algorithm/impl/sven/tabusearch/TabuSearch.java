@@ -16,14 +16,20 @@ import de.fuberlin.winfo.project.model.network.Solution;
 
 public class TabuSearch extends ArrayList<Tabu> {
 
-	public Solution perturb(NeighborhoodStructure neighborhoodStructure, Solution initial, int countOfMoves)
-			throws Exception {
+	private double tabooThreshold;
+
+	public TabuSearch(double tabooThreshold) {
+		this.tabooThreshold = tabooThreshold;
+	}
+
+	public Solution perturb(double maxDeterioration, NeighborhoodStructure neighborhoodStructure, Solution initial,
+			int countOfMoves) throws Exception {
 		CostFunction f = neighborhoodStructure.getF();
 		Restrictions restrictions = neighborhoodStructure.getRestrictions();
 		VNSMonitor history = neighborhoodStructure.getHistory();
 
 		System.out.println("PERTURBATION");
-		SolutionCostRangeRestriction restriction = new SolutionCostRangeRestriction(initial, -0.10, 1, f);
+		SolutionCostRangeRestriction restriction = new SolutionCostRangeRestriction(initial, maxDeterioration, 1, f);
 		restrictions.add(restriction);
 		Moves moves = neighborhoodStructure.toShuffledList(initial, countOfMoves);
 		history.startLocalSearch(neighborhoodStructure, initial);
@@ -85,7 +91,7 @@ public class TabuSearch extends ArrayList<Tabu> {
 				}
 			});
 		}
-		return computeSimilarity(max, solution) > 0.6;
+		return computeSimilarity(max, solution) > tabooThreshold;
 	}
 
 	public void taboo(Solution solution) {

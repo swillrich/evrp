@@ -21,9 +21,9 @@ public class VNS {
 
 	public Solution run(Solution globalOptima) throws Exception {
 		int u = 0;
-		TabuSearch tabuSearch = new TabuSearch();
+		TabuSearch tabuSearch = new TabuSearch(0.7);
+		Solution localOptima = globalOptima;
 		TS: do {
-			Solution localOptima = tabuSearch.perturb(neighborhoodStructures[0], globalOptima, 500);
 			int k = 0;
 			VNS: do {
 				Solution bestNeighbor = tabuSearch.searchForBestNonTabuMove(neighborhoodStructures[k], localOptima);
@@ -38,6 +38,7 @@ public class VNS {
 				tabuSearch.taboo(localOptima);
 				globalOptima = localOptima;
 			}
+			localOptima = tabuSearch.perturb(-0.2, neighborhoodStructures[0], globalOptima, 500);
 		} while (u++ < 5);
 		return globalOptima;
 	}
