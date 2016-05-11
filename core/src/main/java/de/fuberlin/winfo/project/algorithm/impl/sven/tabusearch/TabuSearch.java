@@ -49,10 +49,14 @@ public class TabuSearch extends ArrayList<Tabu> {
 		return bestNonTabuMove;
 	}
 
+	public int counter;
 	private ImprovementListener improvementListener = new ImprovementListener() {
 		@Override
 		public boolean acceptImprovement(Move move) throws RuntimeException {
 			boolean b = !TabuSearch.this.isTabu(move.getResult());
+			if (!b) {
+				counter++;
+			}
 			return b;
 		}
 	};

@@ -433,4 +433,8 @@ public class RouteWrapper {
 		}
 		return list;
 	}
+
+	public static void printSolution(Solution solution) {
+		solution.getRoutes().forEach(r -> new RouteWrapper(r, null, null).print());
+	}
 }

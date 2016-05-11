@@ -80,27 +80,9 @@ public abstract class Algorithm {
 	}
 
 	private void printResult() {
+		RouteWrapper.printSolution(solution);
 		System.out.println();
-		HashSet<Vertex> set = new HashSet<Vertex>();
-		for (int i = 0; i < solution.getRoutes().size(); i++) {
-			Route route = solution.getRoutes().get(i);
-			RouteWrapper wrapper = new RouteWrapper(route, null, null);
-			List<Vertex> vertices = wrapper.getVertices();
-			System.out.println("Route #" + (i + 1) + " with " + vertices.size() + " vertices: " + route.getWay()
-					.stream().map(a -> a.getArc().getStart().getId() + "").collect(Collectors.joining(" ")));
-			for (int j = 1; j < vertices.size(); j++) {
-				Vertex vertex = vertices.get(j);
-				boolean add = set.add(vertex);
-				if (!add) {
-					System.out.println(
-							"Vertex " + vertex.getId() + " is multiple contained. Duplicate found in route " + i);
-					wrapper.print();
-				}
-			}
-		}
-		System.out.println();
-		System.out.println(
-				set.size() + " nodes serviced with cost: " + FormatConv.withSeparator(f.compute(solution), ""));
+		System.out.println("vertices serviced with cost: " + FormatConv.withSeparator(f.compute(solution), ""));
 	}
 
 	public static Solution getCopy(Solution original) {
