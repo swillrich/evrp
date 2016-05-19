@@ -33,4 +33,9 @@ public class RandomizedInterRouteSingleNodeRelocationNeighborhoodStructure
 	public String getName() {
 		return "R-IRSNR";
 	}
+
+	@Override
+	public boolean isInterRouteRelated() {
+		return true;
+	}
 }

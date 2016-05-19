@@ -3,7 +3,6 @@ package de.fuberlin.winfo.project.algorithm.impl.sven.vns;
 import java.util.Arrays;
 
 import de.fuberlin.winfo.project.algorithm.NetworkProvider;
-import de.fuberlin.winfo.project.algorithm.RouteWrapper;
 import de.fuberlin.winfo.project.algorithm.impl.sven.tabusearch.TabuSearch;
 import de.fuberlin.winfo.project.algorithm.impl.sven.vns.logging.VNSMonitor;
 import de.fuberlin.winfo.project.algorithm.impl.sven.vns.neighborhoodstructures.NeighborhoodStructure;
@@ -13,6 +12,7 @@ import de.fuberlin.winfo.project.model.network.Solution;
 public class VNS {
 	private CostFunction f;
 	private NeighborhoodStructure[] neighborhoodStructures;
+	private NeighborhoodStructure[] perturbationNeighborhoodStructures;
 
 	public VNS(NetworkProvider np, CostFunction f, NeighborhoodStructure[] neighborhoodStructures, VNSMonitor history) {
 		this.f = f;
@@ -21,8 +21,9 @@ public class VNS {
 	}
 
 	public Solution run(Solution globalOptima) throws Exception {
+		int iterations = 15;
 		int u = 0;
-		TabuSearch tabuSearch = new TabuSearch(0.7);
+		TabuSearch tabuSearch = new TabuSearch(f, 0.7, 10);
 		Solution localOptima = globalOptima;
 		TS: do {
 			int k = 0;
@@ -35,13 +36,17 @@ public class VNS {
 					k++;
 				}
 			} while (k < neighborhoodStructures.length);
+			tabuSearch.taboo(localOptima);
 			if (f.isImprovement(globalOptima, localOptima)) {
-				tabuSearch.taboo(localOptima);
 				globalOptima = localOptima;
+				u = 0;
+			} else {
+				u++;
 			}
-			localOptima = tabuSearch.perturb(-0.03, neighborhoodStructures[0], globalOptima, 500);
-		} while (u++ < 20);
-		System.out.println(tabuSearch.counter);
+			if (u < iterations) {
+				localOptima = tabuSearch.perturb(-0.20, neighborhoodStructures, globalOptima, 300);
+			}
+		} while (u < iterations);
 		return globalOptima;
 	}
 }

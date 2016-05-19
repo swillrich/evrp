@@ -20,6 +20,7 @@ public abstract class NeighborhoodStructure implements Iterator<Move> {
 	protected Solution incumbentSol;
 	protected NetworkProvider networkProvider;
 	protected int iterations;
+	protected int iterationsRejected;
 	private Restrictions restrictions;
 	private VNSMonitor history;
 	private CostFunction f;
@@ -29,6 +30,7 @@ public abstract class NeighborhoodStructure implements Iterator<Move> {
 	public abstract String getName();
 
 	public abstract Move generateOperation(Solution solution) throws Exception;
+	public abstract boolean isInterRouteRelated();
 
 	public void setUp(NetworkProvider np, VNSMonitor history, CostFunction f) {
 		this.networkProvider = np;
@@ -40,7 +42,7 @@ public abstract class NeighborhoodStructure implements Iterator<Move> {
 
 	public void initNewSearch(Solution initialSolution) {
 		this.initialSol = initialSolution;
-		operationList = new Moves(initialSolution, f, 200);
+		operationList = new Moves(initialSolution, f, 300);
 		operationList.setComparator(new Comparator<Move>() {
 			@Override
 			public int compare(Move o1, Move o2) {
@@ -49,6 +51,7 @@ public abstract class NeighborhoodStructure implements Iterator<Move> {
 		});
 		this.iterations = 0;
 		this.incumbentSol = initialSol;
+		this.iterationsRejected = 0;
 	}
 
 	public Solution shake(Solution solution) throws Exception {
@@ -69,14 +72,16 @@ public abstract class NeighborhoodStructure implements Iterator<Move> {
 					history.neighborChange(this, candidate, "improved");
 					this.incumbentSol = candidate;
 				}
+			} else {
+				iterationsRejected++;
 			}
 		}
-
 		int prevSize = operationList.size();
 		incumbentSol = operationList.applySequentially(initialSol, restrictions, true);
 		int postSize = operationList.size();
 		history.neighborChange(this, incumbentSol, "Moves applied (" + (prevSize - postSize) + "/" + prevSize + ")");
 		history.finishedLocalSearch(this, initialSol, incumbentSol, iterations, false);
+		System.out.println("rejected: " + iterationsRejected + " / " + iterations);
 		return incumbentSol;
 	}
 
@@ -90,13 +95,12 @@ public abstract class NeighborhoodStructure implements Iterator<Move> {
 		}
 	}
 
-	public Moves toShuffledList(Solution initialSolution, int size) {
+	public Moves toList(Solution initialSolution, int size) {
 		Moves m = new Moves(null, f, 0);
 		initNewSearch(initialSolution);
-		while (m.size() < size * 10 && hasNext()) {
+		while (m.size() < size * 100 && hasNext()) {
 			m.add(next());
 		}
-		Collections.shuffle(m, Random.get());
 		return m.reduce(size);
 	}
 

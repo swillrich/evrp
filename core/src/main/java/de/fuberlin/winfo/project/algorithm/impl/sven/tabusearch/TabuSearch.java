@@ -4,41 +4,64 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 
+import de.fuberlin.winfo.project.Random;
+import de.fuberlin.winfo.project.algorithm.impl.sven.tabusearch.Tabu.PositionedArc;
 import de.fuberlin.winfo.project.algorithm.impl.sven.vns.CostFunction;
 import de.fuberlin.winfo.project.algorithm.impl.sven.vns.Moves;
-import de.fuberlin.winfo.project.algorithm.impl.sven.vns.logging.VNSMonitor;
 import de.fuberlin.winfo.project.algorithm.impl.sven.vns.neighborhoodstructures.Move;
 import de.fuberlin.winfo.project.algorithm.impl.sven.vns.neighborhoodstructures.NeighborhoodStructure;
 import de.fuberlin.winfo.project.algorithm.impl.sven.vns.neighborhoodstructures.NeighborhoodStructure.ImprovementListener;
 import de.fuberlin.winfo.project.algorithm.restriction.Restrictions;
 import de.fuberlin.winfo.project.algorithm.restriction.impl.SolutionCostRangeRestriction;
+import de.fuberlin.winfo.project.model.network.Route;
 import de.fuberlin.winfo.project.model.network.Solution;
+import de.fuberlin.winfo.project.model.network.UsedArc;
 
 public class TabuSearch extends ArrayList<Tabu> {
 
 	private double tabooThreshold;
+	private int maxSize;
+	private CostFunction f;
 
-	public TabuSearch(double tabooThreshold) {
+	public TabuSearch(CostFunction f, double tabooThreshold, int maxCache) {
 		this.tabooThreshold = tabooThreshold;
+		this.maxSize = maxCache;
+		this.f = f;
 	}
 
-	public Solution perturb(double maxDeterioration, NeighborhoodStructure neighborhoodStructure, Solution initial,
+	public Solution perturb(double maxDeterioration, NeighborhoodStructure[] neighborhoodStructures, Solution initial,
 			int countOfMoves) throws Exception {
-		CostFunction f = neighborhoodStructure.getF();
-		Restrictions restrictions = neighborhoodStructure.getRestrictions();
-		VNSMonitor history = neighborhoodStructure.getHistory();
-
-		System.out.println("PERTURBATION");
-		SolutionCostRangeRestriction restriction = new SolutionCostRangeRestriction(initial, maxDeterioration, 1, f);
+		Moves moves = new Moves();
+		SolutionCostRangeRestriction restriction = new SolutionCostRangeRestriction(initial, maxDeterioration, 1,
+				neighborhoodStructures[0].getF());
+		Restrictions restrictions = neighborhoodStructures[0].getRestrictions();
 		restrictions.add(restriction);
-		Moves moves = neighborhoodStructure.toShuffledList(initial, countOfMoves);
-		history.startLocalSearch(neighborhoodStructure, initial);
+		for (NeighborhoodStructure nh : neighborhoodStructures) {
+			if (nh.isInterRouteRelated()) {
+				moves.addAll(nh.toList(initial, countOfMoves / neighborhoodStructures.length));
+			}
+		}
+		Collections.shuffle(moves, Random.get());
 		Solution diversifiedSolution = moves.applySequentially(initial, restrictions, false);
-		history.neighborChange(neighborhoodStructure, diversifiedSolution,
-				"Exit LO (" + (countOfMoves - moves.size()) + "/" + countOfMoves + ")");
-		history.finishedLocalSearch(neighborhoodStructure, initial, diversifiedSolution, countOfMoves, false);
 		restrictions.remove(restriction);
+		System.out.println("PERTURBATION (" + (countOfMoves - moves.size()) + "/" + countOfMoves + ")");
 		return diversifiedSolution;
+	}
+
+	private void refresh() {
+		Collections.sort(this, new Comparator<Tabu>() {
+			@Override
+			public int compare(Tabu arg0, Tabu arg1) {
+				return f.compare(arg0.solution, arg1.solution);
+			}
+		});
+		for (int i = 0; i < size(); i++) {
+			Tabu tabu = get(i);
+			int x = i + (maxSize - size());
+			int n = (int) (tabu.size() / (double) Math.pow(2, x));
+			tabu.removeRandomized(n);
+		}
+		removeIf(e -> e.size() == 0);
 	}
 
 	public Solution searchForBestNonTabuMove(NeighborhoodStructure neighborhoodStructure, Solution localOptima)
@@ -49,33 +72,13 @@ public class TabuSearch extends ArrayList<Tabu> {
 		return bestNonTabuMove;
 	}
 
-	public int counter;
 	private ImprovementListener improvementListener = new ImprovementListener() {
 		@Override
 		public boolean acceptImprovement(Move move) throws RuntimeException {
 			boolean b = !TabuSearch.this.isTabu(move.getResult());
-			if (!b) {
-				counter++;
-			}
 			return b;
 		}
 	};
-
-	private double computeSimilarity(Tabu tabu, Solution solution) {
-		Solution tabuSol = tabu.getSolution();
-		int size = tabuSol.getRoutes().size();
-		if (solution.getRoutes().size() != size) {
-			return 0;
-		}
-
-		int counter = size;
-		for (int i = 0; i < solution.getRoutes().size(); i++) {
-			if (solution.getRoutes().get(i).getWay().size() != tabuSol.getRoutes().get(i).getWay().size()) {
-				counter--;
-			}
-		}
-		return (double) counter / (double) size;
-	}
 
 	protected boolean isTabu(Solution solution) {
 		if (this.size() == 0) {
@@ -86,7 +89,6 @@ public class TabuSearch extends ArrayList<Tabu> {
 			max = get(0);
 		} else {
 			max = Collections.max(this, new Comparator<Tabu>() {
-
 				@Override
 				public int compare(Tabu o1, Tabu o2) {
 					double similarity = computeSimilarity(o1, solution);
@@ -98,8 +100,36 @@ public class TabuSearch extends ArrayList<Tabu> {
 		return computeSimilarity(max, solution) > tabooThreshold;
 	}
 
+	int i;
+
 	public void taboo(Solution solution) {
 		Tabu tabu = new Tabu(solution);
 		add(tabu);
+		System.out.println("TS iteration: " + (++i));
+		refresh();
+		while (maxSize < size()) {
+			remove(size() - 1);
+		}
+	}
+
+	private double computeSimilarity(Tabu tabu, Solution solution) {
+		Solution tabuSol = tabu.getSolution();
+		int size = tabuSol.getRoutes().size();
+		if (solution.getRoutes().size() != size) {
+			return 0;
+		}
+
+		int numberOfArcsWithSamePosition = tabu.size();
+		for (int i = 0; i < solution.getRoutes().size(); i++) {
+			Route route = solution.getRoutes().get(i);
+			for (int j = 0; j < route.getWay().size(); j++) {
+				UsedArc usedArc = route.getWay().get(j);
+				PositionedArc positionedArc = tabu.get(usedArc.getArc());
+				if (positionedArc != null && (positionedArc.getRoute() != i || positionedArc.getIndex() != j)) {
+					numberOfArcsWithSamePosition--;
+				}
+			}
+		}
+		return numberOfArcsWithSamePosition / (double) tabu.size();
 	}
 }

@@ -99,4 +99,9 @@ public class InterRouteSingleNodeRelocationNeighborhoodStructure extends Neighbo
 	public String getName() {
 		return "IRSNR";
 	}
+
+	@Override
+	public boolean isInterRouteRelated() {
+		return true;
+	}
 }

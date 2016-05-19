@@ -111,4 +111,9 @@ public class RandomizedKOptNeighborhoodStructure extends AbstractRandomizedNeigh
 		return "R-" + k + "-Opt";
 	}
 
+	@Override
+	public boolean isInterRouteRelated() {
+		return false;
+	}
+
 }

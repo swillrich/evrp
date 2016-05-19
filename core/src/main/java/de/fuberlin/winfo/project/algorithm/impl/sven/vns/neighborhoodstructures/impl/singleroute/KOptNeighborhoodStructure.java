@@ -104,4 +104,9 @@ public class KOptNeighborhoodStructure extends NeighborhoodStructure {
 		return new KOptMove(current, newUsedArcList, options.getToReplace(),
 				networkProvider.getArcs());
 	}
+
+	@Override
+	public boolean isInterRouteRelated() {
+		return false;
+	}
 }

@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.eclipse.emf.ecore.util.EcoreUtil;
 
+import de.fuberlin.winfo.project.algorithm.Algorithm;
 import de.fuberlin.winfo.project.algorithm.RouteWrapper;
 import de.fuberlin.winfo.project.algorithm.impl.sven.vns.neighborhoodstructures.AbstractRandomizedNeighborhoodStructure;
 import de.fuberlin.winfo.project.algorithm.impl.sven.vns.neighborhoodstructures.Move;
@@ -27,7 +28,7 @@ public class RandomizedCyclingExchangeNeighborhoodStructure extends AbstractRand
 
 		fillArraysRecursively(solution, routes, nodes, pathLengths, 0);
 
-		return new CyclingExchangeNeighborhoodOpereration(routes, nodes, pathLengths, networkProvider.getArcs());
+		return new CyclingExchangeNeighborhoodMove(routes, nodes, pathLengths, networkProvider.getArcs());
 	}
 
 	private void fillArraysRecursively(Solution s, int[] routes, int[] nodes, int[] pathLengths, int i) {
@@ -58,14 +59,14 @@ public class RandomizedCyclingExchangeNeighborhoodStructure extends AbstractRand
 		return "R-" + cycleSize + "-Cycling Exchange";
 	}
 
-	public class CyclingExchangeNeighborhoodOpereration extends Move {
+	public class CyclingExchangeNeighborhoodMove extends Move {
 
 		private int[] routes;
 		private int[] nodes;
 		private int[] pathLengths;
 		private Arc[][] A;
 
-		public CyclingExchangeNeighborhoodOpereration(int[] routes, int[] nodes, int[] pathLengths, Arc[][] A) {
+		public CyclingExchangeNeighborhoodMove(int[] routes, int[] nodes, int[] pathLengths, Arc[][] A) {
 			this.routes = routes;
 			this.nodes = nodes;
 			this.pathLengths = pathLengths;
@@ -120,7 +121,13 @@ public class RandomizedCyclingExchangeNeighborhoodStructure extends AbstractRand
 					return false;
 				}
 			}
-			return true;
+			try {
+				Solution copy = Algorithm.getCopy(solution);
+				apply(copy);
+				return true;
+			} catch (Exception e) {
+				return false;
+			}
 		}
 
 		@Override
@@ -132,5 +139,10 @@ public class RandomizedCyclingExchangeNeighborhoodStructure extends AbstractRand
 			return b.toString().hashCode();
 		}
 
+	}
+
+	@Override
+	public boolean isInterRouteRelated() {
+		return true;
 	}
 }
