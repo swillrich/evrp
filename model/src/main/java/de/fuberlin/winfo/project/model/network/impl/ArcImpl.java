@@ -28,6 +28,8 @@ import org.eclipse.emf.ecore.impl.MinimalEObjectImpl;
  *   <li>{@link de.fuberlin.winfo.project.model.network.impl.ArcImpl#getDistance <em>Distance</em>}</li>
  *   <li>{@link de.fuberlin.winfo.project.model.network.impl.ArcImpl#getTime <em>Time</em>}</li>
  *   <li>{@link de.fuberlin.winfo.project.model.network.impl.ArcImpl#isIsUsed <em>Is Used</em>}</li>
+ *   <li>{@link de.fuberlin.winfo.project.model.network.impl.ArcImpl#getEnergyMin <em>Energy Min</em>}</li>
+ *   <li>{@link de.fuberlin.winfo.project.model.network.impl.ArcImpl#getEnergyMax <em>Energy Max</em>}</li>
  * </ul>
  *
  * @generated
@@ -132,6 +134,46 @@ public class ArcImpl extends MinimalEObjectImpl.Container implements Arc {
 	 * @ordered
 	 */
 	protected boolean isUsed = IS_USED_EDEFAULT;
+
+	/**
+	 * The default value of the '{@link #getEnergyMin() <em>Energy Min</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #getEnergyMin()
+	 * @generated
+	 * @ordered
+	 */
+	protected static final int ENERGY_MIN_EDEFAULT = 0;
+
+	/**
+	 * The cached value of the '{@link #getEnergyMin() <em>Energy Min</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #getEnergyMin()
+	 * @generated
+	 * @ordered
+	 */
+	protected int energyMin = ENERGY_MIN_EDEFAULT;
+
+	/**
+	 * The default value of the '{@link #getEnergyMax() <em>Energy Max</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #getEnergyMax()
+	 * @generated
+	 * @ordered
+	 */
+	protected static final int ENERGY_MAX_EDEFAULT = 0;
+
+	/**
+	 * The cached value of the '{@link #getEnergyMax() <em>Energy Max</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #getEnergyMax()
+	 * @generated
+	 * @ordered
+	 */
+	protected int energyMax = ENERGY_MAX_EDEFAULT;
 
 	/**
 	 * <!-- begin-user-doc -->
@@ -317,6 +359,48 @@ public class ArcImpl extends MinimalEObjectImpl.Container implements Arc {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	public int getEnergyMin() {
+		return energyMin;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public void setEnergyMin(int newEnergyMin) {
+		int oldEnergyMin = energyMin;
+		energyMin = newEnergyMin;
+		if (eNotificationRequired())
+			eNotify(new ENotificationImpl(this, Notification.SET, NetworkPackage.ARC__ENERGY_MIN, oldEnergyMin, energyMin));
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public int getEnergyMax() {
+		return energyMax;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public void setEnergyMax(int newEnergyMax) {
+		int oldEnergyMax = energyMax;
+		energyMax = newEnergyMax;
+		if (eNotificationRequired())
+			eNotify(new ENotificationImpl(this, Notification.SET, NetworkPackage.ARC__ENERGY_MAX, oldEnergyMax, energyMax));
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	@Override
 	public Object eGet(int featureID, boolean resolve, boolean coreType) {
 		switch (featureID) {
@@ -334,6 +418,10 @@ public class ArcImpl extends MinimalEObjectImpl.Container implements Arc {
 				return getTime();
 			case NetworkPackage.ARC__IS_USED:
 				return isIsUsed();
+			case NetworkPackage.ARC__ENERGY_MIN:
+				return getEnergyMin();
+			case NetworkPackage.ARC__ENERGY_MAX:
+				return getEnergyMax();
 		}
 		return super.eGet(featureID, resolve, coreType);
 	}
@@ -363,6 +451,12 @@ public class ArcImpl extends MinimalEObjectImpl.Container implements Arc {
 				return;
 			case NetworkPackage.ARC__IS_USED:
 				setIsUsed((Boolean)newValue);
+				return;
+			case NetworkPackage.ARC__ENERGY_MIN:
+				setEnergyMin((Integer)newValue);
+				return;
+			case NetworkPackage.ARC__ENERGY_MAX:
+				setEnergyMax((Integer)newValue);
 				return;
 		}
 		super.eSet(featureID, newValue);
@@ -394,6 +488,12 @@ public class ArcImpl extends MinimalEObjectImpl.Container implements Arc {
 			case NetworkPackage.ARC__IS_USED:
 				setIsUsed(IS_USED_EDEFAULT);
 				return;
+			case NetworkPackage.ARC__ENERGY_MIN:
+				setEnergyMin(ENERGY_MIN_EDEFAULT);
+				return;
+			case NetworkPackage.ARC__ENERGY_MAX:
+				setEnergyMax(ENERGY_MAX_EDEFAULT);
+				return;
 		}
 		super.eUnset(featureID);
 	}
@@ -418,6 +518,10 @@ public class ArcImpl extends MinimalEObjectImpl.Container implements Arc {
 				return time != TIME_EDEFAULT;
 			case NetworkPackage.ARC__IS_USED:
 				return isUsed != IS_USED_EDEFAULT;
+			case NetworkPackage.ARC__ENERGY_MIN:
+				return energyMin != ENERGY_MIN_EDEFAULT;
+			case NetworkPackage.ARC__ENERGY_MAX:
+				return energyMax != ENERGY_MAX_EDEFAULT;
 		}
 		return super.eIsSet(featureID);
 	}
@@ -440,6 +544,10 @@ public class ArcImpl extends MinimalEObjectImpl.Container implements Arc {
 		result.append(time);
 		result.append(", isUsed: ");
 		result.append(isUsed);
+		result.append(", energyMin: ");
+		result.append(energyMin);
+		result.append(", energyMax: ");
+		result.append(energyMax);
 		result.append(')');
 		return result.toString();
 	}

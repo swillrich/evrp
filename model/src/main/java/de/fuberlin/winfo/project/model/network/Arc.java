@@ -19,6 +19,8 @@ import org.eclipse.emf.ecore.EObject;
  *   <li>{@link de.fuberlin.winfo.project.model.network.Arc#getDistance <em>Distance</em>}</li>
  *   <li>{@link de.fuberlin.winfo.project.model.network.Arc#getTime <em>Time</em>}</li>
  *   <li>{@link de.fuberlin.winfo.project.model.network.Arc#isIsUsed <em>Is Used</em>}</li>
+ *   <li>{@link de.fuberlin.winfo.project.model.network.Arc#getEnergyMin <em>Energy Min</em>}</li>
+ *   <li>{@link de.fuberlin.winfo.project.model.network.Arc#getEnergyMax <em>Energy Max</em>}</li>
  * </ul>
  *
  * @see de.fuberlin.winfo.project.model.network.NetworkPackage#getArc()
@@ -182,5 +184,57 @@ public interface Arc extends EObject {
 	 * @generated
 	 */
 	void setIsUsed(boolean value);
+
+	/**
+	 * Returns the value of the '<em><b>Energy Min</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <p>
+	 * If the meaning of the '<em>Energy Min</em>' attribute isn't clear,
+	 * there really should be more of a description here...
+	 * </p>
+	 * <!-- end-user-doc -->
+	 * @return the value of the '<em>Energy Min</em>' attribute.
+	 * @see #setEnergyMin(int)
+	 * @see de.fuberlin.winfo.project.model.network.NetworkPackage#getArc_EnergyMin()
+	 * @model
+	 * @generated
+	 */
+	int getEnergyMin();
+
+	/**
+	 * Sets the value of the '{@link de.fuberlin.winfo.project.model.network.Arc#getEnergyMin <em>Energy Min</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @param value the new value of the '<em>Energy Min</em>' attribute.
+	 * @see #getEnergyMin()
+	 * @generated
+	 */
+	void setEnergyMin(int value);
+
+	/**
+	 * Returns the value of the '<em><b>Energy Max</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <p>
+	 * If the meaning of the '<em>Energy Max</em>' attribute isn't clear,
+	 * there really should be more of a description here...
+	 * </p>
+	 * <!-- end-user-doc -->
+	 * @return the value of the '<em>Energy Max</em>' attribute.
+	 * @see #setEnergyMax(int)
+	 * @see de.fuberlin.winfo.project.model.network.NetworkPackage#getArc_EnergyMax()
+	 * @model
+	 * @generated
+	 */
+	int getEnergyMax();
+
+	/**
+	 * Sets the value of the '{@link de.fuberlin.winfo.project.model.network.Arc#getEnergyMax <em>Energy Max</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @param value the new value of the '<em>Energy Max</em>' attribute.
+	 * @see #getEnergyMax()
+	 * @generated
+	 */
+	void setEnergyMax(int value);
 
 } // Arc

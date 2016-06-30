@@ -7,6 +7,8 @@ public class ZMIEdge implements Serializable {
 	int destId;
 	int distance;
 	int time;
+	int energyMax;
+	int energyMin;
 
 	public int getDestId() {
 		return destId;
@@ -38,5 +40,21 @@ public class ZMIEdge implements Serializable {
 
 	public void setTime(int time) {
 		this.time = time;
+	}
+
+	public int getEnergyMax() {
+		return energyMax;
+	}
+
+	public int getEnergyMin() {
+		return energyMin;
+	}
+
+	public void setEnergyMax(int energyMax) {
+		this.energyMax = energyMax;
+	}
+
+	public void setEnergyMin(int energyMin) {
+		this.energyMin = energyMin;
 	}
 }

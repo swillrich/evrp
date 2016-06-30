@@ -27,11 +27,11 @@ public class RoutePlanningSystem {
 	}
 
 	public void work() throws Exception {
-		Log.info(Log.SYSTEM, "Welcome to the InfoSys to solve VRP (Vehicle Routing Problems)");
+		Log.info(Log.SYSTEM, "Welcome to the RPS to solve VRP");
 		NetworkProvider networkProvider = new NetworkProvider(input);
 
 		NetworkFactory networkfactory = new NetworkFactoryImpl();
-		
+
 		for (UseCase useCase : input.getUseCases()) {
 			Solution solution = networkfactory.createSolution();
 			solution.setUsecase(useCase);
@@ -48,6 +48,6 @@ public class RoutePlanningSystem {
 			new VisualizationServerRequest(networkProvider.getNetwork(), URI.create(input.getVisualizationServer()));
 		}
 
-		Log.info(Log.SYSTEM, "Informationsystem finished.");
+		Log.info(Log.SYSTEM, "System finished.");
 	}
 }

@@ -1,6 +1,8 @@
 package de.fuberlin.winfo.project.input.impl.sven.zmidistancematrix;
 
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
@@ -8,6 +10,7 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.io.OutputStream;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.zip.GZIPInputStream;
 import java.util.zip.GZIPOutputStream;
@@ -27,7 +30,7 @@ public class ZMIJsonConverter {
 		return (ArrayList<ZMIEdge>) new ObjectInputStream(new GZIPInputStream(stream)).readObject();
 	}
 
-	public static void serializeAndZipZMIEdges(ArrayList<ZMIEdge> edges, OutputStream stream) throws IOException {
+	public static void serializeAndZipZMIEdges(List<ZMIEdge> edges, OutputStream stream) throws IOException {
 		ObjectOutputStream outputStream = new ObjectOutputStream(new GZIPOutputStream(stream));
 		outputStream.writeObject(edges);
 		outputStream.close();
@@ -60,6 +63,7 @@ public class ZMIJsonConverter {
 					zmiJsonEdges.setDestId(Integer.valueOf(parts[1]));
 					zmiJsonEdges.setDistance(Integer.valueOf(parts[2]));
 					zmiJsonEdges.setTime(Integer.valueOf(parts[3]));
+					zmiJsonEdges.setEnergyMin(Integer.valueOf(parts[4]));
 					zmiEdges.add(zmiJsonEdges);
 				} catch (Exception e) {
 					e.printStackTrace();

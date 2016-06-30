@@ -98,7 +98,6 @@ public class ZMIVRPInput implements VRPInput {
 					network.getVertices().size() + " vertices generated (" + getLocatables().size() + " customer)");
 
 			network.getLocatables().addAll(getLocatables().getCustomer());
-
 			return network;
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -162,6 +161,8 @@ public class ZMIVRPInput implements VRPInput {
 				copy.setId(i + "-" + j);
 				copy.setTime(prevArc.getTime());
 				copy.setDistance(prevArc.getDistance());
+				copy.setEnergyMin(prevArc.getEnergyMin());
+				copy.setEnergyMax(prevArc.getEnergyMax());
 				newArcArr[i][j] = copy;
 				vertexMap.get(vertices[i])[0].addLast(copy);
 				vertexMap.get(vertices[j])[1].addLast(copy);
@@ -189,11 +190,15 @@ public class ZMIVRPInput implements VRPInput {
 			int destId = zmiEdge.getDestId();
 			int distance = zmiEdge.getDistance();
 			int time = zmiEdge.getTime();
+			int energyMin = zmiEdge.getEnergyMin();
+			int energyMax = zmiEdge.getEnergyMax();
 			Arc arc = networkFactory.createArc();
 			matrix[originId][destId] = arc;
 			arc.setTime(time);
 			arc.setDistance(distance);
 			arc.setId(originId + "-" + destId);
+			arc.setEnergyMin(energyMin);
+			arc.setEnergyMax(energyMax);
 		}
 		return matrix;
 	}

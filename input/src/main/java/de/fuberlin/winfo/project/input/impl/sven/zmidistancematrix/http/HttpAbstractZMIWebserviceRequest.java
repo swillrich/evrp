@@ -26,7 +26,7 @@ import de.fuberlin.winfo.project.input.impl.sven.zmidistancematrix.model.ZMIEdge
 
 public abstract class HttpAbstractZMIWebserviceRequest {
 
-	private static final String DOMAIN_WITH_PORT = "http://www.z-m-i.info:8890/";
+	private static final String DOMAIN_WITH_PORT = "http://www.z-m-i.info:8890";
 	private String ZMI_APPLICATION_KEY = "NtM7Ev5t1q2AY25M6ocrmF780QyK5V1w";
 
 	private JsonElement jsonElement;
@@ -67,8 +67,9 @@ public abstract class HttpAbstractZMIWebserviceRequest {
 		long before = new Date().getTime();
 
 		byte[] data = getParameter().getBytes(StandardCharsets.UTF_8);
+		System.out.println(new String(data));
 		HttpURLConnection conn = (HttpURLConnection) buildURL().openConnection();
-		Log.info(Log.WS_MATRIX_REQUEST, "Use URL:" + buildURL());
+		Log.info(Log.WS_MATRIX_REQUEST, "Use URL: " + buildURL());
 		if (getRequestMethod().equalsIgnoreCase("GET")) {
 			conn.setRequestMethod(getRequestMethod());
 		} else if (getRequestMethod().equalsIgnoreCase("POST")) {

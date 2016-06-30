@@ -23,7 +23,7 @@ public class HttpPostMatrixRequest extends HttpMatrixRequest {
 		MatrixJsonRequest request = new MatrixJsonRequest();
 		request.setPoints(pointsToText);
 		request.setApplicationKey(getZMI_APPLICATION_KEY());
-		request.setMode("car_fastest");
+		request.setMode("van_load_fastest");
 		return new Gson().toJson(request);
 	}
 

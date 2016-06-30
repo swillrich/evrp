@@ -63,7 +63,8 @@ public class Locatables extends ArrayList<Locatable> {
 
 	public Locatables sublist(int from, int to) {
 		Locatables locatables = new Locatables();
-		locatables.addAll(toList());
+		List<Locatable> list = toList().subList(from, to);
+		locatables.addAll(list);
 		return locatables;
 	}
 
@@ -73,25 +74,25 @@ public class Locatables extends ArrayList<Locatable> {
 		return list;
 	}
 
-	@Override
-	public boolean add(Locatable e) {
-		try {
-			throw new Exception("use addStaticLocatable instead");
-		} catch (Exception e1) {
-			e1.printStackTrace();
-		}
-		return false;
-	}
-
-	@Override
-	public boolean addAll(Collection<? extends Locatable> c) {
-		try {
-			throw new Exception("use addNewLocatable instead");
-		} catch (Exception e1) {
-			e1.printStackTrace();
-		}
-		return false;
-	}
+	// @Override
+	// public boolean add(Locatable e) {
+	// try {
+	// throw new Exception("use addStaticLocatable instead");
+	// } catch (Exception e1) {
+	// e1.printStackTrace();
+	// }
+	// return false;
+	// }
+	//
+	// @Override
+	// public boolean addAll(Collection<? extends Locatable> c) {
+	// try {
+	// throw new Exception("use addNewLocatable instead");
+	// } catch (Exception e1) {
+	// e1.printStackTrace();
+	// }
+	// return false;
+	// }
 
 	public static Locatables inflateBy(Network network) {
 		Locatables locatables = new Locatables();

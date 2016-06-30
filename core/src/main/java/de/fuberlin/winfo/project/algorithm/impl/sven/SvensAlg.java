@@ -66,6 +66,7 @@ public class SvensAlg extends Algorithm {
 		restrictions.add(new TimeWindowRestriction());
 
 		constructProcedure(solution, networkProvider.getLocatables());
+
 		improvementProcedure(solution);
 	}
 

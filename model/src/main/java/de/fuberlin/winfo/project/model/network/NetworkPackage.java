@@ -176,13 +176,31 @@ public interface NetworkPackage extends EPackage {
 	int ARC__IS_USED = 5;
 
 	/**
+	 * The feature id for the '<em><b>Energy Min</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int ARC__ENERGY_MIN = 6;
+
+	/**
+	 * The feature id for the '<em><b>Energy Max</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int ARC__ENERGY_MAX = 7;
+
+	/**
 	 * The number of structural features of the '<em>Arc</em>' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int ARC_FEATURE_COUNT = 6;
+	int ARC_FEATURE_COUNT = 8;
 
 	/**
 	 * The number of operations of the '<em>Arc</em>' class.
@@ -1399,6 +1417,28 @@ public interface NetworkPackage extends EPackage {
 	EAttribute getArc_IsUsed();
 
 	/**
+	 * Returns the meta object for the attribute '{@link de.fuberlin.winfo.project.model.network.Arc#getEnergyMin <em>Energy Min</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the attribute '<em>Energy Min</em>'.
+	 * @see de.fuberlin.winfo.project.model.network.Arc#getEnergyMin()
+	 * @see #getArc()
+	 * @generated
+	 */
+	EAttribute getArc_EnergyMin();
+
+	/**
+	 * Returns the meta object for the attribute '{@link de.fuberlin.winfo.project.model.network.Arc#getEnergyMax <em>Energy Max</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the attribute '<em>Energy Max</em>'.
+	 * @see de.fuberlin.winfo.project.model.network.Arc#getEnergyMax()
+	 * @see #getArc()
+	 * @generated
+	 */
+	EAttribute getArc_EnergyMax();
+
+	/**
 	 * Returns the meta object for class '{@link de.fuberlin.winfo.project.model.network.Network <em>Network</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -2345,6 +2385,22 @@ public interface NetworkPackage extends EPackage {
 		 * @generated
 		 */
 		EAttribute ARC__IS_USED = eINSTANCE.getArc_IsUsed();
+
+		/**
+		 * The meta object literal for the '<em><b>Energy Min</b></em>' attribute feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute ARC__ENERGY_MIN = eINSTANCE.getArc_EnergyMin();
+
+		/**
+		 * The meta object literal for the '<em><b>Energy Max</b></em>' attribute feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute ARC__ENERGY_MAX = eINSTANCE.getArc_EnergyMax();
 
 		/**
 		 * The meta object literal for the '{@link de.fuberlin.winfo.project.model.network.impl.NetworkImpl <em>Network</em>}' class.

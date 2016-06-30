@@ -312,6 +312,24 @@ public class NetworkPackageImpl extends EPackageImpl implements NetworkPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	public EAttribute getArc_EnergyMin() {
+		return (EAttribute)arcEClass.getEStructuralFeatures().get(6);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EAttribute getArc_EnergyMax() {
+		return (EAttribute)arcEClass.getEStructuralFeatures().get(7);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	public EClass getNetwork() {
 		return networkEClass;
 	}
@@ -1040,6 +1058,8 @@ public class NetworkPackageImpl extends EPackageImpl implements NetworkPackage {
 		createEAttribute(arcEClass, ARC__DISTANCE);
 		createEAttribute(arcEClass, ARC__TIME);
 		createEAttribute(arcEClass, ARC__IS_USED);
+		createEAttribute(arcEClass, ARC__ENERGY_MIN);
+		createEAttribute(arcEClass, ARC__ENERGY_MAX);
 
 		networkEClass = createEClass(NETWORK);
 		createEReference(networkEClass, NETWORK__ARCS);
@@ -1179,6 +1199,8 @@ public class NetworkPackageImpl extends EPackageImpl implements NetworkPackage {
 		initEAttribute(getArc_Distance(), ecorePackage.getEInt(), "distance", null, 0, 1, Arc.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEAttribute(getArc_Time(), ecorePackage.getEInt(), "time", null, 0, 1, Arc.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEAttribute(getArc_IsUsed(), ecorePackage.getEBoolean(), "isUsed", "false", 0, 1, Arc.class, IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEAttribute(getArc_EnergyMin(), ecorePackage.getEInt(), "energyMin", null, 0, 1, Arc.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEAttribute(getArc_EnergyMax(), ecorePackage.getEInt(), "energyMax", null, 0, 1, Arc.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		initEClass(networkEClass, Network.class, "Network", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 		initEReference(getNetwork_Arcs(), this.getArc(), null, "arcs", null, 0, -1, Network.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
