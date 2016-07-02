@@ -19,7 +19,7 @@ public class CargoCapacityRestriction implements Restriction {
 			return true;
 		}
 
-		double leftCap = route.getActualRoute().getVehicle().getMaxCapacatyPayLoadInKg()
+		double leftCap = route.getActualRoute().getVehicle().getMaxPayLoadInKg()
 				- route.getActualRoute().getWay().get(0).getCurrentVehicleCargoWeight() - newOrder.getWeight();
 
 		return leftCap >= 0;

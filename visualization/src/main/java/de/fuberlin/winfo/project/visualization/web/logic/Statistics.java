@@ -27,11 +27,13 @@ public class Statistics {
 	}
 
 	public double getPersonnalCosts(Route route) {
-		return route.getTotalTimeInSec() / 60 / 60 * route.getVehicle().getDriverCostsPerHour();
+		return 0;// route.getTotalTimeInSec() / 60 / 60 *
+					// route.getVehicle().getDriverCostsPerHour();
 	}
 
 	public double getMaterialCosts(Route route) {
-		return route.getVehicle().getOperatingCostsPerMeter() * route.getTotalDistanceInM();
+		return 0;// route.getVehicle().getOperatingCostsPerMeter() *
+					// route.getTotalDistanceInM();
 	}
 
 	public double getMaterialCosts(Solution s) {

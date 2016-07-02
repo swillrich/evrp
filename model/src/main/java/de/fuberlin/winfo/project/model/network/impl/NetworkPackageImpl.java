@@ -537,7 +537,7 @@ public class NetworkPackageImpl extends EPackageImpl implements NetworkPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EAttribute getVehicle_MaxCapacatyPayLoadInKg() {
+	public EAttribute getVehicle_MaxPayLoadInKg() {
 		return (EAttribute)vehicleEClass.getEStructuralFeatures().get(1);
 	}
 
@@ -546,7 +546,7 @@ public class NetworkPackageImpl extends EPackageImpl implements NetworkPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EAttribute getVehicle_MaxReachInMeter() {
+	public EAttribute getVehicle_CargoWeightInKg() {
 		return (EAttribute)vehicleEClass.getEStructuralFeatures().get(2);
 	}
 
@@ -555,71 +555,8 @@ public class NetworkPackageImpl extends EPackageImpl implements NetworkPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EAttribute getVehicle_ChangeBatteryTime() {
+	public EAttribute getVehicle_MaxBatteryCapacityInWH() {
 		return (EAttribute)vehicleEClass.getEStructuralFeatures().get(3);
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public EAttribute getVehicle_BatteryType() {
-		return (EAttribute)vehicleEClass.getEStructuralFeatures().get(4);
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public EAttribute getVehicle_BatteryCapacityInWh() {
-		return (EAttribute)vehicleEClass.getEStructuralFeatures().get(5);
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public EAttribute getVehicle_OperatingCostsPerMeter() {
-		return (EAttribute)vehicleEClass.getEStructuralFeatures().get(6);
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public EAttribute getVehicle_DriverCostsPerHour() {
-		return (EAttribute)vehicleEClass.getEStructuralFeatures().get(7);
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public EAttribute getVehicle_TransshipmentFixCostsEuro() {
-		return (EAttribute)vehicleEClass.getEStructuralFeatures().get(8);
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public EAttribute getVehicle_TranshipmentTimeInMinutes() {
-		return (EAttribute)vehicleEClass.getEStructuralFeatures().get(9);
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public EAttribute getVehicle_PayLoadDependingConsumptionRate() {
-		return (EAttribute)vehicleEClass.getEStructuralFeatures().get(10);
 	}
 
 	/**
@@ -1089,16 +1026,9 @@ public class NetworkPackageImpl extends EPackageImpl implements NetworkPackage {
 
 		vehicleEClass = createEClass(VEHICLE);
 		createEAttribute(vehicleEClass, VEHICLE__ID);
-		createEAttribute(vehicleEClass, VEHICLE__MAX_CAPACATY_PAY_LOAD_IN_KG);
-		createEAttribute(vehicleEClass, VEHICLE__MAX_REACH_IN_METER);
-		createEAttribute(vehicleEClass, VEHICLE__CHANGE_BATTERY_TIME);
-		createEAttribute(vehicleEClass, VEHICLE__BATTERY_TYPE);
-		createEAttribute(vehicleEClass, VEHICLE__BATTERY_CAPACITY_IN_WH);
-		createEAttribute(vehicleEClass, VEHICLE__OPERATING_COSTS_PER_METER);
-		createEAttribute(vehicleEClass, VEHICLE__DRIVER_COSTS_PER_HOUR);
-		createEAttribute(vehicleEClass, VEHICLE__TRANSSHIPMENT_FIX_COSTS_EURO);
-		createEAttribute(vehicleEClass, VEHICLE__TRANSHIPMENT_TIME_IN_MINUTES);
-		createEAttribute(vehicleEClass, VEHICLE__PAY_LOAD_DEPENDING_CONSUMPTION_RATE);
+		createEAttribute(vehicleEClass, VEHICLE__MAX_PAY_LOAD_IN_KG);
+		createEAttribute(vehicleEClass, VEHICLE__CARGO_WEIGHT_IN_KG);
+		createEAttribute(vehicleEClass, VEHICLE__MAX_BATTERY_CAPACITY_IN_WH);
 
 		locatableEClass = createEClass(LOCATABLE);
 		createEAttribute(locatableEClass, LOCATABLE__LATITUDE);
@@ -1230,16 +1160,9 @@ public class NetworkPackageImpl extends EPackageImpl implements NetworkPackage {
 
 		initEClass(vehicleEClass, Vehicle.class, "Vehicle", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 		initEAttribute(getVehicle_Id(), ecorePackage.getEString(), "id", null, 0, 1, Vehicle.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-		initEAttribute(getVehicle_MaxCapacatyPayLoadInKg(), ecorePackage.getEDouble(), "maxCapacatyPayLoadInKg", null, 0, 1, Vehicle.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-		initEAttribute(getVehicle_MaxReachInMeter(), ecorePackage.getEInt(), "maxReachInMeter", null, 0, 1, Vehicle.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-		initEAttribute(getVehicle_ChangeBatteryTime(), ecorePackage.getELong(), "changeBatteryTime", null, 0, 1, Vehicle.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-		initEAttribute(getVehicle_BatteryType(), ecorePackage.getEString(), "batteryType", null, 0, 1, Vehicle.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-		initEAttribute(getVehicle_BatteryCapacityInWh(), ecorePackage.getEInt(), "batteryCapacityInWh", null, 0, 1, Vehicle.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-		initEAttribute(getVehicle_OperatingCostsPerMeter(), ecorePackage.getEDouble(), "operatingCostsPerMeter", null, 0, 1, Vehicle.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-		initEAttribute(getVehicle_DriverCostsPerHour(), ecorePackage.getEDouble(), "driverCostsPerHour", null, 0, 1, Vehicle.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-		initEAttribute(getVehicle_TransshipmentFixCostsEuro(), ecorePackage.getEDouble(), "transshipmentFixCostsEuro", null, 0, 1, Vehicle.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-		initEAttribute(getVehicle_TranshipmentTimeInMinutes(), ecorePackage.getEDouble(), "transhipmentTimeInMinutes", null, 0, 1, Vehicle.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-		initEAttribute(getVehicle_PayLoadDependingConsumptionRate(), ecorePackage.getEDouble(), "payLoadDependingConsumptionRate", null, 0, 1, Vehicle.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEAttribute(getVehicle_MaxPayLoadInKg(), ecorePackage.getEInt(), "maxPayLoadInKg", null, 0, 1, Vehicle.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEAttribute(getVehicle_CargoWeightInKg(), ecorePackage.getEInt(), "cargoWeightInKg", null, 0, 1, Vehicle.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEAttribute(getVehicle_MaxBatteryCapacityInWH(), ecorePackage.getEInt(), "maxBatteryCapacityInWH", null, 0, 1, Vehicle.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		initEClass(locatableEClass, Locatable.class, "Locatable", IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 		initEAttribute(getLocatable_Latitude(), ecorePackage.getEDouble(), "latitude", null, 0, 1, Locatable.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);

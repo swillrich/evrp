@@ -36,7 +36,7 @@ public class Restrictions extends ArrayList<Restriction> {
 		return true;
 	}
 
-	public void check(Route route, Order newOrder, int index) throws RestrictionException {
+	public void checkPreliminary(Route route, Order newOrder, int index) throws RestrictionException {
 		if (route.getWay().size() == 0) {
 			return;
 		}

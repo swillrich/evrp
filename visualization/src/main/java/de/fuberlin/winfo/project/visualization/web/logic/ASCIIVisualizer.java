@@ -52,11 +52,9 @@ public class ASCIIVisualizer {
 			Vehicle vehicle = route.getVehicle();
 			out("");
 			out("Route #" + solution.getRoutes().indexOf(route));
-			out("Vehicle #" + vehicle.getId() + " (Reach: " + numberWithSeparatorAndMeter(vehicle.getMaxReachInMeter())
-					+ ", max Cargo Capacity: " + withSeparator(vehicle.getMaxCapacatyPayLoadInKg(), "Kg")
-					+ ", max kWH: " + withSeparator(vehicle.getBatteryCapacityInWh(), "") + ", Driver Costs: "
-					+ vehicle.getDriverCostsPerHour() + " Euro, " + "Operating Costs per Km: "
-					+ vehicle.getOperatingCostsPerMeter() * 1000 + " Euro");
+			out("Vehicle #" + vehicle.getId() + ", max Cargo Capacity: "
+					+ withSeparator(vehicle.getMaxPayLoadInKg(), "Kg") + ", max kWH: "
+					+ withSeparator(vehicle.getMaxBatteryCapacityInWH(), ""));
 
 			content = new Object[route.getWay().size()][title.length];
 			for (int i = 0; i < route.getWay().size(); i++) {

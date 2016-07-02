@@ -60,15 +60,9 @@ public class CSV2ObjMapper {
 			public void nextLine(String[] line) {
 				Vehicle vehicle = networkFactory.createVehicle();
 				vehicle.setId(line[0]);
-				vehicle.setBatteryType(line[2]);
-				vehicle.setMaxReachInMeter(asInt(line[3]) * 1000);
-				vehicle.setBatteryCapacityInWh(asInt(line[4]));
-				vehicle.setMaxCapacatyPayLoadInKg(asDouble(line[5]) * 1000);
-				vehicle.setChangeBatteryTime(asInt(line[6]));
-				vehicle.setOperatingCostsPerMeter(asDouble(line[7]) / 1000);
-				vehicle.setDriverCostsPerHour(asDouble(line[8]) * 60);
-				vehicle.setTranshipmentTimeInMinutes(asDouble(line[9]));
-				vehicle.setPayLoadDependingConsumptionRate(asDouble(line[10]));
+				vehicle.setCargoWeightInKg(asInt(line[1]));
+				vehicle.setMaxPayLoadInKg(asInt(line[2]));
+				vehicle.setMaxBatteryCapacityInWH(asInt(line[3]));
 				vehicleList.add(vehicle);
 			}
 		};

@@ -705,94 +705,31 @@ public interface NetworkPackage extends EPackage {
 	int VEHICLE__ID = 0;
 
 	/**
-	 * The feature id for the '<em><b>Max Capacaty Pay Load In Kg</b></em>' attribute.
+	 * The feature id for the '<em><b>Max Pay Load In Kg</b></em>' attribute.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int VEHICLE__MAX_CAPACATY_PAY_LOAD_IN_KG = 1;
+	int VEHICLE__MAX_PAY_LOAD_IN_KG = 1;
 
 	/**
-	 * The feature id for the '<em><b>Max Reach In Meter</b></em>' attribute.
+	 * The feature id for the '<em><b>Cargo Weight In Kg</b></em>' attribute.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int VEHICLE__MAX_REACH_IN_METER = 2;
+	int VEHICLE__CARGO_WEIGHT_IN_KG = 2;
 
 	/**
-	 * The feature id for the '<em><b>Change Battery Time</b></em>' attribute.
+	 * The feature id for the '<em><b>Max Battery Capacity In WH</b></em>' attribute.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int VEHICLE__CHANGE_BATTERY_TIME = 3;
-
-	/**
-	 * The feature id for the '<em><b>Battery Type</b></em>' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int VEHICLE__BATTERY_TYPE = 4;
-
-	/**
-	 * The feature id for the '<em><b>Battery Capacity In Wh</b></em>' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int VEHICLE__BATTERY_CAPACITY_IN_WH = 5;
-
-	/**
-	 * The feature id for the '<em><b>Operating Costs Per Meter</b></em>' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int VEHICLE__OPERATING_COSTS_PER_METER = 6;
-
-	/**
-	 * The feature id for the '<em><b>Driver Costs Per Hour</b></em>' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int VEHICLE__DRIVER_COSTS_PER_HOUR = 7;
-
-	/**
-	 * The feature id for the '<em><b>Transshipment Fix Costs Euro</b></em>' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int VEHICLE__TRANSSHIPMENT_FIX_COSTS_EURO = 8;
-
-	/**
-	 * The feature id for the '<em><b>Transhipment Time In Minutes</b></em>' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int VEHICLE__TRANSHIPMENT_TIME_IN_MINUTES = 9;
-
-	/**
-	 * The feature id for the '<em><b>Pay Load Depending Consumption Rate</b></em>' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int VEHICLE__PAY_LOAD_DEPENDING_CONSUMPTION_RATE = 10;
+	int VEHICLE__MAX_BATTERY_CAPACITY_IN_WH = 3;
 
 	/**
 	 * The number of structural features of the '<em>Vehicle</em>' class.
@@ -801,7 +738,7 @@ public interface NetworkPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int VEHICLE_FEATURE_COUNT = 11;
+	int VEHICLE_FEATURE_COUNT = 4;
 
 	/**
 	 * The number of operations of the '<em>Vehicle</em>' class.
@@ -1686,114 +1623,37 @@ public interface NetworkPackage extends EPackage {
 	EAttribute getVehicle_Id();
 
 	/**
-	 * Returns the meta object for the attribute '{@link de.fuberlin.winfo.project.model.network.Vehicle#getMaxCapacatyPayLoadInKg <em>Max Capacaty Pay Load In Kg</em>}'.
+	 * Returns the meta object for the attribute '{@link de.fuberlin.winfo.project.model.network.Vehicle#getMaxPayLoadInKg <em>Max Pay Load In Kg</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @return the meta object for the attribute '<em>Max Capacaty Pay Load In Kg</em>'.
-	 * @see de.fuberlin.winfo.project.model.network.Vehicle#getMaxCapacatyPayLoadInKg()
+	 * @return the meta object for the attribute '<em>Max Pay Load In Kg</em>'.
+	 * @see de.fuberlin.winfo.project.model.network.Vehicle#getMaxPayLoadInKg()
 	 * @see #getVehicle()
 	 * @generated
 	 */
-	EAttribute getVehicle_MaxCapacatyPayLoadInKg();
+	EAttribute getVehicle_MaxPayLoadInKg();
 
 	/**
-	 * Returns the meta object for the attribute '{@link de.fuberlin.winfo.project.model.network.Vehicle#getMaxReachInMeter <em>Max Reach In Meter</em>}'.
+	 * Returns the meta object for the attribute '{@link de.fuberlin.winfo.project.model.network.Vehicle#getCargoWeightInKg <em>Cargo Weight In Kg</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @return the meta object for the attribute '<em>Max Reach In Meter</em>'.
-	 * @see de.fuberlin.winfo.project.model.network.Vehicle#getMaxReachInMeter()
+	 * @return the meta object for the attribute '<em>Cargo Weight In Kg</em>'.
+	 * @see de.fuberlin.winfo.project.model.network.Vehicle#getCargoWeightInKg()
 	 * @see #getVehicle()
 	 * @generated
 	 */
-	EAttribute getVehicle_MaxReachInMeter();
+	EAttribute getVehicle_CargoWeightInKg();
 
 	/**
-	 * Returns the meta object for the attribute '{@link de.fuberlin.winfo.project.model.network.Vehicle#getChangeBatteryTime <em>Change Battery Time</em>}'.
+	 * Returns the meta object for the attribute '{@link de.fuberlin.winfo.project.model.network.Vehicle#getMaxBatteryCapacityInWH <em>Max Battery Capacity In WH</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @return the meta object for the attribute '<em>Change Battery Time</em>'.
-	 * @see de.fuberlin.winfo.project.model.network.Vehicle#getChangeBatteryTime()
+	 * @return the meta object for the attribute '<em>Max Battery Capacity In WH</em>'.
+	 * @see de.fuberlin.winfo.project.model.network.Vehicle#getMaxBatteryCapacityInWH()
 	 * @see #getVehicle()
 	 * @generated
 	 */
-	EAttribute getVehicle_ChangeBatteryTime();
-
-	/**
-	 * Returns the meta object for the attribute '{@link de.fuberlin.winfo.project.model.network.Vehicle#getBatteryType <em>Battery Type</em>}'.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @return the meta object for the attribute '<em>Battery Type</em>'.
-	 * @see de.fuberlin.winfo.project.model.network.Vehicle#getBatteryType()
-	 * @see #getVehicle()
-	 * @generated
-	 */
-	EAttribute getVehicle_BatteryType();
-
-	/**
-	 * Returns the meta object for the attribute '{@link de.fuberlin.winfo.project.model.network.Vehicle#getBatteryCapacityInWh <em>Battery Capacity In Wh</em>}'.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @return the meta object for the attribute '<em>Battery Capacity In Wh</em>'.
-	 * @see de.fuberlin.winfo.project.model.network.Vehicle#getBatteryCapacityInWh()
-	 * @see #getVehicle()
-	 * @generated
-	 */
-	EAttribute getVehicle_BatteryCapacityInWh();
-
-	/**
-	 * Returns the meta object for the attribute '{@link de.fuberlin.winfo.project.model.network.Vehicle#getOperatingCostsPerMeter <em>Operating Costs Per Meter</em>}'.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @return the meta object for the attribute '<em>Operating Costs Per Meter</em>'.
-	 * @see de.fuberlin.winfo.project.model.network.Vehicle#getOperatingCostsPerMeter()
-	 * @see #getVehicle()
-	 * @generated
-	 */
-	EAttribute getVehicle_OperatingCostsPerMeter();
-
-	/**
-	 * Returns the meta object for the attribute '{@link de.fuberlin.winfo.project.model.network.Vehicle#getDriverCostsPerHour <em>Driver Costs Per Hour</em>}'.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @return the meta object for the attribute '<em>Driver Costs Per Hour</em>'.
-	 * @see de.fuberlin.winfo.project.model.network.Vehicle#getDriverCostsPerHour()
-	 * @see #getVehicle()
-	 * @generated
-	 */
-	EAttribute getVehicle_DriverCostsPerHour();
-
-	/**
-	 * Returns the meta object for the attribute '{@link de.fuberlin.winfo.project.model.network.Vehicle#getTransshipmentFixCostsEuro <em>Transshipment Fix Costs Euro</em>}'.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @return the meta object for the attribute '<em>Transshipment Fix Costs Euro</em>'.
-	 * @see de.fuberlin.winfo.project.model.network.Vehicle#getTransshipmentFixCostsEuro()
-	 * @see #getVehicle()
-	 * @generated
-	 */
-	EAttribute getVehicle_TransshipmentFixCostsEuro();
-
-	/**
-	 * Returns the meta object for the attribute '{@link de.fuberlin.winfo.project.model.network.Vehicle#getTranshipmentTimeInMinutes <em>Transhipment Time In Minutes</em>}'.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @return the meta object for the attribute '<em>Transhipment Time In Minutes</em>'.
-	 * @see de.fuberlin.winfo.project.model.network.Vehicle#getTranshipmentTimeInMinutes()
-	 * @see #getVehicle()
-	 * @generated
-	 */
-	EAttribute getVehicle_TranshipmentTimeInMinutes();
-
-	/**
-	 * Returns the meta object for the attribute '{@link de.fuberlin.winfo.project.model.network.Vehicle#getPayLoadDependingConsumptionRate <em>Pay Load Depending Consumption Rate</em>}'.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @return the meta object for the attribute '<em>Pay Load Depending Consumption Rate</em>'.
-	 * @see de.fuberlin.winfo.project.model.network.Vehicle#getPayLoadDependingConsumptionRate()
-	 * @see #getVehicle()
-	 * @generated
-	 */
-	EAttribute getVehicle_PayLoadDependingConsumptionRate();
+	EAttribute getVehicle_MaxBatteryCapacityInWH();
 
 	/**
 	 * Returns the meta object for class '{@link de.fuberlin.winfo.project.model.network.Locatable <em>Locatable</em>}'.
@@ -2599,84 +2459,28 @@ public interface NetworkPackage extends EPackage {
 		EAttribute VEHICLE__ID = eINSTANCE.getVehicle_Id();
 
 		/**
-		 * The meta object literal for the '<em><b>Max Capacaty Pay Load In Kg</b></em>' attribute feature.
+		 * The meta object literal for the '<em><b>Max Pay Load In Kg</b></em>' attribute feature.
 		 * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
 		 * @generated
 		 */
-		EAttribute VEHICLE__MAX_CAPACATY_PAY_LOAD_IN_KG = eINSTANCE.getVehicle_MaxCapacatyPayLoadInKg();
+		EAttribute VEHICLE__MAX_PAY_LOAD_IN_KG = eINSTANCE.getVehicle_MaxPayLoadInKg();
 
 		/**
-		 * The meta object literal for the '<em><b>Max Reach In Meter</b></em>' attribute feature.
+		 * The meta object literal for the '<em><b>Cargo Weight In Kg</b></em>' attribute feature.
 		 * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
 		 * @generated
 		 */
-		EAttribute VEHICLE__MAX_REACH_IN_METER = eINSTANCE.getVehicle_MaxReachInMeter();
+		EAttribute VEHICLE__CARGO_WEIGHT_IN_KG = eINSTANCE.getVehicle_CargoWeightInKg();
 
 		/**
-		 * The meta object literal for the '<em><b>Change Battery Time</b></em>' attribute feature.
+		 * The meta object literal for the '<em><b>Max Battery Capacity In WH</b></em>' attribute feature.
 		 * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
 		 * @generated
 		 */
-		EAttribute VEHICLE__CHANGE_BATTERY_TIME = eINSTANCE.getVehicle_ChangeBatteryTime();
-
-		/**
-		 * The meta object literal for the '<em><b>Battery Type</b></em>' attribute feature.
-		 * <!-- begin-user-doc -->
-		 * <!-- end-user-doc -->
-		 * @generated
-		 */
-		EAttribute VEHICLE__BATTERY_TYPE = eINSTANCE.getVehicle_BatteryType();
-
-		/**
-		 * The meta object literal for the '<em><b>Battery Capacity In Wh</b></em>' attribute feature.
-		 * <!-- begin-user-doc -->
-		 * <!-- end-user-doc -->
-		 * @generated
-		 */
-		EAttribute VEHICLE__BATTERY_CAPACITY_IN_WH = eINSTANCE.getVehicle_BatteryCapacityInWh();
-
-		/**
-		 * The meta object literal for the '<em><b>Operating Costs Per Meter</b></em>' attribute feature.
-		 * <!-- begin-user-doc -->
-		 * <!-- end-user-doc -->
-		 * @generated
-		 */
-		EAttribute VEHICLE__OPERATING_COSTS_PER_METER = eINSTANCE.getVehicle_OperatingCostsPerMeter();
-
-		/**
-		 * The meta object literal for the '<em><b>Driver Costs Per Hour</b></em>' attribute feature.
-		 * <!-- begin-user-doc -->
-		 * <!-- end-user-doc -->
-		 * @generated
-		 */
-		EAttribute VEHICLE__DRIVER_COSTS_PER_HOUR = eINSTANCE.getVehicle_DriverCostsPerHour();
-
-		/**
-		 * The meta object literal for the '<em><b>Transshipment Fix Costs Euro</b></em>' attribute feature.
-		 * <!-- begin-user-doc -->
-		 * <!-- end-user-doc -->
-		 * @generated
-		 */
-		EAttribute VEHICLE__TRANSSHIPMENT_FIX_COSTS_EURO = eINSTANCE.getVehicle_TransshipmentFixCostsEuro();
-
-		/**
-		 * The meta object literal for the '<em><b>Transhipment Time In Minutes</b></em>' attribute feature.
-		 * <!-- begin-user-doc -->
-		 * <!-- end-user-doc -->
-		 * @generated
-		 */
-		EAttribute VEHICLE__TRANSHIPMENT_TIME_IN_MINUTES = eINSTANCE.getVehicle_TranshipmentTimeInMinutes();
-
-		/**
-		 * The meta object literal for the '<em><b>Pay Load Depending Consumption Rate</b></em>' attribute feature.
-		 * <!-- begin-user-doc -->
-		 * <!-- end-user-doc -->
-		 * @generated
-		 */
-		EAttribute VEHICLE__PAY_LOAD_DEPENDING_CONSUMPTION_RATE = eINSTANCE.getVehicle_PayLoadDependingConsumptionRate();
+		EAttribute VEHICLE__MAX_BATTERY_CAPACITY_IN_WH = eINSTANCE.getVehicle_MaxBatteryCapacityInWH();
 
 		/**
 		 * The meta object literal for the '{@link de.fuberlin.winfo.project.model.network.impl.LocatableImpl <em>Locatable</em>}' class.

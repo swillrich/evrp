@@ -33,9 +33,9 @@ public class VehicleRangeRestriction implements Restriction {
 			return false;
 		}
 		capacityLeft -= RouteWrapper.computeEnergyConsumptionOfArc(route.getActualRoute().getVehicle(),
-				need + newOrder.getWeight(), arcToNewVertex.getDistance());
+				need + newOrder.getWeight(), arcToNewVertex);
 		capacityLeft -= RouteWrapper.computeEnergyConsumptionOfArc(route.getActualRoute().getVehicle(), need,
-				arcFromNewVertex.getDistance());
+				arcFromNewVertex);
 
 		double availableCapacity = route.getActualRoute().getWay().get(route.getActualRoute().getWay().size() - 1)
 				.getRemainingVehicleBatteryCapacityAtEnd();

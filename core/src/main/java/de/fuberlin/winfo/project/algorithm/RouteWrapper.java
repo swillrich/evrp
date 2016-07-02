@@ -65,13 +65,13 @@ public class RouteWrapper {
 			until = route.getWay().size();
 		}
 		Vehicle vehicle = route.getVehicle();
-		int capLeft = vehicle.getBatteryCapacityInWh();
+		int capLeft = vehicle.getMaxBatteryCapacityInWH();
 
 		for (int i = 0; i < until; i++) {
 			UsedArc usedArc = route.getWay().get(i);
 
 			capLeft = capLeft - (int) computeEnergyConsumptionOfArc(vehicle,
-					usedArc.getCurrentVehicleCargoWeight() + extraNeed, usedArc.getArc().getDistance());
+					usedArc.getCurrentVehicleCargoWeight() + extraNeed, usedArc.getArc());
 
 			if (withUpdate) {
 				usedArc.setRemainingVehicleBatteryCapacityAtEnd((int) capLeft);
@@ -136,7 +136,7 @@ public class RouteWrapper {
 				- route.getWay().get(0).getDuration().getStartInSec();
 		route.setTotalTimeInSec(totalRouteTime);
 
-		route.setTotalVehicleBatteryConsumption(route.getVehicle().getBatteryCapacityInWh()
+		route.setTotalVehicleBatteryConsumption(route.getVehicle().getMaxBatteryCapacityInWH()
 				- route.getWay().get(route.getWay().size() - 1).getRemainingVehicleBatteryCapacityAtEnd());
 
 		takeCareOfSolutionValues();
@@ -354,7 +354,7 @@ public class RouteWrapper {
 		}
 	}
 
-	private UsedArc remove(int toRemove) throws Exception {
+	public UsedArc remove(int toRemove) throws Exception {
 		if (toRemove + 1 >= route.getWay().size() || toRemove < 0) {
 			throw new IndexOutOfBoundsException("index is " + toRemove + " / " + (route.getWay().size() - 1));
 		}
@@ -380,14 +380,12 @@ public class RouteWrapper {
 		return new RouteWrapper(route, depot, arcs);
 	}
 
-	public static double computeEnergyConsumptionOfArc(Vehicle vehicle, double cargoWeightInKg, double distance) {
-		double payLoadInPercentage = cargoWeightInKg / (double) vehicle.getMaxCapacatyPayLoadInKg();
-		double optimalConsumptionInKWPerKM = (double) vehicle.getBatteryCapacityInWh()
-				/ (double) vehicle.getMaxReachInMeter();
-		double additionalConsumption = payLoadInPercentage * vehicle.getPayLoadDependingConsumptionRate()
-				* optimalConsumptionInKWPerKM;
-		double absoluteConsumption = additionalConsumption + optimalConsumptionInKWPerKM;
-		return absoluteConsumption * distance;
+	public static double computeEnergyConsumptionOfArc(Vehicle vehicle, double cargoWeightInKg, Arc arc) {
+		double m_0 = vehicle.getCargoWeightInKg();
+		double m_0_u = m_0 + cargoWeightInKg;
+		double m_t = m_0 + vehicle.getMaxPayLoadInKg();
+		double energy = arc.getEnergyMin() + (arc.getEnergyMax() - arc.getEnergyMin()) * ((m_0_u - m_0) / (m_t - m_0));
+		return energy;
 	}
 
 	public List<Order> getOrders() {
