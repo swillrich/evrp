@@ -8,6 +8,7 @@ import de.fuberlin.winfo.project.algorithm.restriction.Restriction;
 import de.fuberlin.winfo.project.algorithm.restriction.RestrictionException;
 import de.fuberlin.winfo.project.model.network.Arc;
 import de.fuberlin.winfo.project.model.network.Order;
+import de.fuberlin.winfo.project.model.network.Route;
 import de.fuberlin.winfo.project.model.network.Solution;
 import de.fuberlin.winfo.project.model.network.UsedArc;
 
@@ -16,33 +17,27 @@ public class VehicleRangeRestriction implements Restriction {
 	@Override
 	public boolean preliminaryCheck(NetworkProvider np, RouteWrapper route, Order newOrder, int index)
 			throws RestrictionException {
-
-		// First new arc
-		Arc arcToNewVertex = np.getArcs()[route.getActualRoute().getWay().get(index).getArc().getStart()
-				.getId()][newOrder.getId()];
-		// Second new arc
-		Arc arcFromNewVertex = np.getArcs()[newOrder.getId()][route.getActualRoute().getWay().get(index).getArc()
-				.getEnd().getId()];
-
-		double need = route.getActualRoute().getWay().get(index).getCurrentVehicleCargoWeight();
-
-		double capacityLeft = 0;
 		try {
-			capacityLeft = route.computePredictedRemainingVehicleBatteryCapacity(index, newOrder.getWeight(), false);
+			Route r = route.getActualRoute();
+			UsedArc usedArcToRemove = r.getWay().get(index);
+
+			Arc arcToNewVertex = np.getArcs()[usedArcToRemove.getArc().getStart().getId()][newOrder.getId()];
+			Arc arcFromNewVertex = np.getArcs()[newOrder.getId()][usedArcToRemove.getArc().getEnd().getId()];
+
+			double need = usedArcToRemove.getCurrentVehicleCargoWeight();
+
+			double capacityLeft = route.computePredictedRemainingVehicleBatteryCapacity(index, newOrder.getWeight(),
+					false);
+			capacityLeft -= RouteWrapper.computeEnergyConsumptionOfArc(r.getVehicle(), need + newOrder.getWeight(),
+					arcToNewVertex);
+			capacityLeft -= RouteWrapper.computeEnergyConsumptionOfArc(r.getVehicle(), need, arcFromNewVertex);
+
+			double availableCapacity = r.getWay().get(r.getWay().size() - 1).getRemainingVehicleBatteryCapacityAtEnd();
+			double oldCapacityLeft = usedArcToRemove.getRemainingVehicleBatteryCapacityAtEnd();
+			return oldCapacityLeft - capacityLeft <= availableCapacity;
 		} catch (Exception e) {
 			return false;
 		}
-		capacityLeft -= RouteWrapper.computeEnergyConsumptionOfArc(route.getActualRoute().getVehicle(),
-				need + newOrder.getWeight(), arcToNewVertex);
-		capacityLeft -= RouteWrapper.computeEnergyConsumptionOfArc(route.getActualRoute().getVehicle(), need,
-				arcFromNewVertex);
-
-		double availableCapacity = route.getActualRoute().getWay().get(route.getActualRoute().getWay().size() - 1)
-				.getRemainingVehicleBatteryCapacityAtEnd();
-
-		double oldCapacityLeft = route.getActualRoute().getWay().get(index).getRemainingVehicleBatteryCapacityAtEnd();
-
-		return oldCapacityLeft - capacityLeft <= availableCapacity;
 	}
 
 	@Override
