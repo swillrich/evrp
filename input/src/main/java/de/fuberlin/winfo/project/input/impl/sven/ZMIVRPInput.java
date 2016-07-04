@@ -103,7 +103,7 @@ public class ZMIVRPInput implements VRPInput {
 
 			network.getLocatables().addAll(getLocatables().getCustomer());
 
-			setRandomizedTimeWindows(network);
+//			setRandomizedTimeWindows(network);
 
 			return network;
 		} catch (Exception e) {

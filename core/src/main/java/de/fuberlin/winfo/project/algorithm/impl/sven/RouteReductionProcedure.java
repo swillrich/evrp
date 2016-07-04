@@ -35,7 +35,7 @@ public class RouteReductionProcedure {
 		copy.getRoutes().remove(min);
 		RouteWrapper routeWrapper = new RouteWrapper(min, null, provider.getArcs());
 		this.orders = routeWrapper.getOrders();
-		copy.getRoutes().stream().filter(r -> r != min).forEach(r -> {
+		copy.getRoutes().stream().forEach(r -> {
 			RouteWrapper wrapper = new RouteWrapper(r, null, provider.getArcs());
 			List<Order> list = wrapper.getOrders();
 			for (int i = 0; i < list.size(); i++) {
@@ -55,7 +55,7 @@ public class RouteReductionProcedure {
 			for (InRouteOrder iRO : trials) {
 				RouteWrapper wrapper = new RouteWrapper(iRO.route, null, provider.getArcs());
 				try {
-					restrictions.checkPreliminary(wrapper.getActualRoute(), order, iRO.i);
+					restrictions.preliminaryCheck(wrapper.getActualRoute(), order, iRO.i);
 					wrapper.useArcAtIndex(order, iRO.i);
 					iterator.remove();
 					continue a;
@@ -70,7 +70,7 @@ public class RouteReductionProcedure {
 	class InRouteOrder implements Comparable<InRouteOrder> {
 		private Order order;
 		private Route route;
-		private int energy;
+		private double energy;
 		private RouteWrapper wrapper;
 		private int i;
 
@@ -84,7 +84,9 @@ public class RouteReductionProcedure {
 		public void dependingOn(Order refOrder) {
 			Arc[][] A = provider.getArcs();
 			Arc arc = A[this.order.getId()][refOrder.getId()];
-			this.energy = arc.getEnergyMax();
+			int a = arc.getEnergyMax();
+			int b = arc.getEnergyMin();
+			this.energy = (a + b) / 2;
 		}
 
 		private double value(Route r) {

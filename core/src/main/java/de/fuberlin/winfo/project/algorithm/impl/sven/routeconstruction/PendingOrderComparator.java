@@ -23,16 +23,14 @@ public class PendingOrderComparator implements Comparator<PendingOrder> {
 		Vertex n1 = o1.getOrder();
 		Vertex n2 = o2.getOrder();
 
-		if (o1.getOrder().getTimeWindow() != null && o2.getOrder().getTimeWindow() == null) {
-			return -1;
-		} else if (o1.getOrder().getTimeWindow() == null && o2.getOrder().getTimeWindow() != null) {
-			return 1;
-		}
-
 		// initial pendulum tour (Nearest Neighbor)
 		if (route.getActualRoute().getWay().isEmpty()) {
-			return Integer.compare(distance(route.getDepot(), n1), distance(route.getDepot(), n2));
+			return Double.compare(avgEnergyConsumption(route.getDepot(), n1),
+					avgEnergyConsumption(route.getDepot(), n2));
 		}
+
+		int o1TWDiff = o1.getOrder().getTimeWindow().getEndInSec() - o1.getOrder().getTimeWindow().getStartInSec();
+		int o2TWDiff = o2.getOrder().getTimeWindow().getEndInSec() - o2.getOrder().getTimeWindow().getStartInSec();
 
 		UsedArc n1UsedArc = returnMin(n1);
 		o1.setPos(route.getActualRoute().getWay().indexOf(n1UsedArc));
@@ -42,8 +40,13 @@ public class PendingOrderComparator implements Comparator<PendingOrder> {
 
 		int costs1 = calculateByInsertionHeuristics(n1UsedArc, n1);
 		int costs2 = calculateByInsertionHeuristics(n2UsedArc, n2);
+		
+		int costsTotal = costs1 + costs2 == 0 ? 1 : costs1 + costs2;
 
-		return Integer.compare(costs1, costs2);
+		double totalCosts1 = 0.5 * (costs1 / (costsTotal)) + 0.5 * (o1TWDiff / (o1TWDiff + o2TWDiff));
+		double totalCosts2 = 0.5 * (costs2 / (costsTotal)) + 0.5 * (o2TWDiff / (o1TWDiff + o2TWDiff));
+
+		return Double.compare(totalCosts1, totalCosts2);
 	}
 
 	private UsedArc returnMin(Vertex vertex) {
@@ -59,13 +62,23 @@ public class PendingOrderComparator implements Comparator<PendingOrder> {
 
 	private int calculateByInsertionHeuristics(UsedArc usedArc, Vertex newVertex) {
 		// Insertion Heuristics
-		int Dik = E[usedArc.getArc().getStart().getId()][newVertex.getId()].getDistance();
-		int Dkj = E[newVertex.getId()][usedArc.getArc().getEnd().getId()].getDistance();
-		int Dij = usedArc.getArc().getDistance();
+		int DikMax = E[usedArc.getArc().getStart().getId()][newVertex.getId()].getEnergyMax();
+		int DikMin = E[usedArc.getArc().getStart().getId()][newVertex.getId()].getEnergyMin();
+		int Dik = (DikMax + DikMin) / 2;
+
+		int DkjMax = E[newVertex.getId()][usedArc.getArc().getEnd().getId()].getEnergyMax();
+		int DkjMin = E[newVertex.getId()][usedArc.getArc().getEnd().getId()].getEnergyMin();
+		int Dkj = (DkjMax + DkjMin) / 2;
+
+		int DijMax = usedArc.getArc().getEnergyMax();
+		int DijMin = usedArc.getArc().getEnergyMin();
+		int Dij = (DijMax + DijMin) / 2;
+
 		return Dik + Dkj - Dij;
 	}
 
-	private int distance(Vertex a, Vertex b) {
-		return E[a.getId()][b.getId()].getDistance();
+	private double avgEnergyConsumption(Vertex a, Vertex b) {
+		Arc arc = E[a.getId()][b.getId()];
+		return (arc.getEnergyMax() + arc.getEnergyMin()) / 2;
 	}
 };

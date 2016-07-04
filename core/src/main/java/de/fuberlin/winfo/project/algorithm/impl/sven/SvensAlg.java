@@ -15,6 +15,10 @@ import de.fuberlin.winfo.project.algorithm.impl.sven.vns.CostFunction;
 import de.fuberlin.winfo.project.algorithm.impl.sven.vns.VNS;
 import de.fuberlin.winfo.project.algorithm.impl.sven.vns.logging.VNSMonitor;
 import de.fuberlin.winfo.project.algorithm.impl.sven.vns.neighborhoodstructures.NeighborhoodStructure;
+import de.fuberlin.winfo.project.algorithm.impl.sven.vns.neighborhoodstructures.impl.interroute.RandomizedCyclingExchangeNeighborhoodStructure;
+import de.fuberlin.winfo.project.algorithm.impl.sven.vns.neighborhoodstructures.impl.interroute.RandomizedInterRouteSingleNodeRelocationNeighborhoodStructure;
+import de.fuberlin.winfo.project.algorithm.impl.sven.vns.neighborhoodstructures.impl.singleroute.KOptNeighborhoodStructure;
+import de.fuberlin.winfo.project.algorithm.impl.sven.vns.neighborhoodstructures.impl.singleroute.RandomizedKOptNeighborhoodStructure;
 import de.fuberlin.winfo.project.algorithm.restriction.RestrictionException;
 import de.fuberlin.winfo.project.algorithm.restriction.impl.CargoCapacityRestriction;
 import de.fuberlin.winfo.project.algorithm.restriction.impl.TimeWindowRestriction;
@@ -28,15 +32,10 @@ public class SvensAlg extends Algorithm {
 	Arc[][] A = null;
 	int iterations = 5000 * 5;
 	NeighborhoodStructure[] neighborhoodStructures = new NeighborhoodStructure[] {
-			/*
-			 * new RandomizedCyclingExchangeNeighborhoodStructure(3,
-			 * iterations), new
-			 * RandomizedCyclingExchangeNeighborhoodStructure(2, iterations),
-			 * new
-			 * RandomizedInterRouteSingleNodeRelocationNeighborhoodStructure(
-			 * iterations), new RandomizedKOptNeighborhoodStructure(3,
-			 * iterations), new KOptNeighborhoodStructure(2)
-			 */ };
+			new RandomizedCyclingExchangeNeighborhoodStructure(3, iterations),
+			new RandomizedCyclingExchangeNeighborhoodStructure(2, iterations),
+			new RandomizedInterRouteSingleNodeRelocationNeighborhoodStructure(iterations),
+			new RandomizedKOptNeighborhoodStructure(3, iterations), new KOptNeighborhoodStructure(2) };
 
 	@Override
 	public String getName() {
@@ -70,20 +69,19 @@ public class SvensAlg extends Algorithm {
 
 		solution = reducingRoutes(solution);
 
-		// improvementProcedure(solution);
+		improvementProcedure(solution);
 	}
 
 	private Solution reducingRoutes(Solution solution) {
-		RouteReductionProcedure routeReductionProcedure = new RouteReductionProcedure(networkProvider);
 		while (true) {
+			RouteReductionProcedure routeReductionProcedure = new RouteReductionProcedure(networkProvider);
 			Solution update = routeReductionProcedure.allocateOrders(solution);
-			System.out.print("Reducing routes");
-			if (update != solution) {
+			if (update.getRoutes().size() < solution.getRoutes().size()) {
+				System.out.println("Reduced by " + (solution.getRoutes().size() - update.getRoutes().size())
+						+ " route(s) --> " + update.getRoutes().size() + " Solution cost: " + f.compute(solution));
 				solution = update;
 				setSolution(solution);
-				System.out.println(": success");
 			} else {
-				System.out.println(": unchanged");
 				break;
 			}
 		}
@@ -110,7 +108,7 @@ public class SvensAlg extends Algorithm {
 			while (!priorityQueue.isEmpty()) {
 				PendingOrder nextPendingOrder = priorityQueue.poll();
 				try {
-					restrictions.checkPreliminary(route.getActualRoute(), nextPendingOrder.getOrder(),
+					restrictions.preliminaryCheck(route.getActualRoute(), nextPendingOrder.getOrder(),
 							nextPendingOrder.getPos());
 					if (route.getActualRoute().getWay().isEmpty()) {
 						route.useArc(nextPendingOrder.getOrder());
