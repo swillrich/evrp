@@ -41,13 +41,6 @@ public class TimeWindowRestriction implements Restriction {
 			if (arrival > RouteWrapper.getTimeWindowEnd(v)) {
 				return false;
 			}
-
-			if (v instanceof Order && ((Order) v).getOrderId().equalsIgnoreCase("Mu-1327")) {
-				// 20:15:35 | 20:15:35 | 00:00:00 - 16:00:00
-				int end = RouteWrapper.getTimeWindowEnd(v);
-				System.out.println(r.getWay().get(at + i).getDuration().getEndInSec() + " + " + offSet + " (" + arrival
-						+ ") <= " + end);
-			}
 		}
 		return true;
 	}

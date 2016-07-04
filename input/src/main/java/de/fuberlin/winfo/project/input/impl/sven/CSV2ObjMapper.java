@@ -175,15 +175,15 @@ public class CSV2ObjMapper {
 		String[] durationSrc = string.split(",");
 		int start = asInt(durationSrc[0]);
 		int end = asInt(durationSrc[1]);
-		if (start == 0 && end == 0) {
-			return null;
-		}
 		return getDuration(start, start + end);
 	}
 
 	private Duration getDuration(int start, int end) {
 		Duration duration = networkFactory.createDuration();
 		duration.setStartInSec(start);
+		if (end == 0) {
+			end = 24 * 3600;
+		}
 		duration.setEndInSec(end);
 		return duration;
 	}

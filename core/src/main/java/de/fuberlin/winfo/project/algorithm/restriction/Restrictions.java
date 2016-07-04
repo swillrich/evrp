@@ -6,6 +6,7 @@ import java.util.Arrays;
 import de.fuberlin.winfo.project.algorithm.NetworkProvider;
 import de.fuberlin.winfo.project.algorithm.RouteWrapper;
 import de.fuberlin.winfo.project.algorithm.restriction.impl.CargoCapacityRestriction;
+import de.fuberlin.winfo.project.algorithm.restriction.impl.MaxTourLengthRestriction;
 import de.fuberlin.winfo.project.algorithm.restriction.impl.TimeWindowRestriction;
 import de.fuberlin.winfo.project.algorithm.restriction.impl.VehicleRangeRestriction;
 import de.fuberlin.winfo.project.model.network.Order;
@@ -55,7 +56,7 @@ public class Restrictions extends ArrayList<Restriction> {
 
 	public void addAll() {
 		Restriction[] restrictions = new Restriction[] { new CargoCapacityRestriction(), new TimeWindowRestriction(),
-				new VehicleRangeRestriction() };
+				new VehicleRangeRestriction(), new MaxTourLengthRestriction() };
 		addAll(Arrays.asList(restrictions));
 	}
 
