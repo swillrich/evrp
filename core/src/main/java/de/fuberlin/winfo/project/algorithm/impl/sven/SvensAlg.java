@@ -68,20 +68,26 @@ public class SvensAlg extends Algorithm {
 
 		constructProcedure(solution, networkProvider.getLocatables());
 
+		solution = reducingRoutes(solution);
+
+		// improvementProcedure(solution);
+	}
+
+	private Solution reducingRoutes(Solution solution) {
 		RouteReductionProcedure routeReductionProcedure = new RouteReductionProcedure(networkProvider);
 		while (true) {
 			Solution update = routeReductionProcedure.allocateOrders(solution);
 			System.out.print("Reducing routes");
 			if (update != solution) {
 				solution = update;
+				setSolution(solution);
 				System.out.println(": success");
 			} else {
 				System.out.println(": unchanged");
 				break;
 			}
 		}
-		setSolution(solution);
-		// improvementProcedure(solution);
+		return solution;
 	}
 
 	private void improvementProcedure(Solution solution) throws Exception {
@@ -104,7 +110,8 @@ public class SvensAlg extends Algorithm {
 			while (!priorityQueue.isEmpty()) {
 				PendingOrder nextPendingOrder = priorityQueue.poll();
 				try {
-					restrictions.checkPreliminary(route.getActualRoute(), nextPendingOrder.getOrder(), nextPendingOrder.getPos());
+					restrictions.checkPreliminary(route.getActualRoute(), nextPendingOrder.getOrder(),
+							nextPendingOrder.getPos());
 					if (route.getActualRoute().getWay().isEmpty()) {
 						route.useArc(nextPendingOrder.getOrder());
 					} else {

@@ -1,7 +1,10 @@
 package de.fuberlin.winfo.project.input.impl.sven;
 
+import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.IOException;
+import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Comparator;
@@ -24,6 +27,7 @@ import de.fuberlin.winfo.project.input.impl.sven.zmidistancematrix.model.ZMIEdge
 import de.fuberlin.winfo.project.model.network.Arc;
 import de.fuberlin.winfo.project.model.network.Customer;
 import de.fuberlin.winfo.project.model.network.Depot;
+import de.fuberlin.winfo.project.model.network.Duration;
 import de.fuberlin.winfo.project.model.network.Locatable;
 import de.fuberlin.winfo.project.model.network.Network;
 import de.fuberlin.winfo.project.model.network.Order;
@@ -98,10 +102,30 @@ public class ZMIVRPInput implements VRPInput {
 					network.getVertices().size() + " vertices generated (" + getLocatables().size() + " customer)");
 
 			network.getLocatables().addAll(getLocatables().getCustomer());
+
+			setRandomizedTimeWindows(network);
+
 			return network;
 		} catch (Exception e) {
 			e.printStackTrace();
 			return null;
+		}
+	}
+
+	private void setRandomizedTimeWindows(Network network) throws IOException {
+		FileInputStream stream = new FileInputStream(InputFilesBundles.timeWindows);
+		BufferedReader reader = new BufferedReader(new InputStreamReader(stream));
+		for (int i = 0; i < network.getVertices().size(); i++) {
+			Vertex vertex = network.getVertices().get(i);
+			if (vertex instanceof Order) {
+				Order o = (Order) vertex;
+				Duration dur = networkFactory.createDuration();
+				String readLine = reader.readLine();
+				String[] twValues = readLine.split(",");
+				dur.setStartInSec(Integer.valueOf(twValues[0]));
+				dur.setEndInSec(dur.getStartInSec() + Integer.valueOf(twValues[1]));
+				o.setTimeWindow(dur);
+			}
 		}
 	}
 

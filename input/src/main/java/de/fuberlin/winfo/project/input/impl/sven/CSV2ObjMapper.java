@@ -178,7 +178,7 @@ public class CSV2ObjMapper {
 		if (start == 0 && end == 0) {
 			return null;
 		}
-		return getDuration(start, end);
+		return getDuration(start, start + end);
 	}
 
 	private Duration getDuration(int start, int end) {

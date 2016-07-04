@@ -1,114 +1,55 @@
 package de.fuberlin.winfo.project.algorithm.restriction.impl;
 
-import de.fuberlin.winfo.project.Utils;
 import de.fuberlin.winfo.project.algorithm.NetworkProvider;
 import de.fuberlin.winfo.project.algorithm.RouteWrapper;
 import de.fuberlin.winfo.project.algorithm.restriction.Restriction;
 import de.fuberlin.winfo.project.algorithm.restriction.RestrictionException;
+import de.fuberlin.winfo.project.model.network.Arc;
 import de.fuberlin.winfo.project.model.network.Duration;
 import de.fuberlin.winfo.project.model.network.Order;
+import de.fuberlin.winfo.project.model.network.Route;
 import de.fuberlin.winfo.project.model.network.Solution;
 import de.fuberlin.winfo.project.model.network.UsedArc;
+import de.fuberlin.winfo.project.model.network.Vertex;
 
 public class TimeWindowRestriction implements Restriction {
 
-	private RouteWrapper route;
-
 	@Override
-	public boolean preliminaryCheck(NetworkProvider np, RouteWrapper route, Order newOrder, int index)
+	public boolean preliminaryCheck(NetworkProvider np, RouteWrapper route, Order newOrder, int at)
 			throws RestrictionException {
-		this.route = route;
+		Route r = route.getActualRoute();
+		Arc[][] A = np.getArcs();
+		int timeToNewOrder = A[r.getWay().get(at).getArc().getStart().getId()][newOrder.getId()].getTime();
+		int timeFromNewOrder = A[newOrder.getId()][r.getWay().get(at).getArc().getEnd().getId()].getTime();
 
-		double newOrder_TW_StartInSec = Double.MIN_VALUE;
-		double newOrder_TW_EndInSec = Double.MAX_VALUE;
-		if (newOrder.getTimeWindow() != null) {
-			newOrder_TW_StartInSec = newOrder.getTimeWindow().getStartInSec();
-			newOrder_TW_EndInSec = newOrder.getTimeWindow().getEndInSec();
+		int arrival = r.getWay().get(at).getDuration().getStartInSec() + timeToNewOrder;
+		if (arrival < newOrder.getTimeWindow().getStartInSec()) {
+			arrival = newOrder.getTimeWindow().getStartInSec();
 		}
-		double arcStartInSec = route.getActualRoute().getWay().get(index).getDuration().getStartInSec();
-		double arcEndInSec = route.getActualRoute().getWay().get(index).getDuration().getEndInSec();
+		int departure = arrival + newOrder.getStandingTimeInSec();
+		int offSet = departure + timeFromNewOrder - r.getWay().get(at).getDuration().getEndInSec();
+		
+		Vertex v;
 
-		double serviceTimeAtNewVertex = newOrder.getStandingTimeInSec();
-		double timeStartVertexToNewVertex = np.getArcs()[route.getActualRoute().getWay().get(index).getArc().getStart()
-				.getId()][newOrder.getId()].getTime();
-		double timeNewVertexToEndVertex = np.getArcs()[newOrder.getId()][route.getActualRoute().getWay().get(index)
-				.getArc().getEnd().getId()].getTime();
-		double actualUsedTime = route.getActualRoute().getWay().get(index).getArc().getTime();
-		double possibleShiftarcStart = getPossibleShiftarcStart(index);
-		double possibleShiftarcEnd = getPossibleShiftarcEnd(index);
-
-		double availableTime = possibleShiftarcStart + actualUsedTime + possibleShiftarcEnd;
-
-		double neededTime = timeStartVertexToNewVertex + serviceTimeAtNewVertex + timeNewVertexToEndVertex;
-
-		if (availableTime >= neededTime) {
-			if (arcStartInSec + timeStartVertexToNewVertex - possibleShiftarcStart <= newOrder_TW_EndInSec
-					&& arcEndInSec - timeNewVertexToEndVertex - serviceTimeAtNewVertex
-							+ possibleShiftarcEnd >= newOrder_TW_StartInSec) {
-				return true;
-			}
-		}
-		return false;
-	}
-
-	private double getPossibleShiftarcEnd(int usedarcIndex) {
-		double possibleShiftarcEnd = Double.MAX_VALUE;
-		for (int i = usedarcIndex; i < route.getActualRoute().getWay().size(); i++) {
-			double tmparcEndInSec = route.getActualRoute().getWay().get(i).getDuration().getEndInSec();
-
-			double timewindowEndAtarcEnd;
-
-			if (i == route.getActualRoute().getWay().size() - 1) {
-				timewindowEndAtarcEnd = Utils.getTimeWindow(route.getDepot()).getEndInSec();
+		for (int i = -1; i < r.getWay().size() - at; i++) {
+			if (i < 0) {
+				v = newOrder;
 			} else {
-				timewindowEndAtarcEnd = Double.MAX_VALUE;
-				Duration timewindowAtarcEnd = Utils
-						.getTimeWindow(route.getActualRoute().getWay().get(i).getArc().getEnd());
-				if (timewindowAtarcEnd != null)
-					timewindowEndAtarcEnd = timewindowAtarcEnd.getEndInSec();
+				arrival = r.getWay().get(at + i).getDuration().getEndInSec() + offSet;
+				v = r.getWay().get(at + i).getArc().getEnd();
 			}
-			double possibleShiftarcEndAtThisarc = timewindowEndAtarcEnd - tmparcEndInSec;
-
-			if (possibleShiftarcEndAtThisarc < possibleShiftarcEnd) {
-				possibleShiftarcEnd = possibleShiftarcEndAtThisarc;
+			if (arrival > RouteWrapper.getTimeWindowEnd(v)) {
+				return false;
 			}
-		}
-		return possibleShiftarcEnd;
-	}
 
-	private double getPossibleShiftarcStart(int usedarcIndex) {
-		double possibleShiftarcStart = Double.MAX_VALUE;
-		for (int i = 0; i < usedarcIndex + 1; i++) {
-			double tmparcStartInSec = route.getActualRoute().getWay().get(i).getDuration().getStartInSec();
-
-			double timewindowStartAtarcStart;
-			double serviceTimeAtArcStart;
-
-			if (i == 0) {
-				timewindowStartAtarcStart = Utils.getTimeWindow(route.getDepot()).getStartInSec();
-				serviceTimeAtArcStart = 0; // The service time at the depot
-											// is
-											// zero at the beginning of the
-											// route, else
-											// getServiceTimeFromDepot(vertex);
-			} else {
-				serviceTimeAtArcStart = ((Order) route.getActualRoute().getWay().get(i - 1).getArc().getEnd())
-						.getStandingTimeInSec();
-
-				timewindowStartAtarcStart = Double.MIN_VALUE;
-				Duration timewindowAtArcStart = ((Order) route.getActualRoute().getWay().get(i - 1).getArc().getEnd())
-						.getTimeWindow();
-				if (timewindowAtArcStart != null)
-					timewindowStartAtarcStart = timewindowAtArcStart.getStartInSec();
-			}
-			double possibleShiftarcStartAtThisarc = tmparcStartInSec - serviceTimeAtArcStart
-					- timewindowStartAtarcStart;
-
-			if (possibleShiftarcStartAtThisarc < possibleShiftarcStart) {
-				possibleShiftarcStart = possibleShiftarcStartAtThisarc;
+			if (v instanceof Order && ((Order) v).getOrderId().equalsIgnoreCase("Mu-1327")) {
+				// 20:15:35 | 20:15:35 | 00:00:00 - 16:00:00
+				int end = RouteWrapper.getTimeWindowEnd(v);
+				System.out.println(r.getWay().get(at + i).getDuration().getEndInSec() + " + " + offSet + " (" + arrival
+						+ ") <= " + end);
 			}
 		}
-		return possibleShiftarcStart;
+		return true;
 	}
 
 	@Override

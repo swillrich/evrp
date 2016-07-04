@@ -237,13 +237,21 @@ public class RouteWrapper {
 		}
 	}
 
-	private int getServiceTime(Vertex v) {
+	public static int getServiceTime(Vertex v) {
 		if (v instanceof Locatable) {
 			return ((Locatable) v).getServiceTimeInSec();
 		} else if (v instanceof Order) {
 			return ((Order) v).getStandingTimeInSec();
 		} else {
 			return Integer.MAX_VALUE;
+		}
+	}
+
+	public static int getTimeWindowEnd(Vertex v) {
+		if (v instanceof Order) {
+			return ((Order) v).getTimeWindow().getEndInSec();
+		} else {
+			return ((Depot) v).getTimeWindow().getEndInSec();
 		}
 	}
 
