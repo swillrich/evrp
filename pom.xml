@@ -16,18 +16,10 @@
 	</properties>
 
 	<repositories>
-		<repository>
+	    <repository>
 			<id>lib</id>
-			<name>lib</name>
-			<releases>
-				<enabled>true</enabled>
-				<checksumPolicy>ignore</checksumPolicy>
-			</releases>
-			<snapshots>
-				<enabled>false</enabled>
-			</snapshots>
-			<url>file://${main.basedir}/repo</url>
-		</repository>
+	        <url>file://${main.basedir}/repo</url>
+	    </repository>
 		<repository>
 			<id>sonatype-nexus-snapshots</id>
 			<url>https://oss.sonatype.org/content/repositories/snapshots</url>
@@ -69,6 +61,11 @@
 	</modules>
 
 	<dependencies>
+		<dependency>
+			<groupId>dnl.utils</groupId>
+			<artifactId>j-text-utils</artifactId>
+			<version>0.3.3</version>
+		</dependency>
 		<dependency>
 			<groupId>log4j</groupId>
 			<artifactId>log4j</artifactId>
@@ -159,11 +156,6 @@
 			<groupId>com.google.code.gson</groupId>
 			<artifactId>gson</artifactId>
 			<version>2.4</version>
-		</dependency>
-		<dependency>
-			<groupId>dnl.utils</groupId>
-			<artifactId>j-text-utils</artifactId>
-			<version>0.3.3</version>
 		</dependency>
 	</dependencies>
 </project>

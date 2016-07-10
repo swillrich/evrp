@@ -5,9 +5,9 @@
 	<packaging>jar</packaging>
 	<name>vrp-model</name>
 
-        <properties>
-                <main.basedir>${project.basedir}/../</main.basedir>
-        </properties>
+	<properties>
+		<main.basedir>${project.basedir}/../</main.basedir>
+	</properties>
 
 
 	<build>
