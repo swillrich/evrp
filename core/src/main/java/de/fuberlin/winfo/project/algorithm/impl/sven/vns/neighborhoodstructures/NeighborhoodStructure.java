@@ -1,12 +1,10 @@
 package de.fuberlin.winfo.project.algorithm.impl.sven.vns.neighborhoodstructures;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.Comparator;
 import java.util.Iterator;
 import java.util.List;
 
-import de.fuberlin.winfo.project.Random;
 import de.fuberlin.winfo.project.algorithm.NetworkProvider;
 import de.fuberlin.winfo.project.algorithm.impl.sven.vns.CostFunction;
 import de.fuberlin.winfo.project.algorithm.impl.sven.vns.Moves;

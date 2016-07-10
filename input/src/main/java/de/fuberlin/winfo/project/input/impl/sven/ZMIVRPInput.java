@@ -3,6 +3,7 @@ package de.fuberlin.winfo.project.input.impl.sven;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
@@ -21,6 +22,7 @@ import de.fuberlin.winfo.project.Locatables;
 import de.fuberlin.winfo.project.Log;
 import de.fuberlin.winfo.project.Utils;
 import de.fuberlin.winfo.project.Utils.ProgressBar;
+import de.fuberlin.winfo.project.XMIIO;
 import de.fuberlin.winfo.project.input.VRPInput;
 import de.fuberlin.winfo.project.input.impl.sven.zmidistancematrix.ZMIJsonConverter;
 import de.fuberlin.winfo.project.input.impl.sven.zmidistancematrix.model.ZMIEdge;
@@ -57,7 +59,7 @@ public class ZMIVRPInput implements VRPInput {
 
 	@Override
 	public int getVerticesMaximum() {
-		return 300;
+		return 0;
 	}
 
 	@Override
@@ -84,8 +86,9 @@ public class ZMIVRPInput implements VRPInput {
 			Log.info(Log.DATA_IMPORT, "Connect distance matrix with vertices ...");
 			Arc[][] multidimensionalEdgeArray = getDistanceMatrixAsArray(pojos, getLocatables().size());
 			multidimensionalEdgeArray = increaseArcsToFitAllOrders(network, multidimensionalEdgeArray, vertices);
-
+			
 			if (getVerticesMaximum() > 0) {
+				Log.info(Log.DATA_IMPORT, "Remove unused arcs and vertices");
 				Set<Vertex> verticesSet = new TreeSet<Vertex>(new Comparator<Vertex>() {
 					@Override
 					public int compare(Vertex arg0, Vertex arg1) {
@@ -104,7 +107,7 @@ public class ZMIVRPInput implements VRPInput {
 			network.getLocatables().addAll(getLocatables().getCustomer());
 
 //			setRandomizedTimeWindows(network);
-
+			
 			return network;
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -145,7 +148,7 @@ public class ZMIVRPInput implements VRPInput {
 		for (int i = 0; i < loc.size(); i++) {
 			treeMap.put(loc.get(i), i);
 		}
-
+		
 		TreeMap<Vertex, LinkedList<Arc>[]> vertexMap = new TreeMap<Vertex, LinkedList<Arc>[]>(new Comparator<Vertex>() {
 			@Override
 			public int compare(Vertex o1, Vertex o2) {
@@ -195,6 +198,7 @@ public class ZMIVRPInput implements VRPInput {
 		showProgress.update(vertices.length);
 		showProgress.done();
 
+		
 		for (Vertex v : vertexMap.keySet()) {
 			LinkedList<Arc>[] lists = vertexMap.get(v);
 			v.getArcOut().addAll(lists[0]);

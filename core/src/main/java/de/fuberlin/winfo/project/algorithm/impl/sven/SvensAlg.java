@@ -21,6 +21,7 @@ import de.fuberlin.winfo.project.algorithm.impl.sven.vns.neighborhoodstructures.
 import de.fuberlin.winfo.project.algorithm.impl.sven.vns.neighborhoodstructures.impl.singleroute.RandomizedKOptNeighborhoodStructure;
 import de.fuberlin.winfo.project.algorithm.restriction.RestrictionException;
 import de.fuberlin.winfo.project.algorithm.restriction.impl.CargoCapacityRestriction;
+import de.fuberlin.winfo.project.algorithm.restriction.impl.MaxTourLengthRestriction;
 import de.fuberlin.winfo.project.algorithm.restriction.impl.TimeWindowRestriction;
 import de.fuberlin.winfo.project.algorithm.restriction.impl.VehicleRangeRestriction;
 import de.fuberlin.winfo.project.model.network.Arc;
@@ -48,7 +49,7 @@ public class SvensAlg extends Algorithm {
 
 			@Override
 			public double compute(Solution s) {
-				return s.getRoutes().size() * 50000 + s.getTotalVehicleBatteryConsumption() * 0.30;
+				return s.getRoutes().size() * 16000 + s.getTotalVehicleBatteryConsumption() * 0.30;
 			}
 
 			@Override
@@ -64,6 +65,7 @@ public class SvensAlg extends Algorithm {
 		restrictions.add(new CargoCapacityRestriction());
 		restrictions.add(new VehicleRangeRestriction());
 		restrictions.add(new TimeWindowRestriction());
+		restrictions.add(new MaxTourLengthRestriction());
 
 		constructProcedure(solution, networkProvider.getLocatables());
 

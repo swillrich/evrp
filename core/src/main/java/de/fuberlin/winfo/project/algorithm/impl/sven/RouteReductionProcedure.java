@@ -107,7 +107,7 @@ public class RouteReductionProcedure {
 		boolean isFeasible() {
 			UsedArc usedArc = route.getWay().get(route.getWay().size() - 1);
 			Vehicle vehicle = route.getVehicle();
-			boolean weightFeasible = order.getWeight() + usedArc.getCurrentVehicleCargoWeight() <= vehicle
+			boolean weightFeasible = order.getWeight() + route.getWay().get(0).getCurrentVehicleCargoWeight() <= vehicle
 					.getCargoWeightInKg();
 			boolean energyFeasible = energy + usedArc.getRemainingVehicleBatteryCapacityAtEnd() <= vehicle
 					.getMaxBatteryCapacityInWH();
