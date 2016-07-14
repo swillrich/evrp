@@ -58,7 +58,7 @@ public class ZMIVRPInput implements VRPInput {
 
 	@Override
 	public int getVerticesMaximum() {
-		return 300;
+		return 500;
 	}
 
 	@Override
@@ -77,7 +77,7 @@ public class ZMIVRPInput implements VRPInput {
 		Log.info(Log.DATA_IMPORT, "Build network");
 
 		try {
-			Log.info(Log.DATA_IMPORT, "Read in  entire distance matrix ...");
+			Log.info(Log.DATA_IMPORT, "Read in the entire distance matrix ...");
 			List<ZMIEdge> pojos = ZMIJsonConverter
 					.deseriaizeZippedZMIEdges(new FileInputStream(this.zippedAndSerializedDM));
 			Log.info(Log.DATA_IMPORT, "Generate vertices ...");
