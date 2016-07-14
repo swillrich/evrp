@@ -69,6 +69,7 @@ public class VNSMonitor {
 		globalSearch = factory.createGlobalSearch();
 		history.getSearches().add(globalSearch);
 		globalSearch.setName(nb.getName());
+
 	}
 
 	public void operationListApplied(Solution incumbent, String string) {

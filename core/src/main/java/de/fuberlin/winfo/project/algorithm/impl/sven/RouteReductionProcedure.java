@@ -39,7 +39,7 @@ public class RouteReductionProcedure {
 			RouteWrapper wrapper = new RouteWrapper(r, null, provider.getArcs());
 			List<Order> list = wrapper.getOrders();
 			for (int i = 0; i < list.size(); i++) {
-				this.inRouteOrders.add(new InRouteOrder(wrapper, list.get(i), i));
+				this.inRouteOrders.add(new InRouteOrder(wrapper, list.get(i), i + 1));
 			}
 		});
 

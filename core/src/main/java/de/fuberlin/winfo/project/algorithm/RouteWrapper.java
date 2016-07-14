@@ -213,21 +213,14 @@ public class RouteWrapper {
 			// compute start time if the first arc is given
 
 			Duration srcTimeWindow = Utils.getTimeWindow(usedArc.getArc().getStart());
-			int startInSecFromStartByTW = srcTimeWindow.getStartInSec();
 			int driveTime = usedArc.getArc().getTime();
+			int startInSecFromStartByTW = srcTimeWindow.getStartInSec();
 			int start = startInSecFromStartByTW;
 
 			Vertex end = usedArc.getArc().getEnd();
 
-			Duration targetTimeWindow;
 			if (end instanceof Order) {
-				targetTimeWindow = ((Order) end).getTimeWindow();
-			} else {
-				targetTimeWindow = null;
-			}
-
-			if (targetTimeWindow != null) {
-				int startInSec = targetTimeWindow.getStartInSec();
+				int startInSec = ((Order) end).getTimeWindow().getStartInSec();
 				if (startInSec - driveTime > startInSecFromStartByTW) {
 					start = startInSec - driveTime;
 				}

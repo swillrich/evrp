@@ -20,10 +20,6 @@ import de.fuberlin.winfo.project.algorithm.impl.sven.vns.neighborhoodstructures.
 import de.fuberlin.winfo.project.algorithm.impl.sven.vns.neighborhoodstructures.impl.singleroute.KOptNeighborhoodStructure;
 import de.fuberlin.winfo.project.algorithm.impl.sven.vns.neighborhoodstructures.impl.singleroute.RandomizedKOptNeighborhoodStructure;
 import de.fuberlin.winfo.project.algorithm.restriction.RestrictionException;
-import de.fuberlin.winfo.project.algorithm.restriction.impl.CargoCapacityRestriction;
-import de.fuberlin.winfo.project.algorithm.restriction.impl.MaxTourLengthRestriction;
-import de.fuberlin.winfo.project.algorithm.restriction.impl.TimeWindowRestriction;
-import de.fuberlin.winfo.project.algorithm.restriction.impl.VehicleRangeRestriction;
 import de.fuberlin.winfo.project.model.network.Arc;
 import de.fuberlin.winfo.project.model.network.Order;
 import de.fuberlin.winfo.project.model.network.Solution;
@@ -62,25 +58,26 @@ public class SvensAlg extends Algorithm {
 	@Override
 	public void run(Solution solution) throws Exception {
 		A = networkProvider.getArcs();
-		restrictions.add(new CargoCapacityRestriction());
-		restrictions.add(new VehicleRangeRestriction());
-		restrictions.add(new TimeWindowRestriction());
-		restrictions.add(new MaxTourLengthRestriction());
+		restrictions.addAll();
 
 		constructProcedure(solution, networkProvider.getLocatables());
+		System.out.println("Constructive procedure finished with initial solution: "
+				+ FormatConv.withSeparator(f.compute(solution), ""));
 
-		solution = reducingRoutes(solution);
-
-		improvementProcedure(solution);
+		VNSMonitor historyMonitor = new VNSMonitor(f);
+		solution = reducingRoutes(solution, historyMonitor);
+		improvementProcedure(solution, historyMonitor);
 	}
 
-	private Solution reducingRoutes(Solution solution) {
+	private Solution reducingRoutes(Solution solution, VNSMonitor historyMonitor) {
 		while (true) {
 			RouteReductionProcedure routeReductionProcedure = new RouteReductionProcedure(networkProvider);
 			Solution update = routeReductionProcedure.allocateOrders(solution);
 			if (update.getRoutes().size() < solution.getRoutes().size()) {
 				System.out.println("Reduced by " + (solution.getRoutes().size() - update.getRoutes().size())
-						+ " route(s) --> " + update.getRoutes().size() + " Solution cost: " + f.compute(solution));
+						+ " route(s) --> " + update.getRoutes().size() + " Solution cost: "
+						+ FormatConv.withSeparator(f.compute(solution), "") + " --> "
+						+ FormatConv.withSeparator(f.compute(update), ""));
 				solution = update;
 				setSolution(solution);
 			} else {
@@ -90,9 +87,8 @@ public class SvensAlg extends Algorithm {
 		return solution;
 	}
 
-	private void improvementProcedure(Solution solution) throws Exception {
+	private void improvementProcedure(Solution solution, VNSMonitor historyMonitor) throws Exception {
 		System.out.println("VNS starts with " + FormatConv.withSeparator(f.compute(solution), ""));
-		VNSMonitor historyMonitor = new VNSMonitor(f);
 		VNS vns = new VNS(networkProvider, f, neighborhoodStructures, historyMonitor);
 		Solution optSolution = vns.run(solution);
 		optSolution.setHistory(historyMonitor.getHistory());

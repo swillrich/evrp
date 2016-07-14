@@ -3,7 +3,6 @@ package de.fuberlin.winfo.project.input.impl.sven;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileInputStream;
-import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
@@ -16,13 +15,13 @@ import java.util.Random;
 import java.util.Set;
 import java.util.TreeMap;
 import java.util.TreeSet;
+import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
 import de.fuberlin.winfo.project.Locatables;
 import de.fuberlin.winfo.project.Log;
 import de.fuberlin.winfo.project.Utils;
 import de.fuberlin.winfo.project.Utils.ProgressBar;
-import de.fuberlin.winfo.project.XMIIO;
 import de.fuberlin.winfo.project.input.VRPInput;
 import de.fuberlin.winfo.project.input.impl.sven.zmidistancematrix.ZMIJsonConverter;
 import de.fuberlin.winfo.project.input.impl.sven.zmidistancematrix.model.ZMIEdge;
@@ -59,7 +58,7 @@ public class ZMIVRPInput implements VRPInput {
 
 	@Override
 	public int getVerticesMaximum() {
-		return 0;
+		return 300;
 	}
 
 	@Override
@@ -86,7 +85,7 @@ public class ZMIVRPInput implements VRPInput {
 			Log.info(Log.DATA_IMPORT, "Connect distance matrix with vertices ...");
 			Arc[][] multidimensionalEdgeArray = getDistanceMatrixAsArray(pojos, getLocatables().size());
 			multidimensionalEdgeArray = increaseArcsToFitAllOrders(network, multidimensionalEdgeArray, vertices);
-			
+
 			if (getVerticesMaximum() > 0) {
 				Log.info(Log.DATA_IMPORT, "Remove unused arcs and vertices");
 				Set<Vertex> verticesSet = new TreeSet<Vertex>(new Comparator<Vertex>() {
@@ -106,13 +105,46 @@ public class ZMIVRPInput implements VRPInput {
 
 			network.getLocatables().addAll(getLocatables().getCustomer());
 
-//			setRandomizedTimeWindows(network);
-			
+			// setRandomizedTimeWindows(network);
+//			addRandomizedTimeWindows(network, 0.2);
+
 			return network;
 		} catch (Exception e) {
 			e.printStackTrace();
 			return null;
 		}
+	}
+
+	private void addRandomizedTimeWindows(Network network, double d) throws IOException {
+		System.out.println("without tw: "
+				+ network.getVertices().stream().filter(v -> v instanceof Order).map(v -> (Order) v)
+						.filter(o -> o.getTimeWindow().getStartInSec() == 0
+								&& o.getTimeWindow().getEndInSec() == 3600 * 24)
+						.count()
+				+ " / " + network.getVertices().stream().filter(v -> v instanceof Order).count());
+		List<Order> list = network.getVertices().stream().filter(v -> v instanceof Order).map(v -> (Order) v)
+				.filter(o -> o.getTimeWindow().getStartInSec() == 0 && o.getTimeWindow().getEndInSec() == 3600 * 24)
+				.collect(Collectors.toList());
+		list = list.subList(0, (int) (list.size() * d));
+
+		FileInputStream stream = new FileInputStream(InputFilesBundles.timeWindows);
+		BufferedReader reader = new BufferedReader(new InputStreamReader(stream));
+
+		for (Order o : list) {
+			Duration dur = networkFactory.createDuration();
+			String readLine = reader.readLine();
+			String[] twValues = readLine.split(",");
+			dur.setStartInSec(Integer.valueOf(twValues[0]));
+			dur.setEndInSec(dur.getStartInSec() + Integer.valueOf(twValues[1]));
+			o.setTimeWindow(dur);
+		}
+
+		System.out.println("without tw: "
+				+ network.getVertices().stream().filter(v -> v instanceof Order).map(v -> (Order) v)
+						.filter(o -> o.getTimeWindow().getStartInSec() == 0
+								&& o.getTimeWindow().getEndInSec() == 3600 * 24)
+						.count()
+				+ " / " + network.getVertices().stream().filter(v -> v instanceof Order).count());
 	}
 
 	private void setRandomizedTimeWindows(Network network) throws IOException {
@@ -148,7 +180,7 @@ public class ZMIVRPInput implements VRPInput {
 		for (int i = 0; i < loc.size(); i++) {
 			treeMap.put(loc.get(i), i);
 		}
-		
+
 		TreeMap<Vertex, LinkedList<Arc>[]> vertexMap = new TreeMap<Vertex, LinkedList<Arc>[]>(new Comparator<Vertex>() {
 			@Override
 			public int compare(Vertex o1, Vertex o2) {
@@ -198,7 +230,6 @@ public class ZMIVRPInput implements VRPInput {
 		showProgress.update(vertices.length);
 		showProgress.done();
 
-		
 		for (Vertex v : vertexMap.keySet()) {
 			LinkedList<Arc>[] lists = vertexMap.get(v);
 			v.getArcOut().addAll(lists[0]);

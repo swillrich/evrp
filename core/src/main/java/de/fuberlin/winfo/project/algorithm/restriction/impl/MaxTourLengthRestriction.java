@@ -1,7 +1,5 @@
 package de.fuberlin.winfo.project.algorithm.restriction.impl;
 
-import org.eclipse.emf.common.util.EList;
-
 import de.fuberlin.winfo.project.algorithm.NetworkProvider;
 import de.fuberlin.winfo.project.algorithm.RouteWrapper;
 import de.fuberlin.winfo.project.algorithm.restriction.Restriction;
@@ -22,23 +20,35 @@ public class MaxTourLengthRestriction implements Restriction {
 	}
 
 	@Override
-	public boolean preliminaryCheck(NetworkProvider np, RouteWrapper route, Order newOrder, int index)
+	public boolean preliminaryCheck(NetworkProvider np, RouteWrapper route, Order o, int index)
 			throws RestrictionException {
 		Route r = route.getActualRoute();
 		Arc[][] A = np.getArcs();
-		int maxTourLength = getDepot(r).getMaxTourLength();
-		int startA = r.getWay().get(0).getDuration().getStartInSec();
-		int stopA = r.getWay().get(index).getDuration().getStartInSec();
-		int interDur = A[r.getWay().get(index).getArc().getStart().getId()][newOrder.getId()].getTime();
-		if (stopA + interDur < newOrder.getTimeWindow().getStartInSec()) {
-			interDur = newOrder.getTimeWindow().getStartInSec();
+		int departure = r.getWay().get(index).getDuration().getStartInSec();
+		int arrivalO = departure + A[r.getWay().get(index).getArc().getStart().getId()][o.getId()].getTime();
+		if (arrivalO < o.getTimeWindow().getStartInSec()) {
+			arrivalO = o.getTimeWindow().getStartInSec();
 		}
-		interDur += newOrder.getStandingTimeInSec();
-		interDur += A[newOrder.getId()][r.getWay().get(index).getArc().getEnd().getId()].getTime();
-		int startB = r.getWay().get(index).getDuration().getEndInSec();
-		int stopB = r.getWay().get(r.getWay().size() - 1).getDuration().getEndInSec();
+		Arc toBArc = A[o.getId()][r.getWay().get(index).getArc().getEnd().getId()];
+		int arrival = arrivalO + o.getStandingTimeInSec() + toBArc.getTime();
 
-		return (stopA - startA) + interDur + (stopB - startB) <= maxTourLength;
+		if (index >= r.getWay().size() - 1) {
+			return arrival - r.getWay().get(0).getDuration().getStartInSec() > getDepot(r).getMaxTourLength();
+		}
+
+		for (int i = index; i < r.getWay().size() - 1; i++) {
+			UsedArc usedArc = r.getWay().get(i);
+			Order cO = (Order) usedArc.getArc().getEnd();
+			if (arrival < cO.getTimeWindow().getStartInSec()) {
+				arrival = cO.getTimeWindow().getStartInSec();
+			}
+			arrival = arrival + cO.getStandingTimeInSec() + r.getWay().get(i + 1).getArc().getTime();
+			if (arrival - r.getWay().get(0).getDuration().getStartInSec() > getDepot(r).getMaxTourLength()) {
+				return false;
+			}
+		}
+
+		return true;
 	}
 
 	@Override
@@ -65,7 +75,7 @@ public class MaxTourLengthRestriction implements Restriction {
 
 	@Override
 	public String getFailureMessage() {
-		return "Max Tour Violation";
+		return "Max Tour Length Violation";
 	}
 
 }
