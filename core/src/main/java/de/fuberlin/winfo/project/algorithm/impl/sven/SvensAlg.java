@@ -120,8 +120,6 @@ public class SvensAlg extends Algorithm {
 			RestrictionException exception = null;
 			while (!priorityQueue.isEmpty()) {
 				PendingOrder nextPendingOrder = priorityQueue.poll();
-				System.out.println(
-						"NEXT: " + nextPendingOrder.getOrder().getOrderId() + ", at " + nextPendingOrder.getPos());
 				try {
 					restrictions.preliminaryCheck(route.getActualRoute(), nextPendingOrder.getOrder(),
 							nextPendingOrder.getPos());
@@ -130,7 +128,6 @@ public class SvensAlg extends Algorithm {
 					} else {
 						route.useArcAtIndex(nextPendingOrder.getOrder(), nextPendingOrder.getPos());
 					}
-					System.out.println("ADDED at " + nextPendingOrder.getPos());
 					remainingOrders.remove(nextPendingOrder.getOrder());
 				} catch (RestrictionException e) {
 					exception = e;

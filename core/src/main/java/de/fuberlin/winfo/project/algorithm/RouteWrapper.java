@@ -187,9 +187,6 @@ public class RouteWrapper {
 			arrival = startInSecByTW;
 		}
 		usedArc.getDuration().setEndInSec(arrival);
-		System.out.println(
-				"REAL: " + usedArc.getDuration().getStartInSec() + " - " + (usedArc.getDuration().getEndInSec()) + " < "
-						+ ((Depot) getDepot()).getMaxTourLength() + "(" + usedArc.getArc().getEnd() + ")");
 	}
 
 	private void computeDepature(int i, UsedArc usedArc) {
