@@ -43,12 +43,14 @@ public class ZMIVRPInput implements VRPInput {
 	private File zippedAndSerializedDM;
 	private NetworkFactoryImpl networkFactory = new NetworkFactoryImpl();
 	private Locatables locatables;
+	private Network network;
 
 	public ZMIVRPInput() throws Exception {
 		mapper = new CSV2ObjMapper(InputFilesBundles.vehicleFile, InputFilesBundles.customerFile,
 				InputFilesBundles.depotFile, InputFilesBundles.useCaseFile);
 		this.zippedAndSerializedDM = InputFilesBundles.zippedAndSerializedDM;
 		locatables = mapper.getLocatables();
+		network = getNetwork();
 	}
 
 	@Override
@@ -73,6 +75,9 @@ public class ZMIVRPInput implements VRPInput {
 
 	@Override
 	public Network getNetwork() {
+		if (network != null) {
+			return network;
+		}
 		Network network = networkFactory.createNetwork();
 		Log.info(Log.DATA_IMPORT, "Build network");
 
@@ -115,8 +120,8 @@ public class ZMIVRPInput implements VRPInput {
 		}
 	}
 
-	private void addRandomizedTimeWindows(Network network, double d) throws IOException {
-		System.out.println("without tw: "
+	public void addRandomizedTimeWindows(Network network, double d) throws IOException {
+		System.out.println("without tw prev: "
 				+ network.getVertices().stream().filter(v -> v instanceof Order).map(v -> (Order) v)
 						.filter(o -> o.getTimeWindow().getStartInSec() == 0
 								&& o.getTimeWindow().getEndInSec() == 3600 * 24)
@@ -139,7 +144,7 @@ public class ZMIVRPInput implements VRPInput {
 			o.setTimeWindow(dur);
 		}
 
-		System.out.println("without tw: "
+		System.out.println("without tw after: "
 				+ network.getVertices().stream().filter(v -> v instanceof Order).map(v -> (Order) v)
 						.filter(o -> o.getTimeWindow().getStartInSec() == 0
 								&& o.getTimeWindow().getEndInSec() == 3600 * 24)

@@ -24,16 +24,21 @@ public class MaxTourLengthRestriction implements Restriction {
 			throws RestrictionException {
 		Route r = route.getActualRoute();
 		Arc[][] A = np.getArcs();
+		int departureAt0 = r.getWay().get(0).getDuration().getStartInSec();
 		int departure = r.getWay().get(index).getDuration().getStartInSec();
 		int arrivalO = departure + A[r.getWay().get(index).getArc().getStart().getId()][o.getId()].getTime();
 		if (arrivalO < o.getTimeWindow().getStartInSec()) {
 			arrivalO = o.getTimeWindow().getStartInSec();
+			if (index == 0) {
+				departureAt0 = o.getTimeWindow().getStartInSec()
+						- A[r.getWay().get(index).getArc().getStart().getId()][o.getId()].getTime();
+			}
 		}
 		Arc toBArc = A[o.getId()][r.getWay().get(index).getArc().getEnd().getId()];
 		int arrival = arrivalO + o.getStandingTimeInSec() + toBArc.getTime();
 
 		if (index >= r.getWay().size() - 1) {
-			return arrival - r.getWay().get(0).getDuration().getStartInSec() > getDepot(r).getMaxTourLength();
+			return arrival - departureAt0 <= getDepot(r).getMaxTourLength();
 		}
 
 		for (int i = index; i < r.getWay().size() - 1; i++) {
@@ -43,7 +48,7 @@ public class MaxTourLengthRestriction implements Restriction {
 				arrival = cO.getTimeWindow().getStartInSec();
 			}
 			arrival = arrival + cO.getStandingTimeInSec() + r.getWay().get(i + 1).getArc().getTime();
-			if (arrival - r.getWay().get(0).getDuration().getStartInSec() > getDepot(r).getMaxTourLength()) {
+			if (arrival - departureAt0 > getDepot(r).getMaxTourLength()) {
 				return false;
 			}
 		}

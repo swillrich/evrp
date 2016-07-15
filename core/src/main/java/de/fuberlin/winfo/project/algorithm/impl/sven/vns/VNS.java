@@ -40,7 +40,7 @@ public class VNS {
 			if (f.isImprovement(globalOptima, localOptima)) {
 				globalOptima = localOptima;
 				u = 0;
-				System.out.println("OVERALL IMPROVEMENT");
+				System.out.println("OVERALL IMPROVEMENT, " + iterations + " left");
 			} else {
 				u++;
 			}

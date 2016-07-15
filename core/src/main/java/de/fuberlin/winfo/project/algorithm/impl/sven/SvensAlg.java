@@ -63,10 +63,21 @@ public class SvensAlg extends Algorithm {
 		constructProcedure(solution, networkProvider.getLocatables());
 		System.out.println("Constructive procedure finished with initial solution: "
 				+ FormatConv.withSeparator(f.compute(solution), ""));
-
+		
+		solutionFeasiblityChecker(solution);
+		
 		VNSMonitor historyMonitor = new VNSMonitor(f);
 		solution = reducingRoutes(solution, historyMonitor);
+		solutionFeasiblityChecker(solution);
+		 
 		improvementProcedure(solution, historyMonitor);
+	}
+
+	private void solutionFeasiblityChecker(Solution solution) {
+		if (!restrictions.checkWholeSolution(solution)) {
+			System.out.println("\n--> *IN*-feasible solution reached <--");
+			System.exit(0);
+		}
 	}
 
 	private Solution reducingRoutes(Solution solution, VNSMonitor historyMonitor) {
