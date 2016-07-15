@@ -2,6 +2,8 @@ package de.fuberlin.winfo.project.algorithm.restriction;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
+import java.util.stream.Collectors;
 
 import de.fuberlin.winfo.project.algorithm.NetworkProvider;
 import de.fuberlin.winfo.project.algorithm.RouteWrapper;
@@ -35,6 +37,10 @@ public class Restrictions extends ArrayList<Restriction> {
 			}
 		}
 		return true;
+	}
+	
+	public List<Restriction> getViolations(Solution solution) {
+		return stream().filter(r -> !r.checkSolution(np, solution)).collect(Collectors.toList());
 	}
 
 	public void preliminaryCheck(Route route, Order newOrder, int index) throws RestrictionException {

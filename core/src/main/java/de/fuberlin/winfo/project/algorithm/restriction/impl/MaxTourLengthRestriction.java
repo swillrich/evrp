@@ -24,22 +24,29 @@ public class MaxTourLengthRestriction implements Restriction {
 			throws RestrictionException {
 		Route r = route.getActualRoute();
 		Arc[][] A = np.getArcs();
-		int departureAt0 = r.getWay().get(0).getDuration().getStartInSec();
+
 		int departure = r.getWay().get(index).getDuration().getStartInSec();
+		int departureAt0 = r.getWay().get(0).getDuration().getStartInSec();
+		if (index == 0) {
+			int driveTime = A[route.getDepot().getId()][o.getId()].getTime();
+			int startInSec = o.getTimeWindow().getStartInSec();
+			if (startInSec - driveTime > ((Depot) route.getDepot()).getTimeWindow().getStartInSec()) {
+				departureAt0 = startInSec - driveTime;
+				departure = departureAt0;
+				System.out.println(".");
+			} else {
+				departure = getDepot(r).getTimeWindow().getStartInSec();
+				departureAt0 = departure;
+			}
+		}
+
 		int arrivalO = departure + A[r.getWay().get(index).getArc().getStart().getId()][o.getId()].getTime();
 		if (arrivalO < o.getTimeWindow().getStartInSec()) {
 			arrivalO = o.getTimeWindow().getStartInSec();
-			if (index == 0) {
-				departureAt0 = o.getTimeWindow().getStartInSec()
-						- A[r.getWay().get(index).getArc().getStart().getId()][o.getId()].getTime();
-			}
 		}
 		Arc toBArc = A[o.getId()][r.getWay().get(index).getArc().getEnd().getId()];
 		int arrival = arrivalO + o.getStandingTimeInSec() + toBArc.getTime();
-
-		if (index >= r.getWay().size() - 1) {
-			return arrival - departureAt0 <= getDepot(r).getMaxTourLength();
-		}
+		System.out.println("at new node:" + departure + " - " + (arrivalO));
 
 		for (int i = index; i < r.getWay().size() - 1; i++) {
 			UsedArc usedArc = r.getWay().get(i);
@@ -47,13 +54,19 @@ public class MaxTourLengthRestriction implements Restriction {
 			if (arrival < cO.getTimeWindow().getStartInSec()) {
 				arrival = cO.getTimeWindow().getStartInSec();
 			}
-			arrival = arrival + cO.getStandingTimeInSec() + r.getWay().get(i + 1).getArc().getTime();
 			if (arrival - departureAt0 > getDepot(r).getMaxTourLength()) {
+				System.out.println("FAIL");
 				return false;
 			}
-		}
+			System.out.println(".PRE: " + (arrival) + " < " + getDepot(r).getMaxTourLength() + " at " + i + " / "
+					+ (r.getWay().size() - 1) + " (" + cO.getOrderId() + ", TW" + (cO.getTimeWindow().getStartInSec())
+					+ ")");
 
-		return true;
+			arrival = arrival + cO.getStandingTimeInSec() + r.getWay().get(i + 1).getArc().getTime();
+		}
+		System.out.println("last arrival: " + (arrival));
+
+		return arrival - departureAt0 <= getDepot(r).getMaxTourLength();
 	}
 
 	@Override

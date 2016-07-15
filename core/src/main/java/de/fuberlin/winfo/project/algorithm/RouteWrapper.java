@@ -181,21 +181,15 @@ public class RouteWrapper {
 		/*
 		 * ARRIVAL COMPUTATION
 		 */
-		Duration timeWindow = Utils.getTimeWindow(usedArc.getArc().getEnd());
-		if (timeWindow != null) {
-			int startInSecByTW = timeWindow.getStartInSec();
-			int arrival = usedArc.getDuration().getStartInSec() + usedArc.getArc().getTime();
-			if (arrival > startInSecByTW) {
-				// If the arrival lies behind the Time Window Start
-				usedArc.getDuration().setEndInSec(arrival);
-			} else {
-				usedArc.getDuration().setEndInSec(startInSecByTW);
-			}
-		} else {
-			// without time windows, only the time consumed by the link
-			// itself is considered
-			usedArc.getDuration().setEndInSec(usedArc.getDuration().getStartInSec() + usedArc.getArc().getTime());
+		int startInSecByTW = Utils.getTimeWindow(usedArc.getArc().getEnd()).getStartInSec();
+		int arrival = usedArc.getDuration().getStartInSec() + usedArc.getArc().getTime();
+		if (arrival < startInSecByTW) {
+			arrival = startInSecByTW;
 		}
+		usedArc.getDuration().setEndInSec(arrival);
+		System.out.println(
+				"REAL: " + usedArc.getDuration().getStartInSec() + " - " + (usedArc.getDuration().getEndInSec()) + " < "
+						+ ((Depot) getDepot()).getMaxTourLength() + "(" + usedArc.getArc().getEnd() + ")");
 	}
 
 	private void computeDepature(int i, UsedArc usedArc) {
@@ -207,21 +201,18 @@ public class RouteWrapper {
 			UsedArc prevUE = route.getWay().get(i - 1);
 
 			// compute start time
-			int time = prevUE.getDuration().getEndInSec() + getServiceTime(prevUE.getArc().getEnd());
+			int time = prevUE.getDuration().getEndInSec() + getServiceTime(usedArc.getArc().getStart());
 			usedArc.getDuration().setStartInSec(time);
 		} else {
 			// compute start time if the first arc is given
-
-			Duration srcTimeWindow = Utils.getTimeWindow(usedArc.getArc().getStart());
-			int driveTime = usedArc.getArc().getTime();
-			int startInSecFromStartByTW = srcTimeWindow.getStartInSec();
-			int start = startInSecFromStartByTW;
+			int startDepotByTW = Utils.getTimeWindow(getDepot()).getStartInSec();
+			int start = startDepotByTW;
 
 			Vertex end = usedArc.getArc().getEnd();
-
 			if (end instanceof Order) {
 				int startInSec = ((Order) end).getTimeWindow().getStartInSec();
-				if (startInSec - driveTime > startInSecFromStartByTW) {
+				int driveTime = usedArc.getArc().getTime();
+				if (startInSec - driveTime > startDepotByTW) {
 					start = startInSec - driveTime;
 				}
 			}

@@ -19,6 +19,7 @@ import de.fuberlin.winfo.project.algorithm.impl.sven.vns.neighborhoodstructures.
 import de.fuberlin.winfo.project.algorithm.impl.sven.vns.neighborhoodstructures.impl.interroute.RandomizedInterRouteSingleNodeRelocationNeighborhoodStructure;
 import de.fuberlin.winfo.project.algorithm.impl.sven.vns.neighborhoodstructures.impl.singleroute.KOptNeighborhoodStructure;
 import de.fuberlin.winfo.project.algorithm.impl.sven.vns.neighborhoodstructures.impl.singleroute.RandomizedKOptNeighborhoodStructure;
+import de.fuberlin.winfo.project.algorithm.restriction.Restriction;
 import de.fuberlin.winfo.project.algorithm.restriction.RestrictionException;
 import de.fuberlin.winfo.project.model.network.Arc;
 import de.fuberlin.winfo.project.model.network.Order;
@@ -63,18 +64,21 @@ public class SvensAlg extends Algorithm {
 		constructProcedure(solution, networkProvider.getLocatables());
 		System.out.println("Constructive procedure finished with initial solution: "
 				+ FormatConv.withSeparator(f.compute(solution), ""));
-		
+
 		solutionFeasiblityChecker(solution);
-		
+
 		VNSMonitor historyMonitor = new VNSMonitor(f);
 		solution = reducingRoutes(solution, historyMonitor);
 		solutionFeasiblityChecker(solution);
-		 
+
 		improvementProcedure(solution, historyMonitor);
 	}
 
 	private void solutionFeasiblityChecker(Solution solution) {
-		if (!restrictions.checkWholeSolution(solution)) {
+		List<Restriction> list = restrictions.getViolations(solution);
+		if (list.size() > 0) {
+			System.out.println("\ndue to");
+			list.forEach(r -> System.out.println("- " + r.getFailureMessage()));
 			System.out.println("\n--> *IN*-feasible solution reached <--");
 			System.exit(0);
 		}
@@ -116,6 +120,8 @@ public class SvensAlg extends Algorithm {
 			RestrictionException exception = null;
 			while (!priorityQueue.isEmpty()) {
 				PendingOrder nextPendingOrder = priorityQueue.poll();
+				System.out.println(
+						"NEXT: " + nextPendingOrder.getOrder().getOrderId() + ", at " + nextPendingOrder.getPos());
 				try {
 					restrictions.preliminaryCheck(route.getActualRoute(), nextPendingOrder.getOrder(),
 							nextPendingOrder.getPos());
@@ -124,6 +130,7 @@ public class SvensAlg extends Algorithm {
 					} else {
 						route.useArcAtIndex(nextPendingOrder.getOrder(), nextPendingOrder.getPos());
 					}
+					System.out.println("ADDED at " + nextPendingOrder.getPos());
 					remainingOrders.remove(nextPendingOrder.getOrder());
 				} catch (RestrictionException e) {
 					exception = e;
@@ -133,6 +140,7 @@ public class SvensAlg extends Algorithm {
 			System.out.println((solution.getRoutes().size() + 1) + ". Route with "
 					+ (route.getActualRoute().getWay().size() + 1) + " nodes built (" + reason + ")");
 			solution.getRoutes().add(route.getActualRoute());
+			solutionFeasiblityChecker(solution);
 			route.takeCareOfSolutionValues();
 		}
 	}
