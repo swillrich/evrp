@@ -3,10 +3,9 @@ package de.fuberlin.winfo.project.visualization.web.logic;
 import java.io.PrintStream;
 
 import de.fuberlin.winfo.project.FormatConv;
-import de.fuberlin.winfo.project.model.network.GlobalSearch;
-import de.fuberlin.winfo.project.model.network.LocalSearch;
+import de.fuberlin.winfo.project.model.network.Event;
+import de.fuberlin.winfo.project.model.network.History;
 import de.fuberlin.winfo.project.model.network.Network;
-import de.fuberlin.winfo.project.model.network.SearchHistory;
 import de.fuberlin.winfo.project.model.network.Solution;
 import dnl.utils.text.table.TextTable;
 
@@ -14,8 +13,8 @@ public class HistoryVisualizer {
 	private Network nw;
 	private Solution sol;
 	private PrintStream stream;
-	private SearchHistory history;
-	private String[] titles = "Neighborhood, Operation, Sek, Best Neighbor, Diff (prev), Best Solution".split(", ");
+	private History history;
+	private String[] titles = "KindOf, Time, f(s), Imprv, Text".split(", ");
 	private TextTable table;
 
 	public HistoryVisualizer(Network nw, Solution sol, PrintStream stream) {
@@ -38,50 +37,39 @@ public class HistoryVisualizer {
 	}
 
 	private Object[][] getData() {
-		Object[][] oAr = new Object[getTotalRows()][titles.length];
-		for (int j = 0, row = 0; j < history.getSearches().size(); j++) {
-			GlobalSearch vnsSearch = history.getSearches().get(j);
-			for (int i = 0; i < vnsSearch.getLocalSearches().size(); i++) {
-				LocalSearch neighborhoodSearch = vnsSearch.getLocalSearches().get(i);
-				for (int k = 0; k < oAr[row].length; k++) {
-					oAr[row][k] = getColumnValue(vnsSearch, neighborhoodSearch, k);
-				}
-				row++;
+		int totalRows = history.getEvents().size();
+		Object[][] oAr = new Object[totalRows][titles.length];
+		Event eventPrev = null;
+		for (int i = 0; i < totalRows; i++) {
+			Event event = history.getEvents().get(i);
+			for (int j = 0; j < titles.length; j++) {
+				oAr[i][j] = getColumnValue(event, eventPrev, j);
 			}
-			for (int k = 0; k < oAr[row].length; k++) {
-				oAr[row][k] = getColumnValue(vnsSearch, null, k);
-			}
-			row++;
-			if (vnsSearch.getLocalSearches().size() == 0) {
-				row++;
-			}
+			eventPrev = event;
 		}
 		return oAr;
 	}
 
-	private Object getColumnValue(GlobalSearch vnsSearch, LocalSearch search, int column) {
+	// KindOf, Time, f(s), Imprv, Text
+	private Object getColumnValue(Event event, Event eventPrev, int column) {
 		switch (column) {
 		case 0:
-			return vnsSearch.getName();
+			return event.getType().name();
 		case 1:
-			return search != null ? search.getOperation() : vnsSearch.getOperation();
+			return FormatConv.asDuration(event.getTime(), "");
 		case 2:
-			return FormatConv.asDuration(search != null ? search.getTime() : 0, "");
+			return FormatConv.withSeparator(event.getValue(), "");
 		case 3:
-			return search != null ? FormatConv.withSeparator(search.getCost(), "") : "";
+			if (eventPrev == null) {
+				return "-";
+			} else {
+				double prev = eventPrev.getValue();
+				double cur = event.getValue();
+				return FormatConv.round((prev - cur) / cur * 100d, 2);
+			}
 		case 4:
-			return search != null ? FormatConv.withSeparator(vnsSearch.getPrevCost() - search.getCost(), "") : "";
-		case 5:
-			return search == null ? FormatConv.withSeparator(vnsSearch.getCost(), "") : "";
+			return event.getDescription();
 		}
-		return "";
-	}
-
-	private int getTotalRows() {
-		int sum = 0;
-		for (int i = 0; i < history.getSearches().size(); i++) {
-			sum += history.getSearches().get(i).getLocalSearches().size() + 1;
-		}
-		return sum;
+		return null;
 	}
 }

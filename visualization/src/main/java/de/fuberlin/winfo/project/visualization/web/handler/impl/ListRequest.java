@@ -11,7 +11,7 @@ import org.eclipse.emf.common.util.EList;
 import org.eclipse.jetty.server.Request;
 
 import de.fuberlin.winfo.project.FormatConv;
-import de.fuberlin.winfo.project.model.network.GlobalSearch;
+import de.fuberlin.winfo.project.model.network.Event;
 import de.fuberlin.winfo.project.model.network.Network;
 import de.fuberlin.winfo.project.model.network.Solution;
 import de.fuberlin.winfo.project.visualization.web.VisualizationServer;
@@ -62,7 +62,7 @@ public class ListRequest extends AbstractRequest {
 	private void writeContent() {
 		add("<Table id=\"t01\">");
 
-		String[] columns = new String[] { "Id", "NW Nodes", "save / remove", "Creation Time", "Algorithm",
+		String[] columns = new String[] { "Id", "NW Nodes", "save / remove", "Creation Time", "Name", "Algorithm",
 				"Solving time", "Routes", "Improvment Ratio", "Total consumption", "Total Time", "Total Distance",
 				"Details", "Map", "GeoJson", "VNS History" };
 		addRow(columns, true, 1, -1);
@@ -82,7 +82,7 @@ public class ListRequest extends AbstractRequest {
 
 				Object[] networkLinePart = new Object[] { i, n.getVertices().size(), saveLink + " / " + removeLink };
 
-				Object[] solutionLinePart = new Object[] { FormatConv.asDateTime(s.getCreationTime()),
+				Object[] solutionLinePart = new Object[] { FormatConv.asDateTime(s.getCreationTime()), getName(s),
 						s.getAlgorithmName(), FormatConv.asDuration(s.getSolvingTime(), ""), s.getRoutes().size(),
 						getImprovementRatio(s), FormatConv.withSeparator(s.getTotalVehicleBatteryConsumption(), "kwh"),
 						FormatConv.asDuration(s.getTotalTime() * 1000, "h"),
@@ -104,12 +104,16 @@ public class ListRequest extends AbstractRequest {
 		add("</table>");
 	}
 
+	private Object getName(Solution s) {
+		return s.getUsecase().getName();
+	}
+
 	private Object getImprovementRatio(Solution s) {
 		if (s.getHistory() != null) {
-			EList<GlobalSearch> searches = s.getHistory().getSearches();
-			if (searches.size() > 0) {
-				double prevCost = searches.get(0).getPrevCost();
-				double cost = searches.get(searches.size() - 1).getCost();
+			EList<Event> events = s.getHistory().getEvents();
+			if (events.size() > 0) {
+				double prevCost = events.get(0).getValue();
+				double cost = events.get(events.size() - 1).getValue();
 				double diff = prevCost - cost;
 				return FormatConv.round(diff / prevCost * 100d, 2) + " %";
 			}

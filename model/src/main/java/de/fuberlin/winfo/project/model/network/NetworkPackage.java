@@ -4,6 +4,7 @@ package de.fuberlin.winfo.project.model.network;
 
 import org.eclipse.emf.ecore.EAttribute;
 import org.eclipse.emf.ecore.EClass;
+import org.eclipse.emf.ecore.EEnum;
 import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.EReference;
 
@@ -1069,105 +1070,69 @@ public interface NetworkPackage extends EPackage {
 	int USE_CASE_OPERATION_COUNT = 0;
 
 	/**
-	 * The meta object id for the '{@link de.fuberlin.winfo.project.model.network.impl.GlobalSearchImpl <em>Global Search</em>}' class.
+	 * The meta object id for the '{@link de.fuberlin.winfo.project.model.network.impl.HistoryImpl <em>History</em>}' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @see de.fuberlin.winfo.project.model.network.impl.GlobalSearchImpl
-	 * @see de.fuberlin.winfo.project.model.network.impl.NetworkPackageImpl#getGlobalSearch()
+	 * @see de.fuberlin.winfo.project.model.network.impl.HistoryImpl
+	 * @see de.fuberlin.winfo.project.model.network.impl.NetworkPackageImpl#getHistory()
 	 * @generated
 	 */
-	int GLOBAL_SEARCH = 13;
+	int HISTORY = 13;
 
 	/**
-	 * The feature id for the '<em><b>Name</b></em>' attribute.
+	 * The feature id for the '<em><b>Events</b></em>' containment reference list.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int GLOBAL_SEARCH__NAME = 0;
+	int HISTORY__EVENTS = 0;
 
 	/**
-	 * The feature id for the '<em><b>Cost</b></em>' attribute.
+	 * The number of structural features of the '<em>History</em>' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int GLOBAL_SEARCH__COST = 1;
+	int HISTORY_FEATURE_COUNT = 1;
 
 	/**
-	 * The feature id for the '<em><b>Prev Cost</b></em>' attribute.
+	 * The number of operations of the '<em>History</em>' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int GLOBAL_SEARCH__PREV_COST = 2;
+	int HISTORY_OPERATION_COUNT = 0;
 
 	/**
-	 * The feature id for the '<em><b>Local Searches</b></em>' containment reference list.
+	 * The meta object id for the '{@link de.fuberlin.winfo.project.model.network.impl.EventImpl <em>Event</em>}' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see de.fuberlin.winfo.project.model.network.impl.EventImpl
+	 * @see de.fuberlin.winfo.project.model.network.impl.NetworkPackageImpl#getEvent()
+	 * @generated
+	 */
+	int EVENT = 14;
+
+	/**
+	 * The feature id for the '<em><b>Description</b></em>' attribute.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int GLOBAL_SEARCH__LOCAL_SEARCHES = 3;
+	int EVENT__DESCRIPTION = 0;
 
 	/**
-	 * The feature id for the '<em><b>Operation</b></em>' attribute.
+	 * The feature id for the '<em><b>Value</b></em>' attribute.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int GLOBAL_SEARCH__OPERATION = 4;
-
-	/**
-	 * The number of structural features of the '<em>Global Search</em>' class.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int GLOBAL_SEARCH_FEATURE_COUNT = 5;
-
-	/**
-	 * The number of operations of the '<em>Global Search</em>' class.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int GLOBAL_SEARCH_OPERATION_COUNT = 0;
-
-	/**
-	 * The meta object id for the '{@link de.fuberlin.winfo.project.model.network.impl.LocalSearchImpl <em>Local Search</em>}' class.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @see de.fuberlin.winfo.project.model.network.impl.LocalSearchImpl
-	 * @see de.fuberlin.winfo.project.model.network.impl.NetworkPackageImpl#getLocalSearch()
-	 * @generated
-	 */
-	int LOCAL_SEARCH = 14;
-
-	/**
-	 * The feature id for the '<em><b>Operation</b></em>' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int LOCAL_SEARCH__OPERATION = 0;
-
-	/**
-	 * The feature id for the '<em><b>Cost</b></em>' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int LOCAL_SEARCH__COST = 1;
+	int EVENT__VALUE = 1;
 
 	/**
 	 * The feature id for the '<em><b>Time</b></em>' attribute.
@@ -1176,62 +1141,44 @@ public interface NetworkPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int LOCAL_SEARCH__TIME = 2;
+	int EVENT__TIME = 2;
 
 	/**
-	 * The number of structural features of the '<em>Local Search</em>' class.
+	 * The feature id for the '<em><b>Type</b></em>' attribute.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int LOCAL_SEARCH_FEATURE_COUNT = 3;
+	int EVENT__TYPE = 3;
 
 	/**
-	 * The number of operations of the '<em>Local Search</em>' class.
+	 * The number of structural features of the '<em>Event</em>' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int LOCAL_SEARCH_OPERATION_COUNT = 0;
+	int EVENT_FEATURE_COUNT = 4;
 
 	/**
-	 * The meta object id for the '{@link de.fuberlin.winfo.project.model.network.impl.SearchHistoryImpl <em>Search History</em>}' class.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @see de.fuberlin.winfo.project.model.network.impl.SearchHistoryImpl
-	 * @see de.fuberlin.winfo.project.model.network.impl.NetworkPackageImpl#getSearchHistory()
-	 * @generated
-	 */
-	int SEARCH_HISTORY = 15;
-
-	/**
-	 * The feature id for the '<em><b>Searches</b></em>' containment reference list.
+	 * The number of operations of the '<em>Event</em>' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int SEARCH_HISTORY__SEARCHES = 0;
+	int EVENT_OPERATION_COUNT = 0;
 
 	/**
-	 * The number of structural features of the '<em>Search History</em>' class.
+	 * The meta object id for the '{@link de.fuberlin.winfo.project.model.network.EventType <em>Event Type</em>}' enum.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
+	 * @see de.fuberlin.winfo.project.model.network.EventType
+	 * @see de.fuberlin.winfo.project.model.network.impl.NetworkPackageImpl#getEventType()
 	 * @generated
-	 * @ordered
 	 */
-	int SEARCH_HISTORY_FEATURE_COUNT = 1;
-
-	/**
-	 * The number of operations of the '<em>Search History</em>' class.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int SEARCH_HISTORY_OPERATION_COUNT = 0;
+	int EVENT_TYPE = 15;
 
 
 	/**
@@ -2003,133 +1950,89 @@ public interface NetworkPackage extends EPackage {
 	EAttribute getUseCase_MaxTourLengthInSec();
 
 	/**
-	 * Returns the meta object for class '{@link de.fuberlin.winfo.project.model.network.GlobalSearch <em>Global Search</em>}'.
+	 * Returns the meta object for class '{@link de.fuberlin.winfo.project.model.network.History <em>History</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @return the meta object for class '<em>Global Search</em>'.
-	 * @see de.fuberlin.winfo.project.model.network.GlobalSearch
+	 * @return the meta object for class '<em>History</em>'.
+	 * @see de.fuberlin.winfo.project.model.network.History
 	 * @generated
 	 */
-	EClass getGlobalSearch();
+	EClass getHistory();
 
 	/**
-	 * Returns the meta object for the attribute '{@link de.fuberlin.winfo.project.model.network.GlobalSearch#getName <em>Name</em>}'.
+	 * Returns the meta object for the containment reference list '{@link de.fuberlin.winfo.project.model.network.History#getEvents <em>Events</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @return the meta object for the attribute '<em>Name</em>'.
-	 * @see de.fuberlin.winfo.project.model.network.GlobalSearch#getName()
-	 * @see #getGlobalSearch()
+	 * @return the meta object for the containment reference list '<em>Events</em>'.
+	 * @see de.fuberlin.winfo.project.model.network.History#getEvents()
+	 * @see #getHistory()
 	 * @generated
 	 */
-	EAttribute getGlobalSearch_Name();
+	EReference getHistory_Events();
 
 	/**
-	 * Returns the meta object for the attribute '{@link de.fuberlin.winfo.project.model.network.GlobalSearch#getCost <em>Cost</em>}'.
+	 * Returns the meta object for class '{@link de.fuberlin.winfo.project.model.network.Event <em>Event</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @return the meta object for the attribute '<em>Cost</em>'.
-	 * @see de.fuberlin.winfo.project.model.network.GlobalSearch#getCost()
-	 * @see #getGlobalSearch()
+	 * @return the meta object for class '<em>Event</em>'.
+	 * @see de.fuberlin.winfo.project.model.network.Event
 	 * @generated
 	 */
-	EAttribute getGlobalSearch_Cost();
+	EClass getEvent();
 
 	/**
-	 * Returns the meta object for the attribute '{@link de.fuberlin.winfo.project.model.network.GlobalSearch#getPrevCost <em>Prev Cost</em>}'.
+	 * Returns the meta object for the attribute '{@link de.fuberlin.winfo.project.model.network.Event#getDescription <em>Description</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @return the meta object for the attribute '<em>Prev Cost</em>'.
-	 * @see de.fuberlin.winfo.project.model.network.GlobalSearch#getPrevCost()
-	 * @see #getGlobalSearch()
+	 * @return the meta object for the attribute '<em>Description</em>'.
+	 * @see de.fuberlin.winfo.project.model.network.Event#getDescription()
+	 * @see #getEvent()
 	 * @generated
 	 */
-	EAttribute getGlobalSearch_PrevCost();
+	EAttribute getEvent_Description();
 
 	/**
-	 * Returns the meta object for the containment reference list '{@link de.fuberlin.winfo.project.model.network.GlobalSearch#getLocalSearches <em>Local Searches</em>}'.
+	 * Returns the meta object for the attribute '{@link de.fuberlin.winfo.project.model.network.Event#getValue <em>Value</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @return the meta object for the containment reference list '<em>Local Searches</em>'.
-	 * @see de.fuberlin.winfo.project.model.network.GlobalSearch#getLocalSearches()
-	 * @see #getGlobalSearch()
+	 * @return the meta object for the attribute '<em>Value</em>'.
+	 * @see de.fuberlin.winfo.project.model.network.Event#getValue()
+	 * @see #getEvent()
 	 * @generated
 	 */
-	EReference getGlobalSearch_LocalSearches();
+	EAttribute getEvent_Value();
 
 	/**
-	 * Returns the meta object for the attribute '{@link de.fuberlin.winfo.project.model.network.GlobalSearch#getOperation <em>Operation</em>}'.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @return the meta object for the attribute '<em>Operation</em>'.
-	 * @see de.fuberlin.winfo.project.model.network.GlobalSearch#getOperation()
-	 * @see #getGlobalSearch()
-	 * @generated
-	 */
-	EAttribute getGlobalSearch_Operation();
-
-	/**
-	 * Returns the meta object for class '{@link de.fuberlin.winfo.project.model.network.LocalSearch <em>Local Search</em>}'.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @return the meta object for class '<em>Local Search</em>'.
-	 * @see de.fuberlin.winfo.project.model.network.LocalSearch
-	 * @generated
-	 */
-	EClass getLocalSearch();
-
-	/**
-	 * Returns the meta object for the attribute '{@link de.fuberlin.winfo.project.model.network.LocalSearch#getOperation <em>Operation</em>}'.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @return the meta object for the attribute '<em>Operation</em>'.
-	 * @see de.fuberlin.winfo.project.model.network.LocalSearch#getOperation()
-	 * @see #getLocalSearch()
-	 * @generated
-	 */
-	EAttribute getLocalSearch_Operation();
-
-	/**
-	 * Returns the meta object for the attribute '{@link de.fuberlin.winfo.project.model.network.LocalSearch#getCost <em>Cost</em>}'.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @return the meta object for the attribute '<em>Cost</em>'.
-	 * @see de.fuberlin.winfo.project.model.network.LocalSearch#getCost()
-	 * @see #getLocalSearch()
-	 * @generated
-	 */
-	EAttribute getLocalSearch_Cost();
-
-	/**
-	 * Returns the meta object for the attribute '{@link de.fuberlin.winfo.project.model.network.LocalSearch#getTime <em>Time</em>}'.
+	 * Returns the meta object for the attribute '{@link de.fuberlin.winfo.project.model.network.Event#getTime <em>Time</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @return the meta object for the attribute '<em>Time</em>'.
-	 * @see de.fuberlin.winfo.project.model.network.LocalSearch#getTime()
-	 * @see #getLocalSearch()
+	 * @see de.fuberlin.winfo.project.model.network.Event#getTime()
+	 * @see #getEvent()
 	 * @generated
 	 */
-	EAttribute getLocalSearch_Time();
+	EAttribute getEvent_Time();
 
 	/**
-	 * Returns the meta object for class '{@link de.fuberlin.winfo.project.model.network.SearchHistory <em>Search History</em>}'.
+	 * Returns the meta object for the attribute '{@link de.fuberlin.winfo.project.model.network.Event#getType <em>Type</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @return the meta object for class '<em>Search History</em>'.
-	 * @see de.fuberlin.winfo.project.model.network.SearchHistory
+	 * @return the meta object for the attribute '<em>Type</em>'.
+	 * @see de.fuberlin.winfo.project.model.network.Event#getType()
+	 * @see #getEvent()
 	 * @generated
 	 */
-	EClass getSearchHistory();
+	EAttribute getEvent_Type();
 
 	/**
-	 * Returns the meta object for the containment reference list '{@link de.fuberlin.winfo.project.model.network.SearchHistory#getSearches <em>Searches</em>}'.
+	 * Returns the meta object for enum '{@link de.fuberlin.winfo.project.model.network.EventType <em>Event Type</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @return the meta object for the containment reference list '<em>Searches</em>'.
-	 * @see de.fuberlin.winfo.project.model.network.SearchHistory#getSearches()
-	 * @see #getSearchHistory()
+	 * @return the meta object for enum '<em>Event Type</em>'.
+	 * @see de.fuberlin.winfo.project.model.network.EventType
 	 * @generated
 	 */
-	EReference getSearchHistory_Searches();
+	EEnum getEventType();
 
 	/**
 	 * Returns the factory that creates the instances of the model.
@@ -2749,80 +2652,48 @@ public interface NetworkPackage extends EPackage {
 		EAttribute USE_CASE__MAX_TOUR_LENGTH_IN_SEC = eINSTANCE.getUseCase_MaxTourLengthInSec();
 
 		/**
-		 * The meta object literal for the '{@link de.fuberlin.winfo.project.model.network.impl.GlobalSearchImpl <em>Global Search</em>}' class.
+		 * The meta object literal for the '{@link de.fuberlin.winfo.project.model.network.impl.HistoryImpl <em>History</em>}' class.
 		 * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
-		 * @see de.fuberlin.winfo.project.model.network.impl.GlobalSearchImpl
-		 * @see de.fuberlin.winfo.project.model.network.impl.NetworkPackageImpl#getGlobalSearch()
+		 * @see de.fuberlin.winfo.project.model.network.impl.HistoryImpl
+		 * @see de.fuberlin.winfo.project.model.network.impl.NetworkPackageImpl#getHistory()
 		 * @generated
 		 */
-		EClass GLOBAL_SEARCH = eINSTANCE.getGlobalSearch();
+		EClass HISTORY = eINSTANCE.getHistory();
 
 		/**
-		 * The meta object literal for the '<em><b>Name</b></em>' attribute feature.
+		 * The meta object literal for the '<em><b>Events</b></em>' containment reference list feature.
 		 * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
 		 * @generated
 		 */
-		EAttribute GLOBAL_SEARCH__NAME = eINSTANCE.getGlobalSearch_Name();
+		EReference HISTORY__EVENTS = eINSTANCE.getHistory_Events();
 
 		/**
-		 * The meta object literal for the '<em><b>Cost</b></em>' attribute feature.
+		 * The meta object literal for the '{@link de.fuberlin.winfo.project.model.network.impl.EventImpl <em>Event</em>}' class.
 		 * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
+		 * @see de.fuberlin.winfo.project.model.network.impl.EventImpl
+		 * @see de.fuberlin.winfo.project.model.network.impl.NetworkPackageImpl#getEvent()
 		 * @generated
 		 */
-		EAttribute GLOBAL_SEARCH__COST = eINSTANCE.getGlobalSearch_Cost();
+		EClass EVENT = eINSTANCE.getEvent();
 
 		/**
-		 * The meta object literal for the '<em><b>Prev Cost</b></em>' attribute feature.
+		 * The meta object literal for the '<em><b>Description</b></em>' attribute feature.
 		 * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
 		 * @generated
 		 */
-		EAttribute GLOBAL_SEARCH__PREV_COST = eINSTANCE.getGlobalSearch_PrevCost();
+		EAttribute EVENT__DESCRIPTION = eINSTANCE.getEvent_Description();
 
 		/**
-		 * The meta object literal for the '<em><b>Local Searches</b></em>' containment reference list feature.
+		 * The meta object literal for the '<em><b>Value</b></em>' attribute feature.
 		 * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
 		 * @generated
 		 */
-		EReference GLOBAL_SEARCH__LOCAL_SEARCHES = eINSTANCE.getGlobalSearch_LocalSearches();
-
-		/**
-		 * The meta object literal for the '<em><b>Operation</b></em>' attribute feature.
-		 * <!-- begin-user-doc -->
-		 * <!-- end-user-doc -->
-		 * @generated
-		 */
-		EAttribute GLOBAL_SEARCH__OPERATION = eINSTANCE.getGlobalSearch_Operation();
-
-		/**
-		 * The meta object literal for the '{@link de.fuberlin.winfo.project.model.network.impl.LocalSearchImpl <em>Local Search</em>}' class.
-		 * <!-- begin-user-doc -->
-		 * <!-- end-user-doc -->
-		 * @see de.fuberlin.winfo.project.model.network.impl.LocalSearchImpl
-		 * @see de.fuberlin.winfo.project.model.network.impl.NetworkPackageImpl#getLocalSearch()
-		 * @generated
-		 */
-		EClass LOCAL_SEARCH = eINSTANCE.getLocalSearch();
-
-		/**
-		 * The meta object literal for the '<em><b>Operation</b></em>' attribute feature.
-		 * <!-- begin-user-doc -->
-		 * <!-- end-user-doc -->
-		 * @generated
-		 */
-		EAttribute LOCAL_SEARCH__OPERATION = eINSTANCE.getLocalSearch_Operation();
-
-		/**
-		 * The meta object literal for the '<em><b>Cost</b></em>' attribute feature.
-		 * <!-- begin-user-doc -->
-		 * <!-- end-user-doc -->
-		 * @generated
-		 */
-		EAttribute LOCAL_SEARCH__COST = eINSTANCE.getLocalSearch_Cost();
+		EAttribute EVENT__VALUE = eINSTANCE.getEvent_Value();
 
 		/**
 		 * The meta object literal for the '<em><b>Time</b></em>' attribute feature.
@@ -2830,25 +2701,25 @@ public interface NetworkPackage extends EPackage {
 		 * <!-- end-user-doc -->
 		 * @generated
 		 */
-		EAttribute LOCAL_SEARCH__TIME = eINSTANCE.getLocalSearch_Time();
+		EAttribute EVENT__TIME = eINSTANCE.getEvent_Time();
 
 		/**
-		 * The meta object literal for the '{@link de.fuberlin.winfo.project.model.network.impl.SearchHistoryImpl <em>Search History</em>}' class.
-		 * <!-- begin-user-doc -->
-		 * <!-- end-user-doc -->
-		 * @see de.fuberlin.winfo.project.model.network.impl.SearchHistoryImpl
-		 * @see de.fuberlin.winfo.project.model.network.impl.NetworkPackageImpl#getSearchHistory()
-		 * @generated
-		 */
-		EClass SEARCH_HISTORY = eINSTANCE.getSearchHistory();
-
-		/**
-		 * The meta object literal for the '<em><b>Searches</b></em>' containment reference list feature.
+		 * The meta object literal for the '<em><b>Type</b></em>' attribute feature.
 		 * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
 		 * @generated
 		 */
-		EReference SEARCH_HISTORY__SEARCHES = eINSTANCE.getSearchHistory_Searches();
+		EAttribute EVENT__TYPE = eINSTANCE.getEvent_Type();
+
+		/**
+		 * The meta object literal for the '{@link de.fuberlin.winfo.project.model.network.EventType <em>Event Type</em>}' enum.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @see de.fuberlin.winfo.project.model.network.EventType
+		 * @see de.fuberlin.winfo.project.model.network.impl.NetworkPackageImpl#getEventType()
+		 * @generated
+		 */
+		EEnum EVENT_TYPE = eINSTANCE.getEventType();
 
 	}
 

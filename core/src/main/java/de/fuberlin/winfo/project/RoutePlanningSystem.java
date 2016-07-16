@@ -29,13 +29,12 @@ public class RoutePlanningSystem {
 	public void work() throws Exception {
 		Log.info(Log.SYSTEM, "Welcome to the RPS to solve VRP");
 		NetworkProvider networkProvider = new NetworkProvider(input);
-
 		NetworkFactory networkfactory = new NetworkFactoryImpl();
 
 		for (UseCase useCase : input.getUseCases()) {
 			Solution solution = networkfactory.createSolution();
 			solution.setUsecase(useCase);
-			solution.setAlgorithmName(input.getDescription());
+			useCase.setName(input.getDescription());
 			networkProvider.getNetwork().getSolution().add(solution);
 		}
 

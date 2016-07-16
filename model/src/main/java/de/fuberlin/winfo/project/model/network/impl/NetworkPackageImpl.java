@@ -6,15 +6,15 @@ import de.fuberlin.winfo.project.model.network.Arc;
 import de.fuberlin.winfo.project.model.network.Customer;
 import de.fuberlin.winfo.project.model.network.Depot;
 import de.fuberlin.winfo.project.model.network.Duration;
-import de.fuberlin.winfo.project.model.network.GlobalSearch;
-import de.fuberlin.winfo.project.model.network.LocalSearch;
+import de.fuberlin.winfo.project.model.network.Event;
+import de.fuberlin.winfo.project.model.network.EventType;
+import de.fuberlin.winfo.project.model.network.History;
 import de.fuberlin.winfo.project.model.network.Locatable;
 import de.fuberlin.winfo.project.model.network.Network;
 import de.fuberlin.winfo.project.model.network.NetworkFactory;
 import de.fuberlin.winfo.project.model.network.NetworkPackage;
 import de.fuberlin.winfo.project.model.network.Order;
 import de.fuberlin.winfo.project.model.network.Route;
-import de.fuberlin.winfo.project.model.network.SearchHistory;
 import de.fuberlin.winfo.project.model.network.Solution;
 import de.fuberlin.winfo.project.model.network.UseCase;
 import de.fuberlin.winfo.project.model.network.UsedArc;
@@ -23,6 +23,7 @@ import de.fuberlin.winfo.project.model.network.Vertex;
 
 import org.eclipse.emf.ecore.EAttribute;
 import org.eclipse.emf.ecore.EClass;
+import org.eclipse.emf.ecore.EEnum;
 import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.EReference;
 
@@ -131,21 +132,21 @@ public class NetworkPackageImpl extends EPackageImpl implements NetworkPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	private EClass globalSearchEClass = null;
+	private EClass historyEClass = null;
 
 	/**
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	private EClass localSearchEClass = null;
+	private EClass eventEClass = null;
 
 	/**
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	private EClass searchHistoryEClass = null;
+	private EEnum eventTypeEEnum = null;
 
 	/**
 	 * Creates an instance of the model <b>Package</b>, registered with
@@ -852,8 +853,8 @@ public class NetworkPackageImpl extends EPackageImpl implements NetworkPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EClass getGlobalSearch() {
-		return globalSearchEClass;
+	public EClass getHistory() {
+		return historyEClass;
 	}
 
 	/**
@@ -861,8 +862,8 @@ public class NetworkPackageImpl extends EPackageImpl implements NetworkPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EAttribute getGlobalSearch_Name() {
-		return (EAttribute)globalSearchEClass.getEStructuralFeatures().get(0);
+	public EReference getHistory_Events() {
+		return (EReference)historyEClass.getEStructuralFeatures().get(0);
 	}
 
 	/**
@@ -870,8 +871,8 @@ public class NetworkPackageImpl extends EPackageImpl implements NetworkPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EAttribute getGlobalSearch_Cost() {
-		return (EAttribute)globalSearchEClass.getEStructuralFeatures().get(1);
+	public EClass getEvent() {
+		return eventEClass;
 	}
 
 	/**
@@ -879,8 +880,8 @@ public class NetworkPackageImpl extends EPackageImpl implements NetworkPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EAttribute getGlobalSearch_PrevCost() {
-		return (EAttribute)globalSearchEClass.getEStructuralFeatures().get(2);
+	public EAttribute getEvent_Description() {
+		return (EAttribute)eventEClass.getEStructuralFeatures().get(0);
 	}
 
 	/**
@@ -888,8 +889,8 @@ public class NetworkPackageImpl extends EPackageImpl implements NetworkPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EReference getGlobalSearch_LocalSearches() {
-		return (EReference)globalSearchEClass.getEStructuralFeatures().get(3);
+	public EAttribute getEvent_Value() {
+		return (EAttribute)eventEClass.getEStructuralFeatures().get(1);
 	}
 
 	/**
@@ -897,8 +898,8 @@ public class NetworkPackageImpl extends EPackageImpl implements NetworkPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EAttribute getGlobalSearch_Operation() {
-		return (EAttribute)globalSearchEClass.getEStructuralFeatures().get(4);
+	public EAttribute getEvent_Time() {
+		return (EAttribute)eventEClass.getEStructuralFeatures().get(2);
 	}
 
 	/**
@@ -906,8 +907,8 @@ public class NetworkPackageImpl extends EPackageImpl implements NetworkPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EClass getLocalSearch() {
-		return localSearchEClass;
+	public EAttribute getEvent_Type() {
+		return (EAttribute)eventEClass.getEStructuralFeatures().get(3);
 	}
 
 	/**
@@ -915,44 +916,8 @@ public class NetworkPackageImpl extends EPackageImpl implements NetworkPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EAttribute getLocalSearch_Operation() {
-		return (EAttribute)localSearchEClass.getEStructuralFeatures().get(0);
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public EAttribute getLocalSearch_Cost() {
-		return (EAttribute)localSearchEClass.getEStructuralFeatures().get(1);
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public EAttribute getLocalSearch_Time() {
-		return (EAttribute)localSearchEClass.getEStructuralFeatures().get(2);
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public EClass getSearchHistory() {
-		return searchHistoryEClass;
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public EReference getSearchHistory_Searches() {
-		return (EReference)searchHistoryEClass.getEStructuralFeatures().get(0);
+	public EEnum getEventType() {
+		return eventTypeEEnum;
 	}
 
 	/**
@@ -1067,20 +1032,17 @@ public class NetworkPackageImpl extends EPackageImpl implements NetworkPackage {
 		createEReference(useCaseEClass, USE_CASE__VEHICLES);
 		createEAttribute(useCaseEClass, USE_CASE__MAX_TOUR_LENGTH_IN_SEC);
 
-		globalSearchEClass = createEClass(GLOBAL_SEARCH);
-		createEAttribute(globalSearchEClass, GLOBAL_SEARCH__NAME);
-		createEAttribute(globalSearchEClass, GLOBAL_SEARCH__COST);
-		createEAttribute(globalSearchEClass, GLOBAL_SEARCH__PREV_COST);
-		createEReference(globalSearchEClass, GLOBAL_SEARCH__LOCAL_SEARCHES);
-		createEAttribute(globalSearchEClass, GLOBAL_SEARCH__OPERATION);
+		historyEClass = createEClass(HISTORY);
+		createEReference(historyEClass, HISTORY__EVENTS);
 
-		localSearchEClass = createEClass(LOCAL_SEARCH);
-		createEAttribute(localSearchEClass, LOCAL_SEARCH__OPERATION);
-		createEAttribute(localSearchEClass, LOCAL_SEARCH__COST);
-		createEAttribute(localSearchEClass, LOCAL_SEARCH__TIME);
+		eventEClass = createEClass(EVENT);
+		createEAttribute(eventEClass, EVENT__DESCRIPTION);
+		createEAttribute(eventEClass, EVENT__VALUE);
+		createEAttribute(eventEClass, EVENT__TIME);
+		createEAttribute(eventEClass, EVENT__TYPE);
 
-		searchHistoryEClass = createEClass(SEARCH_HISTORY);
-		createEReference(searchHistoryEClass, SEARCH_HISTORY__SEARCHES);
+		// Create enums
+		eventTypeEEnum = createEEnum(EVENT_TYPE);
 	}
 
 	/**
@@ -1184,7 +1146,7 @@ public class NetworkPackageImpl extends EPackageImpl implements NetworkPackage {
 		initEAttribute(getSolution_TotalTime(), ecorePackage.getELong(), "totalTime", null, 0, 1, Solution.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEAttribute(getSolution_TotalVehicleBatteryConsumption(), ecorePackage.getELong(), "totalVehicleBatteryConsumption", null, 0, 1, Solution.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEReference(getSolution_Usecase(), this.getUseCase(), null, "usecase", null, 1, 1, Solution.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-		initEReference(getSolution_History(), this.getSearchHistory(), null, "history", null, 0, 1, Solution.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEReference(getSolution_History(), this.getHistory(), null, "history", null, 0, 1, Solution.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEAttribute(getSolution_AlgorithmName(), ecorePackage.getEString(), "algorithmName", null, 0, 1, Solution.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEAttribute(getSolution_CreationTime(), ecorePackage.getELong(), "creationTime", null, 0, 1, Solution.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEAttribute(getSolution_SolvingTime(), ecorePackage.getELong(), "solvingTime", null, 0, 1, Solution.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
@@ -1201,20 +1163,23 @@ public class NetworkPackageImpl extends EPackageImpl implements NetworkPackage {
 		initEReference(getUseCase_Vehicles(), this.getVehicle(), null, "vehicles", null, 0, -1, UseCase.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEAttribute(getUseCase_MaxTourLengthInSec(), ecorePackage.getEInt(), "maxTourLengthInSec", null, 0, 1, UseCase.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
-		initEClass(globalSearchEClass, GlobalSearch.class, "GlobalSearch", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
-		initEAttribute(getGlobalSearch_Name(), ecorePackage.getEString(), "name", null, 0, 1, GlobalSearch.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-		initEAttribute(getGlobalSearch_Cost(), ecorePackage.getEDouble(), "cost", null, 0, 1, GlobalSearch.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-		initEAttribute(getGlobalSearch_PrevCost(), ecorePackage.getEDouble(), "prevCost", null, 0, 1, GlobalSearch.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-		initEReference(getGlobalSearch_LocalSearches(), this.getLocalSearch(), null, "localSearches", null, 0, -1, GlobalSearch.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-		initEAttribute(getGlobalSearch_Operation(), ecorePackage.getEString(), "operation", null, 0, 1, GlobalSearch.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEClass(historyEClass, History.class, "History", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+		initEReference(getHistory_Events(), this.getEvent(), null, "events", null, 0, -1, History.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
-		initEClass(localSearchEClass, LocalSearch.class, "LocalSearch", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
-		initEAttribute(getLocalSearch_Operation(), ecorePackage.getEString(), "operation", null, 0, 1, LocalSearch.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-		initEAttribute(getLocalSearch_Cost(), ecorePackage.getEDouble(), "cost", null, 0, 1, LocalSearch.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-		initEAttribute(getLocalSearch_Time(), ecorePackage.getELong(), "time", null, 0, 1, LocalSearch.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEClass(eventEClass, Event.class, "Event", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+		initEAttribute(getEvent_Description(), ecorePackage.getEString(), "Description", null, 0, 1, Event.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEAttribute(getEvent_Value(), ecorePackage.getEDouble(), "value", null, 0, 1, Event.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEAttribute(getEvent_Time(), ecorePackage.getELong(), "time", null, 0, 1, Event.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEAttribute(getEvent_Type(), this.getEventType(), "type", null, 0, 1, Event.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
-		initEClass(searchHistoryEClass, SearchHistory.class, "SearchHistory", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
-		initEReference(getSearchHistory_Searches(), this.getGlobalSearch(), null, "searches", null, 0, -1, SearchHistory.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		// Initialize enums and add enum literals
+		initEEnum(eventTypeEEnum, EventType.class, "EventType");
+		addEEnumLiteral(eventTypeEEnum, EventType.LS_IMPROVEMENT);
+		addEEnumLiteral(eventTypeEEnum, EventType.PERTURBATION);
+		addEEnumLiteral(eventTypeEEnum, EventType.INITIAL);
+		addEEnumLiteral(eventTypeEEnum, EventType.FINAL);
+		addEEnumLiteral(eventTypeEEnum, EventType.ROUTE_REDUCING);
+		addEEnumLiteral(eventTypeEEnum, EventType.GS_IMPROVEMENT);
 
 		// Create resource
 		createResource(eNS_URI);

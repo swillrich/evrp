@@ -79,4 +79,7 @@ public class Moves extends ArrayList<Move> {
 		moves.addAll(list);
 		return moves;
 	}
+	public int getMaxSize() {
+		return maxSize;
+	}
 }

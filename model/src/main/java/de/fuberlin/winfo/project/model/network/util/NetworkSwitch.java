@@ -148,21 +148,15 @@ public class NetworkSwitch<T> extends Switch<T> {
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}
-			case NetworkPackage.GLOBAL_SEARCH: {
-				GlobalSearch globalSearch = (GlobalSearch)theEObject;
-				T result = caseGlobalSearch(globalSearch);
+			case NetworkPackage.HISTORY: {
+				History history = (History)theEObject;
+				T result = caseHistory(history);
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}
-			case NetworkPackage.LOCAL_SEARCH: {
-				LocalSearch localSearch = (LocalSearch)theEObject;
-				T result = caseLocalSearch(localSearch);
-				if (result == null) result = defaultCase(theEObject);
-				return result;
-			}
-			case NetworkPackage.SEARCH_HISTORY: {
-				SearchHistory searchHistory = (SearchHistory)theEObject;
-				T result = caseSearchHistory(searchHistory);
+			case NetworkPackage.EVENT: {
+				Event event = (Event)theEObject;
+				T result = caseEvent(event);
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}
@@ -366,47 +360,32 @@ public class NetworkSwitch<T> extends Switch<T> {
 	}
 
 	/**
-	 * Returns the result of interpreting the object as an instance of '<em>Global Search</em>'.
+	 * Returns the result of interpreting the object as an instance of '<em>History</em>'.
 	 * <!-- begin-user-doc -->
 	 * This implementation returns null;
 	 * returning a non-null result will terminate the switch.
 	 * <!-- end-user-doc -->
 	 * @param object the target of the switch.
-	 * @return the result of interpreting the object as an instance of '<em>Global Search</em>'.
+	 * @return the result of interpreting the object as an instance of '<em>History</em>'.
 	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
 	 * @generated
 	 */
-	public T caseGlobalSearch(GlobalSearch object) {
+	public T caseHistory(History object) {
 		return null;
 	}
 
 	/**
-	 * Returns the result of interpreting the object as an instance of '<em>Local Search</em>'.
+	 * Returns the result of interpreting the object as an instance of '<em>Event</em>'.
 	 * <!-- begin-user-doc -->
 	 * This implementation returns null;
 	 * returning a non-null result will terminate the switch.
 	 * <!-- end-user-doc -->
 	 * @param object the target of the switch.
-	 * @return the result of interpreting the object as an instance of '<em>Local Search</em>'.
+	 * @return the result of interpreting the object as an instance of '<em>Event</em>'.
 	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
 	 * @generated
 	 */
-	public T caseLocalSearch(LocalSearch object) {
-		return null;
-	}
-
-	/**
-	 * Returns the result of interpreting the object as an instance of '<em>Search History</em>'.
-	 * <!-- begin-user-doc -->
-	 * This implementation returns null;
-	 * returning a non-null result will terminate the switch.
-	 * <!-- end-user-doc -->
-	 * @param object the target of the switch.
-	 * @return the result of interpreting the object as an instance of '<em>Search History</em>'.
-	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
-	 * @generated
-	 */
-	public T caseSearchHistory(SearchHistory object) {
+	public T caseEvent(Event object) {
 		return null;
 	}
 

@@ -187,12 +187,12 @@ public interface Solution extends EObject {
 	 * </p>
 	 * <!-- end-user-doc -->
 	 * @return the value of the '<em>History</em>' containment reference.
-	 * @see #setHistory(SearchHistory)
+	 * @see #setHistory(History)
 	 * @see de.fuberlin.winfo.project.model.network.NetworkPackage#getSolution_History()
 	 * @model containment="true"
 	 * @generated
 	 */
-	SearchHistory getHistory();
+	History getHistory();
 
 	/**
 	 * Sets the value of the '{@link de.fuberlin.winfo.project.model.network.Solution#getHistory <em>History</em>}' containment reference.
@@ -202,7 +202,7 @@ public interface Solution extends EObject {
 	 * @see #getHistory()
 	 * @generated
 	 */
-	void setHistory(SearchHistory value);
+	void setHistory(History value);
 
 	/**
 	 * Returns the value of the '<em><b>Algorithm Name</b></em>' attribute.

@@ -2,9 +2,9 @@
  */
 package de.fuberlin.winfo.project.model.network.impl;
 
+import de.fuberlin.winfo.project.model.network.History;
 import de.fuberlin.winfo.project.model.network.NetworkPackage;
 import de.fuberlin.winfo.project.model.network.Route;
-import de.fuberlin.winfo.project.model.network.SearchHistory;
 import de.fuberlin.winfo.project.model.network.Solution;
 import de.fuberlin.winfo.project.model.network.UseCase;
 
@@ -155,7 +155,7 @@ public class SolutionImpl extends MinimalEObjectImpl.Container implements Soluti
 	 * @generated
 	 * @ordered
 	 */
-	protected SearchHistory history;
+	protected History history;
 
 	/**
 	 * The default value of the '{@link #getAlgorithmName() <em>Algorithm Name</em>}' attribute.
@@ -380,7 +380,7 @@ public class SolutionImpl extends MinimalEObjectImpl.Container implements Soluti
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public SearchHistory getHistory() {
+	public History getHistory() {
 		return history;
 	}
 
@@ -389,8 +389,8 @@ public class SolutionImpl extends MinimalEObjectImpl.Container implements Soluti
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public NotificationChain basicSetHistory(SearchHistory newHistory, NotificationChain msgs) {
-		SearchHistory oldHistory = history;
+	public NotificationChain basicSetHistory(History newHistory, NotificationChain msgs) {
+		History oldHistory = history;
 		history = newHistory;
 		if (eNotificationRequired()) {
 			ENotificationImpl notification = new ENotificationImpl(this, Notification.SET, NetworkPackage.SOLUTION__HISTORY, oldHistory, newHistory);
@@ -404,7 +404,7 @@ public class SolutionImpl extends MinimalEObjectImpl.Container implements Soluti
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public void setHistory(SearchHistory newHistory) {
+	public void setHistory(History newHistory) {
 		if (newHistory != history) {
 			NotificationChain msgs = null;
 			if (history != null)
@@ -560,7 +560,7 @@ public class SolutionImpl extends MinimalEObjectImpl.Container implements Soluti
 				setUsecase((UseCase)newValue);
 				return;
 			case NetworkPackage.SOLUTION__HISTORY:
-				setHistory((SearchHistory)newValue);
+				setHistory((History)newValue);
 				return;
 			case NetworkPackage.SOLUTION__ALGORITHM_NAME:
 				setAlgorithmName((String)newValue);
@@ -602,7 +602,7 @@ public class SolutionImpl extends MinimalEObjectImpl.Container implements Soluti
 				setUsecase((UseCase)null);
 				return;
 			case NetworkPackage.SOLUTION__HISTORY:
-				setHistory((SearchHistory)null);
+				setHistory((History)null);
 				return;
 			case NetworkPackage.SOLUTION__ALGORITHM_NAME:
 				setAlgorithmName(ALGORITHM_NAME_EDEFAULT);

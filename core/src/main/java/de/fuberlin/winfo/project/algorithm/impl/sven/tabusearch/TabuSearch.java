@@ -5,6 +5,9 @@ import java.util.Collections;
 import java.util.Comparator;
 
 import de.fuberlin.winfo.project.Random;
+import de.fuberlin.winfo.project.algorithm.Algorithm;
+import de.fuberlin.winfo.project.algorithm.Algorithms;
+import de.fuberlin.winfo.project.algorithm.impl.sven.SvensAlg;
 import de.fuberlin.winfo.project.algorithm.impl.sven.tabusearch.Tabu.PositionedArc;
 import de.fuberlin.winfo.project.algorithm.impl.sven.vns.CostFunction;
 import de.fuberlin.winfo.project.algorithm.impl.sven.vns.Moves;
@@ -13,6 +16,7 @@ import de.fuberlin.winfo.project.algorithm.impl.sven.vns.neighborhoodstructures.
 import de.fuberlin.winfo.project.algorithm.impl.sven.vns.neighborhoodstructures.NeighborhoodStructure.ImprovementListener;
 import de.fuberlin.winfo.project.algorithm.restriction.Restrictions;
 import de.fuberlin.winfo.project.algorithm.restriction.impl.SolutionCostRangeRestriction;
+import de.fuberlin.winfo.project.model.network.EventType;
 import de.fuberlin.winfo.project.model.network.Route;
 import de.fuberlin.winfo.project.model.network.Solution;
 import de.fuberlin.winfo.project.model.network.UsedArc;
@@ -44,7 +48,8 @@ public class TabuSearch extends ArrayList<Tabu> {
 		Collections.shuffle(moves, Random.get());
 		Solution diversifiedSolution = moves.applySequentially(initial, restrictions, false);
 		restrictions.remove(restriction);
-		System.out.println("PERTURBATION (" + (countOfMoves - moves.size()) + "/" + countOfMoves + ")");
+		Algorithms.get(SvensAlg.class).addEvent(EventType.PERTURBATION, diversifiedSolution,
+				"(" + (countOfMoves - moves.size()) + "/" + countOfMoves + ")");
 		return diversifiedSolution;
 	}
 

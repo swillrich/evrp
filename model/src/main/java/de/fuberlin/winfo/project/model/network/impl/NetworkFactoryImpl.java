@@ -5,6 +5,7 @@ package de.fuberlin.winfo.project.model.network.impl;
 import de.fuberlin.winfo.project.model.network.*;
 
 import org.eclipse.emf.ecore.EClass;
+import org.eclipse.emf.ecore.EDataType;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EPackage;
 
@@ -68,11 +69,40 @@ public class NetworkFactoryImpl extends EFactoryImpl implements NetworkFactory {
 			case NetworkPackage.SOLUTION: return createSolution();
 			case NetworkPackage.USED_ARC: return createUsedArc();
 			case NetworkPackage.USE_CASE: return createUseCase();
-			case NetworkPackage.GLOBAL_SEARCH: return createGlobalSearch();
-			case NetworkPackage.LOCAL_SEARCH: return createLocalSearch();
-			case NetworkPackage.SEARCH_HISTORY: return createSearchHistory();
+			case NetworkPackage.HISTORY: return createHistory();
+			case NetworkPackage.EVENT: return createEvent();
 			default:
 				throw new IllegalArgumentException("The class '" + eClass.getName() + "' is not a valid classifier");
+		}
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	@Override
+	public Object createFromString(EDataType eDataType, String initialValue) {
+		switch (eDataType.getClassifierID()) {
+			case NetworkPackage.EVENT_TYPE:
+				return createEventTypeFromString(eDataType, initialValue);
+			default:
+				throw new IllegalArgumentException("The datatype '" + eDataType.getName() + "' is not a valid classifier");
+		}
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	@Override
+	public String convertToString(EDataType eDataType, Object instanceValue) {
+		switch (eDataType.getClassifierID()) {
+			case NetworkPackage.EVENT_TYPE:
+				return convertEventTypeToString(eDataType, instanceValue);
+			default:
+				throw new IllegalArgumentException("The datatype '" + eDataType.getName() + "' is not a valid classifier");
 		}
 	}
 
@@ -201,9 +231,9 @@ public class NetworkFactoryImpl extends EFactoryImpl implements NetworkFactory {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public GlobalSearch createGlobalSearch() {
-		GlobalSearchImpl globalSearch = new GlobalSearchImpl();
-		return globalSearch;
+	public History createHistory() {
+		HistoryImpl history = new HistoryImpl();
+		return history;
 	}
 
 	/**
@@ -211,9 +241,9 @@ public class NetworkFactoryImpl extends EFactoryImpl implements NetworkFactory {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public LocalSearch createLocalSearch() {
-		LocalSearchImpl localSearch = new LocalSearchImpl();
-		return localSearch;
+	public Event createEvent() {
+		EventImpl event = new EventImpl();
+		return event;
 	}
 
 	/**
@@ -221,9 +251,19 @@ public class NetworkFactoryImpl extends EFactoryImpl implements NetworkFactory {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public SearchHistory createSearchHistory() {
-		SearchHistoryImpl searchHistory = new SearchHistoryImpl();
-		return searchHistory;
+	public EventType createEventTypeFromString(EDataType eDataType, String initialValue) {
+		EventType result = EventType.get(initialValue);
+		if (result == null) throw new IllegalArgumentException("The value '" + initialValue + "' is not a valid enumerator of '" + eDataType.getName() + "'");
+		return result;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public String convertEventTypeToString(EDataType eDataType, Object instanceValue) {
+		return instanceValue == null ? null : instanceValue.toString();
 	}
 
 	/**

@@ -13,7 +13,6 @@ import de.fuberlin.winfo.project.algorithm.impl.sven.routeconstruction.OrderPrio
 import de.fuberlin.winfo.project.algorithm.impl.sven.routeconstruction.PendingOrder;
 import de.fuberlin.winfo.project.algorithm.impl.sven.vns.CostFunction;
 import de.fuberlin.winfo.project.algorithm.impl.sven.vns.VNS;
-import de.fuberlin.winfo.project.algorithm.impl.sven.vns.logging.VNSMonitor;
 import de.fuberlin.winfo.project.algorithm.impl.sven.vns.neighborhoodstructures.NeighborhoodStructure;
 import de.fuberlin.winfo.project.algorithm.impl.sven.vns.neighborhoodstructures.impl.interroute.RandomizedCyclingExchangeNeighborhoodStructure;
 import de.fuberlin.winfo.project.algorithm.impl.sven.vns.neighborhoodstructures.impl.interroute.RandomizedInterRouteSingleNodeRelocationNeighborhoodStructure;
@@ -22,13 +21,14 @@ import de.fuberlin.winfo.project.algorithm.impl.sven.vns.neighborhoodstructures.
 import de.fuberlin.winfo.project.algorithm.restriction.Restriction;
 import de.fuberlin.winfo.project.algorithm.restriction.RestrictionException;
 import de.fuberlin.winfo.project.model.network.Arc;
+import de.fuberlin.winfo.project.model.network.EventType;
 import de.fuberlin.winfo.project.model.network.Order;
 import de.fuberlin.winfo.project.model.network.Solution;
 import de.fuberlin.winfo.project.model.network.Vehicle;
 
 public class SvensAlg extends Algorithm {
 	Arc[][] A = null;
-	int iterations = 5000 * 5;
+	int iterations = 5000;
 	NeighborhoodStructure[] neighborhoodStructures = new NeighborhoodStructure[] {
 			new RandomizedCyclingExchangeNeighborhoodStructure(3, iterations),
 			new RandomizedCyclingExchangeNeighborhoodStructure(2, iterations),
@@ -62,16 +62,14 @@ public class SvensAlg extends Algorithm {
 		restrictions.addAll();
 
 		constructProcedure(solution, networkProvider.getLocatables());
-		System.out.println("Constructive procedure finished with initial solution: "
-				+ FormatConv.withSeparator(f.compute(solution), ""));
 
 		solutionFeasiblityChecker(solution);
+		addEvent(EventType.INITIAL, solution);
 
-		VNSMonitor historyMonitor = new VNSMonitor(f);
-		solution = reducingRoutes(solution, historyMonitor);
+		solution = reducingRoutes(solution);
 		solutionFeasiblityChecker(solution);
 
-		improvementProcedure(solution, historyMonitor);
+		improvementProcedure(solution);
 	}
 
 	private void solutionFeasiblityChecker(Solution solution) {
@@ -84,16 +82,17 @@ public class SvensAlg extends Algorithm {
 		}
 	}
 
-	private Solution reducingRoutes(Solution solution, VNSMonitor historyMonitor) {
+	private Solution reducingRoutes(Solution solution) {
 		while (true) {
 			RouteReductionProcedure routeReductionProcedure = new RouteReductionProcedure(networkProvider);
 			Solution update = routeReductionProcedure.allocateOrders(solution);
 			if (update.getRoutes().size() < solution.getRoutes().size()) {
-				System.out.println("Reduced by " + (solution.getRoutes().size() - update.getRoutes().size())
-						+ " route(s) --> " + update.getRoutes().size() + " Solution cost: "
-						+ FormatConv.withSeparator(f.compute(solution), "") + " --> "
-						+ FormatConv.withSeparator(f.compute(update), ""));
 				solution = update;
+				addEvent(EventType.ROUTE_REDUCING, solution,
+						"Reduced by " + (solution.getRoutes().size() - update.getRoutes().size()) + " route(s) --> "
+								+ update.getRoutes().size() + " Solution cost: "
+								+ FormatConv.withSeparator(f.compute(solution), "") + " --> "
+								+ FormatConv.withSeparator(f.compute(update), ""));
 				setSolution(solution);
 			} else {
 				break;
@@ -102,12 +101,11 @@ public class SvensAlg extends Algorithm {
 		return solution;
 	}
 
-	private void improvementProcedure(Solution solution, VNSMonitor historyMonitor) throws Exception {
-		System.out.println("VNS starts with " + FormatConv.withSeparator(f.compute(solution), ""));
-		VNS vns = new VNS(networkProvider, f, neighborhoodStructures, historyMonitor);
+	private void improvementProcedure(Solution solution) throws Exception {
+		VNS vns = new VNS(networkProvider, f, neighborhoodStructures);
 		Solution optSolution = vns.run(solution);
-		optSolution.setHistory(historyMonitor.getHistory());
 		setSolution(optSolution);
+		addEvent(EventType.FINAL, optSolution);
 	}
 
 	private void constructProcedure(Solution solution, Locatables locatables) throws Exception {

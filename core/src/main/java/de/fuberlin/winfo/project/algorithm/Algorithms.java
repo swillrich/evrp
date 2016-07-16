@@ -10,12 +10,9 @@ import de.fuberlin.winfo.project.algorithm.impl.sven.SvensAlg;
  */
 @SuppressWarnings("serial")
 public class Algorithms extends ArrayList<Algorithm> {
-	private static Algorithms INSTANCE = new Algorithms();
+	private static Algorithms INSTANCE;
 
-	/*
-	 * Add all algorithms here
-	 */
-	{
+	Algorithms() {
 		int i = 0;
 		add(i++, new SvensAlg());
 	}
@@ -32,7 +29,14 @@ public class Algorithms extends ArrayList<Algorithm> {
 		return b.toString();
 	}
 
+	public static Algorithm get(Class<? extends Algorithm> clazz) {
+		return INSTANCE.stream().filter(a -> a.getClass().equals(clazz)).findFirst().get();
+	}
+
 	public static Algorithms get() {
+		if (INSTANCE == null) {
+			INSTANCE = new Algorithms();
+		}
 		return INSTANCE;
 	}
 }

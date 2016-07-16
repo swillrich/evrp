@@ -120,16 +120,12 @@ public class NetworkAdapterFactory extends AdapterFactoryImpl {
 				return createUseCaseAdapter();
 			}
 			@Override
-			public Adapter caseGlobalSearch(GlobalSearch object) {
-				return createGlobalSearchAdapter();
+			public Adapter caseHistory(History object) {
+				return createHistoryAdapter();
 			}
 			@Override
-			public Adapter caseLocalSearch(LocalSearch object) {
-				return createLocalSearchAdapter();
-			}
-			@Override
-			public Adapter caseSearchHistory(SearchHistory object) {
-				return createSearchHistoryAdapter();
+			public Adapter caseEvent(Event object) {
+				return createEventAdapter();
 			}
 			@Override
 			public Adapter defaultCase(EObject object) {
@@ -334,44 +330,30 @@ public class NetworkAdapterFactory extends AdapterFactoryImpl {
 	}
 
 	/**
-	 * Creates a new adapter for an object of class '{@link de.fuberlin.winfo.project.model.network.GlobalSearch <em>Global Search</em>}'.
+	 * Creates a new adapter for an object of class '{@link de.fuberlin.winfo.project.model.network.History <em>History</em>}'.
 	 * <!-- begin-user-doc -->
 	 * This default implementation returns null so that we can easily ignore cases;
 	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
 	 * <!-- end-user-doc -->
 	 * @return the new adapter.
-	 * @see de.fuberlin.winfo.project.model.network.GlobalSearch
+	 * @see de.fuberlin.winfo.project.model.network.History
 	 * @generated
 	 */
-	public Adapter createGlobalSearchAdapter() {
+	public Adapter createHistoryAdapter() {
 		return null;
 	}
 
 	/**
-	 * Creates a new adapter for an object of class '{@link de.fuberlin.winfo.project.model.network.LocalSearch <em>Local Search</em>}'.
+	 * Creates a new adapter for an object of class '{@link de.fuberlin.winfo.project.model.network.Event <em>Event</em>}'.
 	 * <!-- begin-user-doc -->
 	 * This default implementation returns null so that we can easily ignore cases;
 	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
 	 * <!-- end-user-doc -->
 	 * @return the new adapter.
-	 * @see de.fuberlin.winfo.project.model.network.LocalSearch
+	 * @see de.fuberlin.winfo.project.model.network.Event
 	 * @generated
 	 */
-	public Adapter createLocalSearchAdapter() {
-		return null;
-	}
-
-	/**
-	 * Creates a new adapter for an object of class '{@link de.fuberlin.winfo.project.model.network.SearchHistory <em>Search History</em>}'.
-	 * <!-- begin-user-doc -->
-	 * This default implementation returns null so that we can easily ignore cases;
-	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
-	 * <!-- end-user-doc -->
-	 * @return the new adapter.
-	 * @see de.fuberlin.winfo.project.model.network.SearchHistory
-	 * @generated
-	 */
-	public Adapter createSearchHistoryAdapter() {
+	public Adapter createEventAdapter() {
 		return null;
 	}
 

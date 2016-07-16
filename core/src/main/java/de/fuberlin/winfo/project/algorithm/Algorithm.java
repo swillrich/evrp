@@ -1,5 +1,9 @@
 package de.fuberlin.winfo.project.algorithm;
 
+import java.util.Arrays;
+import java.util.Date;
+import java.util.stream.Collectors;
+
 import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.emf.ecore.util.EcoreUtil.Copier;
 
@@ -8,10 +12,15 @@ import de.fuberlin.winfo.project.Log;
 import de.fuberlin.winfo.project.Utils;
 import de.fuberlin.winfo.project.Utils.StopWatch;
 import de.fuberlin.winfo.project.algorithm.impl.sven.vns.CostFunction;
+import de.fuberlin.winfo.project.algorithm.impl.sven.vns.logging.ConsoleOutput;
 import de.fuberlin.winfo.project.algorithm.restriction.Restrictions;
+import de.fuberlin.winfo.project.model.network.Event;
+import de.fuberlin.winfo.project.model.network.EventType;
+import de.fuberlin.winfo.project.model.network.History;
 import de.fuberlin.winfo.project.model.network.Solution;
 import de.fuberlin.winfo.project.model.network.Vehicle;
 import de.fuberlin.winfo.project.model.network.Vertex;
+import de.fuberlin.winfo.project.model.network.impl.NetworkFactoryImpl;
 
 /**
  * @author willrich
@@ -27,6 +36,8 @@ public abstract class Algorithm {
 	protected Solution solution;
 	protected Restrictions restrictions;
 	protected CostFunction f;
+	private History history;
+	public ConsoleOutput output = new ConsoleOutput();
 
 	public abstract String getName();
 
@@ -44,6 +55,8 @@ public abstract class Algorithm {
 		Log.info(Log.ALGORITHM,
 				"*" + this.getName() + "* is selected and will run for UseCase " + solution.getUsecase().getName());
 		this.networkProvider = networkProvider;
+		NetworkFactoryImpl networkFactoryImpl = new NetworkFactoryImpl();
+		this.history = networkFactoryImpl.createHistory();
 		this.solution = solution;
 		restrictions = new Restrictions(this.networkProvider);
 		f = getCostFunction();
@@ -52,7 +65,8 @@ public abstract class Algorithm {
 		Log.info(Log.ALGORITHM, "Finished within " + sw.stop() + " min");
 		this.solution.setSolvingTime(sw.getAfter() - sw.getBefore());
 		this.solution.setCreationTime(sw.getBefore());
-		this.solution.setAlgorithmName(this.solution.getAlgorithmName() + " | " + getName());
+		this.solution.setAlgorithmName(getName());
+		this.solution.setHistory(history);
 		replaceSolution(solution);
 		printResult();
 	}
@@ -84,5 +98,21 @@ public abstract class Algorithm {
 		Solution copy = (Solution) c.copy(original);
 		c.copyReferences();
 		return copy;
+	}
+
+	public void addEvent(EventType type, Solution s, String... desc) {
+		NetworkFactoryImpl networkFactoryImpl = new NetworkFactoryImpl();
+		if (history == null) {
+			history = networkFactoryImpl.createHistory();
+		}
+		Event event = networkFactoryImpl.createEvent();
+		event.setType(type);
+		event.setTime(new Date().getTime());
+		event.setValue(f.compute(s));
+		if (desc != null && desc.length > 0) {
+			event.setDescription(Arrays.stream(desc).collect(Collectors.joining(";")));
+		}
+		history.getEvents().add(event);
+		output.change(history);
 	}
 }

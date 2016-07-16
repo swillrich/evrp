@@ -5,7 +5,10 @@ import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.Set;
 
+import de.fuberlin.winfo.project.FormatConv;
 import de.fuberlin.winfo.project.Random;
+import de.fuberlin.winfo.project.algorithm.Algorithms;
+import de.fuberlin.winfo.project.algorithm.impl.sven.SvensAlg;
 import de.fuberlin.winfo.project.algorithm.impl.sven.tabusearch.Tabu.PositionedArc;
 import de.fuberlin.winfo.project.model.network.Arc;
 import de.fuberlin.winfo.project.model.network.Route;
@@ -28,7 +31,7 @@ public class Tabu extends HashMap<Arc, PositionedArc> {
 
 	public void removeRandomized(int n) {
 		int size = keySet().size();
-		System.out.println("entries: " + size());
+		int prev = size();
 		LinkedList<Arc> ll = new LinkedList<Arc>(keySet());
 		Set<Arc> set = new HashSet<Arc>();
 		while (size - ll.size() <= n && !ll.isEmpty()) {
@@ -36,8 +39,9 @@ public class Tabu extends HashMap<Arc, PositionedArc> {
 			set.add(remove);
 		}
 		entrySet().removeIf(e -> set.contains(e.getKey()));
-		System.out.println("entries after: " + size());
-		System.out.println();
+		System.out.println(
+				"(" + FormatConv.withSeparator(Algorithms.get(SvensAlg.class).getCostFunction().compute(solution), "")
+						+ ") REMOVAL OF ARCS " + size() + " / " + prev);
 
 	}
 

@@ -130,31 +130,22 @@ public interface NetworkFactory extends EFactory {
 	UseCase createUseCase();
 
 	/**
-	 * Returns a new object of class '<em>Global Search</em>'.
+	 * Returns a new object of class '<em>History</em>'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @return a new object of class '<em>Global Search</em>'.
+	 * @return a new object of class '<em>History</em>'.
 	 * @generated
 	 */
-	GlobalSearch createGlobalSearch();
+	History createHistory();
 
 	/**
-	 * Returns a new object of class '<em>Local Search</em>'.
+	 * Returns a new object of class '<em>Event</em>'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @return a new object of class '<em>Local Search</em>'.
+	 * @return a new object of class '<em>Event</em>'.
 	 * @generated
 	 */
-	LocalSearch createLocalSearch();
-
-	/**
-	 * Returns a new object of class '<em>Search History</em>'.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @return a new object of class '<em>Search History</em>'.
-	 * @generated
-	 */
-	SearchHistory createSearchHistory();
+	Event createEvent();
 
 	/**
 	 * Returns the package supported by this factory.

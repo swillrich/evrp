@@ -2,19 +2,18 @@
  */
 package de.fuberlin.winfo.project.model.network.impl;
 
-import de.fuberlin.winfo.project.model.network.GlobalSearch;
+import de.fuberlin.winfo.project.model.network.Event;
+import de.fuberlin.winfo.project.model.network.History;
 import de.fuberlin.winfo.project.model.network.NetworkPackage;
-import de.fuberlin.winfo.project.model.network.SearchHistory;
 
 import java.util.Collection;
 
 import org.eclipse.emf.common.notify.NotificationChain;
-
 import org.eclipse.emf.common.util.EList;
 
 import org.eclipse.emf.ecore.EClass;
-import org.eclipse.emf.ecore.InternalEObject;
 
+import org.eclipse.emf.ecore.InternalEObject;
 import org.eclipse.emf.ecore.impl.MinimalEObjectImpl;
 
 import org.eclipse.emf.ecore.util.EObjectContainmentEList;
@@ -22,34 +21,34 @@ import org.eclipse.emf.ecore.util.InternalEList;
 
 /**
  * <!-- begin-user-doc -->
- * An implementation of the model object '<em><b>Search History</b></em>'.
+ * An implementation of the model object '<em><b>History</b></em>'.
  * <!-- end-user-doc -->
  * <p>
  * The following features are implemented:
  * </p>
  * <ul>
- *   <li>{@link de.fuberlin.winfo.project.model.network.impl.SearchHistoryImpl#getSearches <em>Searches</em>}</li>
+ *   <li>{@link de.fuberlin.winfo.project.model.network.impl.HistoryImpl#getEvents <em>Events</em>}</li>
  * </ul>
  *
  * @generated
  */
-public class SearchHistoryImpl extends MinimalEObjectImpl.Container implements SearchHistory {
+public class HistoryImpl extends MinimalEObjectImpl.Container implements History {
 	/**
-	 * The cached value of the '{@link #getSearches() <em>Searches</em>}' containment reference list.
+	 * The cached value of the '{@link #getEvents() <em>Events</em>}' containment reference list.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @see #getSearches()
+	 * @see #getEvents()
 	 * @generated
 	 * @ordered
 	 */
-	protected EList<GlobalSearch> searches;
+	protected EList<Event> events;
 
 	/**
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	protected SearchHistoryImpl() {
+	protected HistoryImpl() {
 		super();
 	}
 
@@ -60,7 +59,7 @@ public class SearchHistoryImpl extends MinimalEObjectImpl.Container implements S
 	 */
 	@Override
 	protected EClass eStaticClass() {
-		return NetworkPackage.Literals.SEARCH_HISTORY;
+		return NetworkPackage.Literals.HISTORY;
 	}
 
 	/**
@@ -68,11 +67,11 @@ public class SearchHistoryImpl extends MinimalEObjectImpl.Container implements S
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EList<GlobalSearch> getSearches() {
-		if (searches == null) {
-			searches = new EObjectContainmentEList<GlobalSearch>(GlobalSearch.class, this, NetworkPackage.SEARCH_HISTORY__SEARCHES);
+	public EList<Event> getEvents() {
+		if (events == null) {
+			events = new EObjectContainmentEList<Event>(Event.class, this, NetworkPackage.HISTORY__EVENTS);
 		}
-		return searches;
+		return events;
 	}
 
 	/**
@@ -83,8 +82,8 @@ public class SearchHistoryImpl extends MinimalEObjectImpl.Container implements S
 	@Override
 	public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, NotificationChain msgs) {
 		switch (featureID) {
-			case NetworkPackage.SEARCH_HISTORY__SEARCHES:
-				return ((InternalEList<?>)getSearches()).basicRemove(otherEnd, msgs);
+			case NetworkPackage.HISTORY__EVENTS:
+				return ((InternalEList<?>)getEvents()).basicRemove(otherEnd, msgs);
 		}
 		return super.eInverseRemove(otherEnd, featureID, msgs);
 	}
@@ -97,8 +96,8 @@ public class SearchHistoryImpl extends MinimalEObjectImpl.Container implements S
 	@Override
 	public Object eGet(int featureID, boolean resolve, boolean coreType) {
 		switch (featureID) {
-			case NetworkPackage.SEARCH_HISTORY__SEARCHES:
-				return getSearches();
+			case NetworkPackage.HISTORY__EVENTS:
+				return getEvents();
 		}
 		return super.eGet(featureID, resolve, coreType);
 	}
@@ -112,9 +111,9 @@ public class SearchHistoryImpl extends MinimalEObjectImpl.Container implements S
 	@Override
 	public void eSet(int featureID, Object newValue) {
 		switch (featureID) {
-			case NetworkPackage.SEARCH_HISTORY__SEARCHES:
-				getSearches().clear();
-				getSearches().addAll((Collection<? extends GlobalSearch>)newValue);
+			case NetworkPackage.HISTORY__EVENTS:
+				getEvents().clear();
+				getEvents().addAll((Collection<? extends Event>)newValue);
 				return;
 		}
 		super.eSet(featureID, newValue);
@@ -128,8 +127,8 @@ public class SearchHistoryImpl extends MinimalEObjectImpl.Container implements S
 	@Override
 	public void eUnset(int featureID) {
 		switch (featureID) {
-			case NetworkPackage.SEARCH_HISTORY__SEARCHES:
-				getSearches().clear();
+			case NetworkPackage.HISTORY__EVENTS:
+				getEvents().clear();
 				return;
 		}
 		super.eUnset(featureID);
@@ -143,10 +142,10 @@ public class SearchHistoryImpl extends MinimalEObjectImpl.Container implements S
 	@Override
 	public boolean eIsSet(int featureID) {
 		switch (featureID) {
-			case NetworkPackage.SEARCH_HISTORY__SEARCHES:
-				return searches != null && !searches.isEmpty();
+			case NetworkPackage.HISTORY__EVENTS:
+				return events != null && !events.isEmpty();
 		}
 		return super.eIsSet(featureID);
 	}
 
-} //SearchHistoryImpl
+} //HistoryImpl

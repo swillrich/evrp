@@ -5,11 +5,14 @@ import java.util.Comparator;
 import java.util.Iterator;
 import java.util.List;
 
+import de.fuberlin.winfo.project.algorithm.Algorithm;
+import de.fuberlin.winfo.project.algorithm.Algorithms;
 import de.fuberlin.winfo.project.algorithm.NetworkProvider;
+import de.fuberlin.winfo.project.algorithm.impl.sven.SvensAlg;
 import de.fuberlin.winfo.project.algorithm.impl.sven.vns.CostFunction;
 import de.fuberlin.winfo.project.algorithm.impl.sven.vns.Moves;
-import de.fuberlin.winfo.project.algorithm.impl.sven.vns.logging.VNSMonitor;
 import de.fuberlin.winfo.project.algorithm.restriction.Restrictions;
+import de.fuberlin.winfo.project.model.network.EventType;
 import de.fuberlin.winfo.project.model.network.Solution;
 
 public abstract class NeighborhoodStructure implements Iterator<Move> {
@@ -20,7 +23,6 @@ public abstract class NeighborhoodStructure implements Iterator<Move> {
 	protected int iterations;
 	protected int iterationsRejected;
 	private Restrictions restrictions;
-	private VNSMonitor history;
 	private CostFunction f;
 	private Moves operationList;
 	private List<ImprovementListener> improvementListener = new ArrayList<ImprovementListener>();
@@ -28,13 +30,13 @@ public abstract class NeighborhoodStructure implements Iterator<Move> {
 	public abstract String getName();
 
 	public abstract Move generateOperation(Solution solution) throws Exception;
+
 	public abstract boolean isInterRouteRelated();
 
-	public void setUp(NetworkProvider np, VNSMonitor history, CostFunction f) {
+	public void setUp(NetworkProvider np, CostFunction f) {
 		this.networkProvider = np;
 		this.restrictions = new Restrictions(networkProvider);
 		this.restrictions.addAll();
-		this.history = history;
 		this.f = f;
 	}
 
@@ -59,7 +61,6 @@ public abstract class NeighborhoodStructure implements Iterator<Move> {
 
 	public Solution search(Solution solution) throws Exception {
 		initNewSearch(solution);
-		history.startLocalSearch(this, initialSol);
 		while (hasNext()) {
 			iterations++;
 			Move move = next();
@@ -67,8 +68,9 @@ public abstract class NeighborhoodStructure implements Iterator<Move> {
 			if (!improvementListener.stream().filter(i -> !i.acceptImprovement(move)).findFirst().isPresent()) {
 				operationList.add(move);
 				if (f.compare(incumbentSol, candidate) > 0 && restrictions.checkWholeSolution(candidate)) {
-					history.neighborChange(this, candidate, "improved");
 					this.incumbentSol = candidate;
+					Algorithms.get(SvensAlg.class).addEvent(EventType.LS_IMPROVEMENT, this.incumbentSol,
+							this.getName());
 				}
 			} else {
 				iterationsRejected++;
@@ -77,9 +79,9 @@ public abstract class NeighborhoodStructure implements Iterator<Move> {
 		int prevSize = operationList.size();
 		incumbentSol = operationList.applySequentially(initialSol, restrictions, true);
 		int postSize = operationList.size();
-		history.neighborChange(this, incumbentSol, "Moves applied (" + (prevSize - postSize) + "/" + prevSize + ")");
-		history.finishedLocalSearch(this, initialSol, incumbentSol, iterations, false);
-		System.out.println("rejected: " + iterationsRejected + " / " + iterations);
+		Algorithms.get(SvensAlg.class).addEvent(EventType.LS_IMPROVEMENT, this.incumbentSol,
+				this.getName() + ", OQ (" + (prevSize - postSize) + "/" + operationList.getMaxSize() + "), REJ ("
+						+ iterationsRejected + " / " + iterations + ")");
 		return incumbentSol;
 	}
 
@@ -104,10 +106,6 @@ public abstract class NeighborhoodStructure implements Iterator<Move> {
 
 	public CostFunction getF() {
 		return f;
-	}
-
-	public VNSMonitor getHistory() {
-		return history;
 	}
 
 	public Restrictions getRestrictions() {
