@@ -1,10 +1,5 @@
 package de.fuberlin.winfo.project.algorithm;
 
-import java.util.Date;
-import java.util.HashSet;
-import java.util.List;
-import java.util.stream.Collectors;
-
 import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.emf.ecore.util.EcoreUtil.Copier;
 
@@ -14,7 +9,6 @@ import de.fuberlin.winfo.project.Utils;
 import de.fuberlin.winfo.project.Utils.StopWatch;
 import de.fuberlin.winfo.project.algorithm.impl.sven.vns.CostFunction;
 import de.fuberlin.winfo.project.algorithm.restriction.Restrictions;
-import de.fuberlin.winfo.project.model.network.Route;
 import de.fuberlin.winfo.project.model.network.Solution;
 import de.fuberlin.winfo.project.model.network.Vehicle;
 import de.fuberlin.winfo.project.model.network.Vertex;
@@ -58,7 +52,7 @@ public abstract class Algorithm {
 		Log.info(Log.ALGORITHM, "Finished within " + sw.stop() + " min");
 		this.solution.setSolvingTime(sw.getAfter() - sw.getBefore());
 		this.solution.setCreationTime(sw.getBefore());
-		this.solution.setAlgorithmName(getName());
+		this.solution.setAlgorithmName(this.solution.getAlgorithmName() + " | " + getName());
 		replaceSolution(solution);
 		printResult();
 	}

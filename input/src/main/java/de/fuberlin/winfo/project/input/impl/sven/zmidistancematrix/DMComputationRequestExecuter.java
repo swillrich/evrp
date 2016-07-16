@@ -21,7 +21,7 @@ public class DMComputationRequestExecuter {
 	}
 
 	public static void main(String[] args) throws Exception {
-		ZMIVRPInput zmivrpInput = new ZMIVRPInput();
+		ZMIVRPInput zmivrpInput = new ZMIVRPInput("");
 		zmivrpInput.getLocatables().stream().collect(Collectors.groupingBy(l -> l.getClass()))
 				.forEach((k, v) -> System.out.println(k + " " + v.size()));
 		executeRequestByGivenInput(zmivrpInput.getLocatables());

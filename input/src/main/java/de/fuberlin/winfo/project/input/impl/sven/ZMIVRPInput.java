@@ -46,12 +46,13 @@ public class ZMIVRPInput implements VRPInput {
 	private Network network;
 	private String description;
 
-	public ZMIVRPInput() throws Exception {
+	public ZMIVRPInput(String description) throws Exception {
 		mapper = new CSV2ObjMapper(InputFilesBundles.vehicleFile, InputFilesBundles.customerFile,
 				InputFilesBundles.depotFile, InputFilesBundles.useCaseFile);
 		this.zippedAndSerializedDM = InputFilesBundles.zippedAndSerializedDM;
 		locatables = mapper.getLocatables();
 		network = getNetwork();
+		this.description = description;
 	}
 
 	@Override

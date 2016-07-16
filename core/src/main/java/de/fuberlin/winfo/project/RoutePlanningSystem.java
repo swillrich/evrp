@@ -35,6 +35,7 @@ public class RoutePlanningSystem {
 		for (UseCase useCase : input.getUseCases()) {
 			Solution solution = networkfactory.createSolution();
 			solution.setUsecase(useCase);
+			solution.setAlgorithmName(input.getDescription());
 			networkProvider.getNetwork().getSolution().add(solution);
 		}
 
