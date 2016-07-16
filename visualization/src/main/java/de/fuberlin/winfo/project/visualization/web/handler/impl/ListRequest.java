@@ -63,8 +63,8 @@ public class ListRequest extends AbstractRequest {
 		add("<Table id=\"t01\">");
 
 		String[] columns = new String[] { "Id", "NW Nodes", "save / remove", "Creation Time", "Name", "Algorithm",
-				"Solving time", "Routes", "Improvment Ratio", "Total consumption", "Total Time", "Total Distance",
-				"Details", "Map", "GeoJson", "VNS History" };
+				"Solving time", "Routes", "Improvment Ratio", "Total consumption", "Total Costs", "Details", "Map",
+				"GeoJson", "VNS History" };
 		addRow(columns, true, 1, -1);
 
 		for (int i = 0; i < networks.size(); i++) {
@@ -85,9 +85,7 @@ public class ListRequest extends AbstractRequest {
 				Object[] solutionLinePart = new Object[] { FormatConv.asDateTime(s.getCreationTime()), getName(s),
 						s.getAlgorithmName(), FormatConv.asDuration(s.getSolvingTime(), ""), s.getRoutes().size(),
 						getImprovementRatio(s), FormatConv.withSeparator(s.getTotalVehicleBatteryConsumption(), "kwh"),
-						FormatConv.asDuration(s.getTotalTime() * 1000, "h"),
-						FormatConv.numberWithSeparatorAndMeter(s.getTotalDistance()), detailLink, mapLink, geoJsonLink,
-						vnsHistory };
+						getCosts(s), detailLink, mapLink, geoJsonLink, vnsHistory };
 
 				if (n.getSolution().size() > 1) {
 					if (j == 0) {
@@ -102,6 +100,11 @@ public class ListRequest extends AbstractRequest {
 			}
 		}
 		add("</table>");
+	}
+
+	private Object getCosts(Solution s) {
+		return FormatConv.withSeparator(s.getRoutes().size() * 16000 + s.getTotalVehicleBatteryConsumption() * 0.30,
+				"");
 	}
 
 	private Object getName(Solution s) {

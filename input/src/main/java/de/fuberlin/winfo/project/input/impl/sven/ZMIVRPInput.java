@@ -62,7 +62,7 @@ public class ZMIVRPInput implements VRPInput {
 
 	@Override
 	public int getVerticesMaximum() {
-		return 500;
+		return 1000;
 	}
 
 	@Override

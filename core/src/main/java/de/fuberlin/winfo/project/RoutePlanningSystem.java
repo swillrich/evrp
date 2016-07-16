@@ -40,7 +40,7 @@ public class RoutePlanningSystem {
 
 		for (int i = 0; i < networkProvider.getNetwork().getSolution().size(); i++) {
 			Solution solution = networkProvider.getNetwork().getSolution().get(i);
-			Algorithm procedure = Algorithms.get().get(input.getDesiredProcedure());
+			Algorithm procedure = Algorithms.init().get().get(input.getDesiredProcedure());
 			procedure.prepareAndRun(networkProvider, solution);
 		}
 

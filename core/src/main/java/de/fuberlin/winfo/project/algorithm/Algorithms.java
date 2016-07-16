@@ -12,11 +12,6 @@ import de.fuberlin.winfo.project.algorithm.impl.sven.SvensAlg;
 public class Algorithms extends ArrayList<Algorithm> {
 	private static Algorithms INSTANCE;
 
-	Algorithms() {
-		int i = 0;
-		add(i++, new SvensAlg());
-	}
-
 	@Override
 	public String toString() {
 		StringBuilder b = new StringBuilder();
@@ -38,5 +33,12 @@ public class Algorithms extends ArrayList<Algorithm> {
 			INSTANCE = new Algorithms();
 		}
 		return INSTANCE;
+	}
+
+	public static Algorithms init() {
+		Algorithms algs = get();
+		int i = 0;
+		algs.add(i++, new SvensAlg());
+		return algs;
 	}
 }

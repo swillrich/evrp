@@ -19,7 +19,7 @@ public class TestRunner {
 	@Test
 	public void timeWindowTest() {
 		try {
-			for (double i = 0.1; i < 1.0; i = i + 0.1) {
+			for (double i = 0.9; i <= 1.0; i = i + 0.1) {
 				System.out.println("ITERATION " + i);
 				ZMIVRPInput input = new ZMIVRPInput("TW " + i);
 				input.addRandomizedTimeWindows(input.getNetwork(), i);
