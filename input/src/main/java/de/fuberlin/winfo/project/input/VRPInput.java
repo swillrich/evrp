@@ -13,4 +13,5 @@ public interface VRPInput {
 	public int getVerticesMaximum();
 	public String getVisualizationServer();
 	public int getDesiredProcedure();
+	public String getDescription();
 }

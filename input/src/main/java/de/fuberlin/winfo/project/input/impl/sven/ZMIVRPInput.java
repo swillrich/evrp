@@ -44,6 +44,7 @@ public class ZMIVRPInput implements VRPInput {
 	private NetworkFactoryImpl networkFactory = new NetworkFactoryImpl();
 	private Locatables locatables;
 	private Network network;
+	private String description;
 
 	public ZMIVRPInput() throws Exception {
 		mapper = new CSV2ObjMapper(InputFilesBundles.vehicleFile, InputFilesBundles.customerFile,
@@ -605,4 +606,13 @@ public class ZMIVRPInput implements VRPInput {
 			1894, 1699, 899, 4261, 4235, 1317, 2346, 1058, 3601, 2094, 4401, 3784, 1059, 99, 4905, 4083, 1598, 2901,
 			4512, 2322, 1945, 1244, 2638, 317, 2420, 2907, 168, 2891, 319, 3729, 3512, 1534, 4422, 4224, 1303, 1328,
 			2537, 3990, 1477, 809, 4507, 1839, 1193, 4089, 1007, 2883, 1675, 4596, 199, 1995, 4733 };
+
+	@Override
+	public String getDescription() {
+		return this.description;
+	}
+	
+	public void setDescription(String description) {
+		this.description = description;
+	}
 }
