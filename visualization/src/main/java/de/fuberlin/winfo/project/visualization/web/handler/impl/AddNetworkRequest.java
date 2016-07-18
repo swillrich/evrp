@@ -26,6 +26,8 @@ public class AddNetworkRequest extends AbstractRequest {
 			log("New Network and Solution update stored (number of nodes: " + deserializeFromXMIString.getVertices().size()
 					+ ").");
 			log("New total number of networks: " + VisualizationServer.networkCache.size());
+			VisualizationServer.save(VisualizationServer.networkCache.size() - 1);
+			log("Solution saved");
 		} catch (Exception e) {
 			log("No Network input");
 		}

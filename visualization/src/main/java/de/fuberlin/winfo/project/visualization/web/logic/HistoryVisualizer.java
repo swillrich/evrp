@@ -69,19 +69,19 @@ public class HistoryVisualizer {
 		case 1:
 			return FormatConv.asDuration(event.getTime(), "");
 		case 2:
-			return FormatConv.withSeparator(event.getValue(), "");
+			return event.getValue();
 		case 3:
 			if (eventPrev == null) {
-				return "-";
+				return 0;
 			} else {
 				double prev = eventPrev.getValue();
 				double cur = event.getValue();
 				return FormatConv.round((prev - cur) / cur * 100d, 2);
 			}
 		case 4:
-			return FormatConv.withSeparator(vnsIncumbent, "");
+			return vnsIncumbent;
 		case 5:
-			return FormatConv.withSeparator(incumbent, "");
+			return incumbent;
 		case 6:
 			return event.getDescription();
 		}
