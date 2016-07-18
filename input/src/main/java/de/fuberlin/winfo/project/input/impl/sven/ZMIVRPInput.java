@@ -18,6 +18,7 @@ import java.util.TreeSet;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
+import de.fuberlin.winfo.project.FormatConv;
 import de.fuberlin.winfo.project.Locatables;
 import de.fuberlin.winfo.project.Log;
 import de.fuberlin.winfo.project.Utils;
@@ -144,6 +145,7 @@ public class ZMIVRPInput implements VRPInput {
 			dur.setStartInSec(Integer.valueOf(twValues[0]));
 			dur.setEndInSec(dur.getStartInSec() + Integer.valueOf(twValues[1]));
 			o.setTimeWindow(dur);
+			String string = FormatConv.asDuration(dur.getEndInSec() * 1000, "");
 		}
 
 		System.out.println("without tw after: "

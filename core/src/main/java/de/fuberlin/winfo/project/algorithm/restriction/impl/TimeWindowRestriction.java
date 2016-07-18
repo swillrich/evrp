@@ -28,7 +28,7 @@ public class TimeWindowRestriction implements Restriction {
 		}
 		int departure = arrival + newOrder.getStandingTimeInSec();
 		int offSet = departure + timeFromNewOrder - r.getWay().get(at).getDuration().getEndInSec();
-		
+
 		Vertex v;
 
 		for (int i = -1; i < r.getWay().size() - at; i++) {
@@ -57,9 +57,7 @@ public class TimeWindowRestriction implements Restriction {
 			if (usedArc.getArc().getEnd() instanceof Order) {
 				Order del = (Order) usedArc.getArc().getEnd();
 				Duration orderTW = del.getTimeWindow();
-				if (orderTW == null) {
-					continue;
-				} else if (usedArc.getDuration().getEndInSec() > orderTW.getEndInSec()) {
+				if (usedArc.getDuration().getEndInSec() > orderTW.getEndInSec()) {
 					return false;
 				}
 			}
@@ -69,7 +67,15 @@ public class TimeWindowRestriction implements Restriction {
 
 	@Override
 	public boolean checkSolution(NetworkProvider np, Solution solution) {
-		// TODO Auto-generated method stub
+		for (Route route : solution.getRoutes()) {
+			try {
+				if (!checkCompleteRoute(np, new RouteWrapper(route, null, np.getArcs()))) {
+					return false;
+				}
+			} catch (RestrictionException e) {
+				e.printStackTrace();
+			}
+		}
 		return true;
 	}
 

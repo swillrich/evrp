@@ -7,6 +7,7 @@ import de.fuberlin.winfo.project.algorithm.RouteWrapper;
 import de.fuberlin.winfo.project.algorithm.restriction.Restriction;
 import de.fuberlin.winfo.project.algorithm.restriction.RestrictionException;
 import de.fuberlin.winfo.project.model.network.Order;
+import de.fuberlin.winfo.project.model.network.Route;
 import de.fuberlin.winfo.project.model.network.Solution;
 import de.fuberlin.winfo.project.model.network.UsedArc;
 
@@ -38,7 +39,15 @@ public class CargoCapacityRestriction implements Restriction {
 
 	@Override
 	public boolean checkSolution(NetworkProvider np, Solution solution) {
-		// TODO Auto-generated method stub
+		for (Route route : solution.getRoutes()) {
+			try {
+				if (!checkCompleteRoute(np, new RouteWrapper(route, null, np.getArcs()))) {
+					return false;
+				}
+			} catch (RestrictionException e) {
+				e.printStackTrace();
+			}
+		}
 		return true;
 	}
 

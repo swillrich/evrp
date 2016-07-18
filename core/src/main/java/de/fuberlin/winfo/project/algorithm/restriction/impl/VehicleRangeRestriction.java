@@ -53,7 +53,15 @@ public class VehicleRangeRestriction implements Restriction {
 
 	@Override
 	public boolean checkSolution(NetworkProvider np, Solution solution) {
-		// TODO Auto-generated method stub
+		for (Route route : solution.getRoutes()) {
+			try {
+				if (!checkCompleteRoute(np, new RouteWrapper(route, null, np.getArcs()))) {
+					return false;
+				}
+			} catch (RestrictionException e) {
+				e.printStackTrace();
+			}
+		}
 		return true;
 	}
 }
