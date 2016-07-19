@@ -63,8 +63,8 @@ public class SvensAlg extends Algorithm {
 
 		constructProcedure(solution, networkProvider.getLocatables());
 
-		solutionFeasiblityChecker(solution);
 		addEvent(EventType.INITIAL, solution);
+		solutionFeasiblityChecker(solution);
 
 		solution = reducingRoutes(solution);
 		solutionFeasiblityChecker(solution);
