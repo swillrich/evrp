@@ -1,48 +1,70 @@
 package de.fuberlin.winfo.project.algorithm.restriction.impl;
 
+import de.fuberlin.winfo.project.Utils;
 import de.fuberlin.winfo.project.algorithm.NetworkProvider;
 import de.fuberlin.winfo.project.algorithm.RouteWrapper;
 import de.fuberlin.winfo.project.algorithm.restriction.Restriction;
 import de.fuberlin.winfo.project.algorithm.restriction.RestrictionException;
 import de.fuberlin.winfo.project.model.network.Arc;
+import de.fuberlin.winfo.project.model.network.Depot;
 import de.fuberlin.winfo.project.model.network.Duration;
 import de.fuberlin.winfo.project.model.network.Order;
 import de.fuberlin.winfo.project.model.network.Route;
 import de.fuberlin.winfo.project.model.network.Solution;
 import de.fuberlin.winfo.project.model.network.UsedArc;
-import de.fuberlin.winfo.project.model.network.Vertex;
 
 public class TimeWindowRestriction implements Restriction {
 
 	@Override
-	public boolean preliminaryCheck(NetworkProvider np, RouteWrapper route, Order newOrder, int at)
+	public boolean preliminaryCheck(NetworkProvider np, RouteWrapper route, Order o, int index)
 			throws RestrictionException {
 		Route r = route.getActualRoute();
 		Arc[][] A = np.getArcs();
-		int timeToNewOrder = A[r.getWay().get(at).getArc().getStart().getId()][newOrder.getId()].getTime();
-		int timeFromNewOrder = A[newOrder.getId()][r.getWay().get(at).getArc().getEnd().getId()].getTime();
-
-		int arrival = r.getWay().get(at).getDuration().getStartInSec() + timeToNewOrder;
-		if (arrival < newOrder.getTimeWindow().getStartInSec()) {
-			arrival = newOrder.getTimeWindow().getStartInSec();
-		}
-		int departure = arrival + newOrder.getStandingTimeInSec();
-		int offSet = departure + timeFromNewOrder - r.getWay().get(at).getDuration().getEndInSec();
-
-		Vertex v;
-
-		for (int i = -1; i < r.getWay().size() - at; i++) {
-			if (i < 0) {
-				v = newOrder;
+		int departure = r.getWay().get(index).getDuration().getStartInSec();
+		if (index == 0) {
+			int driveTime = A[route.getDepot().getId()][o.getId()].getTime();
+			int startInSec = o.getTimeWindow().getStartInSec();
+			if (startInSec - driveTime > ((Depot) route.getDepot()).getTimeWindow().getStartInSec()) {
+				departure = startInSec - driveTime;
 			} else {
-				arrival = r.getWay().get(at + i).getDuration().getEndInSec() + offSet;
-				v = r.getWay().get(at + i).getArc().getEnd();
+				departure = RouteWrapper.getDepot(r).getTimeWindow().getStartInSec();
 			}
-			if (arrival > RouteWrapper.getTimeWindowEnd(v)) {
+		}
+
+		int arrivalO = departure + A[r.getWay().get(index).getArc().getStart().getId()][o.getId()].getTime();
+
+		if (arrivalO > o.getTimeWindow().getEndInSec()) {
+			return false;
+		}
+
+		if (arrivalO < o.getTimeWindow().getStartInSec()) {
+			arrivalO = o.getTimeWindow().getStartInSec();
+		}
+
+		Arc toBArc = A[o.getId()][r.getWay().get(index).getArc().getEnd().getId()];
+		int arrival = arrivalO + o.getStandingTimeInSec() + toBArc.getTime();
+
+		for (int i = index; i < r.getWay().size() - 1; i++) {
+			UsedArc usedArc = r.getWay().get(i);
+			Order cO = (Order) usedArc.getArc().getEnd();
+			// extracted(r, i, arrival, usedArc);
+			if (arrival > cO.getTimeWindow().getEndInSec()) {
 				return false;
 			}
+			if (arrival < cO.getTimeWindow().getStartInSec()) {
+				arrival = cO.getTimeWindow().getStartInSec();
+			}
+
+			arrival = arrival + cO.getStandingTimeInSec() + r.getWay().get(i + 1).getArc().getTime();
 		}
-		return true;
+		// extracted(r, r.getWay().size() - 1, arrival,
+		// r.getWay().get(r.getWay().size() - 1));
+		return arrival <= RouteWrapper.getDepot(r).getTimeWindow().getEndInSec();
+	}
+
+	private void extracted(Route r, int i, int arrival, UsedArc usedArc) {
+		System.out.println("P:" + arrival + " < " + Utils.getTimeWindow(usedArc.getArc().getEnd()).getEndInSec() + " "
+				+ i + " / " + (r.getWay().size() - 1));
 	}
 
 	@Override

@@ -187,6 +187,11 @@ public class RouteWrapper {
 			arrival = startInSecByTW;
 		}
 		usedArc.getDuration().setEndInSec(arrival);
+//		System.out.println("R:" + arrival + " < " + Utils.getTimeWindow(usedArc.getArc().getEnd()).getEndInSec() + " "+usedArc.getArc().getEnd());
+//		if (arrival > Utils.getTimeWindow(usedArc.getArc().getEnd()).getEndInSec()) {
+//			System.out.println(route.getWay().indexOf(usedArc) + " / " + (route.getWay().size() - 1));
+//			System.exit(0);
+//		}
 	}
 
 	private void computeDepature(int i, UsedArc usedArc) {
@@ -423,5 +428,11 @@ public class RouteWrapper {
 
 	public static void printSolution(Solution solution) {
 		solution.getRoutes().forEach(r -> new RouteWrapper(r, null, null).print());
+	}
+
+	public static Depot getDepot(Route route) {
+		UsedArc firstArc = route.getWay().get(0);
+		Depot start = (Depot) firstArc.getArc().getStart();
+		return start;
 	}
 }

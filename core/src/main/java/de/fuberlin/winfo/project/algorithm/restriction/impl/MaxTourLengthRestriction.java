@@ -13,12 +13,6 @@ import de.fuberlin.winfo.project.model.network.UsedArc;
 
 public class MaxTourLengthRestriction implements Restriction {
 
-	private Depot getDepot(Route route) {
-		UsedArc firstArc = route.getWay().get(0);
-		Depot start = (Depot) firstArc.getArc().getStart();
-		return start;
-	}
-
 	@Override
 	public boolean preliminaryCheck(NetworkProvider np, RouteWrapper route, Order o, int index)
 			throws RestrictionException {
@@ -34,7 +28,7 @@ public class MaxTourLengthRestriction implements Restriction {
 				departureAt0 = startInSec - driveTime;
 				departure = departureAt0;
 			} else {
-				departure = getDepot(r).getTimeWindow().getStartInSec();
+				departure = RouteWrapper.getDepot(r).getTimeWindow().getStartInSec();
 				departureAt0 = departure;
 			}
 		}
@@ -52,14 +46,14 @@ public class MaxTourLengthRestriction implements Restriction {
 			if (arrival < cO.getTimeWindow().getStartInSec()) {
 				arrival = cO.getTimeWindow().getStartInSec();
 			}
-			if (arrival - departureAt0 > getDepot(r).getMaxTourLength()) {
+			if (arrival - departureAt0 > RouteWrapper.getDepot(r).getMaxTourLength()) {
 				return false;
 			}
 
 			arrival = arrival + cO.getStandingTimeInSec() + r.getWay().get(i + 1).getArc().getTime();
 		}
 
-		return arrival - departureAt0 <= getDepot(r).getMaxTourLength();
+		return arrival - departureAt0 <= RouteWrapper.getDepot(r).getMaxTourLength();
 	}
 
 	@Override
@@ -67,7 +61,7 @@ public class MaxTourLengthRestriction implements Restriction {
 		UsedArc firstArc = route.getActualRoute().getWay().get(0);
 		int sec = route.getActualRoute().getWay().get(route.getActualRoute().getWay().size() - 1).getDuration()
 				.getEndInSec();
-		return sec - firstArc.getDuration().getStartInSec() <= getDepot(route.getActualRoute()).getMaxTourLength();
+		return sec - firstArc.getDuration().getStartInSec() <= RouteWrapper.getDepot(route.getActualRoute()).getMaxTourLength();
 	}
 
 	@Override

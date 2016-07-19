@@ -118,6 +118,9 @@ public class SvensAlg extends Algorithm {
 			RestrictionException exception = null;
 			while (!priorityQueue.isEmpty()) {
 				PendingOrder nextPendingOrder = priorityQueue.poll();
+				// System.out
+				// .println("NEXT " + nextPendingOrder.getPos() + " " +
+				// nextPendingOrder.getOrder().getOrderId());
 				try {
 					restrictions.preliminaryCheck(route.getActualRoute(), nextPendingOrder.getOrder(),
 							nextPendingOrder.getPos());
