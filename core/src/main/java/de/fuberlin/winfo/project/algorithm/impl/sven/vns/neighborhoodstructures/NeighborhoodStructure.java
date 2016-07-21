@@ -42,7 +42,7 @@ public abstract class NeighborhoodStructure implements Iterator<Move> {
 
 	public void initNewSearch(Solution initialSolution) {
 		this.initialSol = initialSolution;
-		operationList = new Moves(initialSolution, f, 300);
+		operationList = new Moves(initialSolution, f, 500);
 		operationList.setComparator(new Comparator<Move>() {
 			@Override
 			public int compare(Move o1, Move o2) {

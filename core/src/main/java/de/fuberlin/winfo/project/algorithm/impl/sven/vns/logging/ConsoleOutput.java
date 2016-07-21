@@ -45,9 +45,9 @@ public class ConsoleOutput {
 	private String getImprovementText(double prev, double cur) {
 		String imprv;
 		double diff = prev - cur;
-		imprv = String.valueOf(FormatConv.round(diff / prev * 100d, 2));
-		if (imprv.length() > 4) {
-			imprv = imprv.substring(0, 4);
+		imprv = String.valueOf(FormatConv.round(diff / prev * 100d, 4));
+		if (imprv.length() > 6) {
+			imprv = imprv.substring(0, 6);
 		}
 		imprv = imprv.concat(" %");
 		return imprv;

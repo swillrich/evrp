@@ -32,7 +32,7 @@ public class SvensAlg extends Algorithm {
 	NeighborhoodStructure[] neighborhoodStructures = new NeighborhoodStructure[] {
 			new RandomizedCyclingExchangeNeighborhoodStructure(3, iterations),
 			new RandomizedCyclingExchangeNeighborhoodStructure(2, iterations),
-			new RandomizedInterRouteSingleNodeRelocationNeighborhoodStructure(iterations),
+			new RandomizedInterRouteSingleNodeRelocationNeighborhoodStructure(iterations * 2),
 			new RandomizedKOptNeighborhoodStructure(3, iterations), new KOptNeighborhoodStructure(2) };
 
 	@Override
@@ -51,7 +51,7 @@ public class SvensAlg extends Algorithm {
 
 			@Override
 			public double acceptanceThreshold() {
-				return 0.01;
+				return 0.0025;
 			}
 		};
 	}
