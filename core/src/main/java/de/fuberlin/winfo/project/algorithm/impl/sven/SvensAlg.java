@@ -28,7 +28,7 @@ import de.fuberlin.winfo.project.model.network.Vehicle;
 
 public class SvensAlg extends Algorithm {
 	Arc[][] A = null;
-	int iterations = 5000 * 3;
+	int iterations = 5000 * 5;
 	NeighborhoodStructure[] neighborhoodStructures = new NeighborhoodStructure[] {
 			new RandomizedCyclingExchangeNeighborhoodStructure(3, iterations),
 			new RandomizedCyclingExchangeNeighborhoodStructure(2, iterations),
@@ -51,7 +51,7 @@ public class SvensAlg extends Algorithm {
 
 			@Override
 			public double acceptanceThreshold() {
-				return 0.0025;
+				return 0.003;
 			}
 		};
 	}
