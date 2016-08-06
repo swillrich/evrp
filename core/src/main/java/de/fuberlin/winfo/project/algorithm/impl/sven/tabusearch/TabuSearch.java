@@ -5,7 +5,6 @@ import java.util.Collections;
 import java.util.Comparator;
 
 import de.fuberlin.winfo.project.Random;
-import de.fuberlin.winfo.project.algorithm.Algorithm;
 import de.fuberlin.winfo.project.algorithm.Algorithms;
 import de.fuberlin.winfo.project.algorithm.impl.sven.SvensAlg;
 import de.fuberlin.winfo.project.algorithm.impl.sven.tabusearch.Tabu.PositionedArc;
@@ -102,7 +101,8 @@ public class TabuSearch extends ArrayList<Tabu> {
 				}
 			});
 		}
-		return computeSimilarity(max, solution) > tabooThreshold;
+		double a = computeSimilarity(max, solution);
+		return a > tabooThreshold;
 	}
 
 	int i;

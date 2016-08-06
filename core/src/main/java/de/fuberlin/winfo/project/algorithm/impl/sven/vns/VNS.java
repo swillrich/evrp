@@ -26,7 +26,7 @@ public class VNS {
 	public Solution run(Solution globalOptima) throws Exception {
 		int iterations = 3;
 		int u = 0;
-		TabuSearch tabuSearch = new TabuSearch(f, 0.9, 5);
+		TabuSearch tabuSearch = new TabuSearch(f, 0.78, 5);
 		Solution localOptima = globalOptima;
 		TS: do {
 			int k = 0;
@@ -34,10 +34,10 @@ public class VNS {
 				Solution bestNeighbor = tabuSearch.searchForBestNonTabuMove(neighborhoodStructures[k], localOptima);
 				if (f.isImprovement(localOptima, bestNeighbor)) {
 					k = 0;
-					Algorithms.get(SvensAlg.class).addEvent(EventType.GS_IMPROVEMENT, localOptima, "VNS RESET");
+					Algorithms.get(SvensAlg.class).addEvent(EventType.GS_IMPROVEMENT, bestNeighbor, "VNS RESET");
 				} else {
 					k++;
-					Algorithms.get(SvensAlg.class).addEvent(EventType.GS_IMPROVEMENT, localOptima, "VNS NEXT");
+					Algorithms.get(SvensAlg.class).addEvent(EventType.GS_IMPROVEMENT, bestNeighbor, "VNS NEXT");
 				}
 				if (f.compare(localOptima, bestNeighbor) > 0) {
 					localOptima = bestNeighbor;
@@ -47,13 +47,13 @@ public class VNS {
 			if (f.isImprovement(globalOptima, localOptima)) {
 				globalOptima = localOptima;
 				u = 0;
-				Algorithms.get(SvensAlg.class).addEvent(EventType.GS_IMPROVEMENT, localOptima, "TS RESET");
+				Algorithms.get(SvensAlg.class).addEvent(EventType.GS_IMPROVEMENT, globalOptima, "TS RESET");
 			} else {
 				u++;
-				Algorithms.get(SvensAlg.class).addEvent(EventType.GS_IMPROVEMENT, localOptima, "TS NEXT");
+				Algorithms.get(SvensAlg.class).addEvent(EventType.GS_IMPROVEMENT, globalOptima, "TS NEXT");
 			}
 			if (u < iterations) {
-				localOptima = tabuSearch.perturb(-0.20, neighborhoodStructures, globalOptima, 300);
+				localOptima = tabuSearch.perturb(-0.20, neighborhoodStructures, globalOptima, 500);
 			}
 		} while (u < iterations);
 		return globalOptima;

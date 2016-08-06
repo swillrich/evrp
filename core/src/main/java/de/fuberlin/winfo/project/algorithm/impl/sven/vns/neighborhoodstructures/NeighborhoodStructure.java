@@ -2,10 +2,11 @@ package de.fuberlin.winfo.project.algorithm.impl.sven.vns.neighborhoodstructures
 
 import java.util.ArrayList;
 import java.util.Comparator;
+import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
 
-import de.fuberlin.winfo.project.algorithm.Algorithm;
+import de.fuberlin.winfo.project.FormatConv;
 import de.fuberlin.winfo.project.algorithm.Algorithms;
 import de.fuberlin.winfo.project.algorithm.NetworkProvider;
 import de.fuberlin.winfo.project.algorithm.impl.sven.SvensAlg;
@@ -21,6 +22,8 @@ public abstract class NeighborhoodStructure implements Iterator<Move> {
 	protected Solution incumbentSol;
 	protected NetworkProvider networkProvider;
 	protected int iterations;
+	protected long start;
+	protected long end;
 	protected int iterationsRejected;
 	private Restrictions restrictions;
 	private CostFunction f;
@@ -52,6 +55,7 @@ public abstract class NeighborhoodStructure implements Iterator<Move> {
 		this.iterations = 0;
 		this.incumbentSol = initialSol;
 		this.iterationsRejected = 0;
+		this.start = new Date().getTime();
 	}
 
 	public Solution shake(Solution solution) throws Exception {
@@ -79,9 +83,11 @@ public abstract class NeighborhoodStructure implements Iterator<Move> {
 		int prevSize = operationList.size();
 		incumbentSol = operationList.applySequentially(initialSol, restrictions, true);
 		int postSize = operationList.size();
+		this.end = new Date().getTime();
+		long avgDur = (long) (iterations / ((end - start) / 1000d));
 		Algorithms.get(SvensAlg.class).addEvent(EventType.LS_IMPROVEMENT, this.incumbentSol,
 				this.getName() + ", OQ (" + (prevSize - postSize) + "/" + operationList.getMaxSize() + "), REJ ("
-						+ iterationsRejected + " / " + iterations + ")");
+						+ iterationsRejected + " / " + iterations + "), AvgIt(" + avgDur + ")");
 		return incumbentSol;
 	}
 
