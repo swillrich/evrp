@@ -1,5 +1,7 @@
 package de.fuberlin.winfo.project.algorithm;
 
+import java.io.FileOutputStream;
+import java.io.OutputStream;
 import java.util.Arrays;
 import java.util.Date;
 import java.util.stream.Collectors;
@@ -114,5 +116,6 @@ public abstract class Algorithm {
 		}
 		history.getEvents().add(event);
 		output.change(history);
+		output.writeTo(history, s, f);
 	}
 }

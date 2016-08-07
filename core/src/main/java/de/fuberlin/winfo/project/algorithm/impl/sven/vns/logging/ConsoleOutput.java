@@ -1,11 +1,21 @@
 package de.fuberlin.winfo.project.algorithm.impl.sven.vns.logging;
 
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.OutputStream;
+import java.util.Arrays;
+import java.util.Date;
+import java.util.stream.Collectors;
+
 import org.eclipse.emf.common.util.EList;
 
 import de.fuberlin.winfo.project.FormatConv;
 import de.fuberlin.winfo.project.TablePrinter;
+import de.fuberlin.winfo.project.algorithm.impl.sven.vns.CostFunction;
 import de.fuberlin.winfo.project.model.network.Event;
+import de.fuberlin.winfo.project.model.network.EventType;
 import de.fuberlin.winfo.project.model.network.History;
+import de.fuberlin.winfo.project.model.network.Solution;
 
 public class ConsoleOutput {
 	String[] titles = new String[] { "KIND", "DATE", "f(s)", "IMPR", "IMPR T", "TEXT" };
@@ -51,5 +61,30 @@ public class ConsoleOutput {
 		}
 		imprv = imprv.concat(" %");
 		return imprv;
+	}
+
+	OutputStream stream = null;
+
+	public void writeTo(History history, Solution s, CostFunction f) {
+		if (stream == null) {
+			try {
+				stream = new FileOutputStream("output_" + new Date().getTime() + ".txt", false);
+				stream.write("number, timestamp, time, f, distance, cm, time\n".getBytes());
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+		}
+		Event event = history.getEvents().get(history.getEvents().size() - 1);
+		if (event.getType() == EventType.GS_IMPROVEMENT || event.getType() == EventType.INITIAL
+				|| event.getType() == EventType.FINAL) {
+			Object[] all = new Object[] { history.getEvents().size(), event.getType().name(), event.getTime(),
+					event.getValue(), s.getTotalDistance(), s.getTotalVehicleBatteryConsumption(), s.getTotalTime() };
+			String collect = Arrays.stream(all).map(o -> o + "").collect(Collectors.joining(","));
+			try {
+				stream.write((collect + "\n").getBytes());
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+		}
 	}
 }
