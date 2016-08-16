@@ -30,10 +30,10 @@ public class SvensAlg extends Algorithm {
 	Arc[][] A = null;
 	int iterations = 5000 * 5;
 	NeighborhoodStructure[] neighborhoodStructures = new NeighborhoodStructure[] {
-			new RandomizedCyclingExchangeNeighborhoodStructure(3, iterations),
+			new RandomizedCyclingExchangeNeighborhoodStructure(3, iterations / 5),
 			new RandomizedCyclingExchangeNeighborhoodStructure(2, iterations),
 			new RandomizedInterRouteSingleNodeRelocationNeighborhoodStructure(iterations * 2),
-			new KOptNeighborhoodStructure(2) };
+			new RandomizedKOptNeighborhoodStructure(iterations / 2, 3), new KOptNeighborhoodStructure(2) };
 
 	@Override
 	public String getName() {

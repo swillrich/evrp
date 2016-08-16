@@ -36,8 +36,8 @@ public class ASCIIVisualizer {
 
 	public void visualize() throws UnsupportedEncodingException, IOException {
 		String[] title = new String[] { "Source Vertex", "Target Vertex", "Departure (h)", "Arrival (h)",
-				"Target Vertex TimeWindow", "Duration (h)", "Real duration (h)", "Distance (m)", "Rem. Weight (Kg)",
-				"Rem. KW", "Order Id" };
+				"Target Vertex TimeWindow", "Duration (h)", "Real duration (h)", "Distance (m)", "Rem. KW",
+				"Order Id" };
 
 		out("ASCII Visualization of the following solution solved by " + solution.getAlgorithmName());
 		out("");
@@ -52,9 +52,7 @@ public class ASCIIVisualizer {
 			Vehicle vehicle = route.getVehicle();
 			out("");
 			out("Route #" + solution.getRoutes().indexOf(route));
-			out("Vehicle #" + vehicle.getId() + ", max Cargo Capacity: "
-					+ withSeparator(vehicle.getMaxPayLoadInKg(), "Kg") + ", max kWH: "
-					+ withSeparator(vehicle.getMaxBatteryCapacityInWH(), ""));
+			out("Vehicle #" + vehicle.getId() + ", max kWH: " + withSeparator(vehicle.getMaxBatteryCapacityInWH(), ""));
 
 			content = new Object[route.getWay().size()][title.length];
 			for (int i = 0; i < route.getWay().size(); i++) {
@@ -77,7 +75,6 @@ public class ASCIIVisualizer {
 				content[i][j++] = asDuration(
 						(usedArc.getDuration().getEndInSec() - usedArc.getDuration().getStartInSec()) * 1000, "");
 				content[i][j++] = withSeparator(usedArc.getArc().getDistance(), "");
-				content[i][j++] = withSeparator(usedArc.getCurrentVehicleCargoWeight(), "");
 				content[i][j++] = withSeparator(usedArc.getRemainingVehicleBatteryCapacityAtEnd(), "");
 				content[i][j++] = usedArc.getArc().getEnd() instanceof Order
 						? ((Order) usedArc.getArc().getEnd()).getOrderId() : "-";

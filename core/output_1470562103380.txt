@@ -1,2 +1,0 @@
-number, timestamp, time, f, distance, cm, time
-1,INITIAL,1470562103368,607598.6,3981937,798662,518614

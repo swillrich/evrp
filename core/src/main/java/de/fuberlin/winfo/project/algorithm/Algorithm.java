@@ -116,6 +116,6 @@ public abstract class Algorithm {
 		}
 		history.getEvents().add(event);
 		output.change(history);
-		output.writeTo(history, s, f);
+		// output.writeTo(history, s, f);
 	}
 }

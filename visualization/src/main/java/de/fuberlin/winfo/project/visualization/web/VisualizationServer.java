@@ -23,7 +23,7 @@ public class VisualizationServer extends Server {
 
 	public static List<Network> networkCache = new ArrayList<Network>();
 	public static Map<Network, File> map = new HashMap<Network, File>();
-	private static Path nwDirectory = Paths.get("..", "networks");
+	private static Path nwDirectory = Paths.get(".", "solutions");
 
 	public VisualizationServer(int port) throws Exception {
 		super(port);
