@@ -14,8 +14,12 @@ import java.util.Map;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
+import org.eclipse.emf.common.util.EList;
+
 import de.fuberlin.winfo.project.FormatConv;
 import de.fuberlin.winfo.project.XMIIO;
+import de.fuberlin.winfo.project.model.network.Event;
+import de.fuberlin.winfo.project.model.network.EventType;
 import de.fuberlin.winfo.project.model.network.Order;
 import de.fuberlin.winfo.project.model.network.Route;
 import de.fuberlin.winfo.project.model.network.Solution;
@@ -25,9 +29,11 @@ public class Stats {
 
 	public Stats(File[] listFiles, Solution... arr) {
 		this.solutions = arr;
+		System.out.println();
 		System.out.println("routes");
 		generateRouteGraph(listFiles, arr, new int[] { 0, 7, 10, 15, 20, 25, 30, 45, 50 }, r -> r.getWay().size() - 1,
 				"mi");
+		System.out.println();
 		System.out.println("consumption model");
 		generateRouteGraph(listFiles, arr, new int[] { 0, 10, 16, 20, 24, 26, 30, 34 },
 				r -> Math.round(r.getTotalVehicleBatteryConsumption() / 1000f), "mi2");
@@ -53,6 +59,29 @@ public class Stats {
 			int sum = multipleVehicleUsage(arr[i]);
 			System.out.println("multiple vehicle usage at " + listFiles[i].getName() + ":\t" + sum);
 		}
+		System.out.println();
+		System.out.println();
+		for (int i = 0; i < arr.length; i++) {
+			Solution s = solutions[i];
+			Event event = s.getHistory().getEvents().get(s.getHistory().getEvents().size() - 1);
+
+			String output = String.format("%s & %s & %s & %s & %s & %s", i + 1, s.getRoutes().size(),
+					FormatConv.withSeparator(s.getTotalVehicleBatteryConsumption(), ""),
+					FormatConv.withSeparator(event.getValue(), ""), FormatConv.round(getImpr(s) * 100d, 2) + " %",
+					FormatConv.asDuration(s.getSolvingTime(), ""));
+			System.out.println(output);
+		}
+		System.out.println();
+		System.out.println();
+		Arrays.stream(solutions).sorted((s1, s2) -> Long.compare(s1.getSolvingTime(), s2.getSolvingTime())).forEach(
+				s -> System.out.println(FormatConv.round(s.getSolvingTime() / 1000d / 3600d, 3) + "\t" + getImpr(s)));
+	}
+
+	private double getImpr(Solution s) {
+		double prevCost = s.getHistory().getEvents().get(0).getValue();
+		double cost = s.getHistory().getEvents().get(s.getHistory().getEvents().size() - 1).getValue();
+		double diff = prevCost - cost;
+		return diff / prevCost;
 	}
 
 	private int multipleVehicleUsage(Solution solution) {
@@ -205,7 +234,7 @@ public class Stats {
 
 	public static void main(String[] args) throws FileNotFoundException, IOException {
 
-		File[] listFiles = Paths.get("target", "networks").toFile().listFiles();
+		File[] listFiles = Paths.get(".", "solutions").toFile().listFiles();
 		Arrays.stream(listFiles).forEach(f -> System.out.println("read " + f.getName()));
 		Solution[] s = new Solution[listFiles.length];
 		for (int i = 0; i < listFiles.length; i++) {

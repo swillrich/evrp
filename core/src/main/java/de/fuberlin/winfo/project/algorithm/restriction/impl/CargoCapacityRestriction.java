@@ -34,7 +34,7 @@ public class CargoCapacityRestriction implements Restriction {
 	@Override
 	public boolean checkCompleteRoute(NetworkProvider np, RouteWrapper route) throws RestrictionException {
 		EList<UsedArc> list = route.getActualRoute().getWay();
-		return route.getActualRoute().getVehicle().getCargoWeightInKg()
+		return route.getActualRoute().getVehicle().getMaxPayLoadInKg()
 				- list.get(0).getCurrentVehicleCargoWeight() >= 0;
 	}
 
