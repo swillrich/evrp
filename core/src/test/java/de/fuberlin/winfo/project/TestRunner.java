@@ -19,7 +19,7 @@ public class TestRunner {
 	@Test
 	public void timeWindowTest() {
 		try {
-			for (double i = 0.9; i <= 1.0; i = i + 0.1) {
+			for (double i = 0.05; i <= 1.0; i = i + 0.05) {
 				String ii = (i + "").length() > 3 ? (i + "").substring(0, 4) : i + "";
 				System.out.println("ITERATION " + ii);
 				ZMIVRPInput input = new ZMIVRPInput("TW " + ii);

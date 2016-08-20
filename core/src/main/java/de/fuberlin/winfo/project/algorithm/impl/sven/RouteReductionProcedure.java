@@ -75,7 +75,7 @@ public class RouteReductionProcedure {
 		while (true) {
 			Solution update = allocateOrders(solution);
 			if (update.getRoutes().size() < solution.getRoutes().size()) {
-				Algorithms.get(SvensAlg.class).addEvent(EventType.ROUTE_REDUCING, solution,
+				Algorithms.get(SvensAlg.class).addEvent(EventType.ROUTE_REDUCING, update,
 						"Reduced by " + (solution.getRoutes().size() - update.getRoutes().size()) + " route(s) --> "
 								+ update.getRoutes().size() + " Solution cost: "
 								+ FormatConv.withSeparator(f.compute(solution), "") + " --> "
