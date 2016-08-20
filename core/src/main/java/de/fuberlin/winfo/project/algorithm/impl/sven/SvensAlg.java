@@ -66,9 +66,6 @@ public class SvensAlg extends Algorithm {
 		addEvent(EventType.INITIAL, solution);
 		solutionFeasiblityChecker(solution);
 
-		solution = reducingRoutes(solution);
-		solutionFeasiblityChecker(solution);
-
 		improvementProcedure(solution);
 	}
 
@@ -82,27 +79,9 @@ public class SvensAlg extends Algorithm {
 		}
 	}
 
-	private Solution reducingRoutes(Solution solution) {
-		while (true) {
-			RouteReductionProcedure routeReductionProcedure = new RouteReductionProcedure(networkProvider);
-			Solution update = routeReductionProcedure.allocateOrders(solution);
-			if (update.getRoutes().size() < solution.getRoutes().size()) {
-				solution = update;
-				addEvent(EventType.ROUTE_REDUCING, solution,
-						"Reduced by " + (solution.getRoutes().size() - update.getRoutes().size()) + " route(s) --> "
-								+ update.getRoutes().size() + " Solution cost: "
-								+ FormatConv.withSeparator(f.compute(solution), "") + " --> "
-								+ FormatConv.withSeparator(f.compute(update), ""));
-				setSolution(solution);
-			} else {
-				break;
-			}
-		}
-		return solution;
-	}
-
 	private void improvementProcedure(Solution solution) throws Exception {
-		VNS vns = new VNS(networkProvider, f, neighborhoodStructures);
+		RouteReductionProcedure routeReductionProcedure = new RouteReductionProcedure(networkProvider);
+		VNS vns = new VNS(networkProvider, f, neighborhoodStructures, routeReductionProcedure);
 		Solution optSolution = vns.run(solution);
 		setSolution(optSolution);
 		addEvent(EventType.FINAL, optSolution);

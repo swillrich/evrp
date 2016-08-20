@@ -2,9 +2,11 @@ package de.fuberlin.winfo.project.algorithm.impl.sven.vns;
 
 import java.util.Arrays;
 
+import de.fuberlin.winfo.project.FormatConv;
 import de.fuberlin.winfo.project.algorithm.Algorithm;
 import de.fuberlin.winfo.project.algorithm.Algorithms;
 import de.fuberlin.winfo.project.algorithm.NetworkProvider;
+import de.fuberlin.winfo.project.algorithm.impl.sven.RouteReductionProcedure;
 import de.fuberlin.winfo.project.algorithm.impl.sven.SvensAlg;
 import de.fuberlin.winfo.project.algorithm.impl.sven.tabusearch.TabuSearch;
 import de.fuberlin.winfo.project.algorithm.impl.sven.vns.neighborhoodstructures.NeighborhoodStructure;
@@ -16,9 +18,12 @@ public class VNS {
 	private CostFunction f;
 	private NeighborhoodStructure[] neighborhoodStructures;
 	private NeighborhoodStructure[] perturbationNeighborhoodStructures;
+	private RouteReductionProcedure routeReductionProcedure;
 
-	public VNS(NetworkProvider np, CostFunction f, NeighborhoodStructure[] neighborhoodStructures) {
+	public VNS(NetworkProvider np, CostFunction f, NeighborhoodStructure[] neighborhoodStructures,
+			RouteReductionProcedure routeReductionProcedure) {
 		this.f = f;
+		this.routeReductionProcedure = routeReductionProcedure;
 		this.neighborhoodStructures = neighborhoodStructures;
 		Arrays.stream(neighborhoodStructures).forEach(n -> n.setUp(np, f));
 	}
@@ -31,6 +36,7 @@ public class VNS {
 		TS: do {
 			int k = 0;
 			VNS: do {
+				localOptima = routeReductionProcedure.reducingRoutes(localOptima, f);
 				Solution bestNeighbor = tabuSearch.searchForBestNonTabuMove(neighborhoodStructures[k], localOptima);
 				if (f.isImprovement(localOptima, bestNeighbor)) {
 					k = 0;

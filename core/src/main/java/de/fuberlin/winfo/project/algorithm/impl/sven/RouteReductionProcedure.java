@@ -6,11 +6,15 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import de.fuberlin.winfo.project.FormatConv;
 import de.fuberlin.winfo.project.algorithm.Algorithm;
+import de.fuberlin.winfo.project.algorithm.Algorithms;
 import de.fuberlin.winfo.project.algorithm.NetworkProvider;
 import de.fuberlin.winfo.project.algorithm.RouteWrapper;
+import de.fuberlin.winfo.project.algorithm.impl.sven.vns.CostFunction;
 import de.fuberlin.winfo.project.algorithm.restriction.Restrictions;
 import de.fuberlin.winfo.project.model.network.Arc;
+import de.fuberlin.winfo.project.model.network.EventType;
 import de.fuberlin.winfo.project.model.network.Order;
 import de.fuberlin.winfo.project.model.network.Route;
 import de.fuberlin.winfo.project.model.network.Solution;
@@ -25,10 +29,10 @@ public class RouteReductionProcedure {
 
 	public RouteReductionProcedure(NetworkProvider provider) {
 		this.provider = provider;
-		this.inRouteOrders = new ArrayList<InRouteOrder>();
 	}
 
 	public Solution allocateOrders(Solution solution) {
+		this.inRouteOrders = new ArrayList<InRouteOrder>();
 		Solution copy = Algorithm.getCopy(solution);
 		Route min = Collections.min(copy.getRoutes(),
 				(r1, r2) -> Integer.compare(r1.getWay().size(), r2.getWay().size()));
@@ -65,6 +69,24 @@ public class RouteReductionProcedure {
 			break;
 		}
 		return orders.isEmpty() ? copy : solution;
+	}
+
+	public Solution reducingRoutes(Solution solution, CostFunction f) {
+		while (true) {
+			Solution update = allocateOrders(solution);
+			if (update.getRoutes().size() < solution.getRoutes().size()) {
+				Algorithms.get(SvensAlg.class).addEvent(EventType.ROUTE_REDUCING, solution,
+						"Reduced by " + (solution.getRoutes().size() - update.getRoutes().size()) + " route(s) --> "
+								+ update.getRoutes().size() + " Solution cost: "
+								+ FormatConv.withSeparator(f.compute(solution), "") + " --> "
+								+ FormatConv.withSeparator(f.compute(update), ""));
+				solution = update;
+			} else {
+				Algorithms.get(SvensAlg.class).addEvent(EventType.ROUTE_REDUCING, solution, "not reduced");
+				break;
+			}
+		}
+		return solution;
 	}
 
 	class InRouteOrder implements Comparable<InRouteOrder> {
