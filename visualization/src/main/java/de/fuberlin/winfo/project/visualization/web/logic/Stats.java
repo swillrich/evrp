@@ -36,7 +36,7 @@ public class Stats {
 		printSolutionTable(arr);
 		solvintTimeVsImprovementRatio();
 
-		improvementByRR(solutions, listFiles);
+//		improvementByRR(solutions, listFiles);
 	}
 
 	private void improvementByRR(Solution[] sol, File[] l) {
@@ -63,7 +63,8 @@ public class Stats {
 				Event e = solution.getHistory().getEvents().get(tt);
 				double impr = 0;
 				if (tt > 0) {
-					impr = solution.getHistory().getEvents().get(tt).getValue()
+					impr = (solution.getHistory().getEvents().get(tt - 1).getValue()
+							- solution.getHistory().getEvents().get(tt).getValue())
 							/ solution.getHistory().getEvents().get(tt - 1).getValue();
 				}
 				if (e.getDescription() == null) {
