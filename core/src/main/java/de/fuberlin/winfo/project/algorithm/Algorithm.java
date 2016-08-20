@@ -66,11 +66,11 @@ public abstract class Algorithm {
 		run(this.solution);
 		Log.info(Log.ALGORITHM, "Finished within " + sw.stop() + " min");
 		this.solution.setSolvingTime(sw.getAfter() - sw.getBefore());
-		this.solution.setCreationTime(sw.getBefore());
 		this.solution.setAlgorithmName(getName());
 		this.solution.setHistory(history);
 		replaceSolution(solution);
 		printResult();
+		this.solution.setCreationTime(this.solution.getHistory().getEvents().get(0).getTime());
 	}
 
 	public Solution getSolution() {

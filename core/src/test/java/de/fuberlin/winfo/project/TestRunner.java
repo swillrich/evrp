@@ -35,10 +35,8 @@ public class TestRunner {
 	@Test
 	public void allRuns() {
 		try {
-			for (int i = 9; i < 10; i++) {
-				System.out.println("ITERATION " + i);
-				ZMIVRPInput input = new ZMIVRPInput("TOTAL " + i);
-				input.addRandomizedTimeWindows(input.getNetwork(), i);
+			for (int i = 0; i < 10; i++) {
+				ZMIVRPInput input = new ZMIVRPInput("SINGLE");
 				RoutePlanningSystem is = new RoutePlanningSystem(input);
 				is.work();
 			}

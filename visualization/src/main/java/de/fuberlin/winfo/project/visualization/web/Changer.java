@@ -13,6 +13,7 @@ import de.fuberlin.winfo.project.FormatConv;
 import de.fuberlin.winfo.project.XMIIO;
 import de.fuberlin.winfo.project.model.network.Event;
 import de.fuberlin.winfo.project.model.network.Network;
+import de.fuberlin.winfo.project.model.network.Solution;
 
 public class Changer {
 	public static void main(String[] args) throws IOException {
@@ -23,20 +24,22 @@ public class Changer {
 	private static void change(Path p) {
 		try {
 			Network nw = XMIIO.deserialize(new FileInputStream(p.toFile()));
-			long start = nw.getSolution().get(0).getHistory().getEvents().get(0).getTime();
-			for (Event event : nw.getSolution().get(0).getHistory().getEvents()) {
+			Solution solution = nw.getSolution().get(0);
+			solution.setCreationTime(solution.getHistory().getEvents().get(0).getTime());
+			long start =solution.getHistory().getEvents().get(0).getTime();
+			for (Event event : solution.getHistory().getEvents()) {
 				long time = event.getTime();
 				long diff = time - start;
-				event.setTime(start + (diff / 60 * 4));
+//				event.setTime(start + (diff / 60 * 4));
 				String string = event.getDescription();
-				if (string != null && string.contains("OQ")) {
+				if (string != null && string.contains("REJ")) {
 					string = string.substring(0, string.indexOf(", REJ"));
 					event.setDescription(string);
 				}
 			}
-			long end = (nw.getSolution().get(0).getHistory().getEvents()
-					.get(nw.getSolution().get(0).getHistory().getEvents().size() - 1).getTime());
-			nw.getSolution().get(0).setSolvingTime(end - start);
+			long end = (solution.getHistory().getEvents()
+					.get(solution.getHistory().getEvents().size() - 1).getTime());
+			solution.setSolvingTime(end - start);
 			printEnd(end, start);
 			XMIIO.serialize(nw, new FileOutputStream(p.toFile()));
 		} catch (FileNotFoundException e) {

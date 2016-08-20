@@ -8,6 +8,7 @@ import java.io.IOException;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -64,6 +65,12 @@ public class VisualizationServer extends Server {
 			System.out.println("deserialize network: " + s.getName());
 			networkCache.add(network);
 		}
+		sort();
+	}
+
+	private static void sort() {
+		networkCache.sort((s1, s2) -> Long.compare(s1.getSolution().get(0).getCreationTime(),
+				s2.getSolution().get(0).getCreationTime()));
 	}
 
 	public static void removeNetwork(int id) throws IOException {
@@ -76,6 +83,7 @@ public class VisualizationServer extends Server {
 			System.out.println("Cannot delete, file is null");
 		}
 		networkCache.remove(id);
+		sort();
 	}
 
 	public static void save(int id) throws IOException {
@@ -88,5 +96,6 @@ public class VisualizationServer extends Server {
 		XMIIO.serialize(network, stream);
 		stream.close();
 		map.put(network, file);
+		sort();
 	}
 }

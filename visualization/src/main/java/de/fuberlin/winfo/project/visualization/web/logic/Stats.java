@@ -9,12 +9,11 @@ import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
-
-import org.eclipse.emf.common.util.EList;
 
 import de.fuberlin.winfo.project.FormatConv;
 import de.fuberlin.winfo.project.XMIIO;
@@ -23,23 +22,120 @@ import de.fuberlin.winfo.project.model.network.EventType;
 import de.fuberlin.winfo.project.model.network.Order;
 import de.fuberlin.winfo.project.model.network.Route;
 import de.fuberlin.winfo.project.model.network.Solution;
+import dnl.utils.text.table.TextTable;
 
 public class Stats {
 	private Solution[] solutions;
 
 	public Stats(File[] listFiles, Solution... arr) {
 		this.solutions = arr;
+		barChartsForManagerialInsights(listFiles, arr);
+
+		managerialInsightsTable();
+
+		printSolutionTable(arr);
+		solvintTimeVsImprovementRatio();
+
+		improvementByRR(solutions, listFiles);
+	}
+
+	private void improvementByRR(Solution[] sol, File[] l) {
+		Map<String, Map<String, Double>> map = new HashMap<String, Map<String, Double>>();
+		for (int i = 0; i < sol.length; i++) {
+			HashMap<String, Double> hashMap = new HashMap<String, Double>();
+			map.put(l[i].getName(), hashMap);
+			Solution solution = sol[i];
+			for (Event e : solution.getHistory().getEvents().stream()
+					.filter(e -> e.getType() == EventType.ROUTE_REDUCING).collect(Collectors.toList())) {
+				String s = e.getDescription().replace(".", "").replace(",", ".");
+				if (!s.trim().equals("not reduced")) {
+					String[] split = s.substring(s.indexOf(":") + 1, s.length()).split("-->");
+					double impr = Double.valueOf(split[1].trim()) / Double.valueOf(split[0].trim());
+					if (!hashMap.containsKey("RR")) {
+						hashMap.put("RR", impr);
+					} else {
+						hashMap.put("RR", hashMap.get("RR") + impr);
+					}
+				}
+			}
+
+			for (int tt = 0; tt < solution.getHistory().getEvents().size(); tt++) {
+				Event e = solution.getHistory().getEvents().get(tt);
+				double impr = 0;
+				if (tt > 0) {
+					impr = solution.getHistory().getEvents().get(tt).getValue()
+							/ solution.getHistory().getEvents().get(tt - 1).getValue();
+				}
+				if (e.getDescription() == null) {
+					continue;
+				}
+				if (e.getDescription().contains("OQ")) {
+					String s = e.getDescription();
+					String nh = s.substring(0, s.indexOf(","));
+					int successfull = Integer.valueOf(s.substring(s.indexOf("(") + 1, s.indexOf("/")));
+					String key = nh + "_a";
+					if (!hashMap.containsKey(key)) {
+						hashMap.put(key, (double) successfull);
+					} else {
+						hashMap.put(key, hashMap.get(key) + successfull);
+					}
+					key = nh + "_#";
+					if (!hashMap.containsKey(key)) {
+						hashMap.put(key, 1d);
+					} else {
+						hashMap.put(key, hashMap.get(key) + 1d);
+					}
+
+					key = nh + "_i";
+					if (!hashMap.containsKey(key)) {
+						hashMap.put(key, impr);
+					} else {
+						hashMap.put(key, hashMap.get(key) + impr);
+					}
+				}
+			}
+		}
+
+		List<List<String>> list = new ArrayList<List<String>>();
+		List<String> collect = map.keySet().stream().collect(Collectors.toList());
+		collect.add(0, "");
+		list.add(collect);
+		map.get(map.keySet().iterator().next()).keySet().forEach(k -> {
+			ArrayList<String> arrayList = new ArrayList<String>();
+			arrayList.add(k);
+			list.add(arrayList);
+		});
+
+		for (String s : map.keySet()) {
+			Map<String, Double> map2 = map.get(s);
+			int asd = 1;
+			for (String ss : map2.keySet()) {
+				Double double1 = map2.get(ss);
+				list.get(asd++).add(FormatConv.round(double1, 3) + "");
+			}
+		}
+		for (List<String> m : list) {
+			for (String mm : m) {
+				System.out.print(mm + "\t");
+			}
+			System.out.println();
+		}
+	}
+
+	private void barChartsForManagerialInsights(File[] listFiles, Solution... arr) {
 		System.out.println();
-		System.out.println("routes");
+		System.out.println("routes bar diagram");
 		generateRouteGraph(listFiles, arr, new int[] { 0, 7, 10, 15, 20, 25, 30, 45, 50 }, r -> r.getWay().size() - 1,
 				"mi");
 		System.out.println();
-		System.out.println("consumption model");
+		System.out.println("consumption model bar diagram");
 		generateRouteGraph(listFiles, arr, new int[] { 0, 10, 16, 20, 24, 26, 30, 34 },
 				r -> Math.round(r.getTotalVehicleBatteryConsumption() / 1000f), "mi2");
+	}
 
+	private void managerialInsightsTable() {
 		System.out.println();
-		System.out.println();
+		System.out.println("Values for Managerial Insights Table");
 
 		avg("tour duration $[h]$", r -> r.getWay().get(r.getWay().size() - 1).getDuration().getEndInSec()
 				- r.getWay().get(0).getDuration().getStartInSec(), i -> i / 3600d);
@@ -54,13 +150,18 @@ public class Stats {
 		avg("tour orders", r -> r.getWay().size() - 1, i -> i);
 		avg("tour locations", r -> (int) r.getWay().stream().filter(rr -> (rr.getArc().getEnd() instanceof Order))
 				.map(a -> ((Order) a.getArc().getEnd()).getReceiver()).distinct().count(), i -> i);
+	}
 
-		for (int i = 0; i < arr.length; i++) {
-			int sum = multipleVehicleUsage(arr[i]);
-			System.out.println("multiple vehicle usage at " + listFiles[i].getName() + ":\t" + sum);
-		}
+	private void solvintTimeVsImprovementRatio() {
 		System.out.println();
+		System.out.println("Solving Time vs. Improvement Ratio");
+		Arrays.stream(solutions).sorted((s1, s2) -> Long.compare(s1.getSolvingTime(), s2.getSolvingTime())).forEach(
+				s -> System.out.println(FormatConv.round(s.getSolvingTime() / 1000d / 3600d, 3) + "\t" + getImpr(s)));
+	}
+
+	private void printSolutionTable(Solution... arr) {
 		System.out.println();
+		System.out.println("Solution Table");
 		for (int i = 0; i < arr.length; i++) {
 			Solution s = solutions[i];
 			Event event = s.getHistory().getEvents().get(s.getHistory().getEvents().size() - 1);
@@ -71,10 +172,6 @@ public class Stats {
 					FormatConv.asDuration(s.getSolvingTime(), ""));
 			System.out.println(output);
 		}
-		System.out.println();
-		System.out.println();
-		Arrays.stream(solutions).sorted((s1, s2) -> Long.compare(s1.getSolvingTime(), s2.getSolvingTime())).forEach(
-				s -> System.out.println(FormatConv.round(s.getSolvingTime() / 1000d / 3600d, 3) + "\t" + getImpr(s)));
 	}
 
 	private double getImpr(Solution s) {

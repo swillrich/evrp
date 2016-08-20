@@ -33,7 +33,7 @@ public class SvensAlg extends Algorithm {
 			new RandomizedCyclingExchangeNeighborhoodStructure(3, iterations / 5),
 			new RandomizedCyclingExchangeNeighborhoodStructure(2, iterations),
 			new RandomizedInterRouteSingleNodeRelocationNeighborhoodStructure(iterations * 2),
-			new RandomizedKOptNeighborhoodStructure(iterations / 2, 3), new KOptNeighborhoodStructure(2) };
+			new RandomizedKOptNeighborhoodStructure(3, iterations / 2), new KOptNeighborhoodStructure(2) };
 
 	@Override
 	public String getName() {
