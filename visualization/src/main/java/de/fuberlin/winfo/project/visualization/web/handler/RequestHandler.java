@@ -23,8 +23,7 @@ import de.fuberlin.winfo.project.visualization.web.handler.impl.TestRequest;
 public class RequestHandler extends AbstractHandler {
 	public static Logger LOGGER = Logger.getLogger("RequestHandler");
 	AbstractRequest[] col = new AbstractRequest[] { new AddNetworkRequest(), new TestRequest(), new JSONRequest(),
-			new MapRequest(), new ListRequest(), new Nodes(), new ASCIIRequest(), new FileProviderRequest(),
-			new HistoryRequest() };
+			new MapRequest(), new ListRequest(), new Nodes(), new ASCIIRequest(), new FileProviderRequest() };
 
 	@Override
 	public void handle(String target, Request baseRequest, HttpServletRequest request, HttpServletResponse response)

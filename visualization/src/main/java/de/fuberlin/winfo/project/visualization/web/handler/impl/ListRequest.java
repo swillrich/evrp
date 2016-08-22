@@ -64,7 +64,7 @@ public class ListRequest extends AbstractRequest {
 
 		String[] columns = new String[] { "Id", "NW Nodes", "save / remove", "Creation Time", "Name", "Algorithm",
 				"Solving time", "Routes", "Improvment Ratio", "Total consumption", "Total Costs", "Details", "Map",
-				"GeoJson", "VNS History" };
+				"GeoJson" };
 		addRow(columns, true, 1, -1);
 
 		for (int i = 0; i < networks.size(); i++) {
@@ -77,15 +77,13 @@ public class ListRequest extends AbstractRequest {
 				String mapLink = getLink(true, "map", "Map", i, j);
 				String saveLink = getSaveLink(i);
 				String removeLink = getLink(false, "list", "x", i, -1, "remove=true");
-				String vnsHistory = getLink(true, "history", "history", i, j);
-				vnsHistory += " (" + getLink(true, "history", "csv", i, j, "asCSV=true") + ")";
 
 				Object[] networkLinePart = new Object[] { i, n.getVertices().size(), saveLink + " / " + removeLink };
 
 				Object[] solutionLinePart = new Object[] { FormatConv.asDateTime(s.getCreationTime()), getName(s),
 						s.getAlgorithmName(), FormatConv.asDuration(s.getSolvingTime(), ""), s.getRoutes().size(),
 						getImprovementRatio(s), FormatConv.withSeparator(s.getTotalVehicleBatteryConsumption(), "kwh"),
-						getCosts(s), detailLink, mapLink, geoJsonLink, vnsHistory };
+						getCosts(s), detailLink, mapLink, geoJsonLink };
 
 				if (n.getSolution().size() > 1) {
 					if (j == 0) {

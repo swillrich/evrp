@@ -31,7 +31,7 @@ public class VNS {
 	public Solution run(Solution globalOptima) throws Exception {
 		int iterations = 3;
 		int u = 0;
-		TabuSearch tabuSearch = new TabuSearch(f, 0.7775, 5);
+		TabuSearch tabuSearch = new TabuSearch(f, 0.9, 5);
 		Solution localOptima = globalOptima;
 		TS: do {
 			int k = 0;
